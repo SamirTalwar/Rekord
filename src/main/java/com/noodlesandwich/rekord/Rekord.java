@@ -1,10 +1,13 @@
 package com.noodlesandwich.rekord;
 
-public class Rekord<T extends RekordType> {
-    private final Object value;
+import java.util.HashMap;
+import java.util.Map;
 
-    public Rekord(Object value) {
-        this.value = value;
+public class Rekord<T extends RekordType> {
+    private final Map<Key<T, ?>, Object> properties;
+
+    public Rekord(Map<Key<T, ?>, Object> properties) {
+        this.properties = properties;
     }
 
     public static <T extends RekordType> RekordBuilder<T> create() {
@@ -13,19 +16,19 @@ public class Rekord<T extends RekordType> {
 
     @SuppressWarnings("unchecked")
     public <V> V get(Key<T, V> key) {
-        return (V) value;
+        return (V) properties.get(key);
     }
 
     public static final class RekordBuilder<T extends RekordType> {
-        private Object value;
+        private final Map<Key<T, ?>, Object> properties = new HashMap<>();
 
         public <V> RekordBuilder<T> with(Key<T, V> key, V value) {
-            this.value = value;
+            properties.put(key, value);
             return this;
         }
 
         public Rekord<T> build() {
-            return new Rekord<>(value);
+            return new Rekord<>(properties);
         }
     }
 }
