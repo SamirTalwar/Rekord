@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Rekord<T extends RekordType> {
-    private final Map<Key<T, ?>, Object> properties;
+    private final Map<Key<? super T, ?>, Object> properties;
 
-    public Rekord(Map<Key<T, ?>, Object> properties) {
+    public Rekord(Map<Key<? super T, ?>, Object> properties) {
         this.properties = properties;
     }
 
@@ -15,14 +15,14 @@ public class Rekord<T extends RekordType> {
     }
 
     @SuppressWarnings("unchecked")
-    public <V> V get(Key<T, V> key) {
+    public <V> V get(Key<? super T, V> key) {
         return (V) properties.get(key);
     }
 
     public static final class RekordBuilder<T extends RekordType> {
-        private final Map<Key<T, ?>, Object> properties = new HashMap<>();
+        private final Map<Key<? super T, ?>, Object> properties = new HashMap<>();
 
-        public <V> RekordBuilder<T> with(Key<T, V> key, V value) {
+        public <V> RekordBuilder<T> with(Key<? super T, V> key, V value) {
             properties.put(key, value);
             return this;
         }

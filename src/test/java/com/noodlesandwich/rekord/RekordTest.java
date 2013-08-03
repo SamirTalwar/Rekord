@@ -2,10 +2,11 @@ package com.noodlesandwich.rekord;
 
 import org.junit.Test;
 
-import static com.noodlesandwich.rekord.RekordTest.Bread.Brown;
-import static com.noodlesandwich.rekord.RekordTest.Filling.Cheese;
-import static com.noodlesandwich.rekord.RekordTest.Filling.Lettuce;
-import static com.noodlesandwich.rekord.RekordTest.Style.Burger;
+import static com.noodlesandwich.rekord.RekordTest.Bratwurst.Style.Chopped;
+import static com.noodlesandwich.rekord.RekordTest.Sandvich.Bread.Brown;
+import static com.noodlesandwich.rekord.RekordTest.Sandvich.Filling.Cheese;
+import static com.noodlesandwich.rekord.RekordTest.Sandvich.Filling.Lettuce;
+import static com.noodlesandwich.rekord.RekordTest.Sandvich.Style.Burger;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -30,22 +31,44 @@ public final class RekordTest {
         assertThat(sandvich.get(Sandvich.style), is(Burger));
     }
 
+    @Test public void
+    keys_for_supertypes_of_a_RekordType_can_be_used_to_create_Rekord_properties() {
+        Rekord<Bratwurst> wurst = Rekord.<Bratwurst>create()
+                .with(Wurst.curvature, 0.3)
+                .with(Bratwurst.style, Chopped)
+                .build();
+        assertThat(wurst.get(Wurst.curvature), is(0.3));
+        assertThat(wurst.get(Bratwurst.style), is(Chopped));
+    }
+
     public static interface Sandvich extends RekordType {
         Key<Sandvich, Filling> filling = new Key<>();
         Key<Sandvich, Bread> bread = new Key<>();
         Key<Sandvich, Style> style = new Key<>();
+
+        public static enum Filling {
+            Cheese,
+            Lettuce
+        }
+
+        public static enum Bread {
+            Brown
+        }
+
+        public static enum Style {
+            Burger
+        }
     }
 
-    public static enum Filling {
-        Cheese,
-        Lettuce
+    public static interface Wurst extends RekordType {
+        Key<Wurst, Double> curvature = new Key<>();
     }
 
-    public static enum Bread {
-        Brown
-    }
+    public static interface Bratwurst extends Wurst {
+        Key<Bratwurst, Style> style = new Key<>();
 
-    public static enum Style {
-        Burger
+        public static enum Style {
+            Chopped
+        }
     }
 }
