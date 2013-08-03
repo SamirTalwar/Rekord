@@ -2,6 +2,7 @@ package com.noodlesandwich.rekord;
 
 import org.junit.Test;
 
+import static com.noodlesandwich.rekord.Key.key;
 import static com.noodlesandwich.rekord.RekordTest.Bratwurst.Style.Chopped;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Bread.Brown;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Filling.Cheese;
@@ -42,9 +43,9 @@ public final class RekordTest {
     }
 
     public static interface Sandvich extends RekordType {
-        Key<Sandvich, Filling> filling = new Key<>();
-        Key<Sandvich, Bread> bread = new Key<>();
-        Key<Sandvich, Style> style = new Key<>();
+        Key<Sandvich, Filling> filling = key();
+        Key<Sandvich, Bread> bread = key();
+        Key<Sandvich, Style> style = key();
 
         public static enum Filling {
             Cheese,
@@ -61,11 +62,11 @@ public final class RekordTest {
     }
 
     public static interface Wurst extends RekordType {
-        Key<Wurst, Double> curvature = new Key<>();
+        Key<Wurst, Double> curvature = key();
     }
 
     public static interface Bratwurst extends Wurst {
-        Key<Bratwurst, Style> style = new Key<>();
+        Key<Bratwurst, Style> style = key();
 
         public static enum Style {
             Chopped
