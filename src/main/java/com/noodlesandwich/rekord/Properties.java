@@ -29,6 +29,14 @@ public class Properties<T> {
     }
 
     public <V> Properties<T> with(Key<? super T, V> key, V value) {
+        if (key == null) {
+            throw new NullPointerException("Cannot construct a Rekord property with a null key.");
+        }
+
+        if (value == null) {
+            throw new NullPointerException("Cannot construct a Rekord property with a null value.");
+        }
+
         return new Properties<>(properties.plus(key, value));
     }
 
