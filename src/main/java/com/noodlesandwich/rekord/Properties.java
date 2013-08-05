@@ -28,16 +28,12 @@ public class Properties<T> {
         return properties.keySet();
     }
 
-    public <V> Properties<T> with(Key<? super T, V> key, V value) {
-        if (key == null) {
-            throw new NullPointerException("Cannot construct a Rekord property with a null key.");
-        }
-
-        if (value == null) {
+    public <V> Properties<T> with(Property<? super T, V> property) {
+        if (property.value() == null) {
             throw new NullPointerException("Cannot construct a Rekord property with a null value.");
         }
 
-        return new Properties<>(properties.plus(key, value));
+        return new Properties<>(properties.plus(property.key(), property.value()));
     }
 
     public Properties<T> without(Key<? super T, ?> key) {

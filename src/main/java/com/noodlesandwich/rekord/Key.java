@@ -11,4 +11,6 @@ public abstract class Key<T, V> {
     public abstract V retrieveFrom(Properties<T> properties);
 
     public abstract String toString();
+
+    public abstract Property<T, V> of(V value);
 }

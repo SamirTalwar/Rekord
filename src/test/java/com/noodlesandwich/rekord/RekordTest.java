@@ -47,10 +47,10 @@ public final class RekordTest {
     @Test public void
     a_Rekord_contains_a_value() {
         Rekord<Sandvich> sandvich = Rekord.of(Sandvich.class)
-                .with(Sandvich.filling, Cheese);
+                .with(Sandvich.filling.of(Cheese));
 
         assertThat(sandvich, is(Rekord.of(Sandvich.class)
-                .with(Sandvich.filling, Cheese)));
+                .with(Sandvich.filling.of(Cheese))));
     }
 
     @Test public void
@@ -61,9 +61,9 @@ public final class RekordTest {
                 .with(Sandvich.style, Burger);
 
         assertThat(sandvich, is(Rekord.of(Sandvich.class)
-                .with(Sandvich.filling, Lettuce)
-                .with(Brown, Sandvich.bread)
-                .with(Sandvich.style, Burger)));
+                .with(Sandvich.filling.of(Lettuce))
+                .with(Sandvich.bread.of(Brown))
+                .with(Sandvich.style.of(Burger))));
     }
 
     @Test public void

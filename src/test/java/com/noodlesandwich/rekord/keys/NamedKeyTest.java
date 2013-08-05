@@ -14,8 +14,8 @@ public class NamedKeyTest {
     @Test public void
     retrieves_a_value_from_a_property_map() {
         Properties<Thing> properties = new Properties<Thing>()
-                .with(Thing.one, 1)
-                .with(Thing.two, 2);
+                .with(Thing.one.of(1))
+                .with(Thing.two.of(2));
 
         assertThat(Thing.one.retrieveFrom(properties), is(1));
     }
@@ -23,7 +23,7 @@ public class NamedKeyTest {
     @Test public void
     returns_null_if_the_property_map_does_not_contain_the_key() {
         Properties<Thing> properties = new Properties<Thing>()
-                .with(Thing.one, 5);
+                .with(Thing.one.of(5));
 
         assertThat(Thing.two.retrieveFrom(properties), is(nullValue()));
     }
