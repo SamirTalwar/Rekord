@@ -27,7 +27,7 @@ public final class Rekord<T extends RekordType> {
     }
 
     public boolean containsKey(Key<T, ?> key) {
-        return properties.containsKey(key);
+        return key.isContainedIn(properties);
     }
 
     public Set<Key<? super T, ?>> keys() {

@@ -29,6 +29,16 @@ public class KeyTest {
         assertThat(Person.lastName.retrieveFrom(properties), is(nullValue()));
     }
 
+    @Test public void
+    states_whether_a_key_is_contained_in_a_property_map() {
+        Map<Key<? super Person, ?>, Object> properties = properties()
+                .plus(Person.firstName, "Jan")
+                .plus(Person.age, 40);
+
+        assertThat(Person.firstName.isContainedIn(properties), is(true));
+        assertThat(Person.lastName.isContainedIn(properties), is(false));
+    }
+
     private static HashPMap<Key<? super Person, ?>, Object> properties() {
         return HashTreePMap.empty();
     }

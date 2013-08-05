@@ -19,6 +19,10 @@ public final class Key<T, V> {
         return (V) properties.get(this);
     }
 
+    public boolean isContainedIn(Map<Key<? super T, ?>, Object> properties) {
+        return properties.containsKey(this);
+    }
+
     @Override
     public String toString() {
         return name;
