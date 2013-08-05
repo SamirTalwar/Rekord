@@ -12,7 +12,7 @@ public final class RekordMatchers {
     }
 
     public static final class RekordMatcher<T extends RekordType> extends TypeSafeDiagnosingMatcher<Rekord<T>> {
-        private final Rekord.RekordBuilder<T> rekordBuilder;
+        private final Rekord.Builder<T> rekordBuilder;
 
         public RekordMatcher(Class<T> type) {
             rekordBuilder = Rekord.of(type);

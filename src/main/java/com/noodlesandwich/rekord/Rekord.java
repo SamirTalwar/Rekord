@@ -12,12 +12,12 @@ public final class Rekord<T extends RekordType> {
         this.properties = properties;
     }
 
-    public static <T extends RekordType> RekordBuilder<T> of(Class<T> type) {
+    public static <T extends RekordType> Rekord.Builder<T> of(Class<T> type) {
         return create(type.getSimpleName());
     }
 
-    public static <T extends RekordType> RekordBuilder<T> create(String name) {
-        return new RekordBuilder<>(name);
+    public static <T extends RekordType> Rekord.Builder<T> create(String name) {
+        return new Rekord.Builder<>(name);
     }
 
     @SuppressWarnings("unchecked")
@@ -25,8 +25,8 @@ public final class Rekord<T extends RekordType> {
         return (V) properties.get(key);
     }
 
-    public RekordBuilder<T> but() {
-        return new RekordBuilder<>(name, new HashMap<>(properties));
+    public Rekord.Builder<T> but() {
+        return new Rekord.Builder<>(name, new HashMap<>(properties));
     }
 
     @SuppressWarnings("unchecked")
@@ -54,20 +54,20 @@ public final class Rekord<T extends RekordType> {
         return name + properties.toString();
     }
 
-    public static final class RekordBuilder<T extends RekordType> {
+    public static final class Builder<T extends RekordType> {
         private final String name;
         private final Map<Key<? super T, ?>, Object> properties;
 
-        public RekordBuilder(String name) {
+        public Builder(String name) {
             this(name, new HashMap<Key<? super T, ?>, Object>());
         }
 
-        public RekordBuilder(String name, Map<Key<? super T, ?>, Object> properties) {
+        public Builder(String name, Map<Key<? super T, ?>, Object> properties) {
             this.name = name;
             this.properties = properties;
         }
 
-        public <V> RekordBuilder<T> with(Key<? super T, V> key, V value) {
+        public <V> Rekord.Builder<T> with(Key<? super T, V> key, V value) {
             if (key == null) {
                 throw new NullPointerException("Cannot construct a Rekord property with a null key.");
             }
@@ -80,7 +80,7 @@ public final class Rekord<T extends RekordType> {
             return this;
         }
 
-        public RekordBuilder<T> without(Key<? super T, ?> key) {
+        public Rekord.Builder<T> without(Key<? super T, ?> key) {
             properties.remove(key);
             return this;
         }
