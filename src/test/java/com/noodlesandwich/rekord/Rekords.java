@@ -6,9 +6,9 @@ public final class Rekords {
     private Rekords() { }
 
     public static interface Sandvich extends RekordType {
-        Key<Sandvich, Sandvich.Filling> filling = Key.named("filling");
-        Key<Sandvich, Sandvich.Bread> bread = Key.named("bread");
-        Key<Sandvich, Sandvich.Style> style = Key.named("style");
+        Key<Sandvich, Filling> filling = Key.named("filling");
+        Key<Sandvich, Bread> bread = Key.named("bread");
+        Key<Sandvich, Style> style = Key.named("style");
 
         public static enum Filling {
             Cheese,
@@ -33,7 +33,7 @@ public final class Rekords {
     }
 
     public static interface Bratwurst extends Wurst {
-        Key<Bratwurst, Bratwurst.Style> style = Key.named("style");
+        Key<Bratwurst, Style> style = Key.named("style");
 
         public static enum Style {
             Chopped,
