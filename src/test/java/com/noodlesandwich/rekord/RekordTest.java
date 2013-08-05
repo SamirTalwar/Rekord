@@ -2,7 +2,6 @@ package com.noodlesandwich.rekord;
 
 import org.junit.Test;
 
-import static com.noodlesandwich.rekord.Key.key;
 import static com.noodlesandwich.rekord.RekordTest.Bratwurst.Style.Chopped;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Bread.Brown;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Filling.Cheese;
@@ -10,6 +9,7 @@ import static com.noodlesandwich.rekord.RekordTest.Sandvich.Filling.Lettuce;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Style.Burger;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
@@ -92,7 +92,8 @@ public final class RekordTest {
                 .with(Bier.volume, Measurement.of(500).ml())
                 .build();
 
-        assertThat(bier, is(not(equalTo((Object) new Bier() {}))));
+        assertThat(bier, is(not(equalTo((Object) new Bier() {
+        }))));
     }
 
     @Test public void
@@ -125,10 +126,20 @@ public final class RekordTest {
         assertThat(ale.hashCode(), is(not(equalTo(pilsner.hashCode()))));
     }
 
+    @Test public void
+    a_Rekord_is_serializable_as_a_String() {
+        Rekord<Bier> delicious = Rekord.of(Bier.class)
+                .with(Bier.volume, Measurement.of(568).ml())
+                .with(Bier.head, Measurement.of(3).cm())
+                .build();
+
+        assertThat(delicious, hasToString("Bier{head=3cm, volume=568ml}"));
+    }
+
     public static interface Sandvich extends RekordType {
-        Key<Sandvich, Filling> filling = key();
-        Key<Sandvich, Bread> bread = key();
-        Key<Sandvich, Style> style = key();
+        Key<Sandvich, Filling> filling = Key.named("filling");
+        Key<Sandvich, Bread> bread = Key.named("bread");
+        Key<Sandvich, Style> style = Key.named("style");
 
         public static enum Filling {
             Cheese,
@@ -145,11 +156,11 @@ public final class RekordTest {
     }
 
     public static interface Wurst extends RekordType {
-        Key<Wurst, Double> curvature = key();
+        Key<Wurst, Double> curvature = Key.named("curvature");
     }
 
     public static interface Bratwurst extends Wurst {
-        Key<Bratwurst, Style> style = key();
+        Key<Bratwurst, Style> style = Key.named("style");
 
         public static enum Style {
             Chopped
@@ -157,7 +168,7 @@ public final class RekordTest {
     }
 
     public static interface Bier extends RekordType {
-        Key<Bier, Measurement.Volume> volume = key();
-        Key<Bier, Measurement.Length> head = key();
+        Key<Bier, Measurement.Volume> volume = Key.named("volume");
+        Key<Bier, Measurement.Length> head = Key.named("head");
     }
 }

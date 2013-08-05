@@ -1,9 +1,18 @@
 package com.noodlesandwich.rekord;
 
 public final class Key<T, V> {
-    private Key() { }
+    private final String name;
 
-    public static <T, V> Key<T, V> key() {
-        return new Key<>();
+    private Key(String name) {
+        this.name = name;
+    }
+
+    public static <T, V> Key<T, V> named(String name) {
+        return new Key<>(name);
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

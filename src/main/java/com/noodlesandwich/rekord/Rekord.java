@@ -4,18 +4,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Rekord<T extends RekordType> {
+    private final String name;
     private final Map<Key<? super T, ?>, Object> properties;
 
-    public Rekord(Map<Key<? super T, ?>, Object> properties) {
+    public Rekord(String name, Map<Key<? super T, ?>, Object> properties) {
+        this.name = name;
         this.properties = properties;
     }
 
-    public static <T extends RekordType> RekordBuilder<T> of(@SuppressWarnings("unused") Class<T> type) {
-        return create();
+    public static <T extends RekordType> RekordBuilder<T> of(Class<T> type) {
+        return create(type.getSimpleName());
     }
 
-    public static <T extends RekordType> RekordBuilder<T> create() {
-        return new RekordBuilder<>();
+    public static <T extends RekordType> RekordBuilder<T> create(String name) {
+        return new RekordBuilder<>(name);
     }
 
     @SuppressWarnings("unchecked")
@@ -42,8 +44,18 @@ public class Rekord<T extends RekordType> {
         return properties.hashCode();
     }
 
+    @Override
+    public String toString() {
+        return name + properties.toString();
+    }
+
     public static final class RekordBuilder<T extends RekordType> {
+        private final String name;
         private final Map<Key<? super T, ?>, Object> properties = new HashMap<>();
+
+        public RekordBuilder(String name) {
+            this.name = name;
+        }
 
         public <V> RekordBuilder<T> with(Key<? super T, V> key, V value) {
             properties.put(key, value);
@@ -51,7 +63,7 @@ public class Rekord<T extends RekordType> {
         }
 
         public Rekord<T> build() {
-            return new Rekord<>(properties);
+            return new Rekord<>(name, properties);
         }
     }
 }

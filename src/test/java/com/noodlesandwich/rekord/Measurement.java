@@ -46,6 +46,11 @@ public final class Measurement {
         public int hashCode() {
             return value;
         }
+
+        @Override
+        public String toString() {
+            return value + "ml";
+        }
     }
 
     public static final class Length {
@@ -68,6 +73,11 @@ public final class Measurement {
         @Override
         public int hashCode() {
             return value;
+        }
+
+        @Override
+        public String toString() {
+            return value + "cm";
         }
     }
 }
