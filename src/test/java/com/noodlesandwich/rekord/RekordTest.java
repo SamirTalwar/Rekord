@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import static com.noodlesandwich.rekord.RekordTest.Bratwurst.Style.Chopped;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Bread.Brown;
+import static com.noodlesandwich.rekord.RekordTest.Sandvich.Bread.White;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Filling.Cheese;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Filling.Lettuce;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Style.Burger;
@@ -42,6 +43,23 @@ public final class RekordTest {
                 .build();
         assertThat(wurst.get(Wurst.curvature), is(0.3));
         assertThat(wurst.get(Bratwurst.style), is(Chopped));
+    }
+
+    @Test public void
+    a_Rekord_can_be_built_from_another_Rekord() {
+        Rekord<Sandvich> cheeseSandvich = Rekord.of(Sandvich.class)
+                .with(Sandvich.filling, Cheese)
+                .with(Sandvich.bread, Brown)
+                .build();
+
+        Rekord<Sandvich> cheeseBurger = cheeseSandvich.but()
+                .with(Sandvich.bread, White)
+                .with(Sandvich.style, Burger)
+                .build();
+
+        assertThat(cheeseBurger.get(Sandvich.filling), is(Cheese));
+        assertThat(cheeseBurger.get(Sandvich.bread), is(White));
+        assertThat(cheeseBurger.get(Sandvich.style), is(Burger));
     }
 
     @Test public void
@@ -147,7 +165,8 @@ public final class RekordTest {
         }
 
         public static enum Bread {
-            Brown
+            Brown,
+            White
         }
 
         public static enum Style {

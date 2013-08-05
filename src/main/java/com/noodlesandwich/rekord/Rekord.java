@@ -25,6 +25,10 @@ public class Rekord<T extends RekordType> {
         return (V) properties.get(key);
     }
 
+    public RekordBuilder<T> but() {
+        return new RekordBuilder<>(name, properties);
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object o) {
@@ -52,10 +56,15 @@ public class Rekord<T extends RekordType> {
 
     public static final class RekordBuilder<T extends RekordType> {
         private final String name;
-        private final Map<Key<? super T, ?>, Object> properties = new HashMap<>();
+        private final Map<Key<? super T, ?>, Object> properties;
 
         public RekordBuilder(String name) {
+            this(name, new HashMap<Key<? super T, ?>, Object>());
+        }
+
+        public RekordBuilder(String name, Map<Key<? super T, ?>, Object> properties) {
             this.name = name;
+            this.properties = properties;
         }
 
         public <V> RekordBuilder<T> with(Key<? super T, V> key, V value) {
