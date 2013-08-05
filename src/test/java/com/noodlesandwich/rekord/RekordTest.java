@@ -110,6 +110,21 @@ public final class RekordTest {
         assertThat(bier.hashCode(), is(equalTo(anotherBier.hashCode())));
     }
 
+    @Test public void
+    two_Rekords_with_different_properties_are_likely_to_have_a_different_hash_code() {
+        Rekord<Bier> ale = Rekord.<Bier>create()
+                .with(Bier.volume, Measurement.of(568).ml())
+                .with(Bier.head, Measurement.of(1).cm())
+                .build();
+
+        Rekord<Bier> pilsner = Rekord.<Bier>create()
+                .with(Bier.volume, Measurement.of(1).l())
+                .with(Bier.head, Measurement.of(5).cm())
+                .build();
+
+        assertThat(ale.hashCode(), is(not(equalTo(pilsner.hashCode()))));
+    }
+
     public static interface Sandvich extends RekordType {
         Key<Sandvich, Filling> filling = key();
         Key<Sandvich, Bread> bread = key();

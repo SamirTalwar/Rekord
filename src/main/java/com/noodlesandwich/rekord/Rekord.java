@@ -35,7 +35,7 @@ public class Rekord<T extends RekordType> {
 
     @Override
     public int hashCode() {
-        return 0;
+        return properties.hashCode();
     }
 
     public static final class RekordBuilder<T extends RekordType> {
