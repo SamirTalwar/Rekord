@@ -14,13 +14,13 @@ public final class Key<T, V> {
         return new Key<>(name);
     }
 
-    @Override
-    public String toString() {
-        return name;
-    }
-
     @SuppressWarnings("unchecked")
     public V retrieveFrom(Map<Key<? super T, ?>, Object> properties) {
         return (V) properties.get(this);
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
