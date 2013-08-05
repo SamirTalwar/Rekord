@@ -3,7 +3,7 @@ package com.noodlesandwich.rekord;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Rekord<T extends RekordType> {
+public final class Rekord<T extends RekordType> {
     private final String name;
     private final Map<Key<? super T, ?>, Object> properties;
 

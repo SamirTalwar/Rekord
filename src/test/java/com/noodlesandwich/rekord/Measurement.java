@@ -5,7 +5,7 @@ public final class Measurement {
         return new MeasurementBuilder(value);
     }
 
-    public static class MeasurementBuilder {
+    public static final class MeasurementBuilder {
         private final int value;
 
         private MeasurementBuilder(int value) {
