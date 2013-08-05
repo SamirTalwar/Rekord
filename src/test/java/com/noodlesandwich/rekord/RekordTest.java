@@ -4,14 +4,18 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import static com.noodlesandwich.rekord.RekordTest.Bratwurst.Style.Chopped;
-import static com.noodlesandwich.rekord.RekordTest.Bratwurst.Style.Whole;
-import static com.noodlesandwich.rekord.RekordTest.Sandvich.Bread.Brown;
-import static com.noodlesandwich.rekord.RekordTest.Sandvich.Bread.White;
-import static com.noodlesandwich.rekord.RekordTest.Sandvich.Filling.Cheese;
-import static com.noodlesandwich.rekord.RekordTest.Sandvich.Filling.Ham;
-import static com.noodlesandwich.rekord.RekordTest.Sandvich.Filling.Lettuce;
-import static com.noodlesandwich.rekord.RekordTest.Sandvich.Style.Burger;
+import static com.noodlesandwich.rekord.Rekords.Bier;
+import static com.noodlesandwich.rekord.Rekords.Bratwurst;
+import static com.noodlesandwich.rekord.Rekords.Bratwurst.Style.Chopped;
+import static com.noodlesandwich.rekord.Rekords.Bratwurst.Style.Whole;
+import static com.noodlesandwich.rekord.Rekords.Sandvich;
+import static com.noodlesandwich.rekord.Rekords.Sandvich.Bread.Brown;
+import static com.noodlesandwich.rekord.Rekords.Sandvich.Bread.White;
+import static com.noodlesandwich.rekord.Rekords.Sandvich.Filling.Cheese;
+import static com.noodlesandwich.rekord.Rekords.Sandvich.Filling.Ham;
+import static com.noodlesandwich.rekord.Rekords.Sandvich.Filling.Lettuce;
+import static com.noodlesandwich.rekord.Rekords.Sandvich.Style.Burger;
+import static com.noodlesandwich.rekord.Rekords.Wurst;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
@@ -200,44 +204,5 @@ public final class RekordTest {
                 .with(Bier.head, Measurement.of(3).cm());
 
         assertThat(delicious, hasToString(allOf(startsWith("Bier"), containsString("head=3cm"), containsString("volume=568ml"))));
-    }
-
-    public static interface Sandvich extends RekordType {
-        Key<Sandvich, Filling> filling = Key.named("filling");
-        Key<Sandvich, Bread> bread = Key.named("bread");
-        Key<Sandvich, Style> style = Key.named("style");
-
-        public static enum Filling {
-            Cheese,
-            Ham,
-            Lettuce
-        }
-
-        public static enum Bread {
-            Brown,
-            White
-        }
-
-        public static enum Style {
-            Burger
-        }
-    }
-
-    public static interface Wurst extends RekordType {
-        Key<Wurst, Double> curvature = Key.named("curvature");
-    }
-
-    public static interface Bratwurst extends Wurst {
-        Key<Bratwurst, Style> style = Key.named("style");
-
-        public static enum Style {
-            Chopped,
-            Whole
-        }
-    }
-
-    public static interface Bier extends RekordType {
-        Key<Bier, Measurement.Volume> volume = Key.named("volume");
-        Key<Bier, Measurement.Length> head = Key.named("head");
     }
 }
