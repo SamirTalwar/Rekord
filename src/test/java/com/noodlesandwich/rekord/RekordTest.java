@@ -12,7 +12,6 @@ import static com.noodlesandwich.rekord.RekordTest.Sandvich.Filling.Cheese;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Filling.Ham;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Filling.Lettuce;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Style.Burger;
-import static com.noodlesandwich.rekord.matchers.RekordMatchers.aRekordOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
@@ -30,10 +29,9 @@ public final class RekordTest {
     @Test public void
     a_Rekord_contains_a_value() {
         Rekord<Sandvich> sandvich = Rekord.of(Sandvich.class)
-                .with(Sandvich.filling, Cheese)
-                .build();
+                .with(Sandvich.filling, Cheese);
 
-        assertThat(sandvich, is(aRekordOf(Sandvich.class)
+        assertThat(sandvich, is(Rekord.of(Sandvich.class)
                 .with(Sandvich.filling, Cheese)));
     }
 
@@ -42,10 +40,9 @@ public final class RekordTest {
         Rekord<Sandvich> sandvich = Rekord.of(Sandvich.class)
                 .with(Sandvich.filling, Lettuce)
                 .with(Sandvich.bread, Brown)
-                .with(Sandvich.style, Burger)
-                .build();
+                .with(Sandvich.style, Burger);
 
-        assertThat(sandvich, is(aRekordOf(Sandvich.class)
+        assertThat(sandvich, is(Rekord.of(Sandvich.class)
                 .with(Sandvich.filling, Lettuce)
                 .with(Sandvich.bread, Brown)
                 .with(Sandvich.style, Burger)));
@@ -55,10 +52,9 @@ public final class RekordTest {
     keys_for_supertypes_of_a_RekordType_can_be_used_to_create_Rekord_properties() {
         Rekord<Bratwurst> wurst = Rekord.of(Bratwurst.class)
                 .with(Wurst.curvature, 0.3)
-                .with(Bratwurst.style, Chopped)
-                .build();
+                .with(Bratwurst.style, Chopped);
 
-        assertThat(wurst, is(aRekordOf(Bratwurst.class)
+        assertThat(wurst, is(Rekord.of(Bratwurst.class)
                 .with(Wurst.curvature, 0.3)
                 .with(Bratwurst.style, Chopped)));
     }
@@ -86,45 +82,23 @@ public final class RekordTest {
         Rekord<Bratwurst> wurst = Rekord.of(Bratwurst.class)
                 .with(Wurst.curvature, 0.9)
                 .with(Bratwurst.style, Whole)
-                .without(Wurst.curvature)
-                .build();
+                .without(Wurst.curvature);
 
-        assertThat(wurst, is(aRekordOf(Bratwurst.class)
+        assertThat(wurst, is(Rekord.of(Bratwurst.class)
                 .with(Bratwurst.style, Whole)));
-    }
-
-    @Test public void
-    building_two_Rekords_from_the_same_builder_does_not_cause_the_first_to_mutate() {
-        Rekord.Builder<Sandvich> sandvichBuilder = Rekord.of(Sandvich.class)
-                .with(Sandvich.bread, White);
-
-        Rekord<Sandvich> cheeseSandvich = sandvichBuilder.with(Sandvich.filling, Cheese).build();
-        Rekord<Sandvich> hamSandvich = sandvichBuilder.with(Sandvich.filling, Ham).build();
-
-        assertThat(cheeseSandvich, is(aRekordOf(Sandvich.class)
-                .with(Sandvich.bread, White)
-                .with(Sandvich.filling, Cheese)));
-
-        assertThat(hamSandvich, is(aRekordOf(Sandvich.class)
-                .with(Sandvich.bread, White)
-                .with(Sandvich.filling, Ham)));
-
-        assertThat(cheeseSandvich, is(not(equalTo(hamSandvich))));
     }
 
     @Test public void
     a_Rekord_can_be_built_from_another_Rekord() {
         Rekord<Sandvich> cheeseSandvich = Rekord.of(Sandvich.class)
                 .with(Sandvich.filling, Cheese)
-                .with(Sandvich.bread, Brown)
-                .build();
+                .with(Sandvich.bread, Brown);
 
-        Rekord<Sandvich> cheeseBurger = cheeseSandvich.but()
+        Rekord<Sandvich> cheeseBurger = cheeseSandvich
                 .with(Sandvich.bread, White)
-                .with(Sandvich.style, Burger)
-                .build();
+                .with(Sandvich.style, Burger);
 
-        assertThat(cheeseBurger, is(aRekordOf(Sandvich.class)
+        assertThat(cheeseBurger, is(Rekord.of(Sandvich.class)
                 .with(Sandvich.filling, Cheese)
                 .with(Sandvich.bread, White)
                 .with(Sandvich.style, Burger)));
@@ -132,45 +106,43 @@ public final class RekordTest {
 
     @Test public void
     after_building_a_Rekord_from_another_Rekord_the_original_does_not_mutate() {
-        Rekord<Sandvich> cheeseSandvich = Rekord.of(Sandvich.class)
-                .with(Sandvich.filling, Cheese)
-                .with(Sandvich.bread, Brown)
-                .build();
+        Rekord<Sandvich> sandvichBuilder = Rekord.of(Sandvich.class)
+                .with(Sandvich.bread, White);
 
-        cheeseSandvich.but()
+        Rekord<Sandvich> cheeseSandvich = sandvichBuilder.with(Sandvich.filling, Cheese);
+        Rekord<Sandvich> hamSandvich = sandvichBuilder.with(Sandvich.filling, Ham);
+
+        assertThat(cheeseSandvich, is(Rekord.of(Sandvich.class)
                 .with(Sandvich.bread, White)
-                .with(Sandvich.style, Burger)
-                .build();
+                .with(Sandvich.filling, Cheese)));
 
-        assertThat(cheeseSandvich, is(aRekordOf(Sandvich.class)
-                .with(Sandvich.filling, Cheese)
-                .with(Sandvich.bread, Brown)));
+        assertThat(hamSandvich, is(Rekord.of(Sandvich.class)
+                .with(Sandvich.bread, White)
+                .with(Sandvich.filling, Ham)));
+
+        assertThat(cheeseSandvich, is(not(equalTo(hamSandvich))));
     }
 
     @Test public void
     two_Rekords_with_the_same_keys_and_values_are_equal() {
         Rekord<Bier> bier = Rekord.of(Bier.class)
                 .with(Bier.volume, Measurement.of(568).ml())
-                .with(Bier.head, Measurement.of(2).cm())
-                .build();
+                .with(Bier.head, Measurement.of(2).cm());
 
         assertThat(bier, is(equalTo(Rekord.of(Bier.class)
                 .with(Bier.volume, Measurement.of(568).ml())
-                .with(Bier.head, Measurement.of(2).cm())
-                .build())));
+                .with(Bier.head, Measurement.of(2).cm()))));
     }
 
     @Test public void
     two_Rekords_with_the_same_keys_but_different_values_are_not_equal() {
         Rekord<Bier> englishBeer = Rekord.of(Bier.class)
                 .with(Bier.volume, Measurement.of(568).ml())
-                .with(Bier.head, Measurement.of(2).cm())
-                .build();
+                .with(Bier.head, Measurement.of(2).cm());
 
         Rekord<Bier> germanBier = Rekord.of(Bier.class)
                 .with(Bier.volume, Measurement.of(1).l())
-                .with(Bier.head, Measurement.of(4).cm())
-                .build();
+                .with(Bier.head, Measurement.of(4).cm());
 
         assertThat(englishBeer, is(not(equalTo(germanBier))));
     }
@@ -178,13 +150,11 @@ public final class RekordTest {
     @Test public void
     two_Rekords_with_different_keys_are_not_equal() {
         Rekord<Bier> cider = Rekord.of(Bier.class)
-                .with(Bier.volume, Measurement.of(568).ml())
-                .build();
+                .with(Bier.volume, Measurement.of(568).ml());
 
         Rekord<Bier> stout = Rekord.of(Bier.class)
                 .with(Bier.volume, Measurement.of(568).ml())
-                .with(Bier.head, Measurement.of(4).cm())
-                .build();
+                .with(Bier.head, Measurement.of(4).cm());
 
         assertThat(cider, is(not(equalTo(stout))));
     }
@@ -192,8 +162,7 @@ public final class RekordTest {
     @Test public void
     a_Rekord_is_not_equal_to_another_type() {
         Rekord<Bier> bier = Rekord.of(Bier.class)
-                .with(Bier.volume, Measurement.of(500).ml())
-                .build();
+                .with(Bier.volume, Measurement.of(500).ml());
 
         assertThat(bier, is(not(equalTo((Object) new Bier() { }))));
     }
@@ -202,13 +171,11 @@ public final class RekordTest {
     two_Rekords_with_the_same_properties_have_the_same_hash_code() {
         Rekord<Bier> bier = Rekord.of(Bier.class)
                 .with(Bier.volume, Measurement.of(568).ml())
-                .with(Bier.head, Measurement.of(2).cm())
-                .build();
+                .with(Bier.head, Measurement.of(2).cm());
 
         Rekord<Bier> anotherBier = Rekord.of(Bier.class)
                 .with(Bier.volume, Measurement.of(568).ml())
-                .with(Bier.head, Measurement.of(2).cm())
-                .build();
+                .with(Bier.head, Measurement.of(2).cm());
 
         assertThat(bier.hashCode(), is(equalTo(anotherBier.hashCode())));
     }
@@ -217,13 +184,11 @@ public final class RekordTest {
     two_Rekords_with_different_properties_are_likely_to_have_a_different_hash_code() {
         Rekord<Bier> ale = Rekord.of(Bier.class)
                 .with(Bier.volume, Measurement.of(568).ml())
-                .with(Bier.head, Measurement.of(1).cm())
-                .build();
+                .with(Bier.head, Measurement.of(1).cm());
 
         Rekord<Bier> pilsner = Rekord.of(Bier.class)
                 .with(Bier.volume, Measurement.of(1).l())
-                .with(Bier.head, Measurement.of(5).cm())
-                .build();
+                .with(Bier.head, Measurement.of(5).cm());
 
         assertThat(ale.hashCode(), is(not(equalTo(pilsner.hashCode()))));
     }
@@ -232,8 +197,7 @@ public final class RekordTest {
     a_Rekord_is_serializable_as_a_String() {
         Rekord<Bier> delicious = Rekord.of(Bier.class)
                 .with(Bier.volume, Measurement.of(568).ml())
-                .with(Bier.head, Measurement.of(3).cm())
-                .build();
+                .with(Bier.head, Measurement.of(3).cm());
 
         assertThat(delicious, hasToString(allOf(startsWith("Bier"), containsString("head=3cm"), containsString("volume=568ml"))));
     }

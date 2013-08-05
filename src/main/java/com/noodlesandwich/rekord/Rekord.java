@@ -12,12 +12,12 @@ public final class Rekord<T extends RekordType> {
         this.properties = properties;
     }
 
-    public static <T extends RekordType> Rekord.Builder<T> of(Class<T> type) {
+    public static <T extends RekordType> Rekord<T> of(Class<T> type) {
         return create(type.getSimpleName());
     }
 
-    public static <T extends RekordType> Rekord.Builder<T> create(String name) {
-        return new Rekord.Builder<>(name);
+    public static <T extends RekordType> Rekord<T> create(String name) {
+        return new Rekord<>(name, HashTreePMap.<Key<? super T, ?>, Object>empty());
     }
 
     @SuppressWarnings("unchecked")
@@ -25,8 +25,20 @@ public final class Rekord<T extends RekordType> {
         return (V) properties.get(key);
     }
 
-    public Rekord.Builder<T> but() {
-        return new Rekord.Builder<>(name, properties);
+    public <V> Rekord<T> with(Key<? super T, V> key, V value) {
+        if (key == null) {
+            throw new NullPointerException("Cannot construct a Rekord property with a null key.");
+        }
+
+        if (value == null) {
+            throw new NullPointerException("Cannot construct a Rekord property with a null value.");
+        }
+
+        return new Rekord<>(name, properties.plus(key, value));
+    }
+
+    public Rekord<T> without(Key<? super T, ?> key) {
+        return new Rekord<>(name, properties.minus(key));
     }
 
     @SuppressWarnings("unchecked")
@@ -52,41 +64,5 @@ public final class Rekord<T extends RekordType> {
     @Override
     public String toString() {
         return name + properties.toString();
-    }
-
-    public static final class Builder<T extends RekordType> {
-        private final String name;
-        private PMap<Key<? super T, ?>, Object> properties;
-
-        public Builder(String name) {
-            this(name, HashTreePMap.<Key<? super T, ?>, Object>empty());
-        }
-
-        public Builder(String name, PMap<Key<? super T, ?>, Object> properties) {
-            this.name = name;
-            this.properties = properties;
-        }
-
-        public <V> Rekord.Builder<T> with(Key<? super T, V> key, V value) {
-            if (key == null) {
-                throw new NullPointerException("Cannot construct a Rekord property with a null key.");
-            }
-
-            if (value == null) {
-                throw new NullPointerException("Cannot construct a Rekord property with a null value.");
-            }
-
-            properties = properties.plus(key, value);
-            return this;
-        }
-
-        public Rekord.Builder<T> without(Key<? super T, ?> key) {
-            properties = properties.minus(key);
-            return this;
-        }
-
-        public Rekord<T> build() {
-            return new Rekord<>(name, properties);
-        }
     }
 }

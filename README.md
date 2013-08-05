@@ -2,7 +2,7 @@
 
 A rekord is an immutable data structure of key-value pairs. Kind of like an immutable map of objects, but completely type-safe, as the keys themselves contain the type information of the value.
 
-It can be used as an alternative to classes with getters (immutable beans, if you will) so you don't have to implement a new concrete class for every value concept—instead, a single type has you covered. You also get a builder and a Hamcrest matcher for free, and other concepts, such as validation and default values, can be implemented once and used for all rekords.
+It can be used as an alternative to classes with getters (immutable beans, if you will) so you don't have to implement a new concrete class for every value concept—instead, a single type has you covered. You also get builders for free, `equals` and `hashCode` are implemented for you, and other concepts, such as validation and default values, can be implemented once and used for all rekords.
 
 And there's no magic.
 
