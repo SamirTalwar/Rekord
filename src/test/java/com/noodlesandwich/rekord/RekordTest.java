@@ -196,6 +196,7 @@ public final class RekordTest {
                 not(hasKey(Sandvich.style))));
     }
 
+    @SuppressWarnings("unchecked")
     @Test public void
     the_keys_of_the_properties_of_a_Rekord_can_be_retrieved() {
         Rekord<Sandvich> sandvich = Rekord.of(Sandvich.class)
