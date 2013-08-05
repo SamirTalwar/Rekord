@@ -10,6 +10,10 @@ public class Rekord<T extends RekordType> {
         this.properties = properties;
     }
 
+    public static <T extends RekordType> RekordBuilder<T> of(@SuppressWarnings("unused") Class<T> type) {
+        return create();
+    }
+
     public static <T extends RekordType> RekordBuilder<T> create() {
         return new RekordBuilder<>();
     }

@@ -16,7 +16,7 @@ import static org.hamcrest.Matchers.not;
 public final class RekordTest {
     @Test public void
     a_Rekord_contains_a_value() {
-        Rekord<Sandvich> sandvich = Rekord.<Sandvich>create()
+        Rekord<Sandvich> sandvich = Rekord.of(Sandvich.class)
                 .with(Sandvich.filling, Cheese)
                 .build();
         assertThat(sandvich.get(Sandvich.filling), is(Cheese));
@@ -24,7 +24,7 @@ public final class RekordTest {
 
     @Test public void
     a_Rekord_contains_multiple_values_identified_by_a_key() {
-        Rekord<Sandvich> sandvich = Rekord.<Sandvich>create()
+        Rekord<Sandvich> sandvich = Rekord.of(Sandvich.class)
                 .with(Sandvich.filling, Lettuce)
                 .with(Sandvich.bread, Brown)
                 .with(Sandvich.style, Burger)
@@ -36,7 +36,7 @@ public final class RekordTest {
 
     @Test public void
     keys_for_supertypes_of_a_RekordType_can_be_used_to_create_Rekord_properties() {
-        Rekord<Bratwurst> wurst = Rekord.<Bratwurst>create()
+        Rekord<Bratwurst> wurst = Rekord.of(Bratwurst.class)
                 .with(Wurst.curvature, 0.3)
                 .with(Bratwurst.style, Chopped)
                 .build();
@@ -46,12 +46,12 @@ public final class RekordTest {
 
     @Test public void
     two_Rekords_with_the_same_keys_and_values_are_equal() {
-        Rekord<Bier> bier = Rekord.<Bier>create()
+        Rekord<Bier> bier = Rekord.of(Bier.class)
                 .with(Bier.volume, Measurement.of(568).ml())
                 .with(Bier.head, Measurement.of(2).cm())
                 .build();
 
-        assertThat(bier, is(equalTo(Rekord.<Bier>create()
+        assertThat(bier, is(equalTo(Rekord.of(Bier.class)
                 .with(Bier.volume, Measurement.of(568).ml())
                 .with(Bier.head, Measurement.of(2).cm())
                 .build())));
@@ -59,12 +59,12 @@ public final class RekordTest {
 
     @Test public void
     two_Rekords_with_the_same_keys_but_different_values_are_not_equal() {
-        Rekord<Bier> englishBeer = Rekord.<Bier>create()
+        Rekord<Bier> englishBeer = Rekord.of(Bier.class)
                 .with(Bier.volume, Measurement.of(568).ml())
                 .with(Bier.head, Measurement.of(2).cm())
                 .build();
 
-        Rekord<Bier> germanBier = Rekord.<Bier>create()
+        Rekord<Bier> germanBier = Rekord.of(Bier.class)
                 .with(Bier.volume, Measurement.of(1).l())
                 .with(Bier.head, Measurement.of(4).cm())
                 .build();
@@ -74,11 +74,11 @@ public final class RekordTest {
 
     @Test public void
     two_Rekords_with_different_keys_are_not_equal() {
-        Rekord<Bier> cider = Rekord.<Bier>create()
+        Rekord<Bier> cider = Rekord.of(Bier.class)
                 .with(Bier.volume, Measurement.of(568).ml())
                 .build();
 
-        Rekord<Bier> stout = Rekord.<Bier>create()
+        Rekord<Bier> stout = Rekord.of(Bier.class)
                 .with(Bier.volume, Measurement.of(568).ml())
                 .with(Bier.head, Measurement.of(4).cm())
                 .build();
@@ -88,7 +88,7 @@ public final class RekordTest {
 
     @Test public void
     a_Rekord_is_not_equal_to_another_type() {
-        Rekord<Bier> bier = Rekord.<Bier>create()
+        Rekord<Bier> bier = Rekord.of(Bier.class)
                 .with(Bier.volume, Measurement.of(500).ml())
                 .build();
 
@@ -97,12 +97,12 @@ public final class RekordTest {
 
     @Test public void
     two_Rekords_with_the_same_properties_have_the_same_hash_code() {
-        Rekord<Bier> bier = Rekord.<Bier>create()
+        Rekord<Bier> bier = Rekord.of(Bier.class)
                 .with(Bier.volume, Measurement.of(568).ml())
                 .with(Bier.head, Measurement.of(2).cm())
                 .build();
 
-        Rekord<Bier> anotherBier = Rekord.<Bier>create()
+        Rekord<Bier> anotherBier = Rekord.of(Bier.class)
                 .with(Bier.volume, Measurement.of(568).ml())
                 .with(Bier.head, Measurement.of(2).cm())
                 .build();
@@ -112,12 +112,12 @@ public final class RekordTest {
 
     @Test public void
     two_Rekords_with_different_properties_are_likely_to_have_a_different_hash_code() {
-        Rekord<Bier> ale = Rekord.<Bier>create()
+        Rekord<Bier> ale = Rekord.of(Bier.class)
                 .with(Bier.volume, Measurement.of(568).ml())
                 .with(Bier.head, Measurement.of(1).cm())
                 .build();
 
-        Rekord<Bier> pilsner = Rekord.<Bier>create()
+        Rekord<Bier> pilsner = Rekord.of(Bier.class)
                 .with(Bier.volume, Measurement.of(1).l())
                 .with(Bier.head, Measurement.of(5).cm())
                 .build();
