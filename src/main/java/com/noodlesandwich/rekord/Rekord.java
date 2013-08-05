@@ -80,6 +80,11 @@ public final class Rekord<T extends RekordType> {
             return this;
         }
 
+        public RekordBuilder<T> without(Key<? super T, ?> key) {
+            properties.remove(key);
+            return this;
+        }
+
         public Rekord<T> build() {
             return new Rekord<>(name, properties);
         }

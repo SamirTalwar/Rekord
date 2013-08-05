@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import static com.noodlesandwich.rekord.RekordTest.Bratwurst.Style.Chopped;
+import static com.noodlesandwich.rekord.RekordTest.Bratwurst.Style.Whole;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Bread.Brown;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Bread.White;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Filling.Cheese;
@@ -77,6 +78,18 @@ public final class RekordTest {
 
         Rekord.of(Bratwurst.class)
                 .with(Wurst.curvature, null);
+    }
+
+    @Test public void
+    properties_can_be_removed_from_a_Rekord() {
+        Rekord<Bratwurst> wurst = Rekord.of(Bratwurst.class)
+                .with(Wurst.curvature, 0.9)
+                .with(Bratwurst.style, Whole)
+                .without(Wurst.curvature)
+                .build();
+
+        assertThat(wurst, is(aRekordOf(Bratwurst.class)
+                .with(Bratwurst.style, Whole)));
     }
 
     @Test public void
@@ -233,7 +246,8 @@ public final class RekordTest {
         Key<Bratwurst, Style> style = Key.named("style");
 
         public static enum Style {
-            Chopped
+            Chopped,
+            Whole
         }
     }
 
