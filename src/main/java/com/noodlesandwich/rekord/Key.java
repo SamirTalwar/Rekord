@@ -1,16 +1,24 @@
 package com.noodlesandwich.rekord;
 
-import com.noodlesandwich.rekord.keys.DefaultedKey;
-import com.noodlesandwich.rekord.keys.NamedKey;
-import com.noodlesandwich.rekord.keys.PropertyKey;
+import com.noodlesandwich.rekord.transformers.DefaultingTransformer;
+import com.noodlesandwich.rekord.transformers.IdentityTransformer;
+import com.noodlesandwich.rekord.transformers.Transformer;
 
-public abstract class Key<T, V> {
+public final class Key<T, V> {
+    private final String name;
+    private final Transformer<V, V> transformer;
+
+    public Key(String name, Transformer<V, V> transformer) {
+        this.name = name;
+        this.transformer = transformer;
+    }
+
     public static <T, V> Key<T, V> named(String name) {
-        return new NamedKey<>(new PropertyKey<T, V>(), name);
+        return new Key<>(name, new IdentityTransformer<V>());
     }
 
     public Key<T, V> defaultingTo(V defaultValue) {
-        return new DefaultedKey<>(this, defaultValue);
+        return new Key<>(name, new DefaultingTransformer<>(defaultValue));
     }
 
     public Property<T, V> of(V value) {
@@ -18,10 +26,10 @@ public abstract class Key<T, V> {
     }
 
     public V retrieveFrom(Properties<T> properties) {
-        return retrieveFrom(properties, this);
+        return transformer.transform(properties.get(this));
     }
 
-    public abstract V retrieveFrom(Properties<T> properties, Key<T, V> surrogateKey);
-
-    public abstract String toString();
+    public String toString() {
+        return name;
+    }
 }
