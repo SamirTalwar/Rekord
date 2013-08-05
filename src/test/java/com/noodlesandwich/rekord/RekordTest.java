@@ -13,6 +13,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 
 public final class RekordTest {
     @Test public void
@@ -60,6 +61,23 @@ public final class RekordTest {
         assertThat(cheeseBurger.get(Sandvich.filling), is(Cheese));
         assertThat(cheeseBurger.get(Sandvich.bread), is(White));
         assertThat(cheeseBurger.get(Sandvich.style), is(Burger));
+    }
+
+    @Test public void
+    after_building_a_Rekord_from_another_Rekord_the_original_does_not_mutate() {
+        Rekord<Sandvich> cheeseSandvich = Rekord.of(Sandvich.class)
+                .with(Sandvich.filling, Cheese)
+                .with(Sandvich.bread, Brown)
+                .build();
+
+        cheeseSandvich.but()
+                .with(Sandvich.bread, White)
+                .with(Sandvich.style, Burger)
+                .build();
+
+        assertThat(cheeseSandvich.get(Sandvich.filling), is(Cheese));
+        assertThat(cheeseSandvich.get(Sandvich.bread), is(Brown));
+        assertThat(cheeseSandvich.get(Sandvich.style), is(nullValue()));
     }
 
     @Test public void

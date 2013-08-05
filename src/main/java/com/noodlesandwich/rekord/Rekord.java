@@ -26,7 +26,7 @@ public class Rekord<T extends RekordType> {
     }
 
     public RekordBuilder<T> but() {
-        return new RekordBuilder<>(name, properties);
+        return new RekordBuilder<>(name, new HashMap<>(properties));
     }
 
     @SuppressWarnings("unchecked")
