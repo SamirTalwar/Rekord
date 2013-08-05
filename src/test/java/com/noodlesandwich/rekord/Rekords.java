@@ -11,6 +11,7 @@ public final class Rekords {
         public static enum Filling {
             Cheese,
             Ham,
+            Jam,
             Lettuce
         }
 

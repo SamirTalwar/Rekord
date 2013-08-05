@@ -14,10 +14,12 @@ import static com.noodlesandwich.rekord.Rekords.Sandvich.Bread.Brown;
 import static com.noodlesandwich.rekord.Rekords.Sandvich.Bread.White;
 import static com.noodlesandwich.rekord.Rekords.Sandvich.Filling.Cheese;
 import static com.noodlesandwich.rekord.Rekords.Sandvich.Filling.Ham;
+import static com.noodlesandwich.rekord.Rekords.Sandvich.Filling.Jam;
 import static com.noodlesandwich.rekord.Rekords.Sandvich.Filling.Lettuce;
 import static com.noodlesandwich.rekord.Rekords.Sandvich.Style.Burger;
 import static com.noodlesandwich.rekord.Rekords.Sandvich.Style.Roll;
 import static com.noodlesandwich.rekord.Rekords.Wurst;
+import static com.noodlesandwich.rekord.matchers.RekordMatchers.hasKey;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
@@ -127,6 +129,18 @@ public final class RekordTest {
                 .with(Sandvich.filling, Ham)));
 
         assertThat(cheeseSandvich, is(not(equalTo(hamSandvich))));
+    }
+
+    @Test public void
+    a_Rekord_can_tell_which_keys_are_being_used() {
+        Rekord<Sandvich> sandvich = Rekord.of(Sandvich.class)
+                .with(Sandvich.filling, Jam)
+                .with(Sandvich.bread, Brown);
+
+        assertThat(sandvich, allOf(
+                hasKey(Sandvich.filling),
+                hasKey(Sandvich.bread),
+                not(hasKey(Sandvich.style))));
     }
 
     @Test public void
