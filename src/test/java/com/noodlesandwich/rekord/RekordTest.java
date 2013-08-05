@@ -10,6 +10,7 @@ import static com.noodlesandwich.rekord.RekordTest.Sandvich.Bread.White;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Filling.Cheese;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Filling.Lettuce;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Style.Burger;
+import static com.noodlesandwich.rekord.matchers.RekordMatchers.aRekordOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
@@ -28,7 +29,9 @@ public final class RekordTest {
         Rekord<Sandvich> sandvich = Rekord.of(Sandvich.class)
                 .with(Sandvich.filling, Cheese)
                 .build();
-        assertThat(sandvich.get(Sandvich.filling), is(Cheese));
+
+        assertThat(sandvich, is(aRekordOf(Sandvich.class)
+                .with(Sandvich.filling, Cheese)));
     }
 
     @Test public void
@@ -38,6 +41,7 @@ public final class RekordTest {
                 .with(Sandvich.bread, Brown)
                 .with(Sandvich.style, Burger)
                 .build();
+
         assertThat(sandvich.get(Sandvich.filling), is(Lettuce));
         assertThat(sandvich.get(Sandvich.bread), is(Brown));
         assertThat(sandvich.get(Sandvich.style), is(Burger));
