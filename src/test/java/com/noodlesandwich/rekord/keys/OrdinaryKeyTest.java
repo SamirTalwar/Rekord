@@ -1,6 +1,7 @@
-package com.noodlesandwich.rekord;
+package com.noodlesandwich.rekord.keys;
 
 import java.util.Map;
+import com.noodlesandwich.rekord.Key;
 import org.junit.Test;
 import org.pcollections.HashPMap;
 import org.pcollections.HashTreePMap;
@@ -10,7 +11,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
-public class KeyTest {
+public class OrdinaryKeyTest {
     @Test public void
     retrieves_a_value_from_a_property_map() {
         Map<Key<? super Person, ?>, Object> properties = properties()
