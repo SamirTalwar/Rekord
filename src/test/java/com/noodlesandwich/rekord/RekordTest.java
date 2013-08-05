@@ -18,7 +18,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.startsWith;
 
 public final class RekordTest {
@@ -42,9 +41,10 @@ public final class RekordTest {
                 .with(Sandvich.style, Burger)
                 .build();
 
-        assertThat(sandvich.get(Sandvich.filling), is(Lettuce));
-        assertThat(sandvich.get(Sandvich.bread), is(Brown));
-        assertThat(sandvich.get(Sandvich.style), is(Burger));
+        assertThat(sandvich, is(aRekordOf(Sandvich.class)
+                .with(Sandvich.filling, Lettuce)
+                .with(Sandvich.bread, Brown)
+                .with(Sandvich.style, Burger)));
     }
 
     @Test public void
@@ -53,8 +53,10 @@ public final class RekordTest {
                 .with(Wurst.curvature, 0.3)
                 .with(Bratwurst.style, Chopped)
                 .build();
-        assertThat(wurst.get(Wurst.curvature), is(0.3));
-        assertThat(wurst.get(Bratwurst.style), is(Chopped));
+
+        assertThat(wurst, is(aRekordOf(Bratwurst.class)
+                .with(Wurst.curvature, 0.3)
+                .with(Bratwurst.style, Chopped)));
     }
 
     @Test public void
@@ -77,9 +79,10 @@ public final class RekordTest {
                 .with(Sandvich.style, Burger)
                 .build();
 
-        assertThat(cheeseBurger.get(Sandvich.filling), is(Cheese));
-        assertThat(cheeseBurger.get(Sandvich.bread), is(White));
-        assertThat(cheeseBurger.get(Sandvich.style), is(Burger));
+        assertThat(cheeseBurger, is(aRekordOf(Sandvich.class)
+                .with(Sandvich.filling, Cheese)
+                .with(Sandvich.bread, White)
+                .with(Sandvich.style, Burger)));
     }
 
     @Test public void
@@ -94,9 +97,9 @@ public final class RekordTest {
                 .with(Sandvich.style, Burger)
                 .build();
 
-        assertThat(cheeseSandvich.get(Sandvich.filling), is(Cheese));
-        assertThat(cheeseSandvich.get(Sandvich.bread), is(Brown));
-        assertThat(cheeseSandvich.get(Sandvich.style), is(nullValue()));
+        assertThat(cheeseSandvich, is(aRekordOf(Sandvich.class)
+                .with(Sandvich.filling, Cheese)
+                .with(Sandvich.bread, Brown)));
     }
 
     @Test public void
