@@ -43,4 +43,10 @@ public final class Rekords {
         Key<Bier, Measurement.Volume> volume = Key.named("volume");
         Key<Bier, Measurement.Length> head = Key.named("head");
     }
+
+    public static interface Person extends RekordType {
+        Key<Person, String> firstName = Key.named("first name");
+        Key<Person, String> lastName = Key.named("last name");
+        Key<Person, Integer> age = Key.named("age");
+    }
 }
