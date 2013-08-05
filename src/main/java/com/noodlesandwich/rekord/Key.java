@@ -1,12 +1,14 @@
 package com.noodlesandwich.rekord;
 
-import com.noodlesandwich.rekord.keys.OrdinaryKey;
+import com.noodlesandwich.rekord.keys.NamedKey;
 
 public abstract class Key<T, V> {
     public static <T, V> Key<T, V> named(String name) {
-        return new OrdinaryKey<>(name);
+        return new NamedKey<>(name);
     }
 
     @SuppressWarnings("unchecked")
     public abstract V retrieveFrom(Properties<T> properties);
+
+    public abstract String toString();
 }

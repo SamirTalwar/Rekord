@@ -5,10 +5,11 @@ import org.junit.Test;
 
 import static com.noodlesandwich.rekord.Rekords.Person;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
-public class OrdinaryKeyTest {
+public class NamedKeyTest {
     @Test public void
     retrieves_a_value_from_a_property_map() {
         Properties<Person> properties = new Properties<Person>()
@@ -25,5 +26,10 @@ public class OrdinaryKeyTest {
                 .with(Person.age, 30);
 
         assertThat(Person.lastName.retrieveFrom(properties), is(nullValue()));
+    }
+
+    @Test public void
+    stringifies_to_its_name() {
+        assertThat(Person.firstName, hasToString("first name"));
     }
 }
