@@ -1,6 +1,8 @@
 package com.noodlesandwich.rekord;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import static com.noodlesandwich.rekord.RekordTest.Bratwurst.Style.Chopped;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Bread.Brown;
@@ -16,6 +18,8 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 
 public final class RekordTest {
+    @Rule public final ExpectedException expectedException = ExpectedException.none();
+
     @Test public void
     a_Rekord_contains_a_value() {
         Rekord<Sandvich> sandvich = Rekord.of(Sandvich.class)
@@ -44,6 +48,14 @@ public final class RekordTest {
                 .build();
         assertThat(wurst.get(Wurst.curvature), is(0.3));
         assertThat(wurst.get(Bratwurst.style), is(Chopped));
+    }
+
+    @Test public void
+    the_key_of_a_Rekord_property_cannot_be_null() {
+        expectedException.expect(NullPointerException.class);
+
+        Rekord.of(Bratwurst.class)
+                .with(null, "Random value");
     }
 
     @Test public void

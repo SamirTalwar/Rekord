@@ -68,6 +68,10 @@ public class Rekord<T extends RekordType> {
         }
 
         public <V> RekordBuilder<T> with(Key<? super T, V> key, V value) {
+            if (key == null) {
+                throw new NullPointerException();
+            }
+
             properties.put(key, value);
             return this;
         }
