@@ -8,23 +8,27 @@ And there's no magic.
 
 An example:
 
-    Rekord<Sandvich> sandvich = Rekord.<Sandvich>create()
-            .with(Sandvich.filling, Lettuce)
-            .with(Sandvich.bread, Brown)
-            .with(Sandvich.style, Burger)
-            .build();
+```java
+Rekord<Sandvich> sandvich = Rekord.<Sandvich>create()
+        .with(Sandvich.filling, Lettuce)
+        .with(Sandvich.bread, Brown)
+        .with(Sandvich.style, Burger)
+        .build();
 
-    assertThat(sandvich.get(Sandvich.filling), is(Lettuce));
+assertThat(sandvich.get(Sandvich.filling), is(Lettuce));
+```
 
 The magic is really in the key. It's defined as follows:
 
-    public static interface Sandvich extends RekordType {
-        Key<Sandvich, Filling> filling = key();
-        Key<Sandvich, Bread> bread = key();
-        Key<Sandvich, Style> style = key();
+```java
+public static interface Sandvich extends RekordType {
+    Key<Sandvich, Filling> filling = key();
+    Key<Sandvich, Bread> bread = key();
+    Key<Sandvich, Style> style = key();
 
-        ...
-    }
+    // ...
+}
+```
 
 So all you need is one interface and a few constants. The return type of the `Rekord::get` method is the type embodied in the key, so for the sandvich filling, the return type is `Filling`.
 
