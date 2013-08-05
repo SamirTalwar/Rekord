@@ -11,6 +11,7 @@ import static com.noodlesandwich.rekord.RekordTest.Sandvich.Style.Burger;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 
 public final class RekordTest {
     @Test public void
@@ -54,6 +55,21 @@ public final class RekordTest {
                 .with(Bier.volume, Measurement.of(568).ml())
                 .with(Bier.head, Measurement.of(2).cm())
                 .build())));
+    }
+
+    @Test public void
+    two_Rekords_with_the_same_keys_but_different_values_are_not_equal() {
+        Rekord<Bier> englishBeer = Rekord.<Bier>create()
+                .with(Bier.volume, Measurement.of(568).ml())
+                .with(Bier.head, Measurement.of(2).cm())
+                .build();
+
+        Rekord<Bier> germanBier = Rekord.<Bier>create()
+                .with(Bier.volume, Measurement.of(1).l())
+                .with(Bier.head, Measurement.of(4).cm())
+                .build();
+
+        assertThat(englishBeer, is(not(equalTo(germanBier))));
     }
 
     public static interface Sandvich extends RekordType {

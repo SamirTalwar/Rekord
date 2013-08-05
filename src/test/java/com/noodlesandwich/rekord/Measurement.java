@@ -16,6 +16,10 @@ public final class Measurement {
             return new Volume(value);
         }
 
+        public Volume l() {
+            return new Volume(value * 1000);
+        }
+
         public Length cm() {
             return new Length(value);
         }

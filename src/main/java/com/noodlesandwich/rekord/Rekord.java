@@ -19,9 +19,10 @@ public class Rekord<T extends RekordType> {
         return (V) properties.get(key);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object o) {
-        return true;
+        return properties.equals(((Rekord<T>) o).properties);
     }
 
     public static final class RekordBuilder<T extends RekordType> {
