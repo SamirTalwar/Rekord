@@ -1,5 +1,6 @@
 package com.noodlesandwich.rekord;
 
+@SuppressWarnings("UnusedDeclaration")
 public final class Key<T, V> {
     private final String name;
 

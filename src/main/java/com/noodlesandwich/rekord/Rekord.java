@@ -32,6 +32,7 @@ public class Rekord<T extends RekordType> {
             return true;
         }
 
+        //noinspection SimplifiableIfStatement
         if (!(o instanceof Rekord)) {
             return false;
         }
