@@ -86,6 +86,15 @@ public final class RekordTest {
         assertThat(cider, is(not(equalTo(stout))));
     }
 
+    @Test public void
+    a_Rekord_is_not_equal_to_another_type() {
+        Rekord<Bier> bier = Rekord.<Bier>create()
+                .with(Bier.volume, Measurement.of(500).ml())
+                .build();
+
+        assertThat(bier, is(not(equalTo((Object) new Bier() {}))));
+    }
+
     public static interface Sandvich extends RekordType {
         Key<Sandvich, Filling> filling = key();
         Key<Sandvich, Bread> bread = key();

@@ -22,6 +22,14 @@ public class Rekord<T extends RekordType> {
     @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof Rekord)) {
+            return false;
+        }
+
         return properties.equals(((Rekord<T>) o).properties);
     }
 
