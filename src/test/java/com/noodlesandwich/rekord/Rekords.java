@@ -1,5 +1,7 @@
 package com.noodlesandwich.rekord;
 
+import java.util.Collection;
+
 public final class Rekords {
     private Rekords() { }
 
@@ -48,5 +50,18 @@ public final class Rekords {
         Key<Person, String> firstName = Key.named("first name");
         Key<Person, String> lastName = Key.named("last name");
         Key<Person, Integer> age = Key.named("age");
+    }
+
+    @SuppressWarnings("UnusedDeclaration")
+    public static final class Jar<T extends Jar.Contents> implements RekordType {
+        private static final Key contents = Key.named("contents");
+        @SuppressWarnings("unchecked")
+        public static <T extends Jar.Contents> Key<Jar<T>, Collection<T>> contents() {
+            return contents;
+        }
+
+        public static interface Contents { }
+
+        public static final class Cookie implements Jar.Contents { }
     }
 }

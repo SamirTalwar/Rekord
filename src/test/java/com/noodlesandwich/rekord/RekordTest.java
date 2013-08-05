@@ -1,5 +1,10 @@
 package com.noodlesandwich.rekord;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import com.noodlesandwich.rekord.matchers.RekordMatchers;
+import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
@@ -9,6 +14,8 @@ import static com.noodlesandwich.rekord.Rekords.Bier;
 import static com.noodlesandwich.rekord.Rekords.Bratwurst;
 import static com.noodlesandwich.rekord.Rekords.Bratwurst.Style.Chopped;
 import static com.noodlesandwich.rekord.Rekords.Bratwurst.Style.Whole;
+import static com.noodlesandwich.rekord.Rekords.Jar;
+import static com.noodlesandwich.rekord.Rekords.Jar.Cookie;
 import static com.noodlesandwich.rekord.Rekords.Sandvich;
 import static com.noodlesandwich.rekord.Rekords.Sandvich.Bread.Brown;
 import static com.noodlesandwich.rekord.Rekords.Sandvich.Bread.White;
@@ -25,6 +32,7 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
@@ -54,6 +62,20 @@ public final class RekordTest {
                 .with(Sandvich.filling, Lettuce)
                 .with(Sandvich.bread, Brown)
                 .with(Sandvich.style, Burger)));
+    }
+
+    @Test public void
+    Rekords_can_be_generic() {
+        List<Cookie> cookies = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            cookies.add(new Cookie());
+        }
+
+        Rekord<Jar<Cookie>> cookieJar = Rekord.<Jar<Cookie>>create("cookie jar")
+                .with(Jar.<Cookie>contents(), cookies);
+
+        assertThat(cookieJar, is(RekordMatchers.<Jar<Cookie>>aRekordNamed("cookie jar")
+                .with(Jar.<Cookie>contents(), tenCookies())));
     }
 
     @Test public void
@@ -229,5 +251,10 @@ public final class RekordTest {
                 .with(Bier.head, Measurement.of(3).cm());
 
         assertThat(delicious, hasToString(allOf(startsWith("Bier"), containsString("head=3cm"), containsString("volume=568ml"))));
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private static Matcher<Collection<Cookie>> tenCookies() {
+        return (Matcher<Collection<Cookie>>) (Matcher) hasSize(10);
     }
 }
