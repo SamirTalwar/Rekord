@@ -68,7 +68,7 @@ public final class Rekord<T extends RekordType> {
         }
 
         public <V> RekordBuilder<T> with(Key<? super T, V> key, V value) {
-            if (key == null) {
+            if (key == null || value == null) {
                 throw new NullPointerException();
             }
 

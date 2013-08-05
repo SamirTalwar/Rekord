@@ -68,6 +68,14 @@ public final class RekordTest {
     }
 
     @Test public void
+    the_value_of_a_Rekord_property_cannot_be_null() {
+        expectedException.expect(NullPointerException.class);
+
+        Rekord.of(Bratwurst.class)
+                .with(Wurst.curvature, null);
+    }
+
+    @Test public void
     a_Rekord_can_be_built_from_another_Rekord() {
         Rekord<Sandvich> cheeseSandvich = Rekord.of(Sandvich.class)
                 .with(Sandvich.filling, Cheese)
