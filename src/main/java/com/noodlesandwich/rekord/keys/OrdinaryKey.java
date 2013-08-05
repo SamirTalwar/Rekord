@@ -1,7 +1,6 @@
 package com.noodlesandwich.rekord.keys;
 
-import java.util.Map;
-import com.noodlesandwich.rekord.Key;
+import com.noodlesandwich.rekord.Properties;
 
 public final class OrdinaryKey<T, V> extends NamedKey<T, V> {
     public OrdinaryKey(String name) {
@@ -10,12 +9,12 @@ public final class OrdinaryKey<T, V> extends NamedKey<T, V> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public V retrieveFrom(Map<Key<? super T, ?>, Object> properties) {
-        return (V) properties.get(this);
+    public V retrieveFrom(Properties<T> properties) {
+        return properties.get(this);
     }
 
     @Override
-    public boolean isContainedIn(Map<Key<? super T, ?>, Object> properties) {
-        return properties.containsKey(this);
+    public boolean isContainedIn(Properties<T> properties) {
+        return properties.contains(this);
     }
 }

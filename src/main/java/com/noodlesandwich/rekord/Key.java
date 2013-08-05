@@ -1,6 +1,5 @@
 package com.noodlesandwich.rekord;
 
-import java.util.Map;
 import com.noodlesandwich.rekord.keys.OrdinaryKey;
 
 public abstract class Key<T, V> {
@@ -9,7 +8,7 @@ public abstract class Key<T, V> {
     }
 
     @SuppressWarnings("unchecked")
-    public abstract V retrieveFrom(Map<Key<? super T, ?>, Object> properties);
+    public abstract V retrieveFrom(Properties<T> properties);
 
-    public abstract boolean isContainedIn(Map<Key<? super T, ?>, Object> properties);
+    public abstract boolean isContainedIn(Properties<T> properties);
 }

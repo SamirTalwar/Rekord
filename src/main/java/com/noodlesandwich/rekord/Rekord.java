@@ -1,14 +1,12 @@
 package com.noodlesandwich.rekord;
 
 import java.util.Set;
-import org.pcollections.HashTreePMap;
-import org.pcollections.PMap;
 
 public final class Rekord<T extends RekordType> {
     private final String name;
-    private final PMap<Key<? super T, ?>, Object> properties;
+    private final Properties<T> properties;
 
-    public Rekord(String name, PMap<Key<? super T, ?>, Object> properties) {
+    public Rekord(String name, Properties<T> properties) {
         this.name = name;
         this.properties = properties;
     }
@@ -18,7 +16,7 @@ public final class Rekord<T extends RekordType> {
     }
 
     public static <T extends RekordType> Rekord<T> create(String name) {
-        return new Rekord<>(name, HashTreePMap.<Key<? super T, ?>, Object>empty());
+        return new Rekord<>(name, new Properties<T>());
     }
 
     @SuppressWarnings("unchecked")
@@ -31,7 +29,7 @@ public final class Rekord<T extends RekordType> {
     }
 
     public Set<Key<? super T, ?>> keys() {
-        return properties.keySet();
+        return properties.keys();
     }
 
     public <V> Rekord<T> with(Key<? super T, V> key, V value) {
@@ -43,7 +41,7 @@ public final class Rekord<T extends RekordType> {
             throw new NullPointerException("Cannot construct a Rekord property with a null value.");
         }
 
-        return new Rekord<>(name, properties.plus(key, value));
+        return new Rekord<>(name, properties.with(key, value));
     }
 
     public <V> Rekord<T> with(V value, Key<? super T, V> key) {
@@ -51,7 +49,7 @@ public final class Rekord<T extends RekordType> {
     }
 
     public Rekord<T> without(Key<? super T, ?> key) {
-        return new Rekord<>(name, properties.minus(key));
+        return new Rekord<>(name, properties.without(key));
     }
 
     @SuppressWarnings("unchecked")
