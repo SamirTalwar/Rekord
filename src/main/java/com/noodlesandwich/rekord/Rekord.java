@@ -23,7 +23,7 @@ public final class Rekord<T extends RekordType> {
 
     @SuppressWarnings("unchecked")
     public <V> V get(Key<? super T, V> key) {
-        return (V) properties.get(key);
+        return ((Key<T, V>) key).retrieveFrom(properties);
     }
 
     public boolean containsKey(Key<T, ?> key) {

@@ -1,5 +1,7 @@
 package com.noodlesandwich.rekord;
 
+import java.util.Map;
+
 @SuppressWarnings("UnusedDeclaration")
 public final class Key<T, V> {
     private final String name;
@@ -15,5 +17,10 @@ public final class Key<T, V> {
     @Override
     public String toString() {
         return name;
+    }
+
+    @SuppressWarnings("unchecked")
+    public V retrieveFrom(Map<Key<? super T, ?>, Object> properties) {
+        return (V) properties.get(this);
     }
 }
