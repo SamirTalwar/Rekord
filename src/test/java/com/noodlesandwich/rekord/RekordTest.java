@@ -15,7 +15,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasToString;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
@@ -61,7 +63,8 @@ public final class RekordTest {
 
     @Test public void
     the_key_of_a_Rekord_property_cannot_be_null() {
-        expectedException.expect(NullPointerException.class);
+        expectedException.expect(allOf(instanceOf(NullPointerException.class),
+                                 hasProperty("message", equalTo("Cannot construct a Rekord property with a null key."))));
 
         Rekord.of(Bratwurst.class)
                 .with(null, "Random value");
@@ -69,7 +72,8 @@ public final class RekordTest {
 
     @Test public void
     the_value_of_a_Rekord_property_cannot_be_null() {
-        expectedException.expect(NullPointerException.class);
+        expectedException.expect(allOf(instanceOf(NullPointerException.class),
+                                 hasProperty("message", equalTo("Cannot construct a Rekord property with a null value."))));
 
         Rekord.of(Bratwurst.class)
                 .with(Wurst.curvature, null);
