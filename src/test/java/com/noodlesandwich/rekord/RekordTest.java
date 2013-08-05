@@ -111,6 +111,16 @@ public final class RekordTest {
     }
 
     @Test public void
+    Rekords_can_return_individual_values_when_indexed_by_the_key_including_keys_of_supertypes() {
+        Rekord<Bratwurst> wurst = Rekord.of(Bratwurst.class)
+                .with(Wurst.curvature, 0.1)
+                .with(Bratwurst.style, Whole);
+
+        assertThat(wurst.get(Wurst.curvature), is(0.1));
+        assertThat(wurst.get(Bratwurst.style), is(Whole));
+    }
+
+    @Test public void
     the_key_of_a_Rekord_property_cannot_be_null() {
         expectedException.expect(allOf(instanceOf(NullPointerException.class),
                                  hasProperty("message", equalTo("Cannot construct a Rekord property with a null key."))));
