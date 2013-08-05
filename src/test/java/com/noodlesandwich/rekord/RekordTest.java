@@ -72,6 +72,20 @@ public final class RekordTest {
         assertThat(englishBeer, is(not(equalTo(germanBier))));
     }
 
+    @Test public void
+    two_Rekords_with_different_keys_are_not_equal() {
+        Rekord<Bier> cider = Rekord.<Bier>create()
+                .with(Bier.volume, Measurement.of(568).ml())
+                .build();
+
+        Rekord<Bier> stout = Rekord.<Bier>create()
+                .with(Bier.volume, Measurement.of(568).ml())
+                .with(Bier.head, Measurement.of(4).cm())
+                .build();
+
+        assertThat(cider, is(not(equalTo(stout))));
+    }
+
     public static interface Sandvich extends RekordType {
         Key<Sandvich, Filling> filling = key();
         Key<Sandvich, Bread> bread = key();
