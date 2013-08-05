@@ -29,7 +29,7 @@ public final class RekordMatchers {
         private final String name;
         private PMap<Key<? super T, ?>, Matcher<?>> expectedProperties = HashTreePMap.empty();
 
-        public RekordMatcher(String name) {
+        private RekordMatcher(String name) {
             this.name = name;
         }
 
