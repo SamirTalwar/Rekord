@@ -2,13 +2,15 @@ package com.noodlesandwich.rekord;
 
 import java.util.Collection;
 
+import static com.noodlesandwich.rekord.Transformers.defaultsTo;
+
 public final class Rekords {
     private Rekords() { }
 
     public static interface Sandvich extends RekordType {
         Key<Sandvich, Filling> filling = Key.named("filling");
         Key<Sandvich, Bread> bread = Key.named("bread");
-        Key<Sandvich, Style> style = Key.<Sandvich, Style>named("style").defaultingTo(Style.Flat);
+        Key<Sandvich, Style> style = Key.<Sandvich, Style>named("style").that(defaultsTo(Style.Flat));
 
         public static enum Filling {
             Cheese,

@@ -1,7 +1,5 @@
 package com.noodlesandwich.rekord;
 
-import com.noodlesandwich.rekord.transformers.DefaultingTransformer;
-import com.noodlesandwich.rekord.transformers.IdentityTransformer;
 import com.noodlesandwich.rekord.transformers.Transformer;
 
 public final class Key<T, V> {
@@ -14,11 +12,15 @@ public final class Key<T, V> {
     }
 
     public static <T, V> Key<T, V> named(String name) {
-        return new Key<>(name, new IdentityTransformer<V>());
+        return new Key<>(name, Transformers.<V>identity());
     }
 
-    public Key<T, V> defaultingTo(V defaultValue) {
-        return new Key<>(name, new DefaultingTransformer<>(defaultValue));
+    public Key<T, V> that(Transformer<V, V> transformer) {
+        return new Key<>(name, Transformers.compose(transformer, this.transformer));
+    }
+
+    public Key<T, V> then(Transformer<V, V> transformer) {
+        return that(transformer);
     }
 
     public Property<T, V> of(V value) {

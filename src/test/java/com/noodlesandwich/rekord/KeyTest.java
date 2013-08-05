@@ -3,6 +3,7 @@ package com.noodlesandwich.rekord;
 import com.noodlesandwich.rekord.transformers.Transformer;
 import org.junit.Test;
 
+import static com.noodlesandwich.rekord.Transformers.defaultsTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
@@ -28,16 +29,21 @@ public class KeyTest {
 
     @Test public void
     transforms_according_to_its_transformer() {
-        Key<Thing, String> key = new Key<>("key", new Transformer<String, String>() {
-            @Override public String transform(String value) {
-                return value.toUpperCase();
-            }
-        });
+        Key<Thing, String> key = Key.<Thing, String>named("key").that(upperCases());
 
         Properties<Thing> properties = new Properties<Thing>()
                 .with(key.of("kablammo"));
 
         assertThat(key.retrieveFrom(properties), is("KABLAMMO"));
+    }
+
+    @Test public void
+    delegates_to_internal_transformers() {
+        Key<Thing, String> key = Key.<Thing, String>named("key").that(defaultsTo("nobody loves me")).then(upperCases());
+
+        Properties<Thing> properties = new Properties<>();
+
+        assertThat(key.retrieveFrom(properties), is("NOBODY LOVES ME"));
     }
 
     @Test public void
@@ -48,5 +54,13 @@ public class KeyTest {
     private static interface Thing extends RekordType {
         Key<Thing, Integer> one = Key.named("one");
         Key<Thing, Integer> two = Key.named("two");
+    }
+
+    private static Transformer<String, String> upperCases() {
+        return new Transformer<String, String>() {
+            @Override public String transform(String value) {
+                return value.toUpperCase();
+            }
+        };
     }
 }
