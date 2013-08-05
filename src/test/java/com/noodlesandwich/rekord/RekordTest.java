@@ -95,6 +95,21 @@ public final class RekordTest {
         assertThat(bier, is(not(equalTo((Object) new Bier() {}))));
     }
 
+    @Test public void
+    two_Rekords_with_the_same_properties_have_the_same_hash_code() {
+        Rekord<Bier> bier = Rekord.<Bier>create()
+                .with(Bier.volume, Measurement.of(568).ml())
+                .with(Bier.head, Measurement.of(2).cm())
+                .build();
+
+        Rekord<Bier> anotherBier = Rekord.<Bier>create()
+                .with(Bier.volume, Measurement.of(568).ml())
+                .with(Bier.head, Measurement.of(2).cm())
+                .build();
+
+        assertThat(bier.hashCode(), is(equalTo(anotherBier.hashCode())));
+    }
+
     public static interface Sandvich extends RekordType {
         Key<Sandvich, Filling> filling = key();
         Key<Sandvich, Bread> bread = key();

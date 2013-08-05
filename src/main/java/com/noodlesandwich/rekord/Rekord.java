@@ -33,6 +33,11 @@ public class Rekord<T extends RekordType> {
         return properties.equals(((Rekord<T>) o).properties);
     }
 
+    @Override
+    public int hashCode() {
+        return 0;
+    }
+
     public static final class RekordBuilder<T extends RekordType> {
         private final Map<Key<? super T, ?>, Object> properties = new HashMap<>();
 
