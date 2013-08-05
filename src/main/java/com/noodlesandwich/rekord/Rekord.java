@@ -1,5 +1,6 @@
 package com.noodlesandwich.rekord;
 
+import java.util.Set;
 import org.pcollections.HashTreePMap;
 import org.pcollections.PMap;
 
@@ -23,6 +24,10 @@ public final class Rekord<T extends RekordType> {
     @SuppressWarnings("unchecked")
     public <V> V get(Key<? super T, V> key) {
         return (V) properties.get(key);
+    }
+
+    public Set<Key<? super T, ?>> keys() {
+        return properties.keySet();
     }
 
     public <V> Rekord<T> with(Key<? super T, V> key, V value) {

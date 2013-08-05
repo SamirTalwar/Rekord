@@ -20,7 +20,8 @@ public final class Rekords {
         }
 
         public static enum Style {
-            Burger
+            Burger,
+            Roll
         }
     }
 

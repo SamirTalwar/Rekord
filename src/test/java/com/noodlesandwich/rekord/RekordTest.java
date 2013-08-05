@@ -1,5 +1,6 @@
 package com.noodlesandwich.rekord;
 
+import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -15,6 +16,7 @@ import static com.noodlesandwich.rekord.Rekords.Sandvich.Filling.Cheese;
 import static com.noodlesandwich.rekord.Rekords.Sandvich.Filling.Ham;
 import static com.noodlesandwich.rekord.Rekords.Sandvich.Filling.Lettuce;
 import static com.noodlesandwich.rekord.Rekords.Sandvich.Style.Burger;
+import static com.noodlesandwich.rekord.Rekords.Sandvich.Style.Roll;
 import static com.noodlesandwich.rekord.Rekords.Wurst;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
@@ -125,6 +127,15 @@ public final class RekordTest {
                 .with(Sandvich.filling, Ham)));
 
         assertThat(cheeseSandvich, is(not(equalTo(hamSandvich))));
+    }
+
+    @Test public void
+    the_keys_of_the_properties_of_a_Rekord_can_be_retrieved() {
+        Rekord<Sandvich> sandvich = Rekord.of(Sandvich.class)
+                .with(Sandvich.filling, Cheese)
+                .with(Sandvich.style, Roll);
+
+        assertThat(sandvich.keys(), Matchers.<Key<? super Sandvich, ?>>containsInAnyOrder(Sandvich.filling, Sandvich.style));
     }
 
     @Test public void
