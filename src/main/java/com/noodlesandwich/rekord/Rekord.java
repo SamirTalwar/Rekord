@@ -86,7 +86,7 @@ public final class Rekord<T extends RekordType> {
         }
 
         public Rekord<T> build() {
-            return new Rekord<>(name, properties);
+            return new Rekord<>(name, new HashMap<>(properties));
         }
     }
 }

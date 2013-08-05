@@ -9,6 +9,7 @@ import static com.noodlesandwich.rekord.RekordTest.Bratwurst.Style.Whole;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Bread.Brown;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Bread.White;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Filling.Cheese;
+import static com.noodlesandwich.rekord.RekordTest.Sandvich.Filling.Ham;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Filling.Lettuce;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Style.Burger;
 import static com.noodlesandwich.rekord.matchers.RekordMatchers.aRekordOf;
@@ -90,6 +91,25 @@ public final class RekordTest {
 
         assertThat(wurst, is(aRekordOf(Bratwurst.class)
                 .with(Bratwurst.style, Whole)));
+    }
+
+    @Test public void
+    building_two_Rekords_from_the_same_builder_does_not_cause_the_first_to_mutate() {
+        Rekord.Builder<Sandvich> sandvichBuilder = Rekord.of(Sandvich.class)
+                .with(Sandvich.bread, White);
+
+        Rekord<Sandvich> cheeseSandvich = sandvichBuilder.with(Sandvich.filling, Cheese).build();
+        Rekord<Sandvich> hamSandvich = sandvichBuilder.with(Sandvich.filling, Ham).build();
+
+        assertThat(cheeseSandvich, is(aRekordOf(Sandvich.class)
+                .with(Sandvich.bread, White)
+                .with(Sandvich.filling, Cheese)));
+
+        assertThat(hamSandvich, is(aRekordOf(Sandvich.class)
+                .with(Sandvich.bread, White)
+                .with(Sandvich.filling, Ham)));
+
+        assertThat(cheeseSandvich, is(not(equalTo(hamSandvich))));
     }
 
     @Test public void
@@ -225,6 +245,7 @@ public final class RekordTest {
 
         public static enum Filling {
             Cheese,
+            Ham,
             Lettuce
         }
 
