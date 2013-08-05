@@ -9,6 +9,7 @@ import static com.noodlesandwich.rekord.RekordTest.Sandvich.Filling.Cheese;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Filling.Lettuce;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Style.Burger;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 public final class RekordTest {
@@ -42,6 +43,19 @@ public final class RekordTest {
         assertThat(wurst.get(Bratwurst.style), is(Chopped));
     }
 
+    @Test public void
+    two_Rekords_with_the_same_keys_and_values_are_equal() {
+        Rekord<Bier> bier = Rekord.<Bier>create()
+                .with(Bier.volume, Measurement.of(568).ml())
+                .with(Bier.head, Measurement.of(2).cm())
+                .build();
+
+        assertThat(bier, is(equalTo(Rekord.<Bier>create()
+                .with(Bier.volume, Measurement.of(568).ml())
+                .with(Bier.head, Measurement.of(2).cm())
+                .build())));
+    }
+
     public static interface Sandvich extends RekordType {
         Key<Sandvich, Filling> filling = key();
         Key<Sandvich, Bread> bread = key();
@@ -71,5 +85,10 @@ public final class RekordTest {
         public static enum Style {
             Chopped
         }
+    }
+
+    public static interface Bier extends RekordType {
+        Key<Bier, Measurement.Volume> volume = key();
+        Key<Bier, Measurement.Length> head = key();
     }
 }

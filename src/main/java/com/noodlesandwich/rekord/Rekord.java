@@ -19,6 +19,11 @@ public class Rekord<T extends RekordType> {
         return (V) properties.get(key);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        return true;
+    }
+
     public static final class RekordBuilder<T extends RekordType> {
         private final Map<Key<? super T, ?>, Object> properties = new HashMap<>();
 
