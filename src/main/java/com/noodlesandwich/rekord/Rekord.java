@@ -1,13 +1,13 @@
 package com.noodlesandwich.rekord;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.pcollections.HashTreePMap;
+import org.pcollections.PMap;
 
 public final class Rekord<T extends RekordType> {
     private final String name;
-    private final Map<Key<? super T, ?>, Object> properties;
+    private final PMap<Key<? super T, ?>, Object> properties;
 
-    public Rekord(String name, Map<Key<? super T, ?>, Object> properties) {
+    public Rekord(String name, PMap<Key<? super T, ?>, Object> properties) {
         this.name = name;
         this.properties = properties;
     }
@@ -26,7 +26,7 @@ public final class Rekord<T extends RekordType> {
     }
 
     public Rekord.Builder<T> but() {
-        return new Rekord.Builder<>(name, new HashMap<>(properties));
+        return new Rekord.Builder<>(name, properties);
     }
 
     @SuppressWarnings("unchecked")
@@ -56,13 +56,13 @@ public final class Rekord<T extends RekordType> {
 
     public static final class Builder<T extends RekordType> {
         private final String name;
-        private final Map<Key<? super T, ?>, Object> properties;
+        private PMap<Key<? super T, ?>, Object> properties;
 
         public Builder(String name) {
-            this(name, new HashMap<Key<? super T, ?>, Object>());
+            this(name, HashTreePMap.<Key<? super T, ?>, Object>empty());
         }
 
-        public Builder(String name, Map<Key<? super T, ?>, Object> properties) {
+        public Builder(String name, PMap<Key<? super T, ?>, Object> properties) {
             this.name = name;
             this.properties = properties;
         }
@@ -76,17 +76,17 @@ public final class Rekord<T extends RekordType> {
                 throw new NullPointerException("Cannot construct a Rekord property with a null value.");
             }
 
-            properties.put(key, value);
+            properties = properties.plus(key, value);
             return this;
         }
 
         public Rekord.Builder<T> without(Key<? super T, ?> key) {
-            properties.remove(key);
+            properties = properties.minus(key);
             return this;
         }
 
         public Rekord<T> build() {
-            return new Rekord<>(name, new HashMap<>(properties));
+            return new Rekord<>(name, properties);
         }
     }
 }
