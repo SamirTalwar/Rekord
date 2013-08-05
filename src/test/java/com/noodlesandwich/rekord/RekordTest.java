@@ -10,12 +10,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import static com.noodlesandwich.rekord.Rekords.Address;
 import static com.noodlesandwich.rekord.Rekords.Bier;
 import static com.noodlesandwich.rekord.Rekords.Bratwurst;
 import static com.noodlesandwich.rekord.Rekords.Bratwurst.Style.Chopped;
 import static com.noodlesandwich.rekord.Rekords.Bratwurst.Style.Whole;
 import static com.noodlesandwich.rekord.Rekords.Jar;
 import static com.noodlesandwich.rekord.Rekords.Jar.Cookie;
+import static com.noodlesandwich.rekord.Rekords.Person;
 import static com.noodlesandwich.rekord.Rekords.Sandvich;
 import static com.noodlesandwich.rekord.Rekords.Sandvich.Bread.Brown;
 import static com.noodlesandwich.rekord.Rekords.Sandvich.Bread.White;
@@ -76,6 +78,25 @@ public final class RekordTest {
 
         assertThat(cookieJar, is(RekordMatchers.<Jar<Cookie>>aRekordNamed("cookie jar")
                 .with(Jar.<Cookie>contents(), tenCookies())));
+    }
+
+    @Test public void
+    Rekords_can_be_nested() {
+        Rekord<Person> hans = Rekord.of(Person.class)
+                .with(Person.firstName, "Hans")
+                .with(Person.address, Rekord.of(Address.class)
+                    .with(Address.houseNumber, 123)
+                    .with(Address.street, "Kaiserstraße")
+                    .with(Address.city, "Frankfurt")
+                    .with(Address.postalCode, "60329"));
+
+        assertThat(hans, is(Rekord.of(Person.class)
+                .with(Person.firstName, "Hans")
+                .with(Person.address, Rekord.of(Address.class)
+                    .with(Address.houseNumber, 123)
+                    .with(Address.street, "Kaiserstraße")
+                    .with(Address.city, "Frankfurt")
+                    .with(Address.postalCode, "60329"))));
     }
 
     @Test public void

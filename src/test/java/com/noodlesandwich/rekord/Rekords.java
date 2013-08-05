@@ -50,6 +50,14 @@ public final class Rekords {
         Key<Person, String> firstName = Key.named("first name");
         Key<Person, String> lastName = Key.named("last name");
         Key<Person, Integer> age = Key.named("age");
+        Key<Person, Rekord<Address>> address = Key.named("address");
+    }
+
+    public static interface Address extends RekordType {
+        Key<Address, Integer> houseNumber = Key.named("house number");
+        Key<Address, String> street = Key.named("street");
+        Key<Address, String> city = Key.named("city");
+        Key<Address, String> postalCode = Key.named("postal code");
     }
 
     @SuppressWarnings("UnusedDeclaration")
