@@ -150,8 +150,7 @@ public final class RekordTest {
                 .with(Bier.volume, Measurement.of(500).ml())
                 .build();
 
-        assertThat(bier, is(not(equalTo((Object) new Bier() {
-        }))));
+        assertThat(bier, is(not(equalTo((Object) new Bier() { }))));
     }
 
     @Test public void
