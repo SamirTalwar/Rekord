@@ -8,7 +8,7 @@ public final class Rekords {
     public static interface Sandvich extends RekordType {
         Key<Sandvich, Filling> filling = Key.named("filling");
         Key<Sandvich, Bread> bread = Key.named("bread");
-        Key<Sandvich, Style> style = Key.named("style");
+        Key<Sandvich, Style> style = Key.<Sandvich, Style>named("style").defaultingTo(Style.Flat);
 
         public static enum Filling {
             Cheese,
@@ -23,6 +23,7 @@ public final class Rekords {
         }
 
         public static enum Style {
+            Flat,
             Burger,
             Roll
         }

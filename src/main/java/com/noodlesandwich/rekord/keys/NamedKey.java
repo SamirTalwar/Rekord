@@ -2,7 +2,6 @@ package com.noodlesandwich.rekord.keys;
 
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Properties;
-import com.noodlesandwich.rekord.Property;
 
 public final class NamedKey<T, V> extends Key<T, V> {
     private final String name;
@@ -12,14 +11,8 @@ public final class NamedKey<T, V> extends Key<T, V> {
     }
 
     @Override
-    public Property<T, V> of(V value) {
-        return new Property<>(this, value);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public V retrieveFrom(Properties<T> properties) {
-        return properties.get(this);
+    public V retrieveFrom(Properties<T> properties, Key<T, V> surrogateKey) {
+        return properties.get(surrogateKey);
     }
 
     @Override
