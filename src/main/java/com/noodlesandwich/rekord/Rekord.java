@@ -46,6 +46,10 @@ public final class Rekord<T extends RekordType> {
         return new Rekord<>(name, properties.plus(key, value));
     }
 
+    public <V> Rekord<T> with(V value, Key<? super T, V> key) {
+        return with(key, value);
+    }
+
     public Rekord<T> without(Key<? super T, ?> key) {
         return new Rekord<>(name, properties.minus(key));
     }

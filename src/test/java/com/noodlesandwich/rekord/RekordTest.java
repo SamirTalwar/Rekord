@@ -57,12 +57,12 @@ public final class RekordTest {
     a_Rekord_contains_multiple_values_identified_by_a_key() {
         Rekord<Sandvich> sandvich = Rekord.of(Sandvich.class)
                 .with(Sandvich.filling, Lettuce)
-                .with(Sandvich.bread, Brown)
+                .with(Brown, Sandvich.bread)
                 .with(Sandvich.style, Burger);
 
         assertThat(sandvich, is(Rekord.of(Sandvich.class)
                 .with(Sandvich.filling, Lettuce)
-                .with(Sandvich.bread, Brown)
+                .with(Brown, Sandvich.bread)
                 .with(Sandvich.style, Burger)));
     }
 
@@ -134,8 +134,10 @@ public final class RekordTest {
         expectedException.expect(allOf(instanceOf(NullPointerException.class),
                                  hasProperty("message", equalTo("Cannot construct a Rekord property with a null value."))));
 
+        Double nullValue = null;
+
         Rekord.of(Bratwurst.class)
-                .with(Wurst.curvature, null);
+                .with(Wurst.curvature, nullValue);
     }
 
     @Test public void
@@ -153,32 +155,32 @@ public final class RekordTest {
     a_Rekord_can_be_built_from_another_Rekord() {
         Rekord<Sandvich> cheeseSandvich = Rekord.of(Sandvich.class)
                 .with(Sandvich.filling, Cheese)
-                .with(Sandvich.bread, Brown);
+                .with(Brown, Sandvich.bread);
 
         Rekord<Sandvich> cheeseBurger = cheeseSandvich
-                .with(Sandvich.bread, White)
+                .with(White, Sandvich.bread)
                 .with(Sandvich.style, Burger);
 
         assertThat(cheeseBurger, is(Rekord.of(Sandvich.class)
                 .with(Sandvich.filling, Cheese)
-                .with(Sandvich.bread, White)
+                .with(White, Sandvich.bread)
                 .with(Sandvich.style, Burger)));
     }
 
     @Test public void
     after_building_a_Rekord_from_another_Rekord_the_original_does_not_mutate() {
         Rekord<Sandvich> sandvichBuilder = Rekord.of(Sandvich.class)
-                .with(Sandvich.bread, White);
+                .with(White, Sandvich.bread);
 
         Rekord<Sandvich> cheeseSandvich = sandvichBuilder.with(Sandvich.filling, Cheese);
         Rekord<Sandvich> hamSandvich = sandvichBuilder.with(Sandvich.filling, Ham);
 
         assertThat(cheeseSandvich, is(Rekord.of(Sandvich.class)
-                .with(Sandvich.bread, White)
+                .with(White, Sandvich.bread)
                 .with(Sandvich.filling, Cheese)));
 
         assertThat(hamSandvich, is(Rekord.of(Sandvich.class)
-                .with(Sandvich.bread, White)
+                .with(White, Sandvich.bread)
                 .with(Sandvich.filling, Ham)));
 
         assertThat(cheeseSandvich, is(not(equalTo(hamSandvich))));
