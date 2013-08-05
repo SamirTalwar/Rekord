@@ -12,9 +12,4 @@ public final class OrdinaryKey<T, V> extends NamedKey<T, V> {
     public V retrieveFrom(Properties<T> properties) {
         return properties.get(this);
     }
-
-    @Override
-    public boolean isContainedIn(Properties<T> properties) {
-        return properties.contains(this);
-    }
 }

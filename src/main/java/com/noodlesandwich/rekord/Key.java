@@ -9,6 +9,4 @@ public abstract class Key<T, V> {
 
     @SuppressWarnings("unchecked")
     public abstract V retrieveFrom(Properties<T> properties);
-
-    public abstract boolean isContainedIn(Properties<T> properties);
 }

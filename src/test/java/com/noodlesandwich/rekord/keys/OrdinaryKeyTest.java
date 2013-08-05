@@ -26,14 +26,4 @@ public class OrdinaryKeyTest {
 
         assertThat(Person.lastName.retrieveFrom(properties), is(nullValue()));
     }
-
-    @Test public void
-    states_whether_a_key_is_contained_in_a_property_map() {
-        Properties<Person> properties = new Properties<Person>()
-                .with(Person.firstName, "Jan")
-                .with(Person.age, 40);
-
-        assertThat(Person.firstName.isContainedIn(properties), is(true));
-        assertThat(Person.lastName.isContainedIn(properties), is(false));
-    }
 }
