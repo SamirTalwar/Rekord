@@ -43,4 +43,14 @@ public class RekordMatchersTest {
                 .with(Bier.head, Measurement.of(3).cm())
                 .with(Bier.volume, Measurement.of(1).l())));
     }
+
+    @Test public void
+    does_not_match_if_the_Rekord_has_more_properties_than_expected() {
+        Rekord<Bier> stein = Rekord.of(Bier.class)
+                .with(Bier.head, Measurement.of(3).cm())
+                .with(Bier.volume, Measurement.of(1).l());
+
+        assertThat(stein, is(not(aRekordOf(Bier.class)
+                .with(Bier.volume, Measurement.of(1).l()))));
+    }
 }
