@@ -2,10 +2,11 @@ package com.noodlesandwich.rekord;
 
 import com.noodlesandwich.rekord.keys.DefaultedKey;
 import com.noodlesandwich.rekord.keys.NamedKey;
+import com.noodlesandwich.rekord.keys.PropertyKey;
 
 public abstract class Key<T, V> {
     public static <T, V> Key<T, V> named(String name) {
-        return new NamedKey<>(name);
+        return new NamedKey<>(new PropertyKey<T, V>(), name);
     }
 
     public Key<T, V> defaultingTo(V defaultValue) {
