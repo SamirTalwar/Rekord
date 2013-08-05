@@ -11,11 +11,14 @@ import static com.noodlesandwich.rekord.RekordTest.Sandvich.Filling.Cheese;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Filling.Lettuce;
 import static com.noodlesandwich.rekord.RekordTest.Sandvich.Style.Burger;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.startsWith;
 
 public final class RekordTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();
@@ -181,7 +184,7 @@ public final class RekordTest {
                 .with(Bier.head, Measurement.of(3).cm())
                 .build();
 
-        assertThat(delicious, hasToString("Bier{head=3cm, volume=568ml}"));
+        assertThat(delicious, hasToString(allOf(startsWith("Bier"), containsString("head=3cm"), containsString("volume=568ml"))));
     }
 
     public static interface Sandvich extends RekordType {
