@@ -5,6 +5,14 @@ public final class Property<T, V> {
     private final V value;
 
     public Property(Key<T, V> key, V value) {
+        if (key == null) {
+            throw new NullPointerException("Cannot construct a Rekord property with a null key.");
+        }
+
+        if (value == null) {
+            throw new NullPointerException("Cannot construct a Rekord property with a null value.");
+        }
+
         this.key = key;
         this.value = value;
     }
