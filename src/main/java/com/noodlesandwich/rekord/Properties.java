@@ -2,17 +2,20 @@ package com.noodlesandwich.rekord;
 
 import java.util.Set;
 import org.pcollections.HashTreePMap;
+import org.pcollections.HashTreePSet;
 import org.pcollections.PMap;
 
 public final class Properties {
     private final PMap<Key<?, ?>, Object> properties;
+    private final PMap<Key<?, ?>, Key<?, ?>> actualKeys;
 
     public Properties() {
-        this(HashTreePMap.<Key<?, ?>, Object>empty());
+        this(HashTreePMap.<Key<?, ?>, Object>empty(), HashTreePMap.<Key<?, ?>, Key<?, ?>>empty());
     }
 
-    private Properties(PMap<Key<?, ?>, Object> properties) {
+    private Properties(PMap<Key<?, ?>, Object> properties, PMap<Key<?, ?>, Key<?, ?>> actualKeys) {
         this.properties = properties;
+        this.actualKeys = actualKeys;
     }
 
     public Object get(Key<?, ?> key) {
@@ -23,16 +26,19 @@ public final class Properties {
         return properties.containsKey(key);
     }
 
-    public Set<Key<?, ?>> keys() {
-        return properties.keySet();
+    @SuppressWarnings("unchecked")
+    public <T> Set<Key<? super T, ?>> keys() {
+        return (Set) HashTreePSet.from(actualKeys.values());
     }
 
     public <V> Properties with(Property<?, V> property) {
-        return new Properties(properties.plus(property.key(), property.value()));
+        return new Properties(properties.plus(property.key(), property.value()),
+                              actualKeys.plus(property.key(), property.actualKey()));
     }
 
     public Properties without(Key<?, ?> key) {
-        return new Properties(properties.minus(key));
+        return new Properties(properties.minus(key),
+                              actualKeys.minus(key));
     }
 
     @Override

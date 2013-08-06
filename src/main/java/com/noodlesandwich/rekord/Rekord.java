@@ -28,9 +28,8 @@ public final class Rekord<T extends RekordType> {
         return properties.contains(key);
     }
 
-    @SuppressWarnings("unchecked")
     public Set<Key<? super T, ?>> keys() {
-        return (Set) properties.keys();
+        return properties.keys();
     }
 
     public <V> Rekord<T> with(Key<? super T, V> key, V value) {

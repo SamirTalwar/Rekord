@@ -200,7 +200,7 @@ public final class RekordTest {
                 .with(Sandvich.filling, Cheese)
                 .with(Sandvich.style, Roll);
 
-        assertThat(sandvich.keys(), Matchers.<Key<? super Sandvich, ?>>containsInAnyOrder(Sandvich.filling, Sandvich.styleWithoutTransformers));
+        assertThat(sandvich.keys(), Matchers.<Key<? super Sandvich, ?>>containsInAnyOrder(Sandvich.filling, Sandvich.style));
     }
 
     @Test public void

@@ -22,7 +22,7 @@ public final class TransformingKey<T, U, V> extends Key<T, V> {
 
     @Override
     public Properties storeTo(Properties properties, V value) {
-        return properties.with(new Property<>(delegate, transformer.transformInput(value)));
+        return properties.with(new Property<>(delegate, this, transformer.transformInput(value)));
     }
 
     @SuppressWarnings("unchecked")
