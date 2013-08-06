@@ -1,6 +1,6 @@
 package com.noodlesandwich.rekord.transformers;
 
-public class ComposingTransformer<A, B, C> implements Transformer<A, C> {
+public final class ComposingTransformer<A, B, C> implements Transformer<A, C> {
     private final Transformer<B, C> second;
     private final Transformer<A, B> first;
 

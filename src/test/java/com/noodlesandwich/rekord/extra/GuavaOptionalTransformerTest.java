@@ -8,7 +8,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
-public class GuavaOptionalTransformerTest {
+public final class GuavaOptionalTransformerTest {
     @Test public void
     transforms_an_Optional_input_of_a_value_to_that_value() {
         Transformer<Integer, Optional<Integer>> transformer = GuavaTransformers.asOptional();

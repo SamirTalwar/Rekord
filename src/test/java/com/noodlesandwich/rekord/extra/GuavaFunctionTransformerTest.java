@@ -8,7 +8,7 @@ import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class GuavaFunctionTransformerTest {
+public final class GuavaFunctionTransformerTest {
     private final Transformer<String, Integer> transformer = GuavaTransformers.fromFunctions(
             Functions.toStringFunction(),
             new ParseInteger());
@@ -23,7 +23,7 @@ public class GuavaFunctionTransformerTest {
         assertThat(transformer.transformOutput("123"), is(123));
     }
 
-    private static class ParseInteger implements Function<String, Integer> {
+    private static final class ParseInteger implements Function<String, Integer> {
         @Override public Integer apply(String input) {
             return Integer.parseInt(input);
         }

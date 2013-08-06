@@ -14,7 +14,7 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
-public class RekordMatchersTest {
+public final class RekordMatchersTest {
     @Test public void
     matches_a_Rekord_by_equality() {
         Rekord<Bier> bottle = Rekord.of(Bier.class)

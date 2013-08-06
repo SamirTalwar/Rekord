@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class ComposingTransformerTest {
+public final class ComposingTransformerTest {
     @Test public void
     composes_two_transformers_for_input() {
         Transformer<Integer, String> transformer = new ComposingTransformer<>(convertToString(), add(5));

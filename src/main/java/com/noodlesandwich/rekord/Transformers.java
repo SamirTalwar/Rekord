@@ -5,7 +5,7 @@ import com.noodlesandwich.rekord.transformers.DefaultingTransformer;
 import com.noodlesandwich.rekord.transformers.IdentityTransformer;
 import com.noodlesandwich.rekord.transformers.Transformer;
 
-public class Transformers {
+public final class Transformers {
     public static <T> Transformer<T, T> identity() {
         return new IdentityTransformer<>();
     }

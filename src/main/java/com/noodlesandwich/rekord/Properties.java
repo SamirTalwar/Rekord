@@ -4,7 +4,7 @@ import java.util.Set;
 import org.pcollections.HashTreePMap;
 import org.pcollections.PMap;
 
-public class Properties<T> {
+public final class Properties<T> {
     private final PMap<Key<? super T, ?>, Object> properties;
 
     public Properties() {

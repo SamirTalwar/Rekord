@@ -6,7 +6,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
-public class DefaultingTransformerTest {
+public final class DefaultingTransformerTest {
     @Test public void
     transforms_any_input_to_itself() {
         Transformer<Integer, Integer> transformer = new DefaultingTransformer<>(999);

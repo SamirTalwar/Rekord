@@ -9,7 +9,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.instanceOf;
 
-public class PropertyTest {
+public final class PropertyTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();
 
     @Test public void

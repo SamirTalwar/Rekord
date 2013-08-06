@@ -9,7 +9,7 @@ import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
-public class KeyTest {
+public final class KeyTest {
     @Test public void
     transforms_to_the_same_value_by_default() {
         assertThat(Thing.one.transform(1), is(1));
