@@ -1,5 +1,7 @@
 package com.noodlesandwich.rekord.transformers;
 
 public interface Transformer<From, To> {
-    To transform(From value);
+    From transformInput(To value);
+
+    To transformOutput(From value);
 }

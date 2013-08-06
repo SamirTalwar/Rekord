@@ -8,7 +8,12 @@ public final class DefaultingTransformer<T> implements Transformer<T, T> {
     }
 
     @Override
-    public T transform(T value) {
+    public T transformInput(T value) {
+        return value;
+    }
+
+    @Override
+    public T transformOutput(T value) {
         return value != null ? value : defaultValue;
     }
 }

@@ -5,7 +5,12 @@ import com.noodlesandwich.rekord.transformers.Transformer;
 
 public class GuavaOptionalTransformer<T> implements Transformer<T, Optional<T>> {
     @Override
-    public Optional<T> transform(T value) {
+    public T transformInput(Optional<T> value) {
+        return value.orNull();
+    }
+
+    @Override
+    public Optional<T> transformOutput(T value) {
         return Optional.fromNullable(value);
     }
 }

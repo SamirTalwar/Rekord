@@ -28,7 +28,7 @@ public final class Key<T, V> {
     }
 
     public V transform(V value) {
-        return transformer.transform(value);
+        return transformer.transformOutput(value);
     }
 
     public String toString() {

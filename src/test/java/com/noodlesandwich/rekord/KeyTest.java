@@ -46,7 +46,12 @@ public class KeyTest {
 
     private static Transformer<String, String> upperCases() {
         return new Transformer<String, String>() {
-            @Override public String transform(String value) {
+            @Override
+            public String transformInput(String value) {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override public String transformOutput(String value) {
                 return value.toUpperCase();
             }
         };
