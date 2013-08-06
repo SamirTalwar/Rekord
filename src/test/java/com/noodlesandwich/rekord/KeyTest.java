@@ -35,6 +35,14 @@ public final class KeyTest {
     }
 
     @Test public void
+    allows_the_transformer_to_change_the_type() {
+        Key<Thing, String> key = Key.<Thing, Integer>named("key").that(defaultsTo(88)).then(stringifies());
+
+        assertThat(key.transform(97), is("97"));
+        assertThat(key.transform(null), is("88"));
+    }
+
+    @Test public void
     stringifies_to_its_name() {
         assertThat(Thing.one, hasToString("one"));
     }
@@ -46,13 +54,24 @@ public final class KeyTest {
 
     private static Transformer<String, String> upperCases() {
         return new Transformer<String, String>() {
-            @Override
-            public String transformInput(String value) {
+            @Override public String transformInput(String value) {
                 throw new UnsupportedOperationException();
             }
 
             @Override public String transformOutput(String value) {
                 return value.toUpperCase();
+            }
+        };
+    }
+
+    private static Transformer<Integer, String> stringifies() {
+        return new Transformer<Integer, String>() {
+            @Override public Integer transformInput(String value) {
+                return Integer.parseInt(value);
+            }
+
+            @Override public String transformOutput(Integer value) {
+                return value.toString();
             }
         };
     }
