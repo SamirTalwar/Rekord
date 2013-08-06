@@ -1,13 +1,12 @@
 package com.noodlesandwich.rekord;
 
-import java.util.Arrays;
 import java.util.Set;
 
 public final class Rekord<T extends RekordType> {
     private final String name;
-    private final Properties<T> properties;
+    private final Properties properties;
 
-    public Rekord(String name, Properties<T> properties) {
+    public Rekord(String name, Properties properties) {
         this.name = name;
         this.properties = properties;
     }
@@ -17,19 +16,21 @@ public final class Rekord<T extends RekordType> {
     }
 
     public static <T extends RekordType> Rekord<T> create(String name) {
-        return new Rekord<>(name, new Properties<T>());
+        return new Rekord<>(name, new Properties());
     }
 
+    @SuppressWarnings("unchecked")
     public <V> V get(Key<? super T, V> key) {
-        return key.transform(properties.get(key));
+        return key.retrieveFrom(properties);
     }
 
     public boolean containsKey(Key<T, ?> key) {
         return properties.contains(key);
     }
 
+    @SuppressWarnings("unchecked")
     public Set<Key<? super T, ?>> keys() {
-        return properties.keys();
+        return (Set) properties.keys();
     }
 
     public <V> Rekord<T> with(Key<? super T, V> key, V value) {
@@ -37,28 +38,11 @@ public final class Rekord<T extends RekordType> {
             throw new NullPointerException("Cannot construct a Rekord property with a null key.");
         }
 
-        return with(key.of(value));
+        return new Rekord<>(name, key.storeTo(properties, value));
     }
 
     public <V> Rekord<T> with(V value, Key<? super T, V> key) {
         return with(key, value);
-    }
-
-    public <V> Rekord<T> with(Property<? super T, V> property) {
-        return new Rekord<>(name, this.properties.with(property));
-    }
-
-    @SafeVarargs
-    public final <V> Rekord<T> with(Property<? super T, V>... properties) {
-        return with(Arrays.asList(properties));
-    }
-
-    public <V> Rekord<T> with(Iterable<Property<? super T, V>> properties) {
-        Rekord<T> intermediateRekord = this;
-        for (Property<? super T, V> property : properties) {
-            intermediateRekord = with(property);
-        }
-        return intermediateRekord;
     }
 
     public Rekord<T> without(Key<? super T, ?> key) {

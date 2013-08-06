@@ -4,36 +4,35 @@ import java.util.Set;
 import org.pcollections.HashTreePMap;
 import org.pcollections.PMap;
 
-public final class Properties<T> {
-    private final PMap<Key<? super T, ?>, Object> properties;
+public final class Properties {
+    private final PMap<Key<?, ?>, Object> properties;
 
     public Properties() {
-        this(HashTreePMap.<Key<? super T, ?>, Object>empty());
+        this(HashTreePMap.<Key<?, ?>, Object>empty());
     }
 
-    private Properties(PMap<Key<? super T, ?>, Object> properties) {
+    private Properties(PMap<Key<?, ?>, Object> properties) {
         this.properties = properties;
     }
 
-    @SuppressWarnings("unchecked")
-    public <V> V get(Key<? super T, V> key) {
-        return (V) properties.get(key);
+    public Object get(Key<?, ?> key) {
+        return properties.get(key);
     }
 
-    public boolean contains(Key<T, ?> key) {
+    public boolean contains(Key<?, ?> key) {
         return properties.containsKey(key);
     }
 
-    public Set<Key<? super T, ?>> keys() {
+    public Set<Key<?, ?>> keys() {
         return properties.keySet();
     }
 
-    public <V> Properties<T> with(Property<? super T, V> property) {
-        return new Properties<>(properties.plus(property.key(), property.value()));
+    public <V> Properties with(Property<?, V> property) {
+        return new Properties(properties.plus(property.key(), property.value()));
     }
 
-    public Properties<T> without(Key<? super T, ?> key) {
-        return new Properties<>(properties.minus(key));
+    public Properties without(Key<?, ?> key) {
+        return new Properties(properties.minus(key));
     }
 
     @Override

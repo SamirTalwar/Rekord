@@ -10,7 +10,8 @@ public final class Rekords {
     public static interface Sandvich extends RekordType {
         Key<Sandvich, Filling> filling = Key.named("filling");
         Key<Sandvich, Bread> bread = Key.named("bread");
-        Key<Sandvich, Style> style = Key.<Sandvich, Style>named("style").that(defaultsTo(Style.Flat));
+        Key<Sandvich, Style> styleWithoutTransformers = Key.named("style");
+        Key<Sandvich, Style> style = styleWithoutTransformers.that(defaultsTo(Style.Flat));
 
         public static enum Filling {
             Cheese,
