@@ -27,8 +27,8 @@ public final class Key<T, V> {
         return new Property<>(this, value);
     }
 
-    public V retrieveFrom(Properties<T> properties) {
-        return transformer.transform(properties.get(this));
+    public V transform(V value) {
+        return transformer.transform(value);
     }
 
     public String toString() {

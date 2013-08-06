@@ -11,39 +11,27 @@ import static org.hamcrest.Matchers.nullValue;
 
 public class KeyTest {
     @Test public void
-    retrieves_a_value_from_a_property_map() {
-        Properties<Thing> properties = new Properties<Thing>()
-                .with(Thing.one.of(1))
-                .with(Thing.two.of(2));
-
-        assertThat(Thing.one.retrieveFrom(properties), is(1));
+    transforms_to_the_same_value_by_default() {
+        assertThat(Thing.one.transform(1), is(1));
     }
 
     @Test public void
-    returns_null_if_the_property_map_does_not_contain_the_key() {
-        Properties<Thing> properties = new Properties<Thing>()
-                .with(Thing.one.of(5));
-
-        assertThat(Thing.two.retrieveFrom(properties), is(nullValue()));
+    transforms_null_to_null() {
+        assertThat(Thing.two.transform(null), is(nullValue()));
     }
 
     @Test public void
-    transforms_according_to_its_transformer() {
+    transforms_according_to_a_specified_transformer() {
         Key<Thing, String> key = Key.<Thing, String>named("key").that(upperCases());
 
-        Properties<Thing> properties = new Properties<Thing>()
-                .with(key.of("kablammo"));
-
-        assertThat(key.retrieveFrom(properties), is("KABLAMMO"));
+        assertThat(key.transform("kablammo"), is("KABLAMMO"));
     }
 
     @Test public void
     delegates_to_internal_transformers() {
         Key<Thing, String> key = Key.<Thing, String>named("key").that(defaultsTo("nobody loves me")).then(upperCases());
 
-        Properties<Thing> properties = new Properties<>();
-
-        assertThat(key.retrieveFrom(properties), is("NOBODY LOVES ME"));
+        assertThat(key.transform(null), is("NOBODY LOVES ME"));
     }
 
     @Test public void

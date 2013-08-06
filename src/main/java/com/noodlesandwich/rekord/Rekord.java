@@ -20,9 +20,8 @@ public final class Rekord<T extends RekordType> {
         return new Rekord<>(name, new Properties<T>());
     }
 
-    @SuppressWarnings("unchecked")
     public <V> V get(Key<? super T, V> key) {
-        return ((Key<T, V>) key).retrieveFrom(properties);
+        return key.transform(properties.get(key));
     }
 
     public boolean containsKey(Key<T, ?> key) {
