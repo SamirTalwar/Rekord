@@ -40,3 +40,16 @@ More examples can be found [in the tests][RekordTest.java].
 I was in Germany, at [SoCraTes 2013][SoCraTes Conference], when I named it. So I thought I'd make the name a little more German. ;-)
 
 [SoCraTes Conference]: http://www.socrates-conference.de/
+
+### Credits
+
+Thanks go to:
+
+* [Nat Pryce][@natpryce], for coming up with the idea of "key" objects in [Make It Easy][].
+* [Dominic Fox][@domfox], for extending the idea by delegating to a simple map in [karg][].
+* Quentin Spencer-Harper, for working with me on the initial implementation of this library.
+
+[@natpryce]: https://twitter.com/natpryce
+[@domfox]: https://twitter.com/domfox
+[Make It Easy]: https://code.google.com/p/make-it-easy/
+[karg]: https://github.com/youdevise/karg
