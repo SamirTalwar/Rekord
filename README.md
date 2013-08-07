@@ -11,19 +11,19 @@ An example:
 ```java
 Rekord<Sandvich> sandvich = Rekord.<Sandvich>create()
         .with(Sandvich.filling, Lettuce)
-        .with(Sandvich.bread, Brown)
         .with(Sandvich.style, Burger);
 
 assertThat(sandvich.get(Sandvich.filling), is(Lettuce));
+assertThat(sandvich.get(Sandvich.bread), is(Brown));
 ```
 
 The magic is really in the key. It's defined as follows:
 
 ```java
 public static interface Sandvich extends RekordType {
-    Key<Sandvich, Filling> filling = key();
-    Key<Sandvich, Bread> bread = key();
-    Key<Sandvich, Style> style = key();
+    Key<Sandvich, Filling> filling = Key.named("filling");
+    Key<Sandvich, Bread> bread = Key.named("bread").that(defaultsTo(Brown));
+    Key<Sandvich, Style> style = Key.named("style");
 
     // ...
 }
