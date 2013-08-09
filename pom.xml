@@ -3,7 +3,7 @@
 
     <groupId>com.noodlesandwich</groupId>
     <artifactId>rekord</artifactId>
-    <version>0.1</version>
+    <version>0.1-SNAPSHOT</version>
 
     <name>Rekord</name>
 
@@ -41,6 +41,11 @@
         </dependency>
     </dependencies>
 
+    <scm>
+        <connection>scm:git:ssh://git@github.com/SamirTalwar/Rekord.git</connection>
+        <tag>HEAD</tag>
+    </scm>
+
     <build>
         <plugins>
             <plugin>
@@ -50,6 +55,14 @@
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.4.1</version>
+                <configuration>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
                 </configuration>
             </plugin>
         </plugins>
