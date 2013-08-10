@@ -9,7 +9,7 @@ And there's no magic.
 An example:
 
 ```java
-Rekord<Sandvich> sandvich = Rekord.<Sandvich>create()
+Rekord<Sandvich> sandvich = Rekord.of(Sandvich.class)
         .with(Sandvich.filling, Lettuce)
         .with(Sandvich.style, Burger);
 
