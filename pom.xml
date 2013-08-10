@@ -3,7 +3,7 @@
 
     <groupId>com.noodlesandwich</groupId>
     <artifactId>rekord</artifactId>
-    <version>0.1</version>
+    <version>0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Rekord</name>
@@ -28,7 +28,7 @@
         <connection>scm:git:git@github.com:SamirTalwar/Rekord.git</connection>
         <developerConnection>scm:git:git@github.com:SamirTalwar/Rekord.git</developerConnection>
         <url>git@github.com:SamirTalwar/Rekord.git</url>
-        <tag>v0.1</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
