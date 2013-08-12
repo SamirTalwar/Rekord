@@ -35,6 +35,22 @@ More examples can be found [in the tests][RekordTest.java].
 
 [RekordTest.java]: https://github.com/SamirTalwar/Rekord/blob/master/src/test/java/com/noodlesandwich/rekord/RekordTest.java
 
+### Installation
+
+You can use Rekord v0.1 by dropping the following into your Maven `pom.xml`. It's in Maven Central.
+
+```xml
+<dependency>
+    <groupId>com.noodlesandwich</groupId>
+    <artifactId>rekord</artifactId>
+    <version>0.1</version>
+</dependency>
+```
+
+If you're not using Maven, alter as appropriate for your dependency management system. If you just want a JAR, you can [download it directly from Maven][rekord-0.1.jar].
+
+[rekord-0.1.jar]: http://search.maven.org/remotecontent?filepath=com/noodlesandwich/rekord/0.1/rekord-0.1.jar
+
 ### Why "Rekord"?
 
 I was in Germany, at [SoCraTes 2013][SoCraTes Conference], when I named it. So I thought I'd make the name a little more German. ;-)
