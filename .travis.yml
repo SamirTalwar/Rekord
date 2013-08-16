@@ -1,1 +1,2 @@
 language: java
+install: true # Avoid running `mvn install` before building as it requires key-signing.
