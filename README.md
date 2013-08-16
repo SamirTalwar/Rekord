@@ -1,4 +1,4 @@
-# Rekords in Java
+# Rekords in Java &nbsp; [![Build Status](https://travis-ci.org/SamirTalwar/Rekord.png)](https://travis-ci.org/SamirTalwar/Rekord)
 
 A rekord is an immutable data structure of key-value pairs. Kind of like an immutable map of objects, but completely type-safe, as the keys themselves contain the type information of the value.
 
