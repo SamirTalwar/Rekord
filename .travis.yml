@@ -1,2 +1,6 @@
 language: java
 install: true # Avoid running `mvn install` before building as it requires key-signing.
+
+notifications:
+  email:
+    - samir@noodlesandwich.com
