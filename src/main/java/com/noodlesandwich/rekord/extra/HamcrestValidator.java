@@ -13,17 +13,21 @@ public final class HamcrestValidator<T> implements Transformer<T, T> {
 
     @Override
     public T transformInput(T value) {
-        if (!matcher.matches(value)) {
-            StringDescription mismatchDescription = new StringDescription();
-            matcher.describeMismatch(value, mismatchDescription);
-            throw new ValidationException(mismatchDescription.toString());
-        }
-
+        validate(value);
         return value;
     }
 
     @Override
     public T transformOutput(T value) {
+        validate(value);
         return value;
+    }
+
+    private void validate(T value) {
+        if (!matcher.matches(value)) {
+            StringDescription mismatchDescription = new StringDescription();
+            matcher.describeMismatch(value, mismatchDescription);
+            throw new ValidationException(mismatchDescription.toString());
+        }
     }
 }

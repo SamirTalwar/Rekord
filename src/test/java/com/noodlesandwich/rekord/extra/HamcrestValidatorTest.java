@@ -31,7 +31,19 @@ public final class HamcrestValidatorTest {
         assertThat(box.get(Box.lessThanTen), is(8));
     }
 
+    @Test public void
+    validates_output_on_retrieval() {
+        Rekord<Box> box = Rekord.of(Box.class)
+                                .with(Box.anyNumber, 100);
+
+        expectedException.expect(allOf(is(instanceOf(ValidationException.class)),
+                                       hasProperty("message", equalTo("<100> was greater than <10>"))));
+
+        box.get(Box.lessThanTen);
+    }
+
     private static interface Box extends RekordType {
-        Key<Box, Integer> lessThanTen = Key.<Box, Integer>named("less than 10").that(validatesItsInput(is(lessThan(10))));
+        Key<Box,Integer> anyNumber = Key.named("any number");
+        Key<Box, Integer> lessThanTen = anyNumber.that(validatesItsInput(is(lessThan(10))));
     }
 }
