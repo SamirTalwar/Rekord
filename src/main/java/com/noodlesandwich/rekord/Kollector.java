@@ -14,6 +14,6 @@ public interface Kollector<T extends RekordType, R> {
     }
 
     public static interface Finisher<A, R> {
-        R finish(A accumulator);
+        R finish(Accumulator<A> accumulator);
     }
 }

@@ -7,15 +7,15 @@ import static com.noodlesandwich.rekord.Kollector.Supplier;
 public final class Kollectors {
     private Kollectors() { }
 
-    public static <T extends RekordType, R> Kollector<T, R> of(final Supplier<Accumulator<T>> accumulatorSupplier, final Finisher<Accumulator<T>, R> finisher) {
+    public static <T extends RekordType, R> Kollector<T, R> of(final Supplier<Accumulator<T>> accumulatorSupplier, final Finisher<T, R> finisher) {
         return new KollectorFromFunctions<>(accumulatorSupplier, finisher);
     }
 
     private static class KollectorFromFunctions<T extends RekordType, R> implements Kollector<T, R> {
         private final Supplier<Accumulator<T>> accumulatorSupplier;
-        private final Finisher<Accumulator<T>, R> finisher;
+        private final Finisher<T, R> finisher;
 
-        public KollectorFromFunctions(Supplier<Accumulator<T>> accumulatorSupplier, Finisher<Accumulator<T>, R> finisher) {
+        public KollectorFromFunctions(Supplier<Accumulator<T>> accumulatorSupplier, Finisher<T, R> finisher) {
             this.accumulatorSupplier = accumulatorSupplier;
             this.finisher = finisher;
         }

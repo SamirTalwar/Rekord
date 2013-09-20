@@ -36,7 +36,7 @@ public final class RekordCollectionTest {
 
         final Supplier<Accumulator<Sandvich>> accumulatorSupplier = supplier();
         final Accumulator<Sandvich> accumulator = accumulator();
-        final Finisher<Accumulator<Sandvich>, String> finisher = finisher();
+        final Finisher<Sandvich, String> finisher = finisher();
         final Kollector<Sandvich, String> collector = Kollectors.of(accumulatorSupplier, finisher);
 
         context.checking(new Expectations() {{
@@ -65,7 +65,7 @@ public final class RekordCollectionTest {
 
         final Supplier<Accumulator<Bratwurst>> accumulatorSupplier = supplier();
         final Accumulator<Bratwurst> accumulator = accumulator();
-        final Finisher<Accumulator<Bratwurst>, Integer> finisher = finisher();
+        final Finisher<Bratwurst, Integer> finisher = finisher();
         final Kollector<Bratwurst, Integer> collector = Kollectors.of(accumulatorSupplier, finisher);
 
         context.checking(new Expectations() {{
@@ -104,7 +104,7 @@ public final class RekordCollectionTest {
     }
 
     @SuppressWarnings("unchecked")
-    private <T, R> Finisher<Accumulator<T>, R> finisher() {
+    private <T, R> Finisher<T, R> finisher() {
         return context.mock(Finisher.class);
     }
 }
