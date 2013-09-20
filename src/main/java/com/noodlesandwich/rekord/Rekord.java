@@ -49,8 +49,8 @@ public final class Rekord<T extends RekordType> {
     }
 
     @SuppressWarnings("unchecked")
-    public <R> R collect(RekordCollector<T, R> collector) {
-        RekordCollector.Accumulator<T> accumulator = collector.accumulator();
+    public <R> R collect(Kollector<T, R> collector) {
+        Kollector.Accumulator<T> accumulator = collector.accumulator();
         for (Key<? super T, ?> key : properties.<T>keys()) {
             accumulator.accumulate((Key<? super T, Object>) key, key.retrieveFrom(properties));
         }

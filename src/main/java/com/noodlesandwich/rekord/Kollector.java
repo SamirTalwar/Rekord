@@ -1,6 +1,6 @@
 package com.noodlesandwich.rekord;
 
-public interface RekordCollector<T extends RekordType, R> {
+public interface Kollector<T extends RekordType, R> {
     Accumulator<T> accumulator();
 
     R finish(Accumulator<T> accumulator);

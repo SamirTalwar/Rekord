@@ -12,9 +12,9 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
-import static com.noodlesandwich.rekord.RekordCollector.Accumulator;
-import static com.noodlesandwich.rekord.RekordCollector.Finisher;
-import static com.noodlesandwich.rekord.RekordCollector.Supplier;
+import static com.noodlesandwich.rekord.Kollector.Accumulator;
+import static com.noodlesandwich.rekord.Kollector.Finisher;
+import static com.noodlesandwich.rekord.Kollector.Supplier;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bier;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst.Style.Chopped;
@@ -37,7 +37,7 @@ public final class RekordCollectionTest {
         final Supplier<Accumulator<Sandvich>> accumulatorSupplier = supplier();
         final Accumulator<Sandvich> accumulator = accumulator();
         final Finisher<Accumulator<Sandvich>, String> finisher = finisher();
-        final RekordCollector<Sandvich, String> collector = RekordCollectors.of(accumulatorSupplier, finisher);
+        final Kollector<Sandvich, String> collector = Kollectors.of(accumulatorSupplier, finisher);
 
         context.checking(new Expectations() {{
             oneOf(accumulatorSupplier).get(); will(returnValue(accumulator));
@@ -66,7 +66,7 @@ public final class RekordCollectionTest {
         final Supplier<Accumulator<Bratwurst>> accumulatorSupplier = supplier();
         final Accumulator<Bratwurst> accumulator = accumulator();
         final Finisher<Accumulator<Bratwurst>, Integer> finisher = finisher();
-        final RekordCollector<Bratwurst, Integer> collector = RekordCollectors.of(accumulatorSupplier, finisher);
+        final Kollector<Bratwurst, Integer> collector = Kollectors.of(accumulatorSupplier, finisher);
 
         context.checking(new Expectations() {{
             oneOf(accumulatorSupplier).get(); will(returnValue(accumulator));
