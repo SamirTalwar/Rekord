@@ -1,18 +1,18 @@
 package com.noodlesandwich.rekord.matchers;
 
-import com.noodlesandwich.rekord.testobjects.Measurement;
-import com.noodlesandwich.rekord.Rekord;
 import org.junit.Test;
+import com.noodlesandwich.rekord.Rekord;
+import com.noodlesandwich.rekord.testobjects.Measurement;
 
-import static com.noodlesandwich.rekord.testobjects.Rekords.Bier;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Person;
-import static com.noodlesandwich.rekord.matchers.RekordMatchers.aRekordOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static com.noodlesandwich.rekord.matchers.RekordMatchers.aRekordOf;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Bier;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Person;
 
 public final class RekordMatchersTest {
     @Test public void

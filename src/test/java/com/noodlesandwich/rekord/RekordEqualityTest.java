@@ -1,7 +1,6 @@
 package com.noodlesandwich.rekord;
 
 import org.junit.Test;
-
 import com.noodlesandwich.rekord.testobjects.Measurement;
 
 import static org.hamcrest.MatcherAssert.assertThat;

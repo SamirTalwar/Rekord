@@ -1,8 +1,8 @@
 package com.noodlesandwich.rekord.extra;
 
-import com.noodlesandwich.rekord.transformers.Transformer;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
+import com.noodlesandwich.rekord.transformers.Transformer;
 
 public final class HamcrestValidator<T> implements Transformer<T, T> {
     private final Matcher<T> matcher;

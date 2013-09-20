@@ -1,10 +1,10 @@
 package com.noodlesandwich.rekord.keys;
 
+import org.hamcrest.MatcherAssert;
+import org.junit.Test;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Properties;
 import com.noodlesandwich.rekord.RekordType;
-import org.hamcrest.MatcherAssert;
-import org.junit.Test;
 
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;

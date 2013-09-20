@@ -1,14 +1,14 @@
 package com.noodlesandwich.rekord.matchers;
 
 import java.util.Map;
-import com.noodlesandwich.rekord.Key;
-import com.noodlesandwich.rekord.Rekord;
-import com.noodlesandwich.rekord.RekordType;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.pcollections.HashTreePMap;
 import org.pcollections.PMap;
+import com.noodlesandwich.rekord.Key;
+import com.noodlesandwich.rekord.Rekord;
+import com.noodlesandwich.rekord.RekordType;
 
 import static org.hamcrest.Matchers.equalTo;
 

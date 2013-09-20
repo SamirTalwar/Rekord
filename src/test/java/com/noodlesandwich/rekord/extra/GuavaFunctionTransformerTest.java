@@ -1,9 +1,9 @@
 package com.noodlesandwich.rekord.extra;
 
+import org.junit.Test;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.noodlesandwich.rekord.transformers.Transformer;
-import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;

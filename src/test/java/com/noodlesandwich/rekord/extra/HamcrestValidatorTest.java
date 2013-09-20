@@ -1,15 +1,20 @@
 package com.noodlesandwich.rekord.extra;
 
-import com.noodlesandwich.rekord.Key;
-import com.noodlesandwich.rekord.Rekord;
-import com.noodlesandwich.rekord.RekordType;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import com.noodlesandwich.rekord.Key;
+import com.noodlesandwich.rekord.Rekord;
+import com.noodlesandwich.rekord.RekordType;
 
-import static com.noodlesandwich.rekord.extra.Validation.validatesItsInput;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThan;
+import static com.noodlesandwich.rekord.extra.Validation.validatesItsInput;
 
 public final class HamcrestValidatorTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();

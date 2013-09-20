@@ -1,7 +1,6 @@
 package com.noodlesandwich.rekord.testobjects;
 
 import java.util.Collection;
-
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.RekordType;

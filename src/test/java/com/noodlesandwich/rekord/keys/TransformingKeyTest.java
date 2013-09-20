@@ -1,13 +1,13 @@
 package com.noodlesandwich.rekord.keys;
 
+import org.junit.Test;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Properties;
 import com.noodlesandwich.rekord.transformers.Transformer;
-import org.junit.Test;
 
-import static com.noodlesandwich.rekord.Transformers.defaultsTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static com.noodlesandwich.rekord.Transformers.defaultsTo;
 
 public final class TransformingKeyTest {
     @Test public void
