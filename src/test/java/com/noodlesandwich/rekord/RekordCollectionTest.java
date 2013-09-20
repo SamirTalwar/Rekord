@@ -12,6 +12,9 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
+import static com.noodlesandwich.rekord.RekordCollector.Accumulator;
+import static com.noodlesandwich.rekord.RekordCollector.Finisher;
+import static com.noodlesandwich.rekord.RekordCollector.Supplier;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bier;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst.Style.Chopped;
@@ -31,23 +34,27 @@ public final class RekordCollectionTest {
                 .with(Sandvich.bread, White)
                 .with(Sandvich.style, Burger);
 
-        @SuppressWarnings("unchecked")
-        final RekordCollector<Sandvich, String> collector = context.mock(RekordCollector.class);
-        final String expectedResult = "result!";
+        final Supplier<Accumulator<Sandvich>> accumulatorSupplier = supplier();
+        final Accumulator<Sandvich> accumulator = accumulator();
+        final Finisher<Accumulator<Sandvich>, String> finisher = finisher();
+        final RekordCollector<Sandvich, String> collector = RekordCollectors.of(accumulatorSupplier, finisher);
+
         context.checking(new Expectations() {{
+            oneOf(accumulatorSupplier).get(); will(returnValue(accumulator));
+
             Sequence filling = context.sequence("filling");
             Sequence bread = context.sequence("bread");
             Sequence style = context.sequence("style");
-            oneOf(collector).accumulate(Sandvich.filling, Cheese); inSequence(filling);
-            oneOf(collector).accumulate(Sandvich.bread, White); inSequence(bread);
-            oneOf(collector).accumulate(Sandvich.style, Burger); inSequence(style);
-            oneOf(collector).result(); will(returnValue(expectedResult)); inSequences(filling, bread, style);
+            oneOf(accumulator).accumulate(Sandvich.filling, Cheese); inSequence(filling);
+            oneOf(accumulator).accumulate(Sandvich.bread, White); inSequence(bread);
+            oneOf(accumulator).accumulate(Sandvich.style, Burger); inSequence(style);
+            oneOf(finisher).finish(accumulator); will(returnValue("result!")); inSequences(filling, bread, style);
         }});
 
-        String actualResult = sandvich.collect(collector);
+        String result = sandvich.collect(collector);
 
         context.assertIsSatisfied();
-        assertThat(actualResult, is(expectedResult));
+        assertThat(result, is("result!"));
     }
 
     @Test public void
@@ -56,21 +63,25 @@ public final class RekordCollectionTest {
                 .with(Wurst.curvature, 0.7)
                 .with(Bratwurst.style, Chopped);
 
-        @SuppressWarnings("unchecked")
-        final RekordCollector<Bratwurst, Integer> collector = context.mock(RekordCollector.class);
-        final int expectedResult = 99;
+        final Supplier<Accumulator<Bratwurst>> accumulatorSupplier = supplier();
+        final Accumulator<Bratwurst> accumulator = accumulator();
+        final Finisher<Accumulator<Bratwurst>, Integer> finisher = finisher();
+        final RekordCollector<Bratwurst, Integer> collector = RekordCollectors.of(accumulatorSupplier, finisher);
+
         context.checking(new Expectations() {{
+            oneOf(accumulatorSupplier).get(); will(returnValue(accumulator));
+
             Sequence curvature = context.sequence("curvature");
             Sequence style = context.sequence("style");
-            oneOf(collector).accumulate(Wurst.curvature, 0.7); inSequence(curvature);
-            oneOf(collector).accumulate(Bratwurst.style, Chopped); inSequence(style);
-            oneOf(collector).result(); will(returnValue(expectedResult)); inSequences(curvature, style);
+            oneOf(accumulator).accumulate(Wurst.curvature, 0.7); inSequence(curvature);
+            oneOf(accumulator).accumulate(Bratwurst.style, Chopped); inSequence(style);
+            oneOf(finisher).finish(accumulator); will(returnValue(99)); inSequences(curvature, style);
         }});
 
-        int actualResult = bratwurst.collect(collector);
+        int result = bratwurst.collect(collector);
 
         context.assertIsSatisfied();
-        assertThat(actualResult, is(expectedResult));
+        assertThat(result, is(99));
     }
 
     @Test public void
@@ -80,5 +91,20 @@ public final class RekordCollectionTest {
                                        .with(Bier.head, Measurement.of(3).cm());
 
         assertThat(delicious, hasToString(allOf(startsWith("Bier"), containsString("head=3cm"), containsString("volume=568ml"))));
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> Supplier<T> supplier() {
+        return context.mock(Supplier.class);
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> Accumulator<T> accumulator() {
+        return context.mock(Accumulator.class);
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T, R> Finisher<Accumulator<T>, R> finisher() {
+        return context.mock(Finisher.class);
     }
 }
