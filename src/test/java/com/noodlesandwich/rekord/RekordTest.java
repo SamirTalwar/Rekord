@@ -5,14 +5,29 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import com.noodlesandwich.rekord.matchers.RekordMatchers;
-import com.noodlesandwich.rekord.transformers.Transformer;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.Sequence;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import com.noodlesandwich.rekord.matchers.RekordMatchers;
+import com.noodlesandwich.rekord.transformers.Transformer;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.hasToString;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.startsWith;
 import static com.noodlesandwich.rekord.Rekords.Address;
 import static com.noodlesandwich.rekord.Rekords.Bier;
 import static com.noodlesandwich.rekord.Rekords.Bratwurst;
@@ -33,8 +48,6 @@ import static com.noodlesandwich.rekord.Rekords.Sandvich.Style.Roll;
 import static com.noodlesandwich.rekord.Rekords.Wurst;
 import static com.noodlesandwich.rekord.Transformers.defaultsTo;
 import static com.noodlesandwich.rekord.matchers.RekordMatchers.hasKey;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
 
 public final class RekordTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();
@@ -228,6 +241,36 @@ public final class RekordTest {
                 .with(Sandvich.bread.that(defaultsTo(White)), Brown);
 
         assertThat(sandvich.get(Sandvich.bread), is(Brown));
+    }
+
+    public static final class RekordCollectionTest {
+        private final Mockery context = new Mockery();
+
+        @Test public void
+        a_Rekord_can_be_collected_into_a_collector() {
+            Rekord<Sandvich> sandvich = Rekord.of(Sandvich.class)
+                    .with(Sandvich.filling, Cheese)
+                    .with(Sandvich.bread, White)
+                    .with(Sandvich.style, Burger);
+
+            @SuppressWarnings("unchecked")
+            final RekordCollector<Sandvich, String> collector = context.mock(RekordCollector.class);
+            final String expectedResult = "result!";
+            context.checking(new Expectations() {{
+                Sequence filling = context.sequence("filling");
+                Sequence bread = context.sequence("bread");
+                Sequence style = context.sequence("style");
+                oneOf(collector).accumulate(Sandvich.filling, Cheese); inSequence(filling);
+                oneOf(collector).accumulate(Sandvich.bread, White); inSequence(bread);
+                oneOf(collector).accumulate(Sandvich.style, Burger); inSequence(style);
+                oneOf(collector).result(); will(returnValue(expectedResult)); inSequences(filling, bread, style);
+            }});
+
+            String actualResult = sandvich.collect(collector);
+
+            context.assertIsSatisfied();
+            assertThat(actualResult, is(expectedResult));
+        }
     }
 
     @Test public void

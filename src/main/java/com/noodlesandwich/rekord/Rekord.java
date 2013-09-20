@@ -49,6 +49,14 @@ public final class Rekord<T extends RekordType> {
     }
 
     @SuppressWarnings("unchecked")
+    public <R> R collect(RekordCollector<T, R> collector) {
+        for (Key<? super T, ?> key : properties.<T>keys()) {
+            collector.accumulate((Key<? super T, Object>) key, key.retrieveFrom(properties));
+        }
+        return collector.result();
+    }
+
+    @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object o) {
         if (this == o) {
