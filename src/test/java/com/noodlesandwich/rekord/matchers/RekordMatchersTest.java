@@ -1,11 +1,11 @@
 package com.noodlesandwich.rekord.matchers;
 
-import com.noodlesandwich.rekord.Measurement;
+import com.noodlesandwich.rekord.testobjects.Measurement;
 import com.noodlesandwich.rekord.Rekord;
 import org.junit.Test;
 
-import static com.noodlesandwich.rekord.Rekords.Bier;
-import static com.noodlesandwich.rekord.Rekords.Person;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Bier;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Person;
 import static com.noodlesandwich.rekord.matchers.RekordMatchers.aRekordOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;

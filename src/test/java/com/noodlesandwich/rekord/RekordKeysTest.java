@@ -6,11 +6,11 @@ import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
-import static com.noodlesandwich.rekord.Rekords.Sandvich;
-import static com.noodlesandwich.rekord.Rekords.Sandvich.Bread.Brown;
-import static com.noodlesandwich.rekord.Rekords.Sandvich.Filling.Cheese;
-import static com.noodlesandwich.rekord.Rekords.Sandvich.Filling.Jam;
-import static com.noodlesandwich.rekord.Rekords.Sandvich.Style.Roll;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.Brown;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Cheese;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Jam;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Roll;
 import static com.noodlesandwich.rekord.matchers.RekordMatchers.hasKey;
 
 public final class RekordKeysTest {

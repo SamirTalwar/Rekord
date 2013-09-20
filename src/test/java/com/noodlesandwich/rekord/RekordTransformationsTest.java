@@ -10,11 +10,11 @@ import com.noodlesandwich.rekord.transformers.Transformer;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
-import static com.noodlesandwich.rekord.Rekords.Sandvich;
-import static com.noodlesandwich.rekord.Rekords.Sandvich.Bread.Brown;
-import static com.noodlesandwich.rekord.Rekords.Sandvich.Bread.White;
-import static com.noodlesandwich.rekord.Rekords.Sandvich.Filling.Ham;
-import static com.noodlesandwich.rekord.Rekords.Sandvich.Filling.Jam;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.Brown;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.White;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Ham;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Jam;
 import static com.noodlesandwich.rekord.Transformers.defaultsTo;
 
 public final class RekordTransformationsTest {

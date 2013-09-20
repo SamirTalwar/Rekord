@@ -5,15 +5,18 @@ import org.jmock.Mockery;
 import org.jmock.Sequence;
 import org.junit.Test;
 
+import com.noodlesandwich.rekord.testobjects.Measurement;
+import com.noodlesandwich.rekord.testobjects.Rekords;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
-import static com.noodlesandwich.rekord.Rekords.Sandvich.Bread.White;
-import static com.noodlesandwich.rekord.Rekords.Sandvich.Filling.Cheese;
-import static com.noodlesandwich.rekord.Rekords.Sandvich.Style.Burger;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.White;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Cheese;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Burger;
 
 public final class RekordCollectionTest {
     private final Mockery context = new Mockery();
