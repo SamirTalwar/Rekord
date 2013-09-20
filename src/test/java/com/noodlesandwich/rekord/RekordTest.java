@@ -225,10 +225,9 @@ public final class RekordTest {
     @Test public void
     a_Rekord_can_store_values_using_a_transformed_key_and_retrieve_them_without_transformations() {
         Rekord<Sandvich> sandvich = Rekord.of(Sandvich.class)
-                .with(Sandvich.bread, Brown);
+                .with(Sandvich.bread.that(defaultsTo(White)), Brown);
 
-        assertThat(sandvich.get(Sandvich.bread.that(defaultsTo(White))),
-                   is(Brown));
+        assertThat(sandvich.get(Sandvich.bread), is(Brown));
     }
 
     @Test public void
