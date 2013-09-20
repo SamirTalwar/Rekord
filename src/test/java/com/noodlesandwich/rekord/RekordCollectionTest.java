@@ -13,10 +13,13 @@ import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bier;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst.Style.Chopped;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.White;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Cheese;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Burger;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Wurst;
 
 public final class RekordCollectionTest {
     private final Mockery context = new Mockery();
@@ -42,6 +45,29 @@ public final class RekordCollectionTest {
         }});
 
         String actualResult = sandvich.collect(collector);
+
+        context.assertIsSatisfied();
+        assertThat(actualResult, is(expectedResult));
+    }
+
+    @Test public void
+    a_Rekord_collector_can_take_keys_of_the_supertype() {
+        Rekord<Bratwurst> bratwurst = Rekord.of(Bratwurst.class)
+                .with(Wurst.curvature, 0.7)
+                .with(Bratwurst.style, Chopped);
+
+        @SuppressWarnings("unchecked")
+        final RekordCollector<Bratwurst, Integer> collector = context.mock(RekordCollector.class);
+        final int expectedResult = 99;
+        context.checking(new Expectations() {{
+            Sequence curvature = context.sequence("curvature");
+            Sequence style = context.sequence("style");
+            oneOf(collector).accumulate(Wurst.curvature, 0.7); inSequence(curvature);
+            oneOf(collector).accumulate(Bratwurst.style, Chopped); inSequence(style);
+            oneOf(collector).result(); will(returnValue(expectedResult)); inSequences(curvature, style);
+        }});
+
+        int actualResult = bratwurst.collect(collector);
 
         context.assertIsSatisfied();
         assertThat(actualResult, is(expectedResult));
