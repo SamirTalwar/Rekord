@@ -34,10 +34,10 @@ public final class RekordCollectionTest {
                 .with(Sandvich.bread, White)
                 .with(Sandvich.style, Burger);
 
-        final Supplier<Accumulator<Sandvich>> accumulatorSupplier = supplier();
-        final Accumulator<Sandvich> accumulator = accumulator();
-        final Finisher<Sandvich, String> finisher = finisher();
-        final Kollector<Sandvich, String> collector = Kollectors.of(accumulatorSupplier, finisher);
+        final Supplier<Accumulator> accumulatorSupplier = supplier();
+        final Accumulator accumulator = accumulator();
+        final Finisher<String> finisher = finisher();
+        final Kollector<String> collector = Kollectors.of(accumulatorSupplier, finisher);
 
         context.checking(new Expectations() {{
             oneOf(accumulatorSupplier).get(); will(returnValue(accumulator));
@@ -63,10 +63,10 @@ public final class RekordCollectionTest {
                 .with(Wurst.curvature, 0.7)
                 .with(Bratwurst.style, Chopped);
 
-        final Supplier<Accumulator<Bratwurst>> accumulatorSupplier = supplier();
-        final Accumulator<Bratwurst> accumulator = accumulator();
-        final Finisher<Bratwurst, Integer> finisher = finisher();
-        final Kollector<Bratwurst, Integer> collector = Kollectors.of(accumulatorSupplier, finisher);
+        final Supplier<Accumulator> accumulatorSupplier = supplier();
+        final Accumulator accumulator = accumulator();
+        final Finisher<Integer> finisher = finisher();
+        final Kollector<Integer> collector = Kollectors.of(accumulatorSupplier, finisher);
 
         context.checking(new Expectations() {{
             oneOf(accumulatorSupplier).get(); will(returnValue(accumulator));
@@ -98,13 +98,12 @@ public final class RekordCollectionTest {
         return context.mock(Supplier.class);
     }
 
-    @SuppressWarnings("unchecked")
-    private <T> Accumulator<T> accumulator() {
+    private Accumulator accumulator() {
         return context.mock(Accumulator.class);
     }
 
     @SuppressWarnings("unchecked")
-    private <T, R> Finisher<T, R> finisher() {
+    private <R> Finisher<R> finisher() {
         return context.mock(Finisher.class);
     }
 }
