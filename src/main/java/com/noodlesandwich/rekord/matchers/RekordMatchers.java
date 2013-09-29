@@ -8,24 +8,23 @@ import org.pcollections.HashTreePMap;
 import org.pcollections.PMap;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Rekord;
-import com.noodlesandwich.rekord.RekordType;
 
 import static org.hamcrest.Matchers.equalTo;
 
 public final class RekordMatchers {
-    public static <T extends RekordType> RekordMatcher<T> aRekordOf(Class<T> type) {
+    public static <T> RekordMatcher<T> aRekordOf(Class<T> type) {
         return aRekordNamed(type.getSimpleName());
     }
 
-    public static <T extends RekordType> RekordMatcher<T> aRekordNamed(String name) {
+    public static <T> RekordMatcher<T> aRekordNamed(String name) {
         return new RekordMatcher<>(name);
     }
 
-    public static <T extends RekordType> Matcher<Rekord<T>> hasKey(Key<T, ?> key) {
+    public static <T> Matcher<Rekord<T>> hasKey(Key<T, ?> key) {
         return new RekordKeyMatcher<>(key);
     }
 
-    public static final class RekordMatcher<T extends RekordType> extends TypeSafeDiagnosingMatcher<Rekord<T>> {
+    public static final class RekordMatcher<T> extends TypeSafeDiagnosingMatcher<Rekord<T>> {
         private final String name;
         private PMap<Key<? super T, ?>, Matcher<?>> expectedProperties = HashTreePMap.empty();
 
@@ -67,7 +66,7 @@ public final class RekordMatchers {
         }
     }
 
-    private static final class RekordKeyMatcher<T extends RekordType> extends TypeSafeDiagnosingMatcher<Rekord<T>> {
+    private static final class RekordKeyMatcher<T> extends TypeSafeDiagnosingMatcher<Rekord<T>> {
         private final Key<T, ?> key;
 
         public RekordKeyMatcher(Key<T, ?> key) {

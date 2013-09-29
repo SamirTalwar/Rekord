@@ -4,7 +4,6 @@ import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Properties;
-import com.noodlesandwich.rekord.RekordType;
 
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
@@ -33,7 +32,7 @@ public final class NamedKeyTest {
         MatcherAssert.assertThat(Thing.one, hasToString("one"));
     }
 
-    private static interface Thing extends RekordType {
+    private static interface Thing {
         Key<Thing, Integer> one = Key.named("one");
         Key<Thing, Integer> two = Key.named("two");
     }

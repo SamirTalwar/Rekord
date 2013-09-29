@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Rekord;
-import com.noodlesandwich.rekord.RekordType;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
@@ -47,7 +46,7 @@ public final class HamcrestValidatorTest {
         box.get(Box.lessThanTen);
     }
 
-    private static interface Box extends RekordType {
+    private static interface Box {
         Key<Box,Integer> anyNumber = Key.named("any number");
         Key<Box, Integer> lessThanTen = anyNumber.that(validatesItsInput(is(lessThan(10))));
     }

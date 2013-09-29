@@ -2,7 +2,7 @@ package com.noodlesandwich.rekord;
 
 import java.util.Set;
 
-public final class Rekord<T extends RekordType> {
+public final class Rekord<T> {
     private final String name;
     private final Properties properties;
 
@@ -11,11 +11,11 @@ public final class Rekord<T extends RekordType> {
         this.properties = properties;
     }
 
-    public static <T extends RekordType> Rekord<T> of(Class<T> type) {
+    public static <T> Rekord<T> of(Class<T> type) {
         return create(type.getSimpleName());
     }
 
-    public static <T extends RekordType> Rekord<T> create(String name) {
+    public static <T> Rekord<T> create(String name) {
         return new Rekord<>(name, new Properties());
     }
 
