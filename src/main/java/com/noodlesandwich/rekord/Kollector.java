@@ -1,19 +1,11 @@
 package com.noodlesandwich.rekord;
 
 public interface Kollector<R> {
-    Accumulator accumulator();
+    Accumulator<R> accumulator();
 
-    R finish(Accumulator accumulator);
-
-    public static interface Supplier<T> {
-        T get();
-    }
-
-    public static interface Accumulator {
+    public static interface Accumulator<R> {
        <V> void accumulate(Key<?, V> key, V value);
-    }
 
-    public static interface Finisher<R> {
-        R finish(Accumulator accumulator);
+        R finish();
     }
 }

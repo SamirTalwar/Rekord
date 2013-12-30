@@ -13,8 +13,6 @@ import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
 import static com.noodlesandwich.rekord.Kollector.Accumulator;
-import static com.noodlesandwich.rekord.Kollector.Finisher;
-import static com.noodlesandwich.rekord.Kollector.Supplier;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bier;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst.Style.Chopped;
@@ -34,13 +32,11 @@ public final class RekordCollectionTest {
                 .with(Sandvich.bread, White)
                 .with(Sandvich.style, Burger);
 
-        final Supplier<Accumulator> accumulatorSupplier = supplier();
-        final Accumulator accumulator = accumulator();
-        final Finisher<String> finisher = finisher();
-        final Kollector<String> collector = Kollectors.of(accumulatorSupplier, finisher);
+        final Accumulator<String> accumulator = accumulator();
+        final Kollector<String> kollector = kollector();
 
         context.checking(new Expectations() {{
-            oneOf(accumulatorSupplier).get(); will(returnValue(accumulator));
+            oneOf(kollector).accumulator(); will(returnValue(accumulator));
 
             Sequence filling = context.sequence("filling");
             Sequence bread = context.sequence("bread");
@@ -48,10 +44,10 @@ public final class RekordCollectionTest {
             oneOf(accumulator).accumulate(Sandvich.filling, Cheese); inSequence(filling);
             oneOf(accumulator).accumulate(Sandvich.bread, White); inSequence(bread);
             oneOf(accumulator).accumulate(Sandvich.style, Burger); inSequence(style);
-            oneOf(finisher).finish(accumulator); will(returnValue("result!")); inSequences(filling, bread, style);
+            oneOf(accumulator).finish(); will(returnValue("result!")); inSequences(filling, bread, style);
         }});
 
-        String result = sandvich.collect(collector);
+        String result = sandvich.collect(kollector);
 
         context.assertIsSatisfied();
         assertThat(result, is("result!"));
@@ -63,22 +59,20 @@ public final class RekordCollectionTest {
                 .with(Wurst.curvature, 0.7)
                 .with(Bratwurst.style, Chopped);
 
-        final Supplier<Accumulator> accumulatorSupplier = supplier();
-        final Accumulator accumulator = accumulator();
-        final Finisher<Integer> finisher = finisher();
-        final Kollector<Integer> collector = Kollectors.of(accumulatorSupplier, finisher);
+        final Accumulator<Integer> accumulator = accumulator();
+        final Kollector<Integer> kollector = kollector();
 
         context.checking(new Expectations() {{
-            oneOf(accumulatorSupplier).get(); will(returnValue(accumulator));
+            oneOf(kollector).accumulator(); will(returnValue(accumulator));
 
             Sequence curvature = context.sequence("curvature");
             Sequence style = context.sequence("style");
             oneOf(accumulator).accumulate(Wurst.curvature, 0.7); inSequence(curvature);
             oneOf(accumulator).accumulate(Bratwurst.style, Chopped); inSequence(style);
-            oneOf(finisher).finish(accumulator); will(returnValue(99)); inSequences(curvature, style);
+            oneOf(accumulator).finish(); will(returnValue(99)); inSequences(curvature, style);
         }});
 
-        int result = bratwurst.collect(collector);
+        int result = bratwurst.collect(kollector);
 
         context.assertIsSatisfied();
         assertThat(result, is(99));
@@ -94,16 +88,12 @@ public final class RekordCollectionTest {
     }
 
     @SuppressWarnings("unchecked")
-    private <T> Supplier<T> supplier() {
-        return context.mock(Supplier.class);
-    }
-
-    private Accumulator accumulator() {
-        return context.mock(Accumulator.class);
+    private <R> Kollector<R> kollector() {
+        return context.mock(Kollector.class);
     }
 
     @SuppressWarnings("unchecked")
-    private <R> Finisher<R> finisher() {
-        return context.mock(Finisher.class);
+    private <R> Accumulator<R> accumulator() {
+        return context.mock(Accumulator.class);
     }
 }
