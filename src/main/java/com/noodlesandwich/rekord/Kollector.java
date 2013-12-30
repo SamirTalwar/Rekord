@@ -1,11 +1,11 @@
 package com.noodlesandwich.rekord;
 
-public interface Kollector<R> {
-    Accumulator<R> accumulator();
+public interface Kollector<A extends Kollector.Accumulator, R> {
+    A accumulator();
 
-    public static interface Accumulator<R> {
+    R finish(A accumulator);
+
+    public static interface Accumulator {
        <V> void accumulate(Key<?, V> key, V value);
-
-        R finish();
     }
 }

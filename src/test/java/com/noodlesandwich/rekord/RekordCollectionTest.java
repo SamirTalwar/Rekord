@@ -32,8 +32,8 @@ public final class RekordCollectionTest {
                 .with(Sandvich.bread, White)
                 .with(Sandvich.style, Burger);
 
-        final Accumulator<String> accumulator = accumulator();
-        final Kollector<String> kollector = kollector();
+        final Accumulator accumulator = accumulator();
+        final Kollector<Accumulator, String> kollector = kollector();
 
         context.checking(new Expectations() {{
             oneOf(kollector).accumulator(); will(returnValue(accumulator));
@@ -44,7 +44,7 @@ public final class RekordCollectionTest {
             oneOf(accumulator).accumulate(Sandvich.filling, Cheese); inSequence(filling);
             oneOf(accumulator).accumulate(Sandvich.bread, White); inSequence(bread);
             oneOf(accumulator).accumulate(Sandvich.style, Burger); inSequence(style);
-            oneOf(accumulator).finish(); will(returnValue("result!")); inSequences(filling, bread, style);
+            oneOf(kollector).finish(accumulator); will(returnValue("result!")); inSequences(filling, bread, style);
         }});
 
         String result = sandvich.collect(kollector);
@@ -59,8 +59,8 @@ public final class RekordCollectionTest {
                 .with(Wurst.curvature, 0.7)
                 .with(Bratwurst.style, Chopped);
 
-        final Accumulator<Integer> accumulator = accumulator();
-        final Kollector<Integer> kollector = kollector();
+        final Accumulator accumulator = accumulator();
+        final Kollector<Accumulator, Integer> kollector = kollector();
 
         context.checking(new Expectations() {{
             oneOf(kollector).accumulator(); will(returnValue(accumulator));
@@ -69,7 +69,7 @@ public final class RekordCollectionTest {
             Sequence style = context.sequence("style");
             oneOf(accumulator).accumulate(Wurst.curvature, 0.7); inSequence(curvature);
             oneOf(accumulator).accumulate(Bratwurst.style, Chopped); inSequence(style);
-            oneOf(accumulator).finish(); will(returnValue(99)); inSequences(curvature, style);
+            oneOf(kollector).finish(accumulator); will(returnValue(99)); inSequences(curvature, style);
         }});
 
         int result = bratwurst.collect(kollector);
@@ -88,12 +88,11 @@ public final class RekordCollectionTest {
     }
 
     @SuppressWarnings("unchecked")
-    private <R> Kollector<R> kollector() {
+    private <A extends Accumulator, R> Kollector<A, R> kollector() {
         return context.mock(Kollector.class);
     }
 
-    @SuppressWarnings("unchecked")
-    private <R> Accumulator<R> accumulator() {
+    private Accumulator accumulator() {
         return context.mock(Accumulator.class);
     }
 }

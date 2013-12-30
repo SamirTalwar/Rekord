@@ -7,10 +7,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import com.google.common.base.Joiner;
-import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Kollector;
 
-public final class DomXmlKollector implements Kollector<Document> {
+public final class DomXmlKollector implements Kollector<DomXmlAccumulator, Document> {
     private final String name;
     private final DocumentBuilder documentBuilder;
 
@@ -24,31 +23,15 @@ public final class DomXmlKollector implements Kollector<Document> {
     }
 
     @Override
-    public Accumulator<Document> accumulator() {
-        return new XmlAccumulator(name, documentBuilder.newDocument());
+    public DomXmlAccumulator accumulator() {
+        Document document = documentBuilder.newDocument();
+        Element root = document.createElement(slugify(name));
+        document.appendChild(root);
+        return new DomXmlAccumulator(root, document);
     }
 
-    private static final class XmlAccumulator implements Accumulator<Document> {
-        private final Document document;
-        private final Element root;
-
-        public XmlAccumulator(String name, Document document) {
-            this.document = document;
-            this.root = document.createElement(slugify(name));
-            document.appendChild(root);
-        }
-
-        @Override
-        public <V> void accumulate(Key<?, V> key, V value) {
-            Element element = document.createElement(slugify(key.toString()));
-            element.appendChild(document.createTextNode(value.toString()));
-            root.appendChild(element);
-        }
-
-        @Override
-        public Document finish() {
-            return document;
-        }
+    public Document finish(DomXmlAccumulator accumulator) {
+        return accumulator.document();
     }
 
     public static String slugify(String name) {
