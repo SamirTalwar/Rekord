@@ -27,26 +27,24 @@ public final class DomXmlKollector implements Kollector<Document> {
     }
 
     private static final class XmlAccumulator implements Accumulator<Document> {
-        private final String name;
         private final Document document;
-        private Element element;
+        private final Element root;
 
         public XmlAccumulator(String name, Document document) {
-            this.name = name;
             this.document = document;
+            this.root = document.createElement(name);
+            document.appendChild(root);
         }
 
         @Override
         public <V> void accumulate(Key<?, V> key, V value) {
-            this.element = document.createElement(key.toString());
-            this.element.appendChild(document.createTextNode(value.toString()));
+            Element element = document.createElement(key.toString());
+            element.appendChild(document.createTextNode(value.toString()));
+            root.appendChild(element);
         }
 
         @Override
         public Document finish() {
-            Element root = document.createElement(name);
-            document.appendChild(root);
-            root.appendChild(element);
             return document;
         }
     }
