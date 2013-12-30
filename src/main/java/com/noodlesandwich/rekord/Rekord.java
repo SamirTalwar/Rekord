@@ -49,10 +49,16 @@ public final class Rekord<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public <A extends Kollector.Accumulator, R> R collect(Kollector<A, R> collector) {
+    public <A extends Kollector.Accumulator<R>, R> R collect(Kollector<A, R> collector) {
         A accumulator = collector.accumulator();
         for (Key<? super T, ?> key : properties.<T>keys()) {
-            accumulator.accumulate((Key<? super T, Object>) key, key.retrieveFrom(properties));
+            Key<? super T, Object> castKey = (Key<? super T, Object>) key;
+            Object value = castKey.retrieveFrom(properties);
+            if (value instanceof Rekord) {
+                accumulator.accumulateRekord(castKey, ((Rekord<?>) value).collect(collector));
+            } else {
+                accumulator.accumulate(castKey, value);
+            }
         }
         return collector.finish(accumulator);
     }

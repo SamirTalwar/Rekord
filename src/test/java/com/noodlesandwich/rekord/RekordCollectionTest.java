@@ -13,9 +13,11 @@ import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
 import static com.noodlesandwich.rekord.Kollector.Accumulator;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Address;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bier;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst.Style.Chopped;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Person;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.White;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Cheese;
@@ -32,8 +34,8 @@ public final class RekordCollectionTest {
                 .with(Sandvich.bread, White)
                 .with(Sandvich.style, Burger);
 
-        final Accumulator accumulator = accumulator();
-        final Kollector<Accumulator, String> kollector = kollector();
+        final Accumulator<String> accumulator = accumulator();
+        final Kollector<Accumulator<String>, String> kollector = kollector();
 
         context.checking(new Expectations() {{
             oneOf(kollector).accumulator(); will(returnValue(accumulator));
@@ -59,8 +61,8 @@ public final class RekordCollectionTest {
                 .with(Wurst.curvature, 0.7)
                 .with(Bratwurst.style, Chopped);
 
-        final Accumulator accumulator = accumulator();
-        final Kollector<Accumulator, Integer> kollector = kollector();
+        final Accumulator<Integer> accumulator = accumulator();
+        final Kollector<Accumulator<Integer>, Integer> kollector = kollector();
 
         context.checking(new Expectations() {{
             oneOf(kollector).accumulator(); will(returnValue(accumulator));
@@ -79,6 +81,39 @@ public final class RekordCollectionTest {
     }
 
     @Test public void
+    a_Rekord_collector_can_nest_itself() {
+        Rekord<Person> person = Rekord.of(Person.class)
+                .with(Person.firstName, "Sherlock")
+                .with(Person.lastName, "Holmes")
+                .with(Person.address, Rekord.of(Address.class)
+                        .with(Address.houseNumber, 221)
+                        .with(Address.street, "Baker Street"));
+
+        final Accumulator<String> personAccumulator = accumulator("person accumulator");
+        final Accumulator<String> addressAccumulator = accumulator("address accumulator");
+        final Kollector<Accumulator<String>, String> kollector = kollector();
+
+        context.checking(new Expectations() {{
+            oneOf(kollector).accumulator(); will(returnValue(personAccumulator));
+            oneOf(personAccumulator).accumulate(Person.firstName, "Sherlock");
+            oneOf(personAccumulator).accumulate(Person.lastName, "Holmes");
+
+            oneOf(kollector).accumulator(); will(returnValue(addressAccumulator));
+            oneOf(addressAccumulator).accumulate(Address.houseNumber, 221);
+            oneOf(addressAccumulator).accumulate(Address.street, "Baker Street");
+            oneOf(kollector).finish(addressAccumulator); will(returnValue("221 Baker Street"));
+            oneOf(personAccumulator).accumulateRekord(Person.address, "221 Baker Street");
+
+            oneOf(kollector).finish(personAccumulator); will(returnValue("Sherlock Holmes, 221 Baker Street"));
+        }});
+
+        String result = person.collect(kollector);
+
+        context.assertIsSatisfied();
+        assertThat(result, is("Sherlock Holmes, 221 Baker Street"));
+    }
+
+    @Test public void
     a_Rekord_is_serializable_as_a_String() {
         Rekord<Bier> delicious = Rekord.of(Bier.class)
                                        .with(Bier.volume, Measurement.of(568).ml())
@@ -88,11 +123,17 @@ public final class RekordCollectionTest {
     }
 
     @SuppressWarnings("unchecked")
-    private <A extends Accumulator, R> Kollector<A, R> kollector() {
+    private <A extends Accumulator<R>, R> Kollector<A, R> kollector() {
         return context.mock(Kollector.class);
     }
 
-    private Accumulator accumulator() {
+    @SuppressWarnings("unchecked")
+    private <R> Accumulator<R> accumulator() {
         return context.mock(Accumulator.class);
+    }
+
+    @SuppressWarnings("unchecked")
+    private <R> Accumulator<R> accumulator(String name) {
+        return context.mock(Accumulator.class, name);
     }
 }

@@ -9,6 +9,7 @@ import com.noodlesandwich.rekord.Rekord;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.xmlmatchers.XmlMatchers.isSimilarTo;
 import static org.xmlmatchers.transform.XmlConverters.the;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Address;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Person;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.Brown;
@@ -69,6 +70,32 @@ public final class DomXmlKollectorTest {
                 "    <_12345>67890</_12345>",
                 "    <_up>down</_up>",
                 "</sea-creature>"
+        ))));
+    }
+
+    @Test public void
+    a_rekord_with_nested_rekords_is_kollected_into_nested_XML() {
+        Rekord<Person> person = Rekord.of(Person.class)
+                .with(Person.firstName, "Philip")
+                .with(Person.lastName, "Sherman")
+                .with(Person.address, Rekord.of(Address.class)
+                        .with(Address.houseNumber, 42)
+                        .with(Address.street, "Wallaby Way")
+                        .with(Address.city, "Sydney"));
+
+        Document document = person.collect(new DomXmlKollector("person"));
+
+        assertThat(the(document), isSimilarTo(the(lines(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+                "<person>",
+                "    <first-name>Philip</first-name>",
+                "    <last-name>Sherman</last-name>",
+                "    <address>",
+                "        <house-number>42</house-number>",
+                "        <street>Wallaby Way</street>",
+                "        <city>Sydney</city>",
+                "    </address>",
+                "</person>"
         ))));
     }
 
