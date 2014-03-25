@@ -25,7 +25,7 @@ public final class RekordBuildersTest {
                 .with(Sandvich.style, Burger);
 
         assertThat(cheeseBurger, is(Rekord.of(Sandvich.class)
-                .with(Sandvich.filling, Cheese)
+                .with(Cheese, Sandvich.filling)
                 .with(White, Sandvich.bread)
                 .with(Sandvich.style, Burger)));
     }

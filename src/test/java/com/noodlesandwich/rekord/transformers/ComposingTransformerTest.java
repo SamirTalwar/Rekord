@@ -14,8 +14,8 @@ public final class ComposingTransformerTest {
 
     @Test public void
     composes_two_transformers_for_output() {
-        Transformer<Integer, String> transformer = new ComposingTransformer<>(convertToString(), add(5));
-        assertThat(transformer.transformOutput(10), is("15"));
+        Transformer<Integer, String> transformer = new ComposingTransformer<>(convertToString(), add(17));
+        assertThat(transformer.transformOutput(10), is("27"));
     }
 
     private Transformer<Integer, Integer> add(final int amount) {
