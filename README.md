@@ -31,9 +31,9 @@ public static interface Sandvich extends RekordType {
 
 So all you need is one interface and a few constants. The return type of the `Rekord::get` method is the type embodied in the key, so for the sandvich filling, the return type is `Filling`.
 
-More examples can be found [in the tests][RekordTest.java].
+More examples can be found [in the tests][Tests].
 
-[RekordTest.java]: https://github.com/SamirTalwar/Rekord/blob/master/src/test/java/com/noodlesandwich/rekord/RekordTest.java
+[Tests]: https://github.com/SamirTalwar/Rekord/tree/master/src/test/java/com/noodlesandwich/rekord
 
 ### Installation
 
