@@ -5,6 +5,9 @@ import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Rekord;
 
 import static com.noodlesandwich.rekord.Transformers.defaultsTo;
+import static com.noodlesandwich.rekord.extra.Validation.validatesItsInput;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThan;
 
 public final class Rekords {
     private Rekords() { }
@@ -75,6 +78,13 @@ public final class Rekords {
         Key<Address, String> street = Key.named("street");
         Key<Address, String> city = Key.named("city");
         Key<Address, String> postalCode = Key.named("postal code");
+    }
+
+    public static interface Box {
+        Rekord<Box> rekord = Rekord.of(Box.class);
+
+        Key<Box, Integer> anyNumber = Key.named("any number");
+        Key<Box, Integer> lessThanTen = anyNumber.that(validatesItsInput(is(lessThan(10))));
     }
 
     @SuppressWarnings("UnusedDeclaration")
