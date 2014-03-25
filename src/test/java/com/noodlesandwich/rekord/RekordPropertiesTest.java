@@ -122,10 +122,8 @@ public final class RekordPropertiesTest {
         expectedException.expect(allOf(instanceOf(NullPointerException.class),
                                  hasProperty("message", equalTo("Cannot construct a Rekord property with a null value."))));
 
-        Double nullValue = null;
-
         Rekord.of(Bratwurst.class)
-                .with(Wurst.curvature, nullValue);
+                .with(Wurst.curvature, (Double) null);
     }
 
     @Test public void
