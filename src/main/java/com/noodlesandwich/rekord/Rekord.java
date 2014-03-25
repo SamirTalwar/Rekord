@@ -6,7 +6,7 @@ public final class Rekord<T> {
     private final String name;
     private final Properties properties;
 
-    public Rekord(String name, Properties properties) {
+    private Rekord(String name, Properties properties) {
         this.name = name;
         this.properties = properties;
     }
