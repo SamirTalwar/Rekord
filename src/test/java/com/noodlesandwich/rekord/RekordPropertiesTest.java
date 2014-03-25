@@ -34,21 +34,21 @@ public final class RekordPropertiesTest {
 
     @Test public void
     a_Rekord_contains_a_value() {
-        Rekord<Sandvich> sandvich = Rekord.of(Sandvich.class)
+        Rekord<Sandvich> sandvich = Sandvich.rekord
                 .with(Sandvich.filling, Cheese);
 
-        assertThat(sandvich, is(Rekord.of(Sandvich.class)
+        assertThat(sandvich, is(Sandvich.rekord
                 .with(Sandvich.filling, Cheese)));
     }
 
     @Test public void
     a_Rekord_contains_multiple_values_identified_by_a_key() {
-        Rekord<Sandvich> sandvich = Rekord.of(Sandvich.class)
+        Rekord<Sandvich> sandvich = Sandvich.rekord
                 .with(Sandvich.filling, Lettuce)
                 .with(Brown, Sandvich.bread)
                 .with(Sandvich.style, Burger);
 
-        assertThat(sandvich, is(Rekord.of(Sandvich.class)
+        assertThat(sandvich, is(Sandvich.rekord
                 .with(Sandvich.filling, Lettuce)
                 .with(Sandvich.bread, Brown)
                 .with(Sandvich.style, Burger)));
@@ -61,26 +61,26 @@ public final class RekordPropertiesTest {
             cookies.add(new Jar.Cookie());
         }
 
-        Rekord<Jar<Jar.Cookie>> cookieJar = Rekord.<Jar<Jar.Cookie>>create("cookie jar")
+        Rekord<Jar<Jar.Cookie>> cookieJar = Jar.ofCookies()
                 .with(Jar.<Jar.Cookie>contents(), cookies);
 
-        assertThat(cookieJar, is(RekordMatchers.<Jar<Jar.Cookie>>aRekordNamed("cookie jar")
+        assertThat(cookieJar, is(RekordMatchers.<Jar<Jar.Cookie>>aRekordNamed("Cookie Jar")
                 .with(Jar.<Jar.Cookie>contents(), tenCookies())));
     }
 
     @Test public void
     Rekords_can_be_nested() {
-        Rekord<Person> hans = Rekord.of(Person.class)
+        Rekord<Person> hans = Person.rekord
                 .with(Person.firstName, "Hans")
-                .with(Person.address, Rekord.of(Address.class)
+                .with(Person.address, Address.rekord
                     .with(Address.houseNumber, 123)
                     .with(Address.street, "Kaiserstraße")
                     .with(Address.city, "Frankfurt")
                     .with(Address.postalCode, "60329"));
 
-        assertThat(hans, is(Rekord.of(Person.class)
+        assertThat(hans, is(Person.rekord
                 .with(Person.firstName, "Hans")
-                .with(Person.address, Rekord.of(Address.class)
+                .with(Person.address, Address.rekord
                     .with(Address.houseNumber, 123)
                     .with(Address.street, "Kaiserstraße")
                     .with(Address.city, "Frankfurt")
@@ -89,18 +89,18 @@ public final class RekordPropertiesTest {
 
     @Test public void
     keys_for_supertypes_of_a_RekordType_can_be_used_to_create_Rekord_properties() {
-        Rekord<Bratwurst> wurst = Rekord.of(Bratwurst.class)
+        Rekord<Bratwurst> wurst = Bratwurst.rekord
                 .with(Wurst.curvature, 0.3)
                 .with(Bratwurst.style, Chopped);
 
-        assertThat(wurst, is(Rekord.of(Bratwurst.class)
+        assertThat(wurst, is(Bratwurst.rekord
                 .with(Wurst.curvature, 0.3)
                 .with(Bratwurst.style, Chopped)));
     }
 
     @Test public void
     Rekords_can_return_individual_values_when_indexed_by_the_key_including_keys_of_supertypes() {
-        Rekord<Bratwurst> wurst = Rekord.of(Bratwurst.class)
+        Rekord<Bratwurst> wurst = Bratwurst.rekord
                 .with(Wurst.curvature, 0.1)
                 .with(Bratwurst.style, Whole);
 
@@ -113,7 +113,7 @@ public final class RekordPropertiesTest {
         expectedException.expect(allOf(instanceOf(NullPointerException.class),
                                  hasProperty("message", equalTo("Cannot construct a Rekord property with a null key."))));
 
-        Rekord.of(Bratwurst.class)
+        Bratwurst.rekord
                 .with(null, "Random value");
     }
 
@@ -122,18 +122,18 @@ public final class RekordPropertiesTest {
         expectedException.expect(allOf(instanceOf(NullPointerException.class),
                                  hasProperty("message", equalTo("Cannot construct a Rekord property with a null value."))));
 
-        Rekord.of(Bratwurst.class)
+        Bratwurst.rekord
                 .with(Wurst.curvature, (Double) null);
     }
 
     @Test public void
     properties_can_be_removed_from_a_Rekord() {
-        Rekord<Bratwurst> wurst = Rekord.of(Bratwurst.class)
+        Rekord<Bratwurst> wurst = Bratwurst.rekord
                 .with(Wurst.curvature, 0.9)
                 .with(Bratwurst.style, Whole)
                 .without(Wurst.curvature);
 
-        assertThat(wurst, is(Rekord.of(Bratwurst.class)
+        assertThat(wurst, is(Bratwurst.rekord
                 .with(Bratwurst.style, Whole)));
     }
 

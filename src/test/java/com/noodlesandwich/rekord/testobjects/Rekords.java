@@ -10,6 +10,8 @@ public final class Rekords {
     private Rekords() { }
 
     public static interface Sandvich {
+        Rekord<Sandvich> rekord = Rekord.of(Sandvich.class);
+
         Key<Sandvich, Filling> filling = Key.named("filling");
         Key<Sandvich, Bread> bread = Key.named("bread");
         Key<Sandvich, Style> style = Key.<Sandvich, Style>named("style").that(defaultsTo(Style.Flat));
@@ -34,10 +36,14 @@ public final class Rekords {
     }
 
     public static interface Wurst {
+        Rekord<Wurst> rekord = Rekord.of(Wurst.class);
+
         Key<Wurst, Double> curvature = Key.named("curvature");
     }
 
     public static interface Bratwurst extends Wurst {
+        Rekord<Bratwurst> rekord = Rekord.of(Bratwurst.class);
+
         Key<Bratwurst, Style> style = Key.named("style");
 
         public static enum Style {
@@ -47,11 +53,15 @@ public final class Rekords {
     }
 
     public static interface Bier {
+        Rekord<Bier> rekord = Rekord.of(Bier.class);
+
         Key<Bier, Measurement.Volume> volume = Key.named("volume");
         Key<Bier, Measurement.Length> head = Key.named("head");
     }
 
     public static interface Person {
+        Rekord<Person> rekord = Rekord.of(Person.class);
+
         Key<Person, String> firstName = Key.named("first name");
         Key<Person, String> lastName = Key.named("last name");
         Key<Person, Integer> age = Key.named("age");
@@ -59,6 +69,8 @@ public final class Rekords {
     }
 
     public static interface Address {
+        Rekord<Address> rekord = Rekord.of(Address.class);
+
         Key<Address, Integer> houseNumber = Key.named("house number");
         Key<Address, String> street = Key.named("street");
         Key<Address, String> city = Key.named("city");
@@ -67,6 +79,10 @@ public final class Rekords {
 
     @SuppressWarnings("UnusedDeclaration")
     public static final class Jar<T extends Jar.Contents> {
+        public static Rekord<Jar<Cookie>> ofCookies() {
+            return Rekord.create("Cookie Jar");
+        }
+
         private static final Key contents = Key.named("contents");
         @SuppressWarnings("unchecked")
         public static <T extends Jar.Contents> Key<Jar<T>, Collection<T>> contents() {

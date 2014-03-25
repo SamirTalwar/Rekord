@@ -16,7 +16,7 @@ import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Roll;
 public final class RekordKeysTest {
     @Test public void
     a_Rekord_can_tell_which_keys_are_being_used() {
-        Rekord<Sandvich> sandvich = Rekord.of(Sandvich.class)
+        Rekord<Sandvich> sandvich = Sandvich.rekord
                 .with(Sandvich.filling, Jam)
                 .with(Sandvich.bread, Brown);
 
@@ -29,7 +29,7 @@ public final class RekordKeysTest {
     @SuppressWarnings("unchecked")
     @Test public void
     the_keys_of_the_properties_of_a_Rekord_can_be_retrieved() {
-        Rekord<Sandvich> sandvich = Rekord.of(Sandvich.class)
+        Rekord<Sandvich> sandvich = Sandvich.rekord
                 .with(Sandvich.filling, Cheese)
                 .with(Sandvich.style, Roll);
 

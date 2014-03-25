@@ -17,7 +17,7 @@ import static com.noodlesandwich.rekord.testobjects.Rekords.Person;
 public final class RekordMatchersTest {
     @Test public void
     matches_a_Rekord_by_equality() {
-        Rekord<Bier> bottle = Rekord.of(Bier.class)
+        Rekord<Bier> bottle = Bier.rekord
                 .with(Bier.head, Measurement.of(1).cm())
                 .with(Bier.volume, Measurement.of(330).ml());
 
@@ -28,7 +28,7 @@ public final class RekordMatchersTest {
 
     @Test public void
     reports_when_a_Rekord_does_not_match_another() {
-        Rekord<Bier> bottle = Rekord.of(Bier.class)
+        Rekord<Bier> bottle = Bier.rekord
                 .with(Bier.head, Measurement.of(1).cm())
                 .with(Bier.volume, Measurement.of(330).ml());
 
@@ -39,7 +39,7 @@ public final class RekordMatchersTest {
 
     @Test public void
     can_match_using_a_type_parameter_instead_of_a_Class_object() {
-        Rekord<Bier> stein = Rekord.of(Bier.class)
+        Rekord<Bier> stein = Bier.rekord
                 .with(Bier.head, Measurement.of(3).cm())
                 .with(Bier.volume, Measurement.of(1).l());
 
@@ -50,7 +50,7 @@ public final class RekordMatchersTest {
 
     @Test public void
     does_not_match_if_the_Rekord_has_more_properties_than_expected() {
-        Rekord<Bier> stein = Rekord.of(Bier.class)
+        Rekord<Bier> stein = Bier.rekord
                 .with(Bier.head, Measurement.of(3).cm())
                 .with(Bier.volume, Measurement.of(1).l());
 
@@ -60,7 +60,7 @@ public final class RekordMatchersTest {
 
     @Test public void
     matches_using_nested_matchers() {
-        Rekord<Person> steve = Rekord.of(Person.class)
+        Rekord<Person> steve = Person.rekord
                 .with(Person.firstName, "Steve")
                 .with(Person.lastName, "Humperdick")
                 .with(Person.age, 32);

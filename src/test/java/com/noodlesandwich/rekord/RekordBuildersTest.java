@@ -16,7 +16,7 @@ import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Burge
 public final class RekordBuildersTest {
     @Test public void
     a_Rekord_can_be_built_from_another_Rekord() {
-        Rekord<Sandvich> cheeseSandvich = Rekord.of(Sandvich.class)
+        Rekord<Sandvich> cheeseSandvich = Sandvich.rekord
                 .with(Sandvich.filling, Cheese)
                 .with(Brown, Sandvich.bread);
 
@@ -24,7 +24,7 @@ public final class RekordBuildersTest {
                 .with(White, Sandvich.bread)
                 .with(Sandvich.style, Burger);
 
-        assertThat(cheeseBurger, is(Rekord.of(Sandvich.class)
+        assertThat(cheeseBurger, is(Sandvich.rekord
                 .with(Cheese, Sandvich.filling)
                 .with(White, Sandvich.bread)
                 .with(Sandvich.style, Burger)));
@@ -32,17 +32,17 @@ public final class RekordBuildersTest {
 
     @Test public void
     after_building_a_Rekord_from_another_Rekord_the_original_does_not_mutate() {
-        Rekord<Sandvich> sandvichBuilder = Rekord.of(Sandvich.class)
+        Rekord<Sandvich> sandvichBuilder = Sandvich.rekord
                 .with(White, Sandvich.bread);
 
         Rekord<Sandvich> cheeseSandvich = sandvichBuilder.with(Sandvich.filling, Cheese);
         Rekord<Sandvich> hamSandvich = sandvichBuilder.with(Sandvich.filling, Ham);
 
-        assertThat(cheeseSandvich, is(Rekord.of(Sandvich.class)
+        assertThat(cheeseSandvich, is(Sandvich.rekord
                 .with(White, Sandvich.bread)
                 .with(Sandvich.filling, Cheese)));
 
-        assertThat(hamSandvich, is(Rekord.of(Sandvich.class)
+        assertThat(hamSandvich, is(Sandvich.rekord
                 .with(White, Sandvich.bread)
                 .with(Sandvich.filling, Ham)));
 

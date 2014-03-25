@@ -29,7 +29,7 @@ public final class RekordCollectionTest {
 
     @Test public void
     a_Rekord_can_be_collected_into_a_collector() {
-        Rekord<Sandvich> sandvich = Rekord.of(Sandvich.class)
+        Rekord<Sandvich> sandvich = Sandvich.rekord
                 .with(Sandvich.filling, Cheese)
                 .with(Sandvich.bread, White)
                 .with(Sandvich.style, Burger);
@@ -57,7 +57,7 @@ public final class RekordCollectionTest {
 
     @Test public void
     a_Rekord_collector_can_take_keys_of_the_supertype() {
-        Rekord<Bratwurst> bratwurst = Rekord.of(Bratwurst.class)
+        Rekord<Bratwurst> bratwurst = Bratwurst.rekord
                 .with(Wurst.curvature, 0.7)
                 .with(Bratwurst.style, Chopped);
 
@@ -82,10 +82,10 @@ public final class RekordCollectionTest {
 
     @Test public void
     a_Rekord_collector_can_nest_itself() {
-        Rekord<Person> person = Rekord.of(Person.class)
+        Rekord<Person> person = Person.rekord
                 .with(Person.firstName, "Sherlock")
                 .with(Person.lastName, "Holmes")
-                .with(Person.address, Rekord.of(Address.class)
+                .with(Person.address, Address.rekord
                         .with(Address.houseNumber, 221)
                         .with(Address.street, "Baker Street"));
 
@@ -115,7 +115,7 @@ public final class RekordCollectionTest {
 
     @Test public void
     a_Rekord_is_serializable_as_a_String() {
-        Rekord<Bier> delicious = Rekord.of(Bier.class)
+        Rekord<Bier> delicious = Bier.rekord
                                        .with(Bier.volume, Measurement.of(568).ml())
                                        .with(Bier.head, Measurement.of(3).cm());
 

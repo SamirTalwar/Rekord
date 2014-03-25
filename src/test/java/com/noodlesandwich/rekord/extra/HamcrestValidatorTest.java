@@ -20,25 +20,25 @@ public final class HamcrestValidatorTest {
 
     @Test public void
     validates_input_immediately() {
-        expectedException.expect(allOf(is(instanceOf(ValidationException.class)),
-                                       hasProperty("message", equalTo("<15> was greater than <10>"))));
+        expectedException.expect(allOf(
+                is(instanceOf(ValidationException.class)),
+                hasProperty("message", equalTo("<15> was greater than <10>"))));
 
-        Rekord.of(Box.class)
-                .with(Box.lessThanTen, 15);
+        Box.rekord.with(Box.lessThanTen, 15);
     }
 
     @Test public void
     returns_valid_input_unchanged() {
-        Rekord<Box> box = Rekord.of(Box.class)
-                                .with(Box.lessThanTen, 8);
+        Rekord<Box> box = Box.rekord
+                .with(Box.lessThanTen, 8);
 
         assertThat(box.get(Box.lessThanTen), is(8));
     }
 
     @Test public void
     validates_output_on_retrieval() {
-        Rekord<Box> box = Rekord.of(Box.class)
-                                .with(Box.anyNumber, 100);
+        Rekord<Box> box = Box.rekord
+                .with(Box.anyNumber, 100);
 
         expectedException.expect(allOf(is(instanceOf(ValidationException.class)),
                                        hasProperty("message", equalTo("<100> was greater than <10>"))));
@@ -47,7 +47,9 @@ public final class HamcrestValidatorTest {
     }
 
     private static interface Box {
-        Key<Box,Integer> anyNumber = Key.named("any number");
+        Rekord<Box> rekord = Rekord.of(Box.class);
+
+        Key<Box, Integer> anyNumber = Key.named("any number");
         Key<Box, Integer> lessThanTen = anyNumber.that(validatesItsInput(is(lessThan(10))));
     }
 }

@@ -19,7 +19,7 @@ import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Roll;
 public final class DomXmlKollectorTest {
     @Test public void
     a_rekord_with_one_element_is_kollected_into_XML() {
-        Rekord<Sandvich> sandvich = Rekord.of(Sandvich.class)
+        Rekord<Sandvich> sandvich = Sandvich.rekord
                 .with(Sandvich.filling, Cheese);
 
         Document document = sandvich.collect(new DomXmlKollector("sandvich"));
@@ -33,7 +33,7 @@ public final class DomXmlKollectorTest {
     }
     @Test public void
     a_rekord_with_multiple_elements_is_kollected_into_XML() {
-        Rekord<Sandvich> sandvich = Rekord.of(Sandvich.class)
+        Rekord<Sandvich> sandvich = Sandvich.rekord
                 .with(Sandvich.bread, Brown)
                 .with(Sandvich.filling, Cheese)
                 .with(Sandvich.style, Roll);
@@ -52,7 +52,7 @@ public final class DomXmlKollectorTest {
 
     @Test public void
     rekord_and_key_names_are_lowercased_and_slugified_into_valid_XML_element_names() {
-        Rekord<Person> spongebob = Rekord.of(Person.class)
+        Rekord<Person> spongebob = Person.rekord
                 .with(Person.firstName, "Spongebob")
                 .with(Person.lastName, "Squarepants")
                 .with(Person.age, 27)
@@ -75,10 +75,10 @@ public final class DomXmlKollectorTest {
 
     @Test public void
     a_rekord_with_nested_rekords_is_kollected_into_nested_XML() {
-        Rekord<Person> person = Rekord.of(Person.class)
+        Rekord<Person> person = Person.rekord
                 .with(Person.firstName, "Philip")
                 .with(Person.lastName, "Sherman")
-                .with(Person.address, Rekord.of(Address.class)
+                .with(Person.address, Address.rekord
                         .with(Address.houseNumber, 42)
                         .with(Address.street, "Wallaby Way")
                         .with(Address.city, "Sydney"));
