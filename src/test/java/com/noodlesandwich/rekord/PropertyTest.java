@@ -17,7 +17,7 @@ public final class PropertyTest {
         expectedException.expect(allOf(instanceOf(NullPointerException.class),
                 hasProperty("message", equalTo("Cannot construct a Rekord property with a null key."))));
 
-        new Property<>(null, "Random value");
+        new Property(null, "Random value");
     }
 
     @Test public void
@@ -25,6 +25,6 @@ public final class PropertyTest {
         expectedException.expect(allOf(instanceOf(NullPointerException.class),
                 hasProperty("message", equalTo("Cannot construct a Rekord property with a null value."))));
 
-        new Property<>(Key.named("Random key"), null);
+        new Property(Key.named("Random key"), null);
     }
 }

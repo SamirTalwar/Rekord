@@ -19,13 +19,19 @@ public final class NamedKey<T, V> extends Key<T, V> {
 
     @Override
     public Properties storeTo(Properties properties, V value) {
-        return properties.with(new Property<>(this, value));
+        return properties.with(new Property(this, value));
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public V retrieveFrom(Properties properties) {
         return (V) properties.get(this);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Key<T, ?> original() {
+        return this;
     }
 
     @Override

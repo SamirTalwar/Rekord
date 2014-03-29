@@ -18,5 +18,7 @@ public abstract class Key<T, V> {
 
     public abstract V retrieveFrom(Properties properties);
 
+    public abstract Key<T, ?> original();
+
     public abstract String toString();
 }

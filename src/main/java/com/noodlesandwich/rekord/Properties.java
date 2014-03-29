@@ -31,7 +31,7 @@ public final class Properties {
         return (Set) HashTreePSet.from(assignedKeys.values());
     }
 
-    public <V> Properties with(Property<?, V> property) {
+    public Properties with(Property property) {
         return new Properties(properties.plus(property.originalKey(), property.value()),
                               assignedKeys.plus(property.originalKey(), property.key()));
     }

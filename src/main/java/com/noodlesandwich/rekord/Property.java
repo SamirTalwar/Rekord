@@ -1,16 +1,11 @@
 package com.noodlesandwich.rekord;
 
-public final class Property<T, V> {
-    private final Key<T, ?> key;
-    private final Key<T, V> originalKey;
-    private final V value;
+public final class Property {
+    private final Key<?, ?> key;
+    private final Object value;
 
-    public Property(Key<T, V> key, V value) {
-        this(key, key, value);
-    }
-
-    public Property(Key<T, ?> key, Key<T, V> originalKey, V value) {
-        if (originalKey == null) {
+    public Property(Key<?, ?> key, Object value) {
+        if (key == null) {
             throw new NullPointerException("Cannot construct a Rekord property with a null key.");
         }
 
@@ -19,19 +14,18 @@ public final class Property<T, V> {
         }
 
         this.key = key;
-        this.originalKey = originalKey;
         this.value = value;
     }
 
-    public Key<T, ?> key() {
+    public Key<?, ?> key() {
         return key;
     }
 
-    public Key<T, V> originalKey() {
-        return originalKey;
+    public Key<?, ?> originalKey() {
+        return key.original();
     }
 
-    public V value() {
+    public Object value() {
         return value;
     }
 }

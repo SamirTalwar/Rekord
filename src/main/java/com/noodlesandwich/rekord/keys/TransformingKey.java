@@ -7,32 +7,38 @@ import com.noodlesandwich.rekord.Transformers;
 import com.noodlesandwich.rekord.transformers.Transformer;
 
 public final class TransformingKey<T, U, V> extends Key<T, V> {
-    private final Key<T, U> delegate;
+    private final Key<T, U> original;
     private final Transformer<U, V> transformer;
 
-    public TransformingKey(Key<T, U> delegate, Transformer<U, V> transformer) {
-        this.delegate = delegate;
+    public TransformingKey(Key<T, U> original, Transformer<U, V> transformer) {
+        this.original = original;
         this.transformer = transformer;
     }
 
     @Override
     public <NewV> TransformingKey<T, U, NewV> that(Transformer<V, NewV> transformer) {
-        return new TransformingKey<>(delegate, Transformers.compose(transformer, this.transformer));
+        return new TransformingKey<>(original, Transformers.compose(transformer, this.transformer));
     }
 
     @Override
     public Properties storeTo(Properties properties, V value) {
-        return properties.with(new Property<>(this, delegate, transformer.transformInput(value)));
+        return properties.with(new Property(this, transformer.transformInput(value)));
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public V retrieveFrom(Properties properties) {
-        return transformer.transformOutput((U) properties.get(delegate));
+        return transformer.transformOutput((U) properties.get(original));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Key<T, ?> original() {
+        return original;
     }
 
     @Override
     public String toString() {
-        return delegate.toString();
+        return original.toString();
     }
 }
