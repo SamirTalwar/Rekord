@@ -3,17 +3,28 @@ package com.noodlesandwich.rekord;
 import java.util.Set;
 import org.pcollections.HashTreePMap;
 import org.pcollections.HashTreePSet;
+import org.pcollections.OrderedPSet;
 import org.pcollections.PMap;
+import org.pcollections.PSet;
 
 public final class Properties {
+    private static final String UnacceptableKeyTemplate = "The key \"%s\" is not a valid key for this Rekord.";
+
+    private final PSet<Key<?, ?>> allowedKeys;
     private final PMap<Key<?, ?>, Object> properties;
     private final PMap<Key<?, ?>, Key<?, ?>> assignedKeys;
 
-    public Properties() {
-        this(HashTreePMap.<Key<?, ?>, Object>empty(), HashTreePMap.<Key<?, ?>, Key<?, ?>>empty());
+    public Properties(PSet<Key<?, ?>> allowedKeys) {
+        this(allowedKeys,
+             HashTreePMap.<Key<?, ?>, Object>empty(),
+             HashTreePMap.<Key<?, ?>, Key<?, ?>>empty());
     }
 
-    private Properties(PMap<Key<?, ?>, Object> properties, PMap<Key<?, ?>, Key<?, ?>> assignedKeys) {
+    private Properties(PSet<Key<?, ?>> allowedKeys,
+                       PMap<Key<?, ?>, Object> properties,
+                       PMap<Key<?, ?>, Key<?, ?>> assignedKeys)
+    {
+        this.allowedKeys = allowedKeys;
         this.properties = properties;
         this.assignedKeys = assignedKeys;
     }
@@ -32,13 +43,22 @@ public final class Properties {
     }
 
     public Properties with(Property property) {
-        return new Properties(properties.plus(property.originalKey(), property.value()),
-                              assignedKeys.plus(property.originalKey(), property.key()));
+        Key<?, ?> originalKey = property.originalKey();
+        if (!allowedKeys.contains(originalKey)) {
+            throw new IllegalArgumentException(String.format(UnacceptableKeyTemplate, originalKey));
+        }
+
+        return new Properties(
+                allowedKeys,
+                properties.plus(originalKey, property.value()),
+                assignedKeys.plus(originalKey, property.key()));
     }
 
     public Properties without(Key<?, ?> key) {
-        return new Properties(properties.minus(key),
-                              assignedKeys.minus(key));
+        return new Properties(
+                allowedKeys,
+                properties.minus(key),
+                assignedKeys.minus(key));
     }
 
     @Override
@@ -59,5 +79,13 @@ public final class Properties {
     @Override
     public String toString() {
         return properties.toString();
+    }
+
+    public static PSet<Key<?, ?>> originalKeys(Key<?, ?>... keys) {
+        PSet<Key<?, ?>> keyCollection = OrderedPSet.empty();
+        for (Key<?, ?> key : keys) {
+            keyCollection = keyCollection.plus(key.original());
+        }
+        return keyCollection;
     }
 }

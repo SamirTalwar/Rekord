@@ -11,12 +11,12 @@ public final class Rekord<T> {
         this.properties = properties;
     }
 
-    public static <T> Rekord<T> of(Class<T> type) {
+    public static <T> UnkeyedRekord<T> of(Class<T> type) {
         return create(type.getSimpleName());
     }
 
-    public static <T> Rekord<T> create(String name) {
-        return new Rekord<>(name, new Properties());
+    public static <T> UnkeyedRekord<T> create(String name) {
+        return new UnkeyedRekord<>(name);
     }
 
     @SuppressWarnings("unchecked")
@@ -86,5 +86,17 @@ public final class Rekord<T> {
     @Override
     public String toString() {
         return name + properties.toString();
+    }
+
+    public static final class UnkeyedRekord<T> {
+        private String name;
+
+        public UnkeyedRekord(String name) {
+            this.name = name;
+        }
+
+        public Rekord<T> accepting(Key<? super T, ?>... keys) {
+            return new Rekord<>(name, new Properties(Properties.originalKeys(keys)));
+        }
     }
 }

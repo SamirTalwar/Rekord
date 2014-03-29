@@ -3,19 +3,12 @@ package com.noodlesandwich.rekord;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import com.noodlesandwich.rekord.matchers.RekordMatchers;
 import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import com.noodlesandwich.rekord.matchers.RekordMatchers;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Address;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst.Style.Chopped;
@@ -28,6 +21,13 @@ import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Che
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Lettuce;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Burger;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Wurst;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 
 public final class RekordPropertiesTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();
@@ -124,6 +124,17 @@ public final class RekordPropertiesTest {
 
         Bratwurst.rekord
                 .with(Wurst.curvature, (Double) null);
+    }
+
+    @Test public void
+    a_Rekord_must_know_all_possible_keys_in_advance() {
+        expectedException.expect(allOf(instanceOf(IllegalArgumentException.class),
+                hasProperty("message", equalTo("The key \"spice\" is not a valid key for this Rekord."))));
+
+        Key<Wurst, Integer> spice = Key.named("spice");
+
+        Rekord.of(Bratwurst.class).accepting(Wurst.curvature, Bratwurst.style)
+                .with(spice, 7);
     }
 
     @Test public void
