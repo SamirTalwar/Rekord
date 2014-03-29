@@ -7,15 +7,15 @@ import org.pcollections.PMap;
 
 public final class Properties {
     private final PMap<Key<?, ?>, Object> properties;
-    private final PMap<Key<?, ?>, Key<?, ?>> actualKeys;
+    private final PMap<Key<?, ?>, Key<?, ?>> assignedKeys;
 
     public Properties() {
         this(HashTreePMap.<Key<?, ?>, Object>empty(), HashTreePMap.<Key<?, ?>, Key<?, ?>>empty());
     }
 
-    private Properties(PMap<Key<?, ?>, Object> properties, PMap<Key<?, ?>, Key<?, ?>> actualKeys) {
+    private Properties(PMap<Key<?, ?>, Object> properties, PMap<Key<?, ?>, Key<?, ?>> assignedKeys) {
         this.properties = properties;
-        this.actualKeys = actualKeys;
+        this.assignedKeys = assignedKeys;
     }
 
     public Object get(Key<?, ?> key) {
@@ -28,17 +28,17 @@ public final class Properties {
 
     @SuppressWarnings("unchecked")
     public <T> Set<Key<? super T, ?>> keys() {
-        return (Set) HashTreePSet.from(actualKeys.values());
+        return (Set) HashTreePSet.from(assignedKeys.values());
     }
 
     public <V> Properties with(Property<?, V> property) {
-        return new Properties(properties.plus(property.key(), property.value()),
-                              actualKeys.plus(property.key(), property.actualKey()));
+        return new Properties(properties.plus(property.originalKey(), property.value()),
+                              assignedKeys.plus(property.originalKey(), property.key()));
     }
 
     public Properties without(Key<?, ?> key) {
         return new Properties(properties.minus(key),
-                              actualKeys.minus(key));
+                              assignedKeys.minus(key));
     }
 
     @Override
