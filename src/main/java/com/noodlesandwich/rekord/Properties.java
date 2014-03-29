@@ -10,21 +10,25 @@ import org.pcollections.PSet;
 public final class Properties {
     private static final String UnacceptableKeyTemplate = "The key \"%s\" is not a valid key for this Rekord.";
 
-    private final PSet<Key<?, ?>> allowedKeys;
+    private final PSet<Key<?, ?>> acceptedKeys;
     private final PMap<Key<?, ?>, Object> properties;
     private final PMap<Key<?, ?>, Key<?, ?>> assignedKeys;
 
-    public Properties(PSet<Key<?, ?>> allowedKeys) {
-        this(allowedKeys,
+    public Properties(Key<?, ?>... acceptedKeys) {
+        this(originalKeys(acceptedKeys));
+    }
+
+    public Properties(PSet<Key<?, ?>> acceptedKeys) {
+        this(acceptedKeys,
              HashTreePMap.<Key<?, ?>, Object>empty(),
              HashTreePMap.<Key<?, ?>, Key<?, ?>>empty());
     }
 
-    private Properties(PSet<Key<?, ?>> allowedKeys,
+    private Properties(PSet<Key<?, ?>> acceptedKeys,
                        PMap<Key<?, ?>, Object> properties,
                        PMap<Key<?, ?>, Key<?, ?>> assignedKeys)
     {
-        this.allowedKeys = allowedKeys;
+        this.acceptedKeys = acceptedKeys;
         this.properties = properties;
         this.assignedKeys = assignedKeys;
     }
@@ -44,19 +48,19 @@ public final class Properties {
 
     public Properties with(Property property) {
         Key<?, ?> originalKey = property.originalKey();
-        if (!allowedKeys.contains(originalKey)) {
+        if (!acceptedKeys.contains(originalKey)) {
             throw new IllegalArgumentException(String.format(UnacceptableKeyTemplate, originalKey));
         }
 
         return new Properties(
-                allowedKeys,
+                acceptedKeys,
                 properties.plus(originalKey, property.value()),
                 assignedKeys.plus(originalKey, property.key()));
     }
 
     public Properties without(Key<?, ?> key) {
         return new Properties(
-                allowedKeys,
+                acceptedKeys,
                 properties.minus(key),
                 assignedKeys.minus(key));
     }
@@ -81,7 +85,7 @@ public final class Properties {
         return properties.toString();
     }
 
-    public static PSet<Key<?, ?>> originalKeys(Key<?, ?>... keys) {
+    private static PSet<Key<?, ?>> originalKeys(Key<?, ?>... keys) {
         PSet<Key<?, ?>> keyCollection = OrderedPSet.empty();
         for (Key<?, ?> key : keys) {
             keyCollection = keyCollection.plus(key.original());

@@ -96,7 +96,7 @@ public final class Rekord<T> {
         }
 
         public Rekord<T> accepting(Key<? super T, ?>... keys) {
-            return new Rekord<>(name, new Properties(Properties.originalKeys(keys)));
+            return new Rekord<>(name, new Properties(keys));
         }
     }
 }

@@ -14,7 +14,7 @@ public final class TransformingKeyTest {
     transforms_according_to_its_transformer() {
         Key<Badabing, String> key = Key.<Badabing, String>named("key").that(upperCases());
 
-        Properties properties = key.storeTo(new Properties(Properties.originalKeys(key)), "kablammo");
+        Properties properties = key.storeTo(new Properties(key), "kablammo");
 
         assertThat(key.retrieveFrom(properties), is("KABLAMMO"));
     }
@@ -23,7 +23,7 @@ public final class TransformingKeyTest {
     delegates_to_internal_transformers() {
         Key<Badabing, String> key = Key.<Badabing, String>named("key").that(defaultsTo("nobody loves me")).then(upperCases());
 
-        Properties properties = new Properties(Properties.originalKeys(key));
+        Properties properties = new Properties(key);
 
         assertThat(key.retrieveFrom(properties), is("NOBODY LOVES ME"));
     }
@@ -32,7 +32,7 @@ public final class TransformingKeyTest {
     allows_the_transformer_to_change_the_type() {
         Key<Badabing, String> key = Key.<Badabing, Integer>named("key").that(defaultsTo(88)).then(stringifies());
 
-        Properties emptyProperties = new Properties(Properties.originalKeys(key));
+        Properties emptyProperties = new Properties(key);
         Properties propertiesWithValue = key.storeTo(emptyProperties, "97");
 
         assertThat(key.retrieveFrom(propertiesWithValue), is("97"));

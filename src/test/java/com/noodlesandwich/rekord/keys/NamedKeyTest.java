@@ -4,7 +4,6 @@ import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Properties;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
-import org.pcollections.PSet;
 
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
@@ -37,6 +36,6 @@ public final class NamedKeyTest {
         Key<Thing, Integer> one = Key.named("one");
         Key<Thing, Integer> two = Key.named("two");
 
-        PSet<Key<?, ?>> keys = Properties.originalKeys(one, two);
+        Key<?, ?>[] keys = new Key<?, ?>[] {one, two};
     }
 }
