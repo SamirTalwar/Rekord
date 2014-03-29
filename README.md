@@ -26,6 +26,8 @@ public static interface Sandvich {
     Key<Sandvich, Bread> bread = Key.named("bread").that(defaultsTo(Brown));
     Key<Sandvich, Style> style = Key.named("style");
 
+    Rekord<Sandvich> rekord = Rekord.of(Sandvich.class).accepting(filling, bread, style);
+
     // ...
 }
 ```
