@@ -3,6 +3,7 @@ package com.noodlesandwich.rekord.extra;
 import com.google.common.base.Joiner;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Rekord;
+import com.noodlesandwich.rekord.keys.SimpleKey;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
@@ -52,8 +53,8 @@ public final class DomXmlKollectorTest {
 
     @Test public void
     rekord_and_key_names_are_lowercased_and_slugified_into_valid_XML_element_names() {
-        Key<Person, Integer> key_12345 = Key.named("12345");
-        Key<Person, String> key_up = Key.named("^up");
+        Key<Person, Integer> key_12345 = SimpleKey.named("12345");
+        Key<Person, String> key_up = SimpleKey.named("^up");
 
         Rekord<Person> modifiedPersonRekord = Rekord.<Person>create("sea creaTURE")
                 .accepting(Person.firstName, Person.lastName, Person.age, key_12345, key_up);

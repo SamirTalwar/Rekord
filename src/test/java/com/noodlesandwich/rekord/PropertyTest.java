@@ -1,5 +1,6 @@
 package com.noodlesandwich.rekord;
 
+import com.noodlesandwich.rekord.keys.SimpleKey;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -25,6 +26,6 @@ public final class PropertyTest {
         expectedException.expect(allOf(instanceOf(NullPointerException.class),
                 hasProperty("message", equalTo("Cannot construct a Rekord property with a null value."))));
 
-        new Property(Key.named("Random key"), null);
+        new Property(SimpleKey.named("Random key"), null);
     }
 }

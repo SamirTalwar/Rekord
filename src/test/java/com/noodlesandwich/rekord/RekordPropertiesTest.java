@@ -3,6 +3,7 @@ package com.noodlesandwich.rekord;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import com.noodlesandwich.rekord.keys.SimpleKey;
 import com.noodlesandwich.rekord.matchers.RekordMatchers;
 import org.hamcrest.Matcher;
 import org.junit.Rule;
@@ -131,7 +132,7 @@ public final class RekordPropertiesTest {
         expectedException.expect(allOf(instanceOf(IllegalArgumentException.class),
                 hasProperty("message", equalTo("The key \"spice\" is not a valid key for this Rekord."))));
 
-        Key<Wurst, Integer> spice = Key.named("spice");
+        Key<Wurst, Integer> spice = SimpleKey.named("spice");
 
         Rekord.of(Bratwurst.class).accepting(Wurst.curvature, Bratwurst.style)
                 .with(spice, 7);

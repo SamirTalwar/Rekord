@@ -5,11 +5,15 @@ import com.noodlesandwich.rekord.Properties;
 import com.noodlesandwich.rekord.Property;
 import com.noodlesandwich.rekord.transformers.Transformer;
 
-public final class NamedKey<T, V> extends Key<T, V> {
+public final class SimpleKey<T, V> extends Key<T, V> {
     private final String name;
 
-    public NamedKey(String name) {
+    private SimpleKey(String name) {
         this.name = name;
+    }
+
+    public static <T, V> Key<T, V> named(String name) {
+        return new SimpleKey<>(name);
     }
 
     @Override

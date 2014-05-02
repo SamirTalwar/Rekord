@@ -13,7 +13,7 @@ import static org.hamcrest.Matchers.is;
 public final class TransformingKeyTest {
     @Test public void
     transforms_according_to_its_transformer() {
-        Key<Badabing, String> key = Key.<Badabing, String>named("key").that(upperCases());
+        Key<Badabing, String> key = SimpleKey.<Badabing, String>named("key").that(upperCases());
 
         Properties properties = key.storeTo(new Properties(accepting(key)), "kablammo");
 
@@ -22,7 +22,7 @@ public final class TransformingKeyTest {
 
     @Test public void
     delegates_to_internal_transformers() {
-        Key<Badabing, String> key = Key.<Badabing, String>named("key").that(defaultsTo("nobody loves me")).then(upperCases());
+        Key<Badabing, String> key = SimpleKey.<Badabing, String>named("key").that(defaultsTo("nobody loves me")).then(upperCases());
 
         Properties properties = new Properties(accepting(key));
 
@@ -31,7 +31,7 @@ public final class TransformingKeyTest {
 
     @Test public void
     allows_the_transformer_to_change_the_type() {
-        Key<Badabing, String> key = Key.<Badabing, Integer>named("key").that(defaultsTo(88)).then(stringifies());
+        Key<Badabing, String> key = SimpleKey.<Badabing, Integer>named("key").that(defaultsTo(88)).then(stringifies());
 
         Properties emptyProperties = new Properties(accepting(key));
         Properties propertiesWithValue = key.storeTo(emptyProperties, "97");

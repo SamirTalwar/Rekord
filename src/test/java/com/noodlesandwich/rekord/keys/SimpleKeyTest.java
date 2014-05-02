@@ -11,7 +11,7 @@ import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
-public final class NamedKeyTest {
+public final class SimpleKeyTest {
     @Test public void
     retrieves_a_value_from_a_property_map() {
         Properties properties = new Properties(Thing.keys);
@@ -35,8 +35,8 @@ public final class NamedKeyTest {
     }
 
     private static interface Thing {
-        Key<Thing, Integer> one = Key.named("one");
-        Key<Thing, Integer> two = Key.named("two");
+        Key<Thing, Integer> one = SimpleKey.named("one");
+        Key<Thing, Integer> two = SimpleKey.named("two");
 
         PSet<Key<?, ?>> keys = OrderedPSet.<Key<?, ?>>empty().plus(one).plus(two);
     }
