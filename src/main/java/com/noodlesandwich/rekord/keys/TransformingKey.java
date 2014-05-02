@@ -3,8 +3,8 @@ package com.noodlesandwich.rekord.keys;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Properties;
 import com.noodlesandwich.rekord.Property;
-import com.noodlesandwich.rekord.Transformers;
 import com.noodlesandwich.rekord.transformers.Transformer;
+import com.noodlesandwich.rekord.transformers.Transformers;
 
 public final class TransformingKey<T, U, V> extends Key<T, V> {
     private final Key<T, U> original;

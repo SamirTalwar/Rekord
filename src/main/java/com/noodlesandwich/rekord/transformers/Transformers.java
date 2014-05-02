@@ -1,11 +1,8 @@
-package com.noodlesandwich.rekord;
-
-import com.noodlesandwich.rekord.transformers.ComposingTransformer;
-import com.noodlesandwich.rekord.transformers.DefaultingTransformer;
-import com.noodlesandwich.rekord.transformers.IdentityTransformer;
-import com.noodlesandwich.rekord.transformers.Transformer;
+package com.noodlesandwich.rekord.transformers;
 
 public final class Transformers {
+    private Transformers() { }
+
     public static <T> Transformer<T, T> identity() {
         return new IdentityTransformer<>();
     }

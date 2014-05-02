@@ -4,8 +4,8 @@ import java.util.Collection;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Rekord;
 
-import static com.noodlesandwich.rekord.Transformers.defaultsTo;
 import static com.noodlesandwich.rekord.extra.Validation.validatesItsInput;
+import static com.noodlesandwich.rekord.transformers.Transformers.defaultsTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThan;
 

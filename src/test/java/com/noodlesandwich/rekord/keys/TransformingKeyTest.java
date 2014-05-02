@@ -6,7 +6,7 @@ import com.noodlesandwich.rekord.transformers.Transformer;
 import org.junit.Test;
 import org.pcollections.OrderedPSet;
 
-import static com.noodlesandwich.rekord.Transformers.defaultsTo;
+import static com.noodlesandwich.rekord.transformers.Transformers.defaultsTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 

@@ -6,7 +6,8 @@ public final class IdentityTransformer<T> implements Transformer<T, T> {
         return value;
     }
 
-    @Override public T transformOutput(T value) {
+    @Override
+    public T transformOutput(T value) {
         return value;
     }
 }
