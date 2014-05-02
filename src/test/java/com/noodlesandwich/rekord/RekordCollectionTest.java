@@ -1,17 +1,11 @@
 package com.noodlesandwich.rekord;
 
+import com.noodlesandwich.rekord.testobjects.Measurement;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.Sequence;
 import org.junit.Test;
-import com.noodlesandwich.rekord.testobjects.Measurement;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.hasToString;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.startsWith;
 import static com.noodlesandwich.rekord.Kollector.Accumulator;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Address;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bier;
@@ -23,6 +17,12 @@ import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.White
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Cheese;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Burger;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Wurst;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.hasToString;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.startsWith;
 
 public final class RekordCollectionTest {
     private final Mockery context = new Mockery();
@@ -38,7 +38,7 @@ public final class RekordCollectionTest {
         final Kollector<Accumulator<String>, String> kollector = kollector();
 
         context.checking(new Expectations() {{
-            oneOf(kollector).accumulator(); will(returnValue(accumulator));
+            oneOf(kollector).accumulatorNamed("Sandvich"); will(returnValue(accumulator));
 
             Sequence filling = context.sequence("filling");
             Sequence bread = context.sequence("bread");
@@ -65,7 +65,7 @@ public final class RekordCollectionTest {
         final Kollector<Accumulator<Integer>, Integer> kollector = kollector();
 
         context.checking(new Expectations() {{
-            oneOf(kollector).accumulator(); will(returnValue(accumulator));
+            oneOf(kollector).accumulatorNamed("Bratwurst"); will(returnValue(accumulator));
 
             Sequence curvature = context.sequence("curvature");
             Sequence style = context.sequence("style");
@@ -94,11 +94,11 @@ public final class RekordCollectionTest {
         final Kollector<Accumulator<String>, String> kollector = kollector();
 
         context.checking(new Expectations() {{
-            oneOf(kollector).accumulator(); will(returnValue(personAccumulator));
+            oneOf(kollector).accumulatorNamed("Person"); will(returnValue(personAccumulator));
             oneOf(personAccumulator).accumulate(Person.firstName, "Sherlock");
             oneOf(personAccumulator).accumulate(Person.lastName, "Holmes");
 
-            oneOf(kollector).accumulator(); will(returnValue(addressAccumulator));
+            oneOf(kollector).accumulatorNamed("Address"); will(returnValue(addressAccumulator));
             oneOf(addressAccumulator).accumulate(Address.houseNumber, 221);
             oneOf(addressAccumulator).accumulate(Address.street, "Baker Street");
             oneOf(kollector).finish(addressAccumulator); will(returnValue("221 Baker Street"));

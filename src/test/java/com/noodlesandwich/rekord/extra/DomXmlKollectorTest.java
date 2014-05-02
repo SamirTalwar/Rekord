@@ -22,7 +22,7 @@ public final class DomXmlKollectorTest {
         Rekord<Sandvich> sandvich = Sandvich.rekord
                 .with(Sandvich.filling, Cheese);
 
-        Document document = sandvich.collect(new DomXmlKollector("sandvich"));
+        Document document = sandvich.collect(new DomXmlKollector());
 
         assertThat(the(document), isSimilarTo(the(lines(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
@@ -38,7 +38,7 @@ public final class DomXmlKollectorTest {
                 .with(Sandvich.filling, Cheese)
                 .with(Sandvich.style, Roll);
 
-        Document document = sandvich.collect(new DomXmlKollector("sandvich"));
+        Document document = sandvich.collect(new DomXmlKollector());
 
         assertThat(the(document), isSimilarTo(the(lines(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
@@ -55,7 +55,7 @@ public final class DomXmlKollectorTest {
         Key<Person, Integer> key_12345 = Key.named("12345");
         Key<Person, String> key_up = Key.named("^up");
 
-        Rekord<Person> modifiedPersonRekord = Rekord.of(Person.class)
+        Rekord<Person> modifiedPersonRekord = Rekord.<Person>create("sea creaTURE")
                 .accepting(Person.firstName, Person.lastName, Person.age, key_12345, key_up);
 
         Rekord<Person> spongebob = modifiedPersonRekord
@@ -65,7 +65,7 @@ public final class DomXmlKollectorTest {
                 .with(key_12345, 67890)
                 .with(key_up, "down");
 
-        Document document = spongebob.collect(new DomXmlKollector("sea creaTURE"));
+        Document document = spongebob.collect(new DomXmlKollector());
 
         assertThat(the(document), isSimilarTo(the(lines(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
@@ -89,7 +89,7 @@ public final class DomXmlKollectorTest {
                         .with(Address.street, "Wallaby Way")
                         .with(Address.city, "Sydney"));
 
-        Document document = person.collect(new DomXmlKollector("person"));
+        Document document = person.collect(new DomXmlKollector());
 
         assertThat(the(document), isSimilarTo(the(lines(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",

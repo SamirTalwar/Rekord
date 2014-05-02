@@ -4,17 +4,15 @@ import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import com.google.common.base.Joiner;
 import com.noodlesandwich.rekord.Kollector;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 public final class DomXmlKollector implements Kollector<DomXmlAccumulator, Document> {
-    private final String name;
     private final DocumentBuilder documentBuilder;
 
-    public DomXmlKollector(String name) {
-        this.name = name;
+    public DomXmlKollector() {
         try {
             this.documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         } catch (ParserConfigurationException e) {
@@ -23,7 +21,7 @@ public final class DomXmlKollector implements Kollector<DomXmlAccumulator, Docum
     }
 
     @Override
-    public DomXmlAccumulator accumulator() {
+    public DomXmlAccumulator accumulatorNamed(String name) {
         Document document = documentBuilder.newDocument();
         Element root = document.createElement(slugify(name));
         document.appendChild(root);

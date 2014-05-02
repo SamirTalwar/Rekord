@@ -1,7 +1,7 @@
 package com.noodlesandwich.rekord;
 
 public interface Kollector<A extends Kollector.Accumulator<R>, R> {
-    A accumulator();
+    A accumulatorNamed(String name);
 
     R finish(A accumulator);
 

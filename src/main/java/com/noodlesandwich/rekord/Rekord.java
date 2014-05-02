@@ -50,7 +50,7 @@ public final class Rekord<T> {
 
     @SuppressWarnings("unchecked")
     public <A extends Kollector.Accumulator<R>, R> R collect(Kollector<A, R> collector) {
-        A accumulator = collector.accumulator();
+        A accumulator = collector.accumulatorNamed(name);
         for (Key<? super T, ?> key : properties.<T>keys()) {
             Key<? super T, Object> castKey = (Key<? super T, Object>) key;
             Object value = castKey.retrieveFrom(properties);
