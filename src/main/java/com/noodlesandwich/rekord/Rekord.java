@@ -1,6 +1,7 @@
 package com.noodlesandwich.rekord;
 
 import java.util.Set;
+import com.noodlesandwich.rekord.extra.StringKollector;
 
 public final class Rekord<T> {
     private final String name;
@@ -85,7 +86,7 @@ public final class Rekord<T> {
 
     @Override
     public String toString() {
-        return name + properties.toString();
+        return collect(new StringKollector());
     }
 
     public static final class UnkeyedRekord<T> {

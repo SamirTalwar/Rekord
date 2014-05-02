@@ -116,10 +116,10 @@ public final class RekordCollectionTest {
     @Test public void
     a_Rekord_is_serializable_as_a_String() {
         Rekord<Bier> delicious = Bier.rekord
-                                       .with(Bier.volume, Measurement.of(568).ml())
-                                       .with(Bier.head, Measurement.of(3).cm());
+                .with(Bier.volume, Measurement.of(568).ml())
+                .with(Bier.head, Measurement.of(3).cm());
 
-        assertThat(delicious, hasToString(allOf(startsWith("Bier"), containsString("head=3cm"), containsString("volume=568ml"))));
+        assertThat(delicious, hasToString(allOf(startsWith("Bier"), containsString("head: 3cm"), containsString("volume: 568ml"))));
     }
 
     @SuppressWarnings("unchecked")

@@ -66,9 +66,10 @@ public final class Rekords {
         Key<Person, String> firstName = Key.named("first name");
         Key<Person, String> lastName = Key.named("last name");
         Key<Person, Integer> age = Key.named("age");
+        Key<Person, Rekord<Person>> favouritePerson = Key.named("favourite person");
         Key<Person, Rekord<Address>> address = Key.named("address");
 
-        Rekord<Person> rekord = Rekord.of(Person.class).accepting(firstName, lastName, age, address);
+        Rekord<Person> rekord = Rekord.of(Person.class).accepting(firstName, lastName, age, favouritePerson, address);
     }
 
     public static interface Address {
