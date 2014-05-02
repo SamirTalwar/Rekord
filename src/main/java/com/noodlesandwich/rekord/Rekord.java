@@ -1,7 +1,10 @@
 package com.noodlesandwich.rekord;
 
+import java.util.Arrays;
 import java.util.Set;
 import com.noodlesandwich.rekord.extra.StringKollector;
+import org.pcollections.OrderedPSet;
+import org.pcollections.PSet;
 
 public final class Rekord<T> {
     private final String name;
@@ -90,13 +93,18 @@ public final class Rekord<T> {
     }
 
     public static final class UnkeyedRekord<T> {
-        private String name;
+        private final String name;
 
         public UnkeyedRekord(String name) {
             this.name = name;
         }
 
-        public Rekord<T> accepting(Key<? super T, ?>... keys) {
+        @SafeVarargs
+        public final Rekord<T> accepting(Key<? super T, ?>... keys) {
+            return accepting(OrderedPSet.from(Arrays.<Key<?, ?>>asList(keys)));
+        }
+
+        public final Rekord<T> accepting(PSet<Key<?, ?>> keys) {
             return new Rekord<>(name, new Properties(keys));
         }
     }

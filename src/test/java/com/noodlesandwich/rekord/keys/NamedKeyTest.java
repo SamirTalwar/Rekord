@@ -2,9 +2,11 @@ package com.noodlesandwich.rekord.keys;
 
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Properties;
-import org.hamcrest.MatcherAssert;
 import org.junit.Test;
+import org.pcollections.OrderedPSet;
+import org.pcollections.PSet;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -16,7 +18,7 @@ public final class NamedKeyTest {
         properties = Thing.one.storeTo(properties, 1);
         properties = Thing.two.storeTo(properties, 2);
 
-        MatcherAssert.assertThat(Thing.one.retrieveFrom(properties), is(1));
+        assertThat(Thing.one.retrieveFrom(properties), is(1));
     }
 
     @Test public void
@@ -24,18 +26,18 @@ public final class NamedKeyTest {
         Properties properties = new Properties(Thing.keys);
         properties = Thing.one.storeTo(properties, 5);
 
-        MatcherAssert.assertThat(Thing.two.retrieveFrom(properties), is(nullValue()));
+        assertThat(Thing.two.retrieveFrom(properties), is(nullValue()));
     }
 
     @Test public void
     stringifies_to_its_name() {
-        MatcherAssert.assertThat(Thing.one, hasToString("one"));
+        assertThat(Thing.one, hasToString("one"));
     }
 
     private static interface Thing {
         Key<Thing, Integer> one = Key.named("one");
         Key<Thing, Integer> two = Key.named("two");
 
-        Key<?, ?>[] keys = new Key<?, ?>[] {one, two};
+        PSet<Key<?, ?>> keys = OrderedPSet.<Key<?, ?>>empty().plus(one).plus(two);
     }
 }

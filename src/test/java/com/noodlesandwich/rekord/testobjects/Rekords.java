@@ -90,6 +90,7 @@ public final class Rekords {
 
     @SuppressWarnings("UnusedDeclaration")
     public static final class Jar<T extends Jar.Contents> {
+        @SuppressWarnings("unchecked")
         public static Rekord<Jar<Cookie>> ofCookies() {
             return Rekord.<Jar<Cookie>>create("Cookie Jar").accepting(contents);
         }

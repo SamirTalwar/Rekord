@@ -14,12 +14,8 @@ public final class Properties {
     private final PMap<Key<?, ?>, Object> properties;
     private final PMap<Key<?, ?>, Key<?, ?>> assignedKeys;
 
-    public Properties(Key<?, ?>... acceptedKeys) {
-        this(originalKeys(acceptedKeys));
-    }
-
     public Properties(PSet<Key<?, ?>> acceptedKeys) {
-        this(acceptedKeys,
+        this(originalKeys(acceptedKeys),
              HashTreePMap.<Key<?, ?>, Object>empty(),
              HashTreePMap.<Key<?, ?>, Key<?, ?>>empty());
     }
@@ -85,7 +81,7 @@ public final class Properties {
         return properties.toString();
     }
 
-    private static PSet<Key<?, ?>> originalKeys(Key<?, ?>... keys) {
+    private static PSet<Key<?, ?>> originalKeys(Iterable<Key<?, ?>> keys) {
         PSet<Key<?, ?>> keyCollection = OrderedPSet.empty();
         for (Key<?, ?> key : keys) {
             keyCollection = keyCollection.plus(key.original());
