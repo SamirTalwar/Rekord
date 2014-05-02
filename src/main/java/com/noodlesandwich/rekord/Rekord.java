@@ -3,6 +3,7 @@ package com.noodlesandwich.rekord;
 import java.util.Arrays;
 import java.util.Set;
 import com.noodlesandwich.rekord.extra.StringKollector;
+import com.noodlesandwich.rekord.keys.RekordKey;
 import org.pcollections.OrderedPSet;
 import org.pcollections.PSet;
 
@@ -56,12 +57,11 @@ public final class Rekord<T> {
     public <A extends Kollector.Accumulator<R>, R> R collect(Kollector<A, R> collector) {
         A accumulator = collector.accumulatorNamed(name);
         for (Key<? super T, ?> key : properties.<T>keys()) {
-            Key<? super T, Object> castKey = (Key<? super T, Object>) key;
-            Object value = castKey.retrieveFrom(properties);
-            if (value instanceof Rekord) {
-                accumulator.accumulateRekord(castKey, ((Rekord<?>) value).collect(collector));
+            Object value = key.retrieveFrom(properties);
+            if (key instanceof RekordKey) {
+                accumulator.accumulateRekord(key, ((Rekord<?>) value).collect(collector));
             } else {
-                accumulator.accumulate(castKey, value);
+                accumulator.accumulate((Key<?, Object>) key, value);
             }
         }
         return accumulator.finish();

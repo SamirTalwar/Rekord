@@ -3,6 +3,7 @@ package com.noodlesandwich.rekord.testobjects;
 import java.util.Collection;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Rekord;
+import com.noodlesandwich.rekord.keys.RekordKey;
 import com.noodlesandwich.rekord.keys.SimpleKey;
 
 import static com.noodlesandwich.rekord.extra.Validation.validatesItsInput;
@@ -67,8 +68,8 @@ public final class Rekords {
         Key<Person, String> firstName = SimpleKey.named("first name");
         Key<Person, String> lastName = SimpleKey.named("last name");
         Key<Person, Integer> age = SimpleKey.named("age");
-        Key<Person, Rekord<Person>> favouritePerson = SimpleKey.named("favourite person");
-        Key<Person, Rekord<Address>> address = SimpleKey.named("address");
+        Key<Person, Rekord<Person>> favouritePerson = RekordKey.named("favourite person");
+        Key<Person, Rekord<Address>> address = RekordKey.named("address");
 
         Rekord<Person> rekord = Rekord.of(Person.class).accepting(firstName, lastName, age, favouritePerson, address);
     }
