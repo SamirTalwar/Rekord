@@ -28,10 +28,6 @@ public final class DomXmlKollector implements Kollector<DomXmlAccumulator, Docum
         return new DomXmlAccumulator(root, document);
     }
 
-    public Document finish(DomXmlAccumulator accumulator) {
-        return accumulator.document();
-    }
-
     public static String slugify(String name) {
         name = name.replaceAll(" ", "-");
         name = InvalidXmlNameChars.matcher(name).replaceAll("_");

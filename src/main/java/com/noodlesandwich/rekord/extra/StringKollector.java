@@ -9,11 +9,6 @@ public final class StringKollector implements Kollector<StringKollector.StringAc
         return new StringAccumulator(name);
     }
 
-    @Override
-    public String finish(StringAccumulator accumulator) {
-        return accumulator.result();
-    }
-
     public static final class StringAccumulator implements Kollector.Accumulator<String> {
         private final String name;
         private final StringBuilder entries = new StringBuilder();
@@ -33,6 +28,11 @@ public final class StringKollector implements Kollector<StringKollector.StringAc
             append(key, rekord);
         }
 
+        @Override
+        public String finish() {
+            return String.format("%s {%s}", name, entries);
+        }
+
         private void append(Key<?, ?> key, Object value) {
             appendSeparator();
             entries.append(String.format("%s: %s", key, value));
@@ -44,10 +44,6 @@ public final class StringKollector implements Kollector<StringKollector.StringAc
             } else {
                 first = false;
             }
-        }
-
-        public String result() {
-            return String.format("%s {%s}", name, entries);
         }
     }
 }

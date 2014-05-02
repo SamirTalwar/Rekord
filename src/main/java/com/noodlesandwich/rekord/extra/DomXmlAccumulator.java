@@ -1,10 +1,10 @@
 package com.noodlesandwich.rekord.extra;
 
+import com.noodlesandwich.rekord.Key;
+import com.noodlesandwich.rekord.Kollector;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import com.noodlesandwich.rekord.Key;
-import com.noodlesandwich.rekord.Kollector;
 
 public final class DomXmlAccumulator implements Kollector.Accumulator<Document> {
     private final Element root;
@@ -33,7 +33,8 @@ public final class DomXmlAccumulator implements Kollector.Accumulator<Document> 
         root.appendChild(element);
     }
 
-    public Document document() {
+    @Override
+    public Document finish() {
         return document;
     }
 }

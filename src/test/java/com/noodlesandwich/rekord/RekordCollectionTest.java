@@ -46,7 +46,7 @@ public final class RekordCollectionTest {
             oneOf(accumulator).accumulate(Sandvich.filling, Cheese); inSequence(filling);
             oneOf(accumulator).accumulate(Sandvich.bread, White); inSequence(bread);
             oneOf(accumulator).accumulate(Sandvich.style, Burger); inSequence(style);
-            oneOf(kollector).finish(accumulator); will(returnValue("result!")); inSequences(filling, bread, style);
+            oneOf(accumulator).finish(); will(returnValue("result!")); inSequences(filling, bread, style);
         }});
 
         String result = sandvich.collect(kollector);
@@ -71,7 +71,7 @@ public final class RekordCollectionTest {
             Sequence style = context.sequence("style");
             oneOf(accumulator).accumulate(Wurst.curvature, 0.7); inSequence(curvature);
             oneOf(accumulator).accumulate(Bratwurst.style, Chopped); inSequence(style);
-            oneOf(kollector).finish(accumulator); will(returnValue(99)); inSequences(curvature, style);
+            oneOf(accumulator).finish(); will(returnValue(99)); inSequences(curvature, style);
         }});
 
         int result = bratwurst.collect(kollector);
@@ -82,7 +82,7 @@ public final class RekordCollectionTest {
 
     @Test public void
     a_Rekord_collector_can_nest_itself() {
-        Rekord<Person> person = Person.rekord
+        final Rekord<Person> person = Person.rekord
                 .with(Person.firstName, "Sherlock")
                 .with(Person.lastName, "Holmes")
                 .with(Person.address, Address.rekord
@@ -101,10 +101,10 @@ public final class RekordCollectionTest {
             oneOf(kollector).accumulatorNamed("Address"); will(returnValue(addressAccumulator));
             oneOf(addressAccumulator).accumulate(Address.houseNumber, 221);
             oneOf(addressAccumulator).accumulate(Address.street, "Baker Street");
-            oneOf(kollector).finish(addressAccumulator); will(returnValue("221 Baker Street"));
+            oneOf(addressAccumulator).finish(); will(returnValue("221 Baker Street"));
             oneOf(personAccumulator).accumulateRekord(Person.address, "221 Baker Street");
 
-            oneOf(kollector).finish(personAccumulator); will(returnValue("Sherlock Holmes, 221 Baker Street"));
+            oneOf(personAccumulator).finish(); will(returnValue("Sherlock Holmes, 221 Baker Street"));
         }});
 
         String result = person.collect(kollector);

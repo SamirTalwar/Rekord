@@ -61,7 +61,7 @@ public final class Rekord<T> {
                 accumulator.accumulate(castKey, value);
             }
         }
-        return collector.finish(accumulator);
+        return accumulator.finish();
     }
 
     @SuppressWarnings("unchecked")
