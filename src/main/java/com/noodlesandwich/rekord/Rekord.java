@@ -54,8 +54,8 @@ public final class Rekord<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public <A extends Kollector.Accumulator<R>, R> R collect(Kollector<A, R> collector) {
-        A accumulator = collector.accumulatorNamed(name);
+    public <R> R collect(Kollector<R> collector) {
+        Kollector.Accumulator<R> accumulator = collector.accumulatorNamed(name);
         for (Key<? super T, ?> key : properties.<T>keys()) {
             Object value = key.retrieveFrom(properties);
             if (key instanceof RekordKey) {

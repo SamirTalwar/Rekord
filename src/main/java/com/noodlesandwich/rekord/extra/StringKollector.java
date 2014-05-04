@@ -3,9 +3,9 @@ package com.noodlesandwich.rekord.extra;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Kollector;
 
-public final class StringKollector implements Kollector<StringKollector.StringAccumulator, String> {
+public final class StringKollector implements Kollector<String> {
     @Override
-    public StringAccumulator accumulatorNamed(String name) {
+    public Accumulator<String> accumulatorNamed(String name) {
         return new StringAccumulator(name);
     }
 

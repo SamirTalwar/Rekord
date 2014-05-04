@@ -9,7 +9,7 @@ import com.noodlesandwich.rekord.Kollector;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public final class DomXmlKollector implements Kollector<DomXmlAccumulator, Document> {
+public final class DomXmlKollector implements Kollector<Document> {
     private final DocumentBuilder documentBuilder;
 
     public DomXmlKollector() {
@@ -21,7 +21,7 @@ public final class DomXmlKollector implements Kollector<DomXmlAccumulator, Docum
     }
 
     @Override
-    public DomXmlAccumulator accumulatorNamed(String name) {
+    public Accumulator<Document> accumulatorNamed(String name) {
         Document document = documentBuilder.newDocument();
         Element root = document.createElement(slugify(name));
         document.appendChild(root);

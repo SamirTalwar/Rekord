@@ -35,7 +35,7 @@ public final class RekordCollectionTest {
                 .with(Sandvich.style, Burger);
 
         final Accumulator<String> accumulator = accumulator();
-        final Kollector<Accumulator<String>, String> kollector = kollector();
+        final Kollector<String> kollector = kollector();
 
         context.checking(new Expectations() {{
             oneOf(kollector).accumulatorNamed("Sandvich"); will(returnValue(accumulator));
@@ -62,7 +62,7 @@ public final class RekordCollectionTest {
                 .with(Bratwurst.style, Chopped);
 
         final Accumulator<Integer> accumulator = accumulator();
-        final Kollector<Accumulator<Integer>, Integer> kollector = kollector();
+        final Kollector<Integer> kollector = kollector();
 
         context.checking(new Expectations() {{
             oneOf(kollector).accumulatorNamed("Bratwurst"); will(returnValue(accumulator));
@@ -91,7 +91,7 @@ public final class RekordCollectionTest {
 
         final Accumulator<String> personAccumulator = accumulator("person accumulator");
         final Accumulator<String> addressAccumulator = accumulator("address accumulator");
-        final Kollector<Accumulator<String>, String> kollector = kollector();
+        final Kollector<String> kollector = kollector();
 
         context.checking(new Expectations() {{
             oneOf(kollector).accumulatorNamed("Person"); will(returnValue(personAccumulator));
@@ -123,7 +123,7 @@ public final class RekordCollectionTest {
     }
 
     @SuppressWarnings("unchecked")
-    private <A extends Accumulator<R>, R> Kollector<A, R> kollector() {
+    private <R> Kollector<R> kollector() {
         return context.mock(Kollector.class);
     }
 
