@@ -38,12 +38,12 @@ public final class RekordSerializationTest {
         final Serializer<String, String> serializer = serializer();
 
         context.checking(new Expectations() {{
-            oneOf(serializer).accumulatorNamed("Bier"); will(returnValue(accumulator));
+            oneOf(serializer).nest("Bier"); will(returnValue(accumulator));
 
             Sequence volume = context.sequence("volume");
             Sequence head = context.sequence("head");
-            oneOf(accumulator).accumulate(Bier.volume, Measurement.of(500).ml()); inSequence(volume);
-            oneOf(accumulator).accumulate(Bier.head, Measurement.of(1).cm()); inSequence(head);
+            oneOf(accumulator).accumulate("volume", Measurement.of(500).ml()); inSequence(volume);
+            oneOf(accumulator).accumulate("head", Measurement.of(1).cm()); inSequence(head);
             oneOf(accumulator).finish(); will(returnValue("result!")); inSequences(volume, head);
         }});
 
@@ -64,14 +64,14 @@ public final class RekordSerializationTest {
         final Serializer<String, String> serializer = serializer();
 
         context.checking(new Expectations() {{
-            oneOf(serializer).accumulatorNamed("Sandvich"); will(returnValue(accumulator));
+            oneOf(serializer).nest("Sandvich"); will(returnValue(accumulator));
 
             Sequence bread = context.sequence("bread");
             Sequence filling = context.sequence("filling");
             Sequence style = context.sequence("style");
-            oneOf(accumulator).accumulate(Sandvich.bread, White); inSequence(bread);
-            oneOf(accumulator).accumulate(Sandvich.filling, Cheese); inSequence(filling);
-            oneOf(accumulator).accumulate(Sandvich.style, Burger); inSequence(bread);
+            oneOf(accumulator).accumulate("bread", White); inSequence(bread);
+            oneOf(accumulator).accumulate("filling", Cheese); inSequence(filling);
+            oneOf(accumulator).accumulate("style", Burger); inSequence(bread);
             oneOf(accumulator).finish(); will(returnValue("result!")); inSequences(filling, bread, style);
         }});
 
@@ -91,12 +91,12 @@ public final class RekordSerializationTest {
         final Serializer<Integer, Integer> serializer = serializer();
 
         context.checking(new Expectations() {{
-            oneOf(serializer).accumulatorNamed("Bratwurst"); will(returnValue(accumulator));
+            oneOf(serializer).nest("Bratwurst"); will(returnValue(accumulator));
 
             Sequence curvature = context.sequence("curvature");
             Sequence style = context.sequence("style");
-            oneOf(accumulator).accumulate(Wurst.curvature, 0.7); inSequence(curvature);
-            oneOf(accumulator).accumulate(Bratwurst.style, Chopped); inSequence(style);
+            oneOf(accumulator).accumulate("curvature", 0.7); inSequence(curvature);
+            oneOf(accumulator).accumulate("style", Chopped); inSequence(style);
             oneOf(accumulator).finish(); will(returnValue(99)); inSequences(curvature, style);
         }});
 
@@ -120,14 +120,14 @@ public final class RekordSerializationTest {
         final Serializer<String, String> serializer = serializer();
 
         context.checking(new Expectations() {{
-            oneOf(serializer).accumulatorNamed("Person"); will(returnValue(personAccumulator));
-            oneOf(personAccumulator).accumulate(Person.firstName, "Sherlock");
-            oneOf(personAccumulator).accumulate(Person.lastName, "Holmes");
+            oneOf(serializer).nest("Person"); will(returnValue(personAccumulator));
+            oneOf(personAccumulator).accumulate("first name", "Sherlock");
+            oneOf(personAccumulator).accumulate("last name", "Holmes");
 
             oneOf(personAccumulator).nest("Address"); will(returnValue(addressAccumulator));
-            oneOf(addressAccumulator).accumulate(Address.houseNumber, 221);
-            oneOf(addressAccumulator).accumulate(Address.street, "Baker Street");
-            oneOf(personAccumulator).accumulateNested(Person.address, addressAccumulator);
+            oneOf(addressAccumulator).accumulate("house number", 221);
+            oneOf(addressAccumulator).accumulate("street", "Baker Street");
+            oneOf(personAccumulator).accumulateNested("address", addressAccumulator);
 
             oneOf(personAccumulator).finish(); will(returnValue("Sherlock Holmes, 221 Baker Street"));
         }});

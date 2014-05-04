@@ -2,7 +2,6 @@ package com.noodlesandwich.rekord;
 
 import java.util.Arrays;
 import java.util.Set;
-import com.noodlesandwich.rekord.keys.RekordKey;
 import com.noodlesandwich.rekord.serialization.Serializer;
 import com.noodlesandwich.rekord.serialization.StringSerializer;
 import org.pcollections.OrderedPSet;
@@ -23,6 +22,10 @@ public final class Rekord<T> {
 
     public static <T> UnkeyedRekord<T> create(String name) {
         return new UnkeyedRekord<>(name);
+    }
+
+    public String name() {
+        return name;
     }
 
     @SuppressWarnings("unchecked")
@@ -56,23 +59,17 @@ public final class Rekord<T> {
 
     @SuppressWarnings("unchecked")
     public <A, R> R serialize(Serializer<A, R> serializer) {
-        Serializer.Accumulator<A, R> accumulator = serializer.accumulatorNamed(name);
+        Serializer.Accumulator<A, R> accumulator = serializer.nest(name);
         accumulateIn(accumulator);
         return accumulator.finish();
     }
 
     @SuppressWarnings("unchecked")
-    private <A, R> void accumulateIn(Serializer.Accumulator<A, R> accumulator) {
+    public <A, R> void accumulateIn(Serializer.Accumulator<A, R> accumulator) {
         for (Key<? super T, ?> key : properties.<T>keys()) {
-            Object value = key.retrieveFrom(properties);
-            if (key instanceof RekordKey) {
-                Rekord<?> nestedRekord = (Rekord<?>) value;
-                Serializer.Accumulator<A, R> nested = accumulator.nest(nestedRekord.name);
-                nestedRekord.accumulateIn(nested);
-                accumulator.accumulateNested(key, nested);
-            } else {
-                accumulator.accumulate((Key<?, Object>) key, value);
-            }
+            Key<? super T, Object> castKey = (Key<? super T, Object>) key;
+            Object value = castKey.retrieveFrom(properties);
+            castKey.accumulate(value, accumulator);
         }
     }
 

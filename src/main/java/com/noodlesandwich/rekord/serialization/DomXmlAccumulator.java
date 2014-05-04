@@ -1,6 +1,5 @@
 package com.noodlesandwich.rekord.serialization;
 
-import com.noodlesandwich.rekord.Key;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -14,14 +13,14 @@ public final class DomXmlAccumulator implements Serializer.Accumulator<Element, 
     }
 
     @Override
-    public <V> void accumulate(Key<?, V> key, V value) {
-        Element element = elementNamed(key.name());
+    public <V> void accumulate(String name, V value) {
+        Element element = elementNamed(name);
         element.appendChild(document.createTextNode(value.toString()));
         root.appendChild(element);
     }
 
     @Override
-    public void accumulateNested(Key<?, ?> key, Serializer.Accumulator<Element, Document> nested) {
+    public void accumulateNested(String name, Serializer.Accumulator<Element, Document> nested) {
         root.appendChild(nested.value());
     }
 

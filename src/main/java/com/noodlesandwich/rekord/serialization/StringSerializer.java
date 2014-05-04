@@ -1,10 +1,8 @@
 package com.noodlesandwich.rekord.serialization;
 
-import com.noodlesandwich.rekord.Key;
-
 public final class StringSerializer implements Serializer<String, String> {
     @Override
-    public Accumulator<String, String> accumulatorNamed(String name) {
+    public Accumulator<String, String> nest(String name) {
         return new StringAccumulator(name);
     }
 
@@ -18,13 +16,13 @@ public final class StringSerializer implements Serializer<String, String> {
         }
 
         @Override
-        public <V> void accumulate(Key<?, V> key, V value) {
-            append(key, value);
+        public <V> void accumulate(String name, V value) {
+            append(name, value);
         }
 
         @Override
-        public void accumulateNested(Key<?, ?> key, Accumulator<String, String> nested) {
-            append(key, nested.value());
+        public void accumulateNested(String name, Accumulator<String, String> nested) {
+            append(name, nested.value());
         }
 
         @Override
@@ -42,9 +40,9 @@ public final class StringSerializer implements Serializer<String, String> {
             return value();
         }
 
-        private void append(Key<?, ?> key, Object value) {
+        private void append(String name, Object value) {
             appendSeparator();
-            entries.append(String.format("%s: %s", key.name(), value));
+            entries.append(String.format("%s: %s", name, value));
         }
 
         private void appendSeparator() {

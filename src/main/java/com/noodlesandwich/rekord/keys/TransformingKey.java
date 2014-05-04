@@ -3,6 +3,7 @@ package com.noodlesandwich.rekord.keys;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Properties;
 import com.noodlesandwich.rekord.Property;
+import com.noodlesandwich.rekord.serialization.Serializer;
 import com.noodlesandwich.rekord.transformers.Transformer;
 import com.noodlesandwich.rekord.transformers.Transformers;
 
@@ -34,6 +35,11 @@ public final class TransformingKey<T, U, V> extends Key<T, V> {
     @Override
     public V retrieveFrom(Properties properties) {
         return transformer.transformOutput((U) properties.get(original));
+    }
+
+    @Override
+    public <A, R> void accumulate(V value, Serializer.Accumulator<A, R> accumulator) {
+        original.accumulate(transformer.transformInput(value), accumulator);
     }
 
     @SuppressWarnings("unchecked")

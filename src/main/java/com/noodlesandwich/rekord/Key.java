@@ -1,5 +1,6 @@
 package com.noodlesandwich.rekord;
 
+import com.noodlesandwich.rekord.serialization.Serializer;
 import com.noodlesandwich.rekord.transformers.Transformer;
 
 public abstract class Key<T, V> {
@@ -14,6 +15,8 @@ public abstract class Key<T, V> {
     public abstract Properties storeTo(Properties properties, V value);
 
     public abstract V retrieveFrom(Properties properties);
+
+    public abstract <A, R> void accumulate(V value, Serializer.Accumulator<A, R> accumulator);
 
     public abstract Key<T, ?> original();
 
