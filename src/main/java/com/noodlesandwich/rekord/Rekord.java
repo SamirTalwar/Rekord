@@ -57,7 +57,6 @@ public final class Rekord<T> {
         return new Rekord<>(name, properties.without(key));
     }
 
-    @SuppressWarnings("unchecked")
     public <A, R> R serialize(Serializer<A, R> serializer) {
         Serializer.Accumulator<A, R> accumulator = serializer.nest(name);
         accumulateIn(accumulator);
