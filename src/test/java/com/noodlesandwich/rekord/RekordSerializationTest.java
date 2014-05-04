@@ -30,9 +30,34 @@ public final class RekordSerializationTest {
 
     @Test public void
     a_Rekord_can_be_serialized() {
+        Rekord<Bier> bier = Bier.rekord
+                .with(Bier.volume, Measurement.of(500).ml())
+                .with(Bier.head, Measurement.of(1).cm());
+
+        final Accumulator<String, String> accumulator = accumulator();
+        final Serializer<String, String> serializer = serializer();
+
+        context.checking(new Expectations() {{
+            oneOf(serializer).accumulatorNamed("Bier"); will(returnValue(accumulator));
+
+            Sequence volume = context.sequence("volume");
+            Sequence head = context.sequence("head");
+            oneOf(accumulator).accumulate(Bier.volume, Measurement.of(500).ml()); inSequence(volume);
+            oneOf(accumulator).accumulate(Bier.head, Measurement.of(1).cm()); inSequence(head);
+            oneOf(accumulator).finish(); will(returnValue("result!")); inSequences(volume, head);
+        }});
+
+        String result = bier.serialize(serializer);
+
+        context.assertIsSatisfied();
+        assertThat(result, is("result!"));
+    }
+
+    @Test public void
+    serializes_transformed_keys() {
         Rekord<Sandvich> sandvich = Sandvich.rekord
-                .with(Sandvich.filling, Cheese)
                 .with(Sandvich.bread, White)
+                .with(Sandvich.filling, Cheese)
                 .with(Sandvich.style, Burger);
 
         final Accumulator<String, String> accumulator = accumulator();
@@ -41,12 +66,12 @@ public final class RekordSerializationTest {
         context.checking(new Expectations() {{
             oneOf(serializer).accumulatorNamed("Sandvich"); will(returnValue(accumulator));
 
-            Sequence filling = context.sequence("filling");
             Sequence bread = context.sequence("bread");
+            Sequence filling = context.sequence("filling");
             Sequence style = context.sequence("style");
-            oneOf(accumulator).accumulate(Sandvich.filling, Cheese); inSequence(filling);
             oneOf(accumulator).accumulate(Sandvich.bread, White); inSequence(bread);
-            oneOf(accumulator).accumulate(Sandvich.style, Burger); inSequence(style);
+            oneOf(accumulator).accumulate(Sandvich.filling, Cheese); inSequence(filling);
+            oneOf(accumulator).accumulate(Sandvich.style, Burger); inSequence(bread);
             oneOf(accumulator).finish(); will(returnValue("result!")); inSequences(filling, bread, style);
         }});
 
@@ -57,7 +82,7 @@ public final class RekordSerializationTest {
     }
 
     @Test public void
-    a_Rekord_collector_can_take_keys_of_the_supertype() {
+    a_serializer_will_accept_keys_of_the_supertype() {
         Rekord<Bratwurst> bratwurst = Bratwurst.rekord
                 .with(Wurst.curvature, 0.7)
                 .with(Bratwurst.style, Chopped);
@@ -82,7 +107,7 @@ public final class RekordSerializationTest {
     }
 
     @Test public void
-    a_Rekord_collector_can_nest_itself() {
+    serializes_nested_rekords() {
         final Rekord<Person> person = Person.rekord
                 .with(Person.firstName, "Sherlock")
                 .with(Person.lastName, "Holmes")
