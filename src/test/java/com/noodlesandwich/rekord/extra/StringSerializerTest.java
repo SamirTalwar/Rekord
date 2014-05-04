@@ -13,7 +13,7 @@ import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.startsWith;
 
-public final class StringKollectorTest {
+public final class StringSerializerTest {
     @Test public void
     serializes_an_empty_rekord_to_a_string_just_containing_its_name() {
         Rekord<Person> person = Person.rekord;

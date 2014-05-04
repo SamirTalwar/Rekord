@@ -17,13 +17,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.xmlmatchers.XmlMatchers.isSimilarTo;
 import static org.xmlmatchers.transform.XmlConverters.the;
 
-public final class DomXmlKollectorTest {
+public final class DomXmlSerializerTest {
     @Test public void
-    a_rekord_with_one_element_is_kollected_into_XML() {
+    a_rekord_with_one_element_is_serialized_to_XML() {
         Rekord<Sandvich> sandvich = Sandvich.rekord
                 .with(Sandvich.filling, Cheese);
 
-        Document document = sandvich.collect(new DomXmlKollector());
+        Document document = sandvich.serialize(new DomXmlSerializer());
 
         assertThat(the(document), isSimilarTo(the(lines(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
@@ -33,13 +33,13 @@ public final class DomXmlKollectorTest {
         ))));
     }
     @Test public void
-    a_rekord_with_multiple_elements_is_kollected_into_XML() {
+    a_rekord_with_multiple_elements_is_serialized_to_XML() {
         Rekord<Sandvich> sandvich = Sandvich.rekord
                 .with(Sandvich.bread, Brown)
                 .with(Sandvich.filling, Cheese)
                 .with(Sandvich.style, Roll);
 
-        Document document = sandvich.collect(new DomXmlKollector());
+        Document document = sandvich.serialize(new DomXmlSerializer());
 
         assertThat(the(document), isSimilarTo(the(lines(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
@@ -66,7 +66,7 @@ public final class DomXmlKollectorTest {
                 .with(key_12345, 67890)
                 .with(key_up, "down");
 
-        Document document = spongebob.collect(new DomXmlKollector());
+        Document document = spongebob.serialize(new DomXmlSerializer());
 
         assertThat(the(document), isSimilarTo(the(lines(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
@@ -81,7 +81,7 @@ public final class DomXmlKollectorTest {
     }
 
     @Test public void
-    a_rekord_with_nested_rekords_is_kollected_into_nested_XML() {
+    a_rekord_with_nested_rekords_is_serialized_to_nested_XML() {
         Rekord<Person> person = Person.rekord
                 .with(Person.firstName, "Philip")
                 .with(Person.lastName, "Sherman")
@@ -90,7 +90,7 @@ public final class DomXmlKollectorTest {
                         .with(Address.street, "Wallaby Way")
                         .with(Address.city, "Sydney"));
 
-        Document document = person.collect(new DomXmlKollector());
+        Document document = person.serialize(new DomXmlSerializer());
 
         assertThat(the(document), isSimilarTo(the(lines(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",

@@ -2,7 +2,7 @@ package com.noodlesandwich.rekord;
 
 import java.util.Arrays;
 import java.util.Set;
-import com.noodlesandwich.rekord.extra.StringKollector;
+import com.noodlesandwich.rekord.extra.StringSerializer;
 import com.noodlesandwich.rekord.keys.RekordKey;
 import org.pcollections.OrderedPSet;
 import org.pcollections.PSet;
@@ -54,12 +54,12 @@ public final class Rekord<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public <R> R collect(Kollector<R> collector) {
-        Kollector.Accumulator<R> accumulator = collector.accumulatorNamed(name);
+    public <R> R serialize(Serializer<R> serializer) {
+        Serializer.Accumulator<R> accumulator = serializer.accumulatorNamed(name);
         for (Key<? super T, ?> key : properties.<T>keys()) {
             Object value = key.retrieveFrom(properties);
             if (key instanceof RekordKey) {
-                accumulator.accumulateRekord(key, ((Rekord<?>) value).collect(collector));
+                accumulator.accumulateRekord(key, ((Rekord<?>) value).serialize(serializer));
             } else {
                 accumulator.accumulate((Key<?, Object>) key, value);
             }
@@ -89,7 +89,7 @@ public final class Rekord<T> {
 
     @Override
     public String toString() {
-        return collect(new StringKollector());
+        return serialize(new StringSerializer());
     }
 
     public static final class UnkeyedRekord<T> {

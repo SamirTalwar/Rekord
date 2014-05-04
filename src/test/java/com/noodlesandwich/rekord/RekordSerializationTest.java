@@ -6,7 +6,7 @@ import org.jmock.Mockery;
 import org.jmock.Sequence;
 import org.junit.Test;
 
-import static com.noodlesandwich.rekord.Kollector.Accumulator;
+import static com.noodlesandwich.rekord.Serializer.Accumulator;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Address;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bier;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst;
@@ -24,21 +24,21 @@ import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
 
-public final class RekordCollectionTest {
+public final class RekordSerializationTest {
     private final Mockery context = new Mockery();
 
     @Test public void
-    a_Rekord_can_be_collected_into_a_collector() {
+    a_Rekord_can_be_serialized() {
         Rekord<Sandvich> sandvich = Sandvich.rekord
                 .with(Sandvich.filling, Cheese)
                 .with(Sandvich.bread, White)
                 .with(Sandvich.style, Burger);
 
         final Accumulator<String> accumulator = accumulator();
-        final Kollector<String> kollector = kollector();
+        final Serializer<String> serializer = serializer();
 
         context.checking(new Expectations() {{
-            oneOf(kollector).accumulatorNamed("Sandvich"); will(returnValue(accumulator));
+            oneOf(serializer).accumulatorNamed("Sandvich"); will(returnValue(accumulator));
 
             Sequence filling = context.sequence("filling");
             Sequence bread = context.sequence("bread");
@@ -49,7 +49,7 @@ public final class RekordCollectionTest {
             oneOf(accumulator).finish(); will(returnValue("result!")); inSequences(filling, bread, style);
         }});
 
-        String result = sandvich.collect(kollector);
+        String result = sandvich.serialize(serializer);
 
         context.assertIsSatisfied();
         assertThat(result, is("result!"));
@@ -62,10 +62,10 @@ public final class RekordCollectionTest {
                 .with(Bratwurst.style, Chopped);
 
         final Accumulator<Integer> accumulator = accumulator();
-        final Kollector<Integer> kollector = kollector();
+        final Serializer<Integer> serializer = serializer();
 
         context.checking(new Expectations() {{
-            oneOf(kollector).accumulatorNamed("Bratwurst"); will(returnValue(accumulator));
+            oneOf(serializer).accumulatorNamed("Bratwurst"); will(returnValue(accumulator));
 
             Sequence curvature = context.sequence("curvature");
             Sequence style = context.sequence("style");
@@ -74,7 +74,7 @@ public final class RekordCollectionTest {
             oneOf(accumulator).finish(); will(returnValue(99)); inSequences(curvature, style);
         }});
 
-        int result = bratwurst.collect(kollector);
+        int result = bratwurst.serialize(serializer);
 
         context.assertIsSatisfied();
         assertThat(result, is(99));
@@ -91,14 +91,14 @@ public final class RekordCollectionTest {
 
         final Accumulator<String> personAccumulator = accumulator("person accumulator");
         final Accumulator<String> addressAccumulator = accumulator("address accumulator");
-        final Kollector<String> kollector = kollector();
+        final Serializer<String> serializer = serializer();
 
         context.checking(new Expectations() {{
-            oneOf(kollector).accumulatorNamed("Person"); will(returnValue(personAccumulator));
+            oneOf(serializer).accumulatorNamed("Person"); will(returnValue(personAccumulator));
             oneOf(personAccumulator).accumulate(Person.firstName, "Sherlock");
             oneOf(personAccumulator).accumulate(Person.lastName, "Holmes");
 
-            oneOf(kollector).accumulatorNamed("Address"); will(returnValue(addressAccumulator));
+            oneOf(serializer).accumulatorNamed("Address"); will(returnValue(addressAccumulator));
             oneOf(addressAccumulator).accumulate(Address.houseNumber, 221);
             oneOf(addressAccumulator).accumulate(Address.street, "Baker Street");
             oneOf(addressAccumulator).finish(); will(returnValue("221 Baker Street"));
@@ -107,7 +107,7 @@ public final class RekordCollectionTest {
             oneOf(personAccumulator).finish(); will(returnValue("Sherlock Holmes, 221 Baker Street"));
         }});
 
-        String result = person.collect(kollector);
+        String result = person.serialize(serializer);
 
         context.assertIsSatisfied();
         assertThat(result, is("Sherlock Holmes, 221 Baker Street"));
@@ -123,8 +123,8 @@ public final class RekordCollectionTest {
     }
 
     @SuppressWarnings("unchecked")
-    private <R> Kollector<R> kollector() {
-        return context.mock(Kollector.class);
+    private <R> Serializer<R> serializer() {
+        return context.mock(Serializer.class);
     }
 
     @SuppressWarnings("unchecked")

@@ -5,14 +5,14 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import com.google.common.base.Joiner;
-import com.noodlesandwich.rekord.Kollector;
+import com.noodlesandwich.rekord.Serializer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public final class DomXmlKollector implements Kollector<Document> {
+public final class DomXmlSerializer implements Serializer<Document> {
     private final DocumentBuilder documentBuilder;
 
-    public DomXmlKollector() {
+    public DomXmlSerializer() {
         try {
             this.documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         } catch (ParserConfigurationException e) {
