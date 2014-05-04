@@ -3,7 +3,7 @@ package com.noodlesandwich.rekord.serialization;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public final class DomXmlAccumulator implements Serializer.Accumulator<Element, Document> {
+public final class DomXmlAccumulator implements Serializer.Accumulator<Element> {
     private final Document document;
     private final Element root;
 
@@ -20,12 +20,12 @@ public final class DomXmlAccumulator implements Serializer.Accumulator<Element, 
     }
 
     @Override
-    public void accumulateNested(String name, Serializer.Accumulator<Element, Document> accumulator) {
+    public void accumulateNested(String name, Serializer.Accumulator<Element> accumulator) {
         root.appendChild(accumulator.value());
     }
 
     @Override
-    public Serializer.Accumulator<Element, Document> nest(String name) {
+    public Serializer.Accumulator<Element> nest(String name) {
         Element element = elementNamed(name);
         root.appendChild(element);
         return new DomXmlAccumulator(document, element);
@@ -36,8 +36,7 @@ public final class DomXmlAccumulator implements Serializer.Accumulator<Element, 
         return root;
     }
 
-    @Override
-    public Document finish() {
+    public Document document() {
         return document;
     }
 

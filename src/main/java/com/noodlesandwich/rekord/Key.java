@@ -16,7 +16,7 @@ public abstract class Key<T, V> {
 
     public abstract V retrieveFrom(Properties properties);
 
-    public abstract <A, R> void accumulate(V value, Serializer.Accumulator<A, R> accumulator);
+    public abstract <A> void accumulate(V value, Serializer.Accumulator<A> accumulator);
 
     public abstract Key<T, ?> original();
 

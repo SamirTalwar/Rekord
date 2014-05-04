@@ -14,8 +14,8 @@ public final class RekordKey<T, V> extends OriginalKey<T, Rekord<V>> {
     }
 
     @Override
-    public <A, R> void accumulate(Rekord<V> value, Serializer.Accumulator<A, R> accumulator) {
-        Serializer.Accumulator<A, R> nested = accumulator.nest(value.name());
+    public <A> void accumulate(Rekord<V> value, Serializer.Accumulator<A> accumulator) {
+        Serializer.Accumulator<A> nested = accumulator.nest(value.name());
         value.accumulateIn(nested);
         accumulator.accumulateNested(name(), nested);
     }

@@ -1,12 +1,13 @@
 package com.noodlesandwich.rekord.serialization;
 
 public interface Serializer<A, R> {
-    Accumulator<A, R> nest(String name);
+    Accumulator<A> start(String name);
+    R finish(Accumulator<A> accumulator);
 
-    public static interface Accumulator<A, R> extends Serializer<A, R> {
+    public static interface Accumulator<A> {
         void accumulate(String name, Object value);
-        void accumulateNested(String name, Accumulator<A, R> accumulator);
+        void accumulateNested(String name, Accumulator<A> accumulator);
+        Accumulator<A> nest(String name);
         A value();
-        R finish();
     }
 }

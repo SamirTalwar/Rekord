@@ -20,11 +20,16 @@ public final class DomXmlSerializer implements Serializer<Element, Document> {
     }
 
     @Override
-    public Accumulator<Element, Document> nest(String name) {
+    public Accumulator<Element> start(String name) {
         Document document = documentBuilder.newDocument();
         Element root = document.createElement(slugify(name));
         document.appendChild(root);
         return new DomXmlAccumulator(document, root);
+    }
+
+    @Override
+    public Document finish(Accumulator<Element> accumulator) {
+        return ((DomXmlAccumulator) accumulator).document();
     }
 
     public static String slugify(String name) {

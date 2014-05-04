@@ -2,11 +2,16 @@ package com.noodlesandwich.rekord.serialization;
 
 public final class StringSerializer implements Serializer<String, String> {
     @Override
-    public Accumulator<String, String> nest(String name) {
+    public Accumulator<String> start(String name) {
         return new StringAccumulator(name);
     }
 
-    public static final class StringAccumulator implements Serializer.Accumulator<String, String> {
+    @Override
+    public String finish(Accumulator<String> accumulator) {
+        return accumulator.value();
+    }
+
+    public static final class StringAccumulator implements Serializer.Accumulator<String> {
         private final String name;
         private final StringBuilder entries = new StringBuilder();
         private boolean first = true;
@@ -21,23 +26,18 @@ public final class StringSerializer implements Serializer<String, String> {
         }
 
         @Override
-        public void accumulateNested(String name, Accumulator<String, String> accumulator) {
+        public void accumulateNested(String name, Accumulator<String> accumulator) {
             append(name, accumulator.value());
         }
 
         @Override
-        public Accumulator<String, String> nest(String name) {
+        public Accumulator<String> nest(String name) {
             return new StringAccumulator(name);
         }
 
         @Override
         public String value() {
             return String.format("%s {%s}", name, entries);
-        }
-
-        @Override
-        public String finish() {
-            return value();
         }
 
         private void append(String name, Object value) {
