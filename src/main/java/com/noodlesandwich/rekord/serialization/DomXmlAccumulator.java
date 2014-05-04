@@ -3,37 +3,46 @@ package com.noodlesandwich.rekord.serialization;
 import com.noodlesandwich.rekord.Key;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
-public final class DomXmlAccumulator implements Serializer.Accumulator<Document> {
-    private final Element root;
+public final class DomXmlAccumulator implements Serializer.Accumulator<Element, Document> {
     private final Document document;
+    private final Element root;
 
-    public DomXmlAccumulator(Element root, Document document) {
-        this.root = root;
+    public DomXmlAccumulator(Document document, Element root) {
         this.document = document;
+        this.root = root;
     }
 
     @Override
     public <V> void accumulate(Key<?, V> key, V value) {
-        Element element = document.createElement(DomXmlSerializer.slugify(key.toString()));
+        Element element = elementNamed(key.toString());
         element.appendChild(document.createTextNode(value.toString()));
         root.appendChild(element);
     }
 
     @Override
-    public void accumulateRekord(Key<?, ?> key, Document serializedRekord) {
-        Element adoptedElement = (Element) document.adoptNode(serializedRekord.getDocumentElement());
-        Element element = document.createElement(DomXmlSerializer.slugify(key.toString()));
-        while (adoptedElement.hasChildNodes()) {
-            Node child = adoptedElement.removeChild(adoptedElement.getFirstChild());
-            element.appendChild(child);
-        }
+    public void accumulateNested(Key<?, ?> key, Serializer.Accumulator<Element, Document> nested) {
+        root.appendChild(nested.value());
+    }
+
+    @Override
+    public Serializer.Accumulator<Element, Document> nest(String name) {
+        Element element = elementNamed(name);
         root.appendChild(element);
+        return new DomXmlAccumulator(document, element);
+    }
+
+    @Override
+    public Element value() {
+        return root;
     }
 
     @Override
     public Document finish() {
         return document;
+    }
+
+    private Element elementNamed(String name) {
+        return document.createElement(DomXmlSerializer.slugify(name));
     }
 }

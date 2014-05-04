@@ -8,7 +8,7 @@ import com.google.common.base.Joiner;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public final class DomXmlSerializer implements Serializer<Document> {
+public final class DomXmlSerializer implements Serializer<Element, Document> {
     private final DocumentBuilder documentBuilder;
 
     public DomXmlSerializer() {
@@ -20,11 +20,11 @@ public final class DomXmlSerializer implements Serializer<Document> {
     }
 
     @Override
-    public Accumulator<Document> accumulatorNamed(String name) {
+    public Accumulator<Element, Document> accumulatorNamed(String name) {
         Document document = documentBuilder.newDocument();
         Element root = document.createElement(slugify(name));
         document.appendChild(root);
-        return new DomXmlAccumulator(root, document);
+        return new DomXmlAccumulator(document, root);
     }
 
     public static String slugify(String name) {

@@ -55,17 +55,25 @@ public final class Rekord<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public <R> R serialize(Serializer<R> serializer) {
-        Serializer.Accumulator<R> accumulator = serializer.accumulatorNamed(name);
+    public <A, R> R serialize(Serializer<A, R> serializer) {
+        Serializer.Accumulator<A, R> accumulator = serializer.accumulatorNamed(name);
+        accumulateIn(accumulator);
+        return accumulator.finish();
+    }
+
+    @SuppressWarnings("unchecked")
+    private <A, R> void accumulateIn(Serializer.Accumulator<A, R> accumulator) {
         for (Key<? super T, ?> key : properties.<T>keys()) {
             Object value = key.retrieveFrom(properties);
             if (key instanceof RekordKey) {
-                accumulator.accumulateRekord(key, ((Rekord<?>) value).serialize(serializer));
+                Rekord<?> nestedRekord = (Rekord<?>) value;
+                Serializer.Accumulator<A, R> nested = accumulator.nest(nestedRekord.name);
+                nestedRekord.accumulateIn(nested);
+                accumulator.accumulateNested(key, nested);
             } else {
                 accumulator.accumulate((Key<?, Object>) key, value);
             }
         }
-        return accumulator.finish();
     }
 
     @SuppressWarnings("unchecked")

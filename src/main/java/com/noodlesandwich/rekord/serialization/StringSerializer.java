@@ -2,13 +2,13 @@ package com.noodlesandwich.rekord.serialization;
 
 import com.noodlesandwich.rekord.Key;
 
-public final class StringSerializer implements Serializer<String> {
+public final class StringSerializer implements Serializer<String, String> {
     @Override
-    public Accumulator<String> accumulatorNamed(String name) {
+    public Accumulator<String, String> accumulatorNamed(String name) {
         return new StringAccumulator(name);
     }
 
-    public static final class StringAccumulator implements Serializer.Accumulator<String> {
+    public static final class StringAccumulator implements Serializer.Accumulator<String, String> {
         private final String name;
         private final StringBuilder entries = new StringBuilder();
         private boolean first = true;
@@ -23,13 +23,23 @@ public final class StringSerializer implements Serializer<String> {
         }
 
         @Override
-        public void accumulateRekord(Key<?, ?> key, String serializedRekord) {
-            append(key, serializedRekord);
+        public void accumulateNested(Key<?, ?> key, Accumulator<String, String> nested) {
+            append(key, nested.value());
+        }
+
+        @Override
+        public Accumulator<String, String> nest(String name) {
+            return new StringAccumulator(name);
+        }
+
+        @Override
+        public String value() {
+            return String.format("%s {%s}", name, entries);
         }
 
         @Override
         public String finish() {
-            return String.format("%s {%s}", name, entries);
+            return value();
         }
 
         private void append(Key<?, ?> key, Object value) {

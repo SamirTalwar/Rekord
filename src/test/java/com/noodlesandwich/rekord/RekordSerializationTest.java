@@ -35,8 +35,8 @@ public final class RekordSerializationTest {
                 .with(Sandvich.bread, White)
                 .with(Sandvich.style, Burger);
 
-        final Accumulator<String> accumulator = accumulator();
-        final Serializer<String> serializer = serializer();
+        final Accumulator<String, String> accumulator = accumulator();
+        final Serializer<String, String> serializer = serializer();
 
         context.checking(new Expectations() {{
             oneOf(serializer).accumulatorNamed("Sandvich"); will(returnValue(accumulator));
@@ -62,8 +62,8 @@ public final class RekordSerializationTest {
                 .with(Wurst.curvature, 0.7)
                 .with(Bratwurst.style, Chopped);
 
-        final Accumulator<Integer> accumulator = accumulator();
-        final Serializer<Integer> serializer = serializer();
+        final Accumulator<Integer, Integer> accumulator = accumulator();
+        final Serializer<Integer, Integer> serializer = serializer();
 
         context.checking(new Expectations() {{
             oneOf(serializer).accumulatorNamed("Bratwurst"); will(returnValue(accumulator));
@@ -90,20 +90,19 @@ public final class RekordSerializationTest {
                         .with(Address.houseNumber, 221)
                         .with(Address.street, "Baker Street"));
 
-        final Accumulator<String> personAccumulator = accumulator("person accumulator");
-        final Accumulator<String> addressAccumulator = accumulator("address accumulator");
-        final Serializer<String> serializer = serializer();
+        final Accumulator<String, String> personAccumulator = accumulator("person accumulator");
+        final Accumulator<String, String> addressAccumulator = accumulator("address accumulator");
+        final Serializer<String, String> serializer = serializer();
 
         context.checking(new Expectations() {{
             oneOf(serializer).accumulatorNamed("Person"); will(returnValue(personAccumulator));
             oneOf(personAccumulator).accumulate(Person.firstName, "Sherlock");
             oneOf(personAccumulator).accumulate(Person.lastName, "Holmes");
 
-            oneOf(serializer).accumulatorNamed("Address"); will(returnValue(addressAccumulator));
+            oneOf(personAccumulator).nest("Address"); will(returnValue(addressAccumulator));
             oneOf(addressAccumulator).accumulate(Address.houseNumber, 221);
             oneOf(addressAccumulator).accumulate(Address.street, "Baker Street");
-            oneOf(addressAccumulator).finish(); will(returnValue("221 Baker Street"));
-            oneOf(personAccumulator).accumulateRekord(Person.address, "221 Baker Street");
+            oneOf(personAccumulator).accumulateNested(Person.address, addressAccumulator);
 
             oneOf(personAccumulator).finish(); will(returnValue("Sherlock Holmes, 221 Baker Street"));
         }});
@@ -124,17 +123,17 @@ public final class RekordSerializationTest {
     }
 
     @SuppressWarnings("unchecked")
-    private <R> Serializer<R> serializer() {
+    private <A, R> Serializer<A, R> serializer() {
         return context.mock(Serializer.class);
     }
 
     @SuppressWarnings("unchecked")
-    private <R> Accumulator<R> accumulator() {
+    private <A, R> Accumulator<A, R> accumulator() {
         return context.mock(Accumulator.class);
     }
 
     @SuppressWarnings("unchecked")
-    private <R> Accumulator<R> accumulator(String name) {
+    private <A, R> Accumulator<A, R> accumulator(String name) {
         return context.mock(Accumulator.class, name);
     }
 }
