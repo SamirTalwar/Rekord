@@ -27,7 +27,6 @@ public final class DomXmlAccumulator implements Serializer.Accumulator<Element> 
     @Override
     public Serializer.Accumulator<Element> nest(String name) {
         Element element = elementNamed(name);
-        root.appendChild(element);
         return new DomXmlAccumulator(document, element);
     }
 
