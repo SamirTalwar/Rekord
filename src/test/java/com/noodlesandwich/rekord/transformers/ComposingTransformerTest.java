@@ -18,7 +18,7 @@ public final class ComposingTransformerTest {
         assertThat(transformer.transformOutput(10), is("27"));
     }
 
-    private Transformer<Integer, Integer> add(final int amount) {
+    private static Transformer<Integer, Integer> add(final int amount) {
        return new Transformer<Integer, Integer>() {
            @Override
            public Integer transformInput(Integer value) {
@@ -31,7 +31,7 @@ public final class ComposingTransformerTest {
        };
     }
 
-    private Transformer<Integer, String> convertToString() {
+    private static Transformer<Integer, String> convertToString() {
         return new Transformer<Integer, String>() {
             @Override
             public Integer transformInput(String value) {
