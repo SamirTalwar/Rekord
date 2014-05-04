@@ -5,6 +5,7 @@ import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.keys.RekordKey;
 import com.noodlesandwich.rekord.keys.SimpleKey;
+import com.noodlesandwich.rekord.transformers.Transformer;
 
 import static com.noodlesandwich.rekord.extra.Validation.validatesItsInput;
 import static com.noodlesandwich.rekord.transformers.Transformers.defaultsTo;
@@ -14,12 +15,25 @@ import static org.hamcrest.Matchers.lessThan;
 public final class Rekords {
     private Rekords() { }
 
+    public static interface Restaurant {
+        Key<Restaurant, String> name = SimpleKey.named("name");
+        Key<Restaurant, Rekord<Sandvich>> meal = RekordKey.named("meal");
+        Key<Restaurant, String> mealName = meal.that(Sandvich.Stringifies);
+
+        Rekord<Restaurant> rekord = Rekord.of(Restaurant.class).accepting(name, meal);
+    }
+
     public static interface Sandvich {
-        Key<Sandvich, Filling> filling = SimpleKey.named("filling");
         Key<Sandvich, Bread> bread = SimpleKey.named("bread");
+        Key<Sandvich, Filling> filling = SimpleKey.named("filling");
         Key<Sandvich, Style> style = SimpleKey.<Sandvich, Style>named("style").that(defaultsTo(Style.Flat));
 
         Rekord<Sandvich> rekord = Rekord.of(Sandvich.class).accepting(filling, bread, style);
+
+        public static enum Bread {
+            Brown,
+            White;
+        }
 
         public static enum Filling {
             Cheese,
@@ -28,16 +42,33 @@ public final class Rekords {
             Lettuce
         }
 
-        public static enum Bread {
-            Brown,
-            White
-        }
-
         public static enum Style {
             Flat,
             Burger,
             Roll
         }
+
+        Transformer<Rekord<Sandvich>, String> Stringifies = new Transformer<Rekord<Sandvich>, String>() {
+            @Override
+            public Rekord<Sandvich> transformInput(String value) {
+                String[] values = value.split(" ");
+                Bread breadValue = Bread.valueOf(values[0]);
+                Filling fillingValue = Filling.valueOf(values[1]);
+                Style styleValue = Style.valueOf(values[2]);
+                return Sandvich.rekord
+                        .with(bread, breadValue)
+                        .with(filling, fillingValue)
+                        .with(style, styleValue);
+            }
+
+            @Override
+            public String transformOutput(Rekord<Sandvich> value) {
+                return String.format("%s %s %s",
+                        value.get(bread),
+                        value.get(filling),
+                        value.get(style));
+            }
+        };
     }
 
     public static interface Wurst {

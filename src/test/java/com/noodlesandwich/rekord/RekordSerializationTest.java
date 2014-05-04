@@ -13,6 +13,7 @@ import static com.noodlesandwich.rekord.testobjects.Rekords.Bier;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst.Style.Chopped;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Person;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Restaurant;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.White;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Cheese;
@@ -76,6 +77,39 @@ public final class RekordSerializationTest {
         }});
 
         String result = sandvich.serialize(serializer);
+
+        context.assertIsSatisfied();
+        assertThat(result, is("result!"));
+    }
+
+    @Test public void
+    serializes_transformed_rekord_keys() {
+        final Rekord<Restaurant> restaurant = Restaurant.rekord
+                .with(Restaurant.name, "McAwful's")
+                .with(Restaurant.mealName, "White Cheese Burger");
+
+        final Accumulator<String, String> restaurantAccumulator = accumulator("restaurant");
+        final Accumulator<String, String> mealAccumulator = accumulator("meal");
+        final Serializer<String, String> serializer = serializer();
+
+        context.checking(new Expectations() {{
+            oneOf(serializer).nest("Restaurant"); will(returnValue(restaurantAccumulator));
+
+            oneOf(restaurantAccumulator).accumulate("name", "McAwful's");
+
+            oneOf(restaurantAccumulator).nest("Sandvich"); will(returnValue(mealAccumulator));
+            Sequence bread = context.sequence("bread");
+            Sequence filling = context.sequence("filling");
+            Sequence style = context.sequence("style");
+            oneOf(mealAccumulator).accumulate("bread", White); inSequence(bread);
+            oneOf(mealAccumulator).accumulate("filling", Cheese); inSequence(filling);
+            oneOf(mealAccumulator).accumulate("style", Burger); inSequence(bread);
+            oneOf(restaurantAccumulator).accumulateNested("meal", mealAccumulator); inSequences(filling, bread, style);
+
+            oneOf(restaurantAccumulator).finish(); will(returnValue("result!"));
+        }});
+
+        String result = restaurant.serialize(serializer);
 
         context.assertIsSatisfied();
         assertThat(result, is("result!"));
