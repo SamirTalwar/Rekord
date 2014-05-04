@@ -1,7 +1,6 @@
-package com.noodlesandwich.rekord.extra;
+package com.noodlesandwich.rekord.serialization;
 
 import com.noodlesandwich.rekord.Key;
-import com.noodlesandwich.rekord.Serializer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

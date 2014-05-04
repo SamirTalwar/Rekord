@@ -2,8 +2,9 @@ package com.noodlesandwich.rekord;
 
 import java.util.Arrays;
 import java.util.Set;
-import com.noodlesandwich.rekord.extra.StringSerializer;
 import com.noodlesandwich.rekord.keys.RekordKey;
+import com.noodlesandwich.rekord.serialization.Serializer;
+import com.noodlesandwich.rekord.serialization.StringSerializer;
 import org.pcollections.OrderedPSet;
 import org.pcollections.PSet;
 

@@ -1,12 +1,13 @@
 package com.noodlesandwich.rekord;
 
+import com.noodlesandwich.rekord.serialization.Serializer;
 import com.noodlesandwich.rekord.testobjects.Measurement;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.Sequence;
 import org.junit.Test;
 
-import static com.noodlesandwich.rekord.Serializer.Accumulator;
+import static com.noodlesandwich.rekord.serialization.Serializer.Accumulator;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Address;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bier;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst;

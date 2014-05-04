@@ -1,7 +1,6 @@
-package com.noodlesandwich.rekord.extra;
+package com.noodlesandwich.rekord.serialization;
 
 import com.noodlesandwich.rekord.Key;
-import com.noodlesandwich.rekord.Serializer;
 
 public final class StringSerializer implements Serializer<String> {
     @Override

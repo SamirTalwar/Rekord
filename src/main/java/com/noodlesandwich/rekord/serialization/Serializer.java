@@ -1,4 +1,6 @@
-package com.noodlesandwich.rekord;
+package com.noodlesandwich.rekord.serialization;
+
+import com.noodlesandwich.rekord.Key;
 
 public interface Serializer<R> {
     Accumulator<R> accumulatorNamed(String name);

@@ -1,4 +1,4 @@
-package com.noodlesandwich.rekord.extra;
+package com.noodlesandwich.rekord.serialization;
 
 import com.noodlesandwich.rekord.Rekord;
 import org.junit.Test;

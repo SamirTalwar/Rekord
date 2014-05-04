@@ -1,4 +1,4 @@
-package com.noodlesandwich.rekord.extra;
+package com.noodlesandwich.rekord.serialization;
 
 import com.google.common.base.Joiner;
 import com.noodlesandwich.rekord.Key;

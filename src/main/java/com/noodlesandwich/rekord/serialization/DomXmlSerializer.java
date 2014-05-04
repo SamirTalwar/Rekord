@@ -1,11 +1,10 @@
-package com.noodlesandwich.rekord.extra;
+package com.noodlesandwich.rekord.serialization;
 
 import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import com.google.common.base.Joiner;
-import com.noodlesandwich.rekord.Serializer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
