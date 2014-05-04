@@ -15,7 +15,7 @@ public final class DomXmlAccumulator implements Serializer.Accumulator<Element, 
 
     @Override
     public <V> void accumulate(Key<?, V> key, V value) {
-        Element element = elementNamed(key.toString());
+        Element element = elementNamed(key.name());
         element.appendChild(document.createTextNode(value.toString()));
         root.appendChild(element);
     }

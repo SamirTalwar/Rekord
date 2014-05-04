@@ -45,7 +45,7 @@ public final class Properties {
     public Properties with(Property property) {
         Key<?, ?> originalKey = property.originalKey();
         if (!acceptedKeys.contains(originalKey)) {
-            throw new IllegalArgumentException(String.format(UnacceptableKeyTemplate, originalKey));
+            throw new IllegalArgumentException(String.format(UnacceptableKeyTemplate, originalKey.name()));
         }
 
         return new Properties(

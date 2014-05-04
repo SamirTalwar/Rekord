@@ -6,6 +6,17 @@ import com.noodlesandwich.rekord.Property;
 import com.noodlesandwich.rekord.transformers.Transformer;
 
 public abstract class OriginalKey<T, V> extends Key<T, V> {
+    private final String name;
+
+    public OriginalKey(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String name() {
+        return name;
+    }
+
     @Override
     public <NewV> Key<T, NewV> that(Transformer<V, NewV> transformer) {
         return new TransformingKey<>(this, transformer);

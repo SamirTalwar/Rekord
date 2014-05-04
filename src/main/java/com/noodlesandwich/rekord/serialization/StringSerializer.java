@@ -44,7 +44,7 @@ public final class StringSerializer implements Serializer<String, String> {
 
         private void append(Key<?, ?> key, Object value) {
             appendSeparator();
-            entries.append(String.format("%s: %s", key, value));
+            entries.append(String.format("%s: %s", key.name(), value));
         }
 
         private void appendSeparator() {

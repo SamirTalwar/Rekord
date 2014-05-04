@@ -30,6 +30,11 @@ public final class SimpleKeyTest {
     }
 
     @Test public void
+    knows_its_name() {
+        assertThat(Thing.one.name(), is("one"));
+    }
+
+    @Test public void
     stringifies_to_its_name() {
         assertThat(Thing.one, hasToString("one"));
     }

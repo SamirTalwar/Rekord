@@ -16,6 +16,11 @@ public final class TransformingKey<T, U, V> extends Key<T, V> {
     }
 
     @Override
+    public String name() {
+        return original.name();
+    }
+
+    @Override
     public <NewV> TransformingKey<T, U, NewV> that(Transformer<V, NewV> transformer) {
         return new TransformingKey<>(original, Transformers.compose(transformer, this.transformer));
     }
@@ -35,10 +40,5 @@ public final class TransformingKey<T, U, V> extends Key<T, V> {
     @Override
     public Key<T, ?> original() {
         return original;
-    }
-
-    @Override
-    public String toString() {
-        return original.toString();
     }
 }

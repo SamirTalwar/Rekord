@@ -3,6 +3,8 @@ package com.noodlesandwich.rekord;
 import com.noodlesandwich.rekord.transformers.Transformer;
 
 public abstract class Key<T, V> {
+    public abstract String name();
+
     public abstract <NewV> Key<T, NewV> that(Transformer<V, NewV> transformer);
 
     public <NewV> Key<T, NewV> then(Transformer<V, NewV> transformer) {
@@ -15,5 +17,8 @@ public abstract class Key<T, V> {
 
     public abstract Key<T, ?> original();
 
-    public abstract String toString();
+    @Override
+    public String toString() {
+        return name();
+    }
 }
