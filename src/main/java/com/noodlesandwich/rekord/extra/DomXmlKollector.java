@@ -29,13 +29,15 @@ public final class DomXmlKollector implements Kollector<Document> {
     }
 
     public static String slugify(String name) {
-        name = name.replaceAll(" ", "-");
+        name = WhiteSpace.matcher(name).replaceAll("-");
         name = InvalidXmlNameChars.matcher(name).replaceAll("_");
         if (InvalidXmlNameStartChars.matcher(name.substring(0, 1)).matches()) {
             name = "_" + name;
         }
         return name.toLowerCase();
     }
+
+    private static final Pattern WhiteSpace = Pattern.compile(" ");
 
     private static final String XmlNameStartCharsString = Joiner.on("").join(
             ":", "_",
