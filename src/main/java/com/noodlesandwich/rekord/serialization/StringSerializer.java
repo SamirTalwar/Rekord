@@ -16,13 +16,13 @@ public final class StringSerializer implements Serializer<String, String> {
         }
 
         @Override
-        public <V> void accumulate(String name, V value) {
+        public void accumulate(String name, Object value) {
             append(name, value);
         }
 
         @Override
-        public void accumulateNested(String name, Accumulator<String, String> nested) {
-            append(name, nested.value());
+        public void accumulateNested(String name, Accumulator<String, String> accumulator) {
+            append(name, accumulator.value());
         }
 
         @Override

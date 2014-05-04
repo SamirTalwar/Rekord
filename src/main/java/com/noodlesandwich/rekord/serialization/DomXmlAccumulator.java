@@ -13,15 +13,15 @@ public final class DomXmlAccumulator implements Serializer.Accumulator<Element, 
     }
 
     @Override
-    public <V> void accumulate(String name, V value) {
+    public void accumulate(String name, Object value) {
         Element element = elementNamed(name);
         element.appendChild(document.createTextNode(value.toString()));
         root.appendChild(element);
     }
 
     @Override
-    public void accumulateNested(String name, Serializer.Accumulator<Element, Document> nested) {
-        root.appendChild(nested.value());
+    public void accumulateNested(String name, Serializer.Accumulator<Element, Document> accumulator) {
+        root.appendChild(accumulator.value());
     }
 
     @Override
