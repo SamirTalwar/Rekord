@@ -2,6 +2,7 @@ package com.noodlesandwich.rekord.testobjects;
 
 import java.util.Collection;
 import java.util.regex.Pattern;
+import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.keys.CollectionKey;
@@ -19,7 +20,7 @@ public final class Rekords {
 
     public static interface Restaurant {
         Key<Restaurant, String> name = SimpleKey.named("name");
-        Key<Restaurant, Rekord<Sandvich>> meal = RekordKey.named("meal");
+        Key<Restaurant, FixedRekord<Sandvich>> meal = RekordKey.named("meal");
         Key<Restaurant, String> mealName = meal.that(Sandvich.Stringifies);
 
         Rekord<Restaurant> rekord = Rekord.of(Restaurant.class).accepting(name, meal);
@@ -50,13 +51,13 @@ public final class Rekords {
             Roll
         }
 
-        Transformer<Rekord<Sandvich>, String> Stringifies = new StringTransformer();
+        Transformer<FixedRekord<Sandvich>, String> Stringifies = new StringTransformer();
 
-        final class StringTransformer implements Transformer<Rekord<Sandvich>, String> {
+        final class StringTransformer implements Transformer<FixedRekord<Sandvich>, String> {
             private static final Pattern SPLITTER = Pattern.compile(" ");
 
             @Override
-            public Rekord<Sandvich> transformInput(String value) {
+            public FixedRekord<Sandvich> transformInput(String value) {
                 String[] values = SPLITTER.split(value);
                 Bread breadValue = Bread.valueOf(values[0]);
                 Filling fillingValue = Filling.valueOf(values[1]);
@@ -68,7 +69,7 @@ public final class Rekords {
             }
 
             @Override
-            public String transformOutput(Rekord<Sandvich> value) {
+            public String transformOutput(FixedRekord<Sandvich> value) {
                 return String.format("%s %s %s",
                         value.get(bread),
                         value.get(filling),
@@ -105,9 +106,9 @@ public final class Rekords {
         Key<Person, String> firstName = SimpleKey.named("first name");
         Key<Person, String> lastName = SimpleKey.named("last name");
         Key<Person, Integer> age = SimpleKey.named("age");
-        Key<Person, Collection<Rekord<Person>>> favouritePeople = CollectionKey.named("favourite people").of(RekordKey.<Person, Person>named("favourite person"));
+        Key<Person, Collection<FixedRekord<Person>>> favouritePeople = CollectionKey.named("favourite people").of(RekordKey.<Person, Person>named("favourite person"));
         Key<Person, Collection<String>> pets = CollectionKey.named("pets").of(SimpleKey.<Person, String>named("pet"));
-        Key<Person, Rekord<Address>> address = RekordKey.named("address");
+        Key<Person, FixedRekord<Address>> address = RekordKey.named("address");
 
         Rekord<Person> rekord = Rekord.of(Person.class).accepting(firstName, lastName, age, favouritePeople, pets, address);
     }

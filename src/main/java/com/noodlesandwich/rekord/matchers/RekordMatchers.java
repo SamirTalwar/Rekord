@@ -3,7 +3,6 @@ package com.noodlesandwich.rekord.matchers;
 import java.util.Map;
 import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Key;
-import com.noodlesandwich.rekord.Rekord;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
@@ -21,7 +20,7 @@ public final class RekordMatchers {
         return new RekordMatcher<>(name);
     }
 
-    public static <T> Matcher<Rekord<T>> hasKey(Key<T, ?> key) {
+    public static <T> Matcher<FixedRekord<T>> hasKey(Key<T, ?> key) {
         return new RekordKeyMatcher<>(key);
     }
 
@@ -67,7 +66,7 @@ public final class RekordMatchers {
         }
     }
 
-    private static final class RekordKeyMatcher<T> extends TypeSafeDiagnosingMatcher<Rekord<T>> {
+    private static final class RekordKeyMatcher<T> extends TypeSafeDiagnosingMatcher<FixedRekord<T>> {
         private final Key<T, ?> key;
 
         public RekordKeyMatcher(Key<T, ?> key) {
@@ -80,7 +79,7 @@ public final class RekordMatchers {
         }
 
         @Override
-        protected boolean matchesSafely(Rekord<T> rekord, Description mismatchDescription) {
+        protected boolean matchesSafely(FixedRekord<T> rekord, Description mismatchDescription) {
             mismatchDescription.appendText("the rekord ").appendValue(rekord).appendText(" did not have the key ").appendValue(key);
             return rekord.containsKey(key);
         }

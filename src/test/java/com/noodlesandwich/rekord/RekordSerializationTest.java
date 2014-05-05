@@ -165,10 +165,10 @@ public final class RekordSerializationTest {
 
     @Test public void
     serializes_collections_of_rekords() {
-        final Rekord<Person> watson = Person.rekord
+        final FixedRekord<Person> watson = Person.rekord
                 .with(Person.firstName, "John")
                 .with(Person.lastName, "Watson");
-        final Rekord<Person> holmes = Person.rekord
+        final FixedRekord<Person> holmes = Person.rekord
                 .with(Person.firstName, "Sherlock")
                 .with(Person.lastName, "Holmes")
                 .with(Person.favouritePeople, ImmutableList.of(watson));
