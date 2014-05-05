@@ -7,11 +7,11 @@ import com.noodlesandwich.rekord.serialization.StringSerializer;
 import org.pcollections.OrderedPSet;
 import org.pcollections.PSet;
 
-public final class Rekord<T> {
+public final class Rekord<T> implements RekordBuilder<T, Rekord<T>>, FixedRekord<T> {
     private final String name;
     private final Properties properties;
 
-    private Rekord(String name, Properties properties) {
+    public Rekord(String name, Properties properties) {
         this.name = name;
         this.properties = properties;
     }
@@ -24,23 +24,28 @@ public final class Rekord<T> {
         return new UnkeyedRekord<>(name);
     }
 
+    @Override
     public String name() {
         return name;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public <V> V get(Key<? super T, V> key) {
         return key.retrieveFrom(properties);
     }
 
+    @Override
     public boolean containsKey(Key<T, ?> key) {
         return properties.contains(key);
     }
 
+    @Override
     public Set<Key<? super T, ?>> keys() {
         return properties.keys();
     }
 
+    @Override
     public <V> Rekord<T> with(Key<? super T, V> key, V value) {
         if (key == null) {
             throw new NullPointerException("Cannot construct a Rekord property with a null key.");
@@ -49,20 +54,24 @@ public final class Rekord<T> {
         return new Rekord<>(name, key.storeTo(properties, value));
     }
 
+    @Override
     public <V> Rekord<T> with(V value, Key<? super T, V> key) {
         return with(key, value);
     }
 
+    @Override
     public Rekord<T> without(Key<? super T, ?> key) {
         return new Rekord<>(name, properties.without(key));
     }
 
+    @Override
     public <A, R> R serialize(RekordSerializer<A, R> serializer) {
         RekordSerializer.Serializer<A> internalSerializer = serializer.start(name);
         accumulateIn(internalSerializer);
         return serializer.finish(internalSerializer);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public <A> void accumulateIn(RekordSerializer.Serializer<A> serializer) {
         for (Key<? super T, ?> key : properties.<T>keys()) {
