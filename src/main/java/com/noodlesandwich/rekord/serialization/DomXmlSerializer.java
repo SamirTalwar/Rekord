@@ -23,8 +23,7 @@ public final class DomXmlSerializer implements RekordSerializer<Element, Documen
     @Override
     public Serializer<Element> start(String name) {
         NodeCreator nodeCreator = new NodeCreator(documentBuilder.newDocument());
-        Element root = nodeCreator.elementNamed(name);
-        return RekordSerializers.serializer(new DomXmlBuilder(nodeCreator), new DomXmlMapAccumulator(root));
+        return new DomXmlBuilder(nodeCreator).map(name);
     }
 
     @Override
