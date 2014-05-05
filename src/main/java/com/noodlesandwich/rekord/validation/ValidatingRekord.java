@@ -9,9 +9,9 @@ import com.noodlesandwich.rekord.RekordBuilder;
 public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRekord<T>> {
     private final String name;
     private final Properties properties;
-    private final ValidRekord.Validator<T> validator;
+    private final Validator<T> validator;
 
-    public ValidatingRekord(String name, Properties properties, ValidRekord.Validator<T> validator) {
+    public ValidatingRekord(String name, Properties properties, Validator<T> validator) {
         this.name = name;
         this.properties = properties;
         this.validator = validator;
@@ -34,9 +34,7 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
 
     public FixedRekord<T> fix() throws InvalidRekordException {
         Rekord<T> rekord = new Rekord<>(name, properties);
-        if (!validator.test(rekord)) {
-            throw new InvalidRekordException();
-        }
+        validator.test(rekord);
         return rekord;
     }
 }

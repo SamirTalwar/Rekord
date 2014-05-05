@@ -1,7 +1,6 @@
 package com.noodlesandwich.rekord.validation;
 
 import java.util.Arrays;
-import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Properties;
 import org.pcollections.OrderedPSet;
@@ -45,9 +44,5 @@ public final class ValidRekord {
         public ValidatingRekord<T> allowing(Validator<T> validator) {
             return new ValidatingRekord<>(name, properties, validator);
         }
-    }
-
-    public static interface Validator<T> {
-        boolean test(FixedRekord<T> rekord);
     }
 }

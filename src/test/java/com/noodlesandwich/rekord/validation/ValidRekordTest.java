@@ -54,18 +54,18 @@ public class ValidRekordTest {
 
         expectedException.expect(allOf(
                 instanceOf(InvalidRekordException.class),
-                hasProperty("message", equalTo("This rekord is invalid."))));
+                hasProperty("message", equalTo("Burgers are gross."))));
 
         invalidSandvich.fix();
     }
 
-    private static ValidRekord.Validator<Sandvich> noBurgers() {
-        return new ValidRekord.Validator<Sandvich>() {
-            @Override public boolean test(FixedRekord<Sandvich> rekord) {
-                return rekord.get(Sandvich.style) != Burger;
+    private static Validator<Sandvich> noBurgers() {
+        return new Validator<Sandvich>() {
+            @Override public void test(FixedRekord<Sandvich> rekord) throws InvalidRekordException {
+                if (rekord.get(Sandvich.style) == Burger) {
+                    throw new InvalidRekordException("Burgers are gross.");
+                }
             }
         };
     }
-
-
 }
