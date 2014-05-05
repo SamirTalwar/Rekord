@@ -58,13 +58,13 @@ public final class Rekord<T> {
     }
 
     public <A, R> R serialize(Serializer<A, R> serializer) {
-        Serializer.Accumulator<A> accumulator = serializer.start(name);
+        Serializer.AccumulatorBuilder<A> accumulator = serializer.start(name);
         accumulateIn(accumulator);
         return serializer.finish(accumulator);
     }
 
     @SuppressWarnings("unchecked")
-    public <A> void accumulateIn(Serializer.Accumulator<A> accumulator) {
+    public <A> void accumulateIn(Serializer.AccumulatorBuilder<A> accumulator) {
         for (Key<? super T, ?> key : properties.<T>keys()) {
             Key<? super T, Object> castKey = (Key<? super T, Object>) key;
             Object value = castKey.retrieveFrom(properties);

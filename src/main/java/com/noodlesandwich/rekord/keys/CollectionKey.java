@@ -29,8 +29,8 @@ public final class CollectionKey<T, V> extends OriginalKey<T, Collection<V>> {
     }
 
     @Override
-    public <A> void accumulate(Collection<V> collection, Serializer.Accumulator<A> accumulator) {
-        Serializer.Accumulator<A> collectionAccumulator = accumulator.collection(name());
+    public <A> void accumulate(Collection<V> collection, Serializer.AccumulatorBuilder<A> accumulator) {
+        Serializer.AccumulatorBuilder<A> collectionAccumulator = accumulator.collection(name());
         for (V value : collection) {
             contents.accumulate(value, collectionAccumulator);
         }

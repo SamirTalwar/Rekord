@@ -20,16 +20,20 @@ public final class DomXmlSerializer implements Serializer<Element, Document> {
     }
 
     @Override
-    public Accumulator<Element> start(String name) {
+    public AccumulatorBuilder<Element> start(String name) {
         Document document = documentBuilder.newDocument();
         Element root = document.createElement(slugify(name));
         document.appendChild(root);
-        return new DomXmlAccumulator(document, root);
+        return Serializers.accumulatorBuilder(new DomXmlBuilder(document), new DomXmlAccumulator(root));
     }
 
     @Override
-    public Document finish(Accumulator<Element> accumulator) {
-        return ((DomXmlAccumulator) accumulator).document();
+    public Document finish(AccumulatorBuilder<Element> accumulator) {
+        Document document = documentBuilder.newDocument();
+        Element root = accumulator.serialized();
+        document.adoptNode(root);
+        document.appendChild(root);
+        return document;
     }
 
     public static String slugify(String name) {
@@ -39,6 +43,90 @@ public final class DomXmlSerializer implements Serializer<Element, Document> {
             name = "_" + name;
         }
         return name.toLowerCase();
+    }
+
+    public static Element elementNamed(String name, Document document) {
+        return document.createElement(slugify(name));
+    }
+
+    public static final class DomXmlBuilder implements Builder<Element> {
+        private final Document document;
+
+        public DomXmlBuilder(Document document) {
+            this.document = document;
+        }
+
+        @Override
+        public SerializedProperty<Element> single(String name, Object value) {
+            return new SingleElement(document, name, value);
+        }
+
+        @Override
+        public AccumulatorBuilder<Element> collection(String name) {
+            Element child = elementNamed(name, document);
+            return Serializers.accumulatorBuilder(this, new DomXmlCollectionAccumulator(child));
+        }
+
+        @Override
+        public AccumulatorBuilder<Element> nest(String name) {
+            Element child = elementNamed(name, document);
+            return Serializers.accumulatorBuilder(this, new DomXmlAccumulator(child));
+        }
+    }
+
+    public static final class SingleElement implements SerializedProperty<Element> {
+        private final Document document;
+        private final String name;
+        private final Object value;
+
+        public SingleElement(Document document, String name, Object value) {
+            this.document = document;
+            this.name = name;
+            this.value = value;
+        }
+
+        @Override
+        public Element serialized() {
+            Element element = elementNamed(name, document);
+            element.appendChild(document.createTextNode(value.toString()));
+            return element;
+        }
+    }
+
+    public static final class DomXmlCollectionAccumulator implements Accumulator<Element> {
+        private final Element element;
+
+        public DomXmlCollectionAccumulator(Element element) {
+            this.element = element;
+        }
+
+        @Override
+        public void accumulate(String name, SerializedProperty<Element> property) {
+            element.appendChild(property.serialized());
+        }
+
+        @Override
+        public Element serialized() {
+            return element;
+        }
+    }
+
+    public static final class DomXmlAccumulator implements Accumulator<Element> {
+        private final Element element;
+
+        public DomXmlAccumulator(Element element) {
+            this.element = element;
+        }
+
+        @Override
+        public void accumulate(String name, SerializedProperty<Element> property) {
+            element.appendChild(property.serialized());
+        }
+
+        @Override
+        public Element serialized() {
+            return element;
+        }
     }
 
     private static final Pattern WhiteSpace = Pattern.compile(" ");

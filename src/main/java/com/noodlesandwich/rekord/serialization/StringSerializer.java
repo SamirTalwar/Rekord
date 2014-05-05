@@ -2,13 +2,31 @@ package com.noodlesandwich.rekord.serialization;
 
 public final class StringSerializer implements Serializer<String, String> {
     @Override
-    public Accumulator<String> start(String name) {
-        return new StringAccumulator(name);
+    public AccumulatorBuilder<String> start(String name) {
+        return new SerializedStringBuilder().nest(name);
     }
 
     @Override
-    public String finish(Accumulator<String> accumulator) {
+    public String finish(AccumulatorBuilder<String> accumulator) {
         return accumulator.serialized();
+    }
+
+    private static final class SerializedStringBuilder implements Builder<String> {
+        @Override
+        public SerializedProperty<String> single(String name, Object value) {
+            return new SingleStringProperty(value.toString());
+        }
+
+        @Override
+        public AccumulatorBuilder<String> collection(String name) {
+            return Serializers.accumulatorBuilder(this, new StringCollectionAccumulator());
+        }
+
+        @Override
+        public AccumulatorBuilder<String> nest(String name) {
+            return Serializers.accumulatorBuilder(this, new StringAccumulator(name));
+        }
+
     }
 
     private static final class SingleStringProperty implements SerializedProperty<String> {
@@ -28,21 +46,6 @@ public final class StringSerializer implements Serializer<String, String> {
         private final DelimitedString builder = new DelimitedString();
 
         @Override
-        public SerializedProperty<String> single(String name, Object value) {
-            return new SingleStringProperty(value.toString());
-        }
-
-        @Override
-        public Accumulator<String> collection(String name) {
-            return new StringCollectionAccumulator();
-        }
-
-        @Override
-        public Accumulator<String> nest(String name) {
-            return new StringAccumulator(name);
-        }
-
-        @Override
         public void accumulate(String name, SerializedProperty<String> property) {
             builder.add(property.serialized());
         }
@@ -59,21 +62,6 @@ public final class StringSerializer implements Serializer<String, String> {
 
         public StringAccumulator(String name) {
             this.name = name;
-        }
-
-        @Override
-        public SerializedProperty<String> single(String name, Object value) {
-            return new SingleStringProperty(value.toString());
-        }
-
-        @Override
-        public Accumulator<String> collection(String name) {
-            return new StringCollectionAccumulator();
-        }
-
-        @Override
-        public Accumulator<String> nest(String name) {
-            return new StringAccumulator(name);
         }
 
         @Override

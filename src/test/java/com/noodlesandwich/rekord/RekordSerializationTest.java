@@ -8,7 +8,7 @@ import org.jmock.Mockery;
 import org.jmock.Sequence;
 import org.junit.Test;
 
-import static com.noodlesandwich.rekord.serialization.Serializer.Accumulator;
+import static com.noodlesandwich.rekord.serialization.Serializer.AccumulatorBuilder;
 import static com.noodlesandwich.rekord.serialization.Serializer.SerializedProperty;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Address;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bier;
@@ -38,7 +38,7 @@ public final class RekordSerializationTest {
                 .with(Bier.head, Measurement.of(1).cm());
 
         final Serializer<String, String> serializer = serializer();
-        final Accumulator<String> accumulator = accumulator();
+        final AccumulatorBuilder<String> accumulator = accumulator();
         final SerializedProperty<String> volume = property("volume");
         final SerializedProperty<String> head = property("head");
 
@@ -68,7 +68,7 @@ public final class RekordSerializationTest {
                 .with(Sandvich.style, Burger);
 
         final Serializer<String, String> serializer = serializer();
-        final Accumulator<String> accumulator = accumulator();
+        final AccumulatorBuilder<String> accumulator = accumulator();
         final SerializedProperty<String> bread = property("bread");
         final SerializedProperty<String> filling = property("filling");
         final SerializedProperty<String> style = property("style");
@@ -101,7 +101,7 @@ public final class RekordSerializationTest {
                 .with(Bratwurst.style, Chopped);
 
         final Serializer<Integer, Integer> serializer = serializer();
-        final Accumulator<Integer> accumulator = accumulator();
+        final AccumulatorBuilder<Integer> accumulator = accumulator();
         final SerializedProperty<Integer> curvature = property("curvature");
         final SerializedProperty<Integer> style = property("style");
 
@@ -133,8 +133,8 @@ public final class RekordSerializationTest {
                         .with(Address.street, "Baker Street"));
 
         final Serializer<String, String> serializer = serializer();
-        final Accumulator<String> personAccumulator = accumulator("person accumulator");
-        final Accumulator<String> addressAccumulator = accumulator("address accumulator");
+        final AccumulatorBuilder<String> personAccumulator = accumulator("person accumulator");
+        final AccumulatorBuilder<String> addressAccumulator = accumulator("address accumulator");
         final SerializedProperty<String> firstName = property("first name");
         final SerializedProperty<String> lastName = property("last name");
         final SerializedProperty<String> houseNumber = property("house number");
@@ -174,9 +174,9 @@ public final class RekordSerializationTest {
                 .with(Person.favouritePeople, ImmutableList.of(watson));
 
         final Serializer<String, String> serializer = serializer();
-        final Accumulator<String> holmesAccumulator = accumulator("Holmes accumulator");
-        final Accumulator<String> favouritePeopleAccumulator = accumulator("Favourite People accumulator");
-        final Accumulator<String> watsonAccumulator = accumulator("Watson accumulator");
+        final AccumulatorBuilder<String> holmesAccumulator = accumulator("Holmes accumulator");
+        final AccumulatorBuilder<String> favouritePeopleAccumulator = accumulator("Favourite People accumulator");
+        final AccumulatorBuilder<String> watsonAccumulator = accumulator("Watson accumulator");
         final SerializedProperty<String> holmesFirstName = property("Holmes' first name");
         final SerializedProperty<String> holmesLastName = property("Holmes' last name");
         final SerializedProperty<String> watsonFirstName = property("Watson's first name");
@@ -214,8 +214,8 @@ public final class RekordSerializationTest {
                 .with(Restaurant.mealName, "White Cheese Burger");
 
         final Serializer<String, String> serializer = serializer();
-        final Accumulator<String> restaurantAccumulator = accumulator("restaurant");
-        final Accumulator<String> mealAccumulator = accumulator("meal");
+        final AccumulatorBuilder<String> restaurantAccumulator = accumulator("restaurant");
+        final AccumulatorBuilder<String> mealAccumulator = accumulator("meal");
         final SerializedProperty<String> name = property("name");
         final SerializedProperty<String> bread = property("bread");
         final SerializedProperty<String> filling = property("filling");
@@ -266,13 +266,13 @@ public final class RekordSerializationTest {
     }
 
     @SuppressWarnings("unchecked")
-    private <A> Accumulator<A> accumulator() {
-        return context.mock(Accumulator.class);
+    private <A> AccumulatorBuilder<A> accumulator() {
+        return context.mock(AccumulatorBuilder.class);
     }
 
     @SuppressWarnings("unchecked")
-    private <A> Accumulator<A> accumulator(String name) {
-        return context.mock(Accumulator.class, name);
+    private <A> AccumulatorBuilder<A> accumulator(String name) {
+        return context.mock(AccumulatorBuilder.class, name);
     }
 
     @SuppressWarnings("unchecked")
