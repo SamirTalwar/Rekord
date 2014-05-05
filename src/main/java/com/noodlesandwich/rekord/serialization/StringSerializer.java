@@ -3,7 +3,7 @@ package com.noodlesandwich.rekord.serialization;
 public final class StringSerializer implements RekordSerializer<String, String> {
     @Override
     public Serializer<String> start(String name) {
-        return new SerializedStringBuilder().nest(name);
+        return new SerializedStringBuilder().map(name);
     }
 
     @Override
@@ -23,10 +23,9 @@ public final class StringSerializer implements RekordSerializer<String, String> 
         }
 
         @Override
-        public Serializer<String> nest(String name) {
-            return RekordSerializers.serializer(this, new StringAccumulator(name));
+        public Serializer<String> map(String name) {
+            return RekordSerializers.serializer(this, new StringMapAccumulator(name));
         }
-
     }
 
     private static final class SingleStringProperty implements SerializedProperty<String> {
@@ -56,11 +55,11 @@ public final class StringSerializer implements RekordSerializer<String, String> 
         }
     }
 
-    private static final class StringAccumulator implements Accumulator<String> {
+    private static final class StringMapAccumulator implements Accumulator<String> {
         private final String name;
         private final DelimitedString builder = new DelimitedString();
 
-        public StringAccumulator(String name) {
+        public StringMapAccumulator(String name) {
             this.name = name;
         }
 

@@ -11,7 +11,7 @@ public interface RekordSerializer<A, R> {
     public static interface Builder<A> {
         SerializedProperty<A> single(String name, Object value);
         Serializer<A> collection(String name);
-        Serializer<A> nest(String name);
+        Serializer<A> map(String name);
     }
 
     public static interface Accumulator<A> extends SerializedProperty<A> {

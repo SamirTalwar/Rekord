@@ -31,8 +31,8 @@ public final class RekordSerializers {
         }
 
         @Override
-        public Serializer<A> nest(String name) {
-            return builder.nest(name);
+        public Serializer<A> map(String name) {
+            return builder.map(name);
         }
 
         @Override

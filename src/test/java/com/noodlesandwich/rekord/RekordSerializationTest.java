@@ -147,7 +147,7 @@ public final class RekordSerializationTest {
             oneOf(personSerializer).accumulate("first name", firstName);
             oneOf(personSerializer).accumulate("last name", lastName);
 
-            oneOf(personSerializer).nest("Address"); will(returnValue(addressSerializer));
+            oneOf(personSerializer).map("Address"); will(returnValue(addressSerializer));
             oneOf(addressSerializer).single("house number", 221); will(returnValue(houseNumber));
             oneOf(addressSerializer).single("street", "Baker Street"); will(returnValue(street));
             oneOf(addressSerializer).accumulate("house number", houseNumber);
@@ -190,7 +190,7 @@ public final class RekordSerializationTest {
             oneOf(holmesSerializer).accumulate("last name", holmesLastName);
 
             oneOf(holmesSerializer).collection("favourite people"); will(returnValue(favouritePeopleSerializer));
-            oneOf(favouritePeopleSerializer).nest("Person"); will(returnValue(watsonSerializer));
+            oneOf(favouritePeopleSerializer).map("Person"); will(returnValue(watsonSerializer));
             oneOf(watsonSerializer).single("first name", "John"); will(returnValue(watsonFirstName));
             oneOf(watsonSerializer).single("last name", "Watson"); will(returnValue(watsonLastName));
             oneOf(watsonSerializer).accumulate("first name", watsonFirstName);
@@ -233,7 +233,7 @@ public final class RekordSerializationTest {
             oneOf(restaurantSerializer).single("name", "McAwful's"); will(returnValue(name)); inSequence(nameSequence);
             oneOf(restaurantSerializer).accumulate("name", name); inSequence(nameSequence);
 
-            oneOf(restaurantSerializer).nest("Sandvich"); will(returnValue(mealSerializer)); inSequence(mealSequence);
+            oneOf(restaurantSerializer).map("Sandvich"); will(returnValue(mealSerializer)); inSequence(mealSequence);
             oneOf(mealSerializer).single("bread", White); will(returnValue(bread)); inSequence(breadSequence);
             oneOf(mealSerializer).single("filling", Cheese); will(returnValue(filling)); inSequence(fillingSequence);
             oneOf(mealSerializer).single("style", Burger); will(returnValue(style)); inSequence(styleSequence);
