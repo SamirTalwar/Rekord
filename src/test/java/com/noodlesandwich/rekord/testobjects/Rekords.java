@@ -1,6 +1,7 @@
 package com.noodlesandwich.rekord.testobjects;
 
 import java.util.Collection;
+import java.util.regex.Pattern;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.keys.CollectionKey;
@@ -49,14 +50,18 @@ public final class Rekords {
             Roll
         }
 
-        Transformer<Rekord<Sandvich>, String> Stringifies = new Transformer<Rekord<Sandvich>, String>() {
+        Transformer<Rekord<Sandvich>, String> Stringifies = new StringTransformer();
+
+        final class StringTransformer implements Transformer<Rekord<Sandvich>, String> {
+            private static final Pattern SPLITTER = Pattern.compile(" ");
+
             @Override
             public Rekord<Sandvich> transformInput(String value) {
-                String[] values = value.split(" ");
+                String[] values = SPLITTER.split(value);
                 Bread breadValue = Bread.valueOf(values[0]);
                 Filling fillingValue = Filling.valueOf(values[1]);
                 Style styleValue = Style.valueOf(values[2]);
-                return Sandvich.rekord
+                return rekord
                         .with(bread, breadValue)
                         .with(filling, fillingValue)
                         .with(style, styleValue);
@@ -69,7 +74,7 @@ public final class Rekords {
                         value.get(filling),
                         value.get(style));
             }
-        };
+        }
     }
 
     public static interface Wurst {
