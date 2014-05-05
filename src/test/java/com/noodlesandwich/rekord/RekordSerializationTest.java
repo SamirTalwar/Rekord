@@ -47,9 +47,9 @@ public final class RekordSerializationTest {
 
             Sequence volumeSequence = context.sequence("volume");
             Sequence headSequence = context.sequence("head");
-            oneOf(serializer).single("volume", Measurement.of(500).ml()); will(returnValue(volume)); inSequence(volumeSequence);
+            oneOf(serializer).newProperty("volume", Measurement.of(500).ml()); will(returnValue(volume)); inSequence(volumeSequence);
             oneOf(serializer).accumulate("volume", volume); inSequence(volumeSequence);
-            oneOf(serializer).single("head", Measurement.of(1).cm()); will(returnValue(head)); inSequence(headSequence);
+            oneOf(serializer).newProperty("head", Measurement.of(1).cm()); will(returnValue(head)); inSequence(headSequence);
             oneOf(serializer).accumulate("head", head); inSequence(headSequence);
             oneOf(bierSerializer).finish(serializer); will(returnValue("result!")); inSequences(volumeSequence, headSequence);
         }});
@@ -79,9 +79,9 @@ public final class RekordSerializationTest {
             Sequence breadSequence = context.sequence("bread");
             Sequence fillingSequence = context.sequence("filling");
             Sequence styleSequence = context.sequence("style");
-            oneOf(serializer).single("bread", White); will(returnValue(bread)); inSequence(breadSequence);
-            oneOf(serializer).single("filling", Cheese); will(returnValue(filling)); inSequence(fillingSequence);
-            oneOf(serializer).single("style", Burger); will(returnValue(style)); inSequence(styleSequence);
+            oneOf(serializer).newProperty("bread", White); will(returnValue(bread)); inSequence(breadSequence);
+            oneOf(serializer).newProperty("filling", Cheese); will(returnValue(filling)); inSequence(fillingSequence);
+            oneOf(serializer).newProperty("style", Burger); will(returnValue(style)); inSequence(styleSequence);
             oneOf(serializer).accumulate("bread", bread); inSequence(breadSequence);
             oneOf(serializer).accumulate("filling", filling); inSequence(fillingSequence);
             oneOf(serializer).accumulate("style", style); inSequence(styleSequence);
@@ -110,8 +110,8 @@ public final class RekordSerializationTest {
 
             Sequence curvatureSequence = context.sequence("curvature");
             Sequence styleSequence = context.sequence("style");
-            oneOf(serializer).single("curvature", 0.7); will(returnValue(curvature)); inSequence(curvatureSequence);
-            oneOf(serializer).single("style", Chopped); will(returnValue(style)); inSequence(styleSequence);
+            oneOf(serializer).newProperty("curvature", 0.7); will(returnValue(curvature)); inSequence(curvatureSequence);
+            oneOf(serializer).newProperty("style", Chopped); will(returnValue(style)); inSequence(styleSequence);
             oneOf(serializer).accumulate("curvature", curvature); inSequence(curvatureSequence);
             oneOf(serializer).accumulate("style", style); inSequence(styleSequence);
             oneOf(bratwurstSerializer).finish(serializer); will(returnValue(99)); inSequences(curvatureSequence, styleSequence);
@@ -142,14 +142,14 @@ public final class RekordSerializationTest {
 
         context.checking(new Expectations() {{
             oneOf(rekordSerializer).start("Person"); will(returnValue(personSerializer));
-            oneOf(personSerializer).single("first name", "Sherlock"); will(returnValue(firstName));
-            oneOf(personSerializer).single("last name", "Holmes"); will(returnValue(lastName));
+            oneOf(personSerializer).newProperty("first name", "Sherlock"); will(returnValue(firstName));
+            oneOf(personSerializer).newProperty("last name", "Holmes"); will(returnValue(lastName));
             oneOf(personSerializer).accumulate("first name", firstName);
             oneOf(personSerializer).accumulate("last name", lastName);
 
-            oneOf(personSerializer).map("Address"); will(returnValue(addressSerializer));
-            oneOf(addressSerializer).single("house number", 221); will(returnValue(houseNumber));
-            oneOf(addressSerializer).single("street", "Baker Street"); will(returnValue(street));
+            oneOf(personSerializer).newMap("Address"); will(returnValue(addressSerializer));
+            oneOf(addressSerializer).newProperty("house number", 221); will(returnValue(houseNumber));
+            oneOf(addressSerializer).newProperty("street", "Baker Street"); will(returnValue(street));
             oneOf(addressSerializer).accumulate("house number", houseNumber);
             oneOf(addressSerializer).accumulate("street", street);
             oneOf(personSerializer).accumulate("address", addressSerializer);
@@ -184,15 +184,15 @@ public final class RekordSerializationTest {
 
         context.checking(new Expectations() {{
             oneOf(rekordSerializer).start("Person"); will(returnValue(holmesSerializer));
-            oneOf(holmesSerializer).single("first name", "Sherlock"); will(returnValue(holmesFirstName));
-            oneOf(holmesSerializer).single("last name", "Holmes"); will(returnValue(holmesLastName));
+            oneOf(holmesSerializer).newProperty("first name", "Sherlock"); will(returnValue(holmesFirstName));
+            oneOf(holmesSerializer).newProperty("last name", "Holmes"); will(returnValue(holmesLastName));
             oneOf(holmesSerializer).accumulate("first name", holmesFirstName);
             oneOf(holmesSerializer).accumulate("last name", holmesLastName);
 
-            oneOf(holmesSerializer).collection("favourite people"); will(returnValue(favouritePeopleSerializer));
-            oneOf(favouritePeopleSerializer).map("Person"); will(returnValue(watsonSerializer));
-            oneOf(watsonSerializer).single("first name", "John"); will(returnValue(watsonFirstName));
-            oneOf(watsonSerializer).single("last name", "Watson"); will(returnValue(watsonLastName));
+            oneOf(holmesSerializer).newCollection("favourite people"); will(returnValue(favouritePeopleSerializer));
+            oneOf(favouritePeopleSerializer).newMap("Person"); will(returnValue(watsonSerializer));
+            oneOf(watsonSerializer).newProperty("first name", "John"); will(returnValue(watsonFirstName));
+            oneOf(watsonSerializer).newProperty("last name", "Watson"); will(returnValue(watsonLastName));
             oneOf(watsonSerializer).accumulate("first name", watsonFirstName);
             oneOf(watsonSerializer).accumulate("last name", watsonLastName);
             oneOf(favouritePeopleSerializer).accumulate("favourite person", watsonSerializer);
@@ -230,13 +230,13 @@ public final class RekordSerializationTest {
 
             oneOf(rekordSerializer).start("Restaurant"); will(returnValue(restaurantSerializer));
 
-            oneOf(restaurantSerializer).single("name", "McAwful's"); will(returnValue(name)); inSequence(nameSequence);
+            oneOf(restaurantSerializer).newProperty("name", "McAwful's"); will(returnValue(name)); inSequence(nameSequence);
             oneOf(restaurantSerializer).accumulate("name", name); inSequence(nameSequence);
 
-            oneOf(restaurantSerializer).map("Sandvich"); will(returnValue(mealSerializer)); inSequence(mealSequence);
-            oneOf(mealSerializer).single("bread", White); will(returnValue(bread)); inSequence(breadSequence);
-            oneOf(mealSerializer).single("filling", Cheese); will(returnValue(filling)); inSequence(fillingSequence);
-            oneOf(mealSerializer).single("style", Burger); will(returnValue(style)); inSequence(styleSequence);
+            oneOf(restaurantSerializer).newMap("Sandvich"); will(returnValue(mealSerializer)); inSequence(mealSequence);
+            oneOf(mealSerializer).newProperty("bread", White); will(returnValue(bread)); inSequence(breadSequence);
+            oneOf(mealSerializer).newProperty("filling", Cheese); will(returnValue(filling)); inSequence(fillingSequence);
+            oneOf(mealSerializer).newProperty("style", Burger); will(returnValue(style)); inSequence(styleSequence);
             oneOf(mealSerializer).accumulate("bread", bread); inSequence(breadSequence);
             oneOf(mealSerializer).accumulate("filling", filling); inSequence(fillingSequence);
             oneOf(mealSerializer).accumulate("style", style); inSequence(styleSequence);

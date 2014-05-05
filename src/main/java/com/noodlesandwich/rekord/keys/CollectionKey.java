@@ -30,7 +30,7 @@ public final class CollectionKey<T, V> extends OriginalKey<T, Collection<V>> {
 
     @Override
     public <A> void accumulate(Collection<V> collection, RekordSerializer.Serializer<A> serializer) {
-        RekordSerializer.Serializer<A> collectionSerializer = serializer.collection(name());
+        RekordSerializer.Serializer<A> collectionSerializer = serializer.newCollection(name());
         for (V value : collection) {
             contents.accumulate(value, collectionSerializer);
         }

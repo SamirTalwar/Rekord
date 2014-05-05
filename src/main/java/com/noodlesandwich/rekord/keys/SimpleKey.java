@@ -14,6 +14,6 @@ public final class SimpleKey<T, V> extends OriginalKey<T, V> {
 
     @Override
     public <A> void accumulate(V value, RekordSerializer.Serializer<A> serializer) {
-        serializer.accumulate(name(), serializer.single(name(), value));
+        serializer.accumulate(name(), serializer.newProperty(name(), value));
     }
 }

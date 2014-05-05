@@ -3,7 +3,7 @@ package com.noodlesandwich.rekord.serialization;
 public final class StringSerializer implements RekordSerializer<String, String> {
     @Override
     public Serializer<String> start(String name) {
-        return new SerializedStringBuilder().map(name);
+        return new SerializedStringConstructor().newMap(name);
     }
 
     @Override
@@ -11,19 +11,19 @@ public final class StringSerializer implements RekordSerializer<String, String> 
         return serializer.serialized();
     }
 
-    private static final class SerializedStringBuilder implements Builder<String> {
+    private static final class SerializedStringConstructor implements Constructor<String> {
         @Override
-        public SerializedProperty<String> single(String name, Object value) {
+        public SerializedProperty<String> newProperty(String name, Object value) {
             return new SingleStringProperty(value.toString());
         }
 
         @Override
-        public Serializer<String> collection(String name) {
+        public Serializer<String> newCollection(String name) {
             return RekordSerializers.serializer(this, new StringCollectionAccumulator());
         }
 
         @Override
-        public Serializer<String> map(String name) {
+        public Serializer<String> newMap(String name) {
             return RekordSerializers.serializer(this, new StringMapAccumulator(name));
         }
     }

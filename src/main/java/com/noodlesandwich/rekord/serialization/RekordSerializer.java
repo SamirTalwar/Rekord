@@ -8,15 +8,15 @@ public interface RekordSerializer<A, R> {
         A serialized();
     }
 
-    public static interface Builder<A> {
-        SerializedProperty<A> single(String name, Object value);
-        Serializer<A> collection(String name);
-        Serializer<A> map(String name);
+    public static interface Constructor<A> {
+        SerializedProperty<A> newProperty(String name, Object value);
+        Serializer<A> newCollection(String name);
+        Serializer<A> newMap(String name);
     }
 
     public static interface Accumulator<A> extends SerializedProperty<A> {
         void accumulate(String name, SerializedProperty<A> property);
     }
 
-    public static interface Serializer<A> extends Accumulator<A>, Builder<A> { }
+    public static interface Serializer<A> extends Accumulator<A>, Constructor<A> { }
 }

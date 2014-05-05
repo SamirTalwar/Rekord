@@ -23,7 +23,7 @@ public final class DomXmlSerializer implements RekordSerializer<Element, Documen
     @Override
     public Serializer<Element> start(String name) {
         NodeCreator nodeCreator = new NodeCreator(documentBuilder.newDocument());
-        return new DomXmlBuilder(nodeCreator).map(name);
+        return new DomXmlConstructor(nodeCreator).newMap(name);
     }
 
     @Override
@@ -35,26 +35,26 @@ public final class DomXmlSerializer implements RekordSerializer<Element, Documen
         return document;
     }
 
-    public static final class DomXmlBuilder implements Builder<Element> {
+    public static final class DomXmlConstructor implements Constructor<Element> {
         private final NodeCreator nodeCreator;
 
-        public DomXmlBuilder(NodeCreator nodeCreator) {
+        public DomXmlConstructor(NodeCreator nodeCreator) {
             this.nodeCreator = nodeCreator;
         }
 
         @Override
-        public SerializedProperty<Element> single(String name, Object value) {
+        public SerializedProperty<Element> newProperty(String name, Object value) {
             return new SingleElement(nodeCreator, name, value);
         }
 
         @Override
-        public Serializer<Element> collection(String name) {
+        public Serializer<Element> newCollection(String name) {
             Element child = nodeCreator.elementNamed(name);
             return RekordSerializers.serializer(this, new DomXmlCollectionAccumulator(child));
         }
 
         @Override
-        public Serializer<Element> map(String name) {
+        public Serializer<Element> newMap(String name) {
             Element child = nodeCreator.elementNamed(name);
             return RekordSerializers.serializer(this, new DomXmlMapAccumulator(child));
         }
