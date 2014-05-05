@@ -8,7 +8,7 @@ public final class StringSerializer implements Serializer<String, String> {
 
     @Override
     public String finish(Accumulator<String> accumulator) {
-        return accumulator.value();
+        return accumulator.serialized();
     }
 
     public static final class StringAccumulator implements Serializer.Accumulator<String> {
@@ -21,13 +21,8 @@ public final class StringSerializer implements Serializer<String, String> {
         }
 
         @Override
-        public void accumulate(String name, Object value) {
-            append(name, value);
-        }
-
-        @Override
-        public void accumulateNested(String name, Accumulator<String> accumulator) {
-            append(name, accumulator.value());
+        public SerializedProperty<String> single(String name, Object value) {
+            return new SingleStringProperty(value.toString());
         }
 
         @Override
@@ -36,13 +31,16 @@ public final class StringSerializer implements Serializer<String, String> {
         }
 
         @Override
-        public String value() {
-            return String.format("%s {%s}", name, entries);
+        public void accumulate(String name, SerializedProperty<String> property) {
+            appendSeparator();
+            entries.append(name)
+                   .append(": ")
+                   .append(property.serialized());
         }
 
-        private void append(String name, Object value) {
-            appendSeparator();
-            entries.append(String.format("%s: %s", name, value));
+        @Override
+        public String serialized() {
+            return String.format("%s {%s}", name, entries);
         }
 
         private void appendSeparator() {
@@ -51,6 +49,19 @@ public final class StringSerializer implements Serializer<String, String> {
             } else {
                 first = false;
             }
+        }
+    }
+
+    private static final class SingleStringProperty implements SerializedProperty<String> {
+        private final String value;
+
+        public SingleStringProperty(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String serialized() {
+            return value;
         }
     }
 }

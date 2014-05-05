@@ -14,6 +14,6 @@ public final class SimpleKey<T, V> extends OriginalKey<T, V> {
 
     @Override
     public <A> void accumulate(V value, Serializer.Accumulator<A> accumulator) {
-        accumulator.accumulate(name(), value);
+        accumulator.accumulate(name(), accumulator.single(name(), value));
     }
 }
