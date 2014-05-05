@@ -3,6 +3,7 @@ package com.noodlesandwich.rekord.testobjects;
 import java.util.Collection;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Rekord;
+import com.noodlesandwich.rekord.keys.CollectionKey;
 import com.noodlesandwich.rekord.keys.RekordKey;
 import com.noodlesandwich.rekord.keys.SimpleKey;
 import com.noodlesandwich.rekord.transformers.Transformer;
@@ -32,7 +33,7 @@ public final class Rekords {
 
         public static enum Bread {
             Brown,
-            White;
+            White
         }
 
         public static enum Filling {
@@ -99,10 +100,11 @@ public final class Rekords {
         Key<Person, String> firstName = SimpleKey.named("first name");
         Key<Person, String> lastName = SimpleKey.named("last name");
         Key<Person, Integer> age = SimpleKey.named("age");
-        Key<Person, Rekord<Person>> favouritePerson = RekordKey.named("favourite person");
+        Key<Person, Collection<Rekord<Person>>> favouritePeople = CollectionKey.named("favourite people").of(RekordKey.<Person, Person>named("favourite person"));
+        Key<Person, Collection<String>> pets = CollectionKey.named("pets").of(SimpleKey.<Person, String>named("pet"));
         Key<Person, Rekord<Address>> address = RekordKey.named("address");
 
-        Rekord<Person> rekord = Rekord.of(Person.class).accepting(firstName, lastName, age, favouritePerson, address);
+        Rekord<Person> rekord = Rekord.of(Person.class).accepting(firstName, lastName, age, favouritePeople, pets, address);
     }
 
     public static interface Address {
@@ -125,13 +127,15 @@ public final class Rekords {
     public static final class Jar<T extends Jar.Contents> {
         @SuppressWarnings("unchecked")
         public static Rekord<Jar<Cookie>> ofCookies() {
-            return Rekord.<Jar<Cookie>>create("Cookie Jar").accepting(contents);
+            return Rekord.<Jar<Cookie>>create("Cookie Jar").accepting(Jar.<Cookie>contents());
         }
 
-        private static final Key contents = SimpleKey.named("contents");
+        private static final Key<Jar<Contents>, Collection<Contents>> contents
+                = CollectionKey.named("contents").of(SimpleKey.<Jar<Contents>, Contents>named("contents"));
+
         @SuppressWarnings("unchecked")
         public static <T extends Jar.Contents> Key<Jar<T>, Collection<T>> contents() {
-            return contents;
+            return (Key<Jar<T>, Collection<T>>) (Key) contents;
         }
 
         public static interface Contents { }

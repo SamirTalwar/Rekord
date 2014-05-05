@@ -1,5 +1,6 @@
 package com.noodlesandwich.rekord.serialization;
 
+import com.google.common.collect.ImmutableList;
 import com.noodlesandwich.rekord.Rekord;
 import org.junit.Test;
 
@@ -7,6 +8,7 @@ import static com.noodlesandwich.rekord.testobjects.Rekords.Address;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Person;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.either;
 import static org.hamcrest.Matchers.endsWith;
@@ -36,16 +38,21 @@ public final class StringSerializerTest {
                            .or(hasToString("Person {last name: Flanders, first name: Ned}")));
     }
 
+    @SuppressWarnings("unchecked")
     @Test public void
     serializes_nested_rekords() {
         Rekord<Person> maggie = Person.rekord
                 .with(Person.firstName, "Maggie")
                 .with(Person.lastName, "Simpson");
 
+        Rekord<Person> marge = Person.rekord
+                .with(Person.firstName, "Marge")
+                .with(Person.lastName, "Simpson");
+
         Rekord<Person> lisa = Person.rekord
                 .with(Person.firstName, "Lisa")
                 .with(Person.lastName, "Simpson")
-                .with(Person.favouritePerson, maggie)
+                .with(Person.favouritePeople, ImmutableList.of(maggie, marge))
                 .with(Person.address, Address.rekord
                         .with(Address.city, "Springfield"));
 
@@ -53,8 +60,10 @@ public final class StringSerializerTest {
                 startsWith("Person {"),
                 containsString("first name: Lisa"),
                 containsString("last name: Simpson"),
-                either(containsString("favourite person: Person {first name: Maggie, last name: Simpson}"))
-                   .or(containsString("favourite person: Person {last name: Simpson, first name: Maggie}")),
+                anyOf(containsString("favourite people: [Person {first name: Maggie, last name: Simpson}, Person {first name: Marge, last name: Simpson}]"),
+                      containsString("favourite people: [Person {first name: Maggie, last name: Simpson}, Person {last name: Simpson, first name: Marge}]"),
+                      containsString("favourite people: [Person {last name: Simpson, first name: Maggie}, Person {first name: Marge, last name: Simpson}]"),
+                      containsString("favourite people: [Person {last name: Simpson, first name: Maggie}, Person {last name: Simpson, first name: Marge}]")),
                 containsString("address: Address {city: Springfield}"),
                 endsWith("}")
         )));

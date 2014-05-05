@@ -1,5 +1,6 @@
 package com.noodlesandwich.rekord;
 
+import com.google.common.collect.ImmutableList;
 import com.noodlesandwich.rekord.serialization.Serializer;
 import com.noodlesandwich.rekord.testobjects.Measurement;
 import org.jmock.Expectations;
@@ -124,7 +125,7 @@ public final class RekordSerializationTest {
 
     @Test public void
     serializes_nested_rekords() {
-        final Rekord<Person> person = Person.rekord
+        final Rekord<Person> holmes = Person.rekord
                 .with(Person.firstName, "Sherlock")
                 .with(Person.lastName, "Holmes")
                 .with(Person.address, Address.rekord
@@ -156,7 +157,51 @@ public final class RekordSerializationTest {
             oneOf(serializer).finish(personAccumulator); will(returnValue("Sherlock Holmes, 221 Baker Street"));
         }});
 
-        String result = person.serialize(serializer);
+        String result = holmes.serialize(serializer);
+
+        context.assertIsSatisfied();
+        assertThat(result, is("Sherlock Holmes, 221 Baker Street"));
+    }
+
+    @Test public void
+    serializes_collections_of_rekords() {
+        final Rekord<Person> watson = Person.rekord
+                .with(Person.firstName, "John")
+                .with(Person.lastName, "Watson");
+        final Rekord<Person> holmes = Person.rekord
+                .with(Person.firstName, "Sherlock")
+                .with(Person.lastName, "Holmes")
+                .with(Person.favouritePeople, ImmutableList.of(watson));
+
+        final Serializer<String, String> serializer = serializer();
+        final Accumulator<String> holmesAccumulator = accumulator("Holmes accumulator");
+        final Accumulator<String> favouritePeopleAccumulator = accumulator("Favourite People accumulator");
+        final Accumulator<String> watsonAccumulator = accumulator("Watson accumulator");
+        final SerializedProperty<String> holmesFirstName = property("Holmes' first name");
+        final SerializedProperty<String> holmesLastName = property("Holmes' last name");
+        final SerializedProperty<String> watsonFirstName = property("Watson's first name");
+        final SerializedProperty<String> watsonLastName = property("Watson's last name");
+
+        context.checking(new Expectations() {{
+            oneOf(serializer).start("Person"); will(returnValue(holmesAccumulator));
+            oneOf(holmesAccumulator).single("first name", "Sherlock"); will(returnValue(holmesFirstName));
+            oneOf(holmesAccumulator).single("last name", "Holmes"); will(returnValue(holmesLastName));
+            oneOf(holmesAccumulator).accumulate("first name", holmesFirstName);
+            oneOf(holmesAccumulator).accumulate("last name", holmesLastName);
+
+            oneOf(holmesAccumulator).collection("favourite people"); will(returnValue(favouritePeopleAccumulator));
+            oneOf(favouritePeopleAccumulator).nest("Person"); will(returnValue(watsonAccumulator));
+            oneOf(watsonAccumulator).single("first name", "John"); will(returnValue(watsonFirstName));
+            oneOf(watsonAccumulator).single("last name", "Watson"); will(returnValue(watsonLastName));
+            oneOf(watsonAccumulator).accumulate("first name", watsonFirstName);
+            oneOf(watsonAccumulator).accumulate("last name", watsonLastName);
+            oneOf(favouritePeopleAccumulator).accumulate("favourite person", watsonAccumulator);
+            oneOf(holmesAccumulator).accumulate("favourite people", favouritePeopleAccumulator);
+
+            oneOf(serializer).finish(holmesAccumulator); will(returnValue("Sherlock Holmes, 221 Baker Street"));
+        }});
+
+        String result = holmes.serialize(serializer);
 
         context.assertIsSatisfied();
         assertThat(result, is("Sherlock Holmes, 221 Baker Street"));

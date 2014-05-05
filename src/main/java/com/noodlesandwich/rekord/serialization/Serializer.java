@@ -10,6 +10,7 @@ public interface Serializer<A, R> {
 
     public static interface Accumulator<A> extends SerializedProperty<A> {
         SerializedProperty<A> single(String name, Object value);
+        Accumulator<A> collection(String name);
         Accumulator<A> nest(String name);
         void accumulate(String name, SerializedProperty<A> property);
     }

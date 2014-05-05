@@ -1,6 +1,7 @@
 package com.noodlesandwich.rekord.serialization;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableList;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.keys.SimpleKey;
@@ -82,9 +83,13 @@ public final class DomXmlSerializerTest {
 
     @Test public void
     a_rekord_with_nested_rekords_is_serialized_to_nested_XML() {
+        Rekord<Person> darla = Person.rekord.with(Person.firstName, "Darla");
+        Rekord<Person> darlasMum = Person.rekord.with(Person.firstName, "Darla's Mum");
         Rekord<Person> person = Person.rekord
                 .with(Person.firstName, "Philip")
                 .with(Person.lastName, "Sherman")
+                .with(Person.favouritePeople, ImmutableList.of(darla, darlasMum))
+                .with(Person.pets, ImmutableList.of("Nemo", "Gill", "Bloat"))
                 .with(Person.address, Address.rekord
                         .with(Address.houseNumber, 42)
                         .with(Address.street, "Wallaby Way")
@@ -97,6 +102,15 @@ public final class DomXmlSerializerTest {
                 "<person>",
                 "    <first-name>Philip</first-name>",
                 "    <last-name>Sherman</last-name>",
+                "    <favourite-people>",
+                "        <person><first-name>Darla</first-name></person>",
+                "        <person><first-name>Darla's Mum</first-name></person>",
+                "    </favourite-people>",
+                "    <pets>",
+                "        <pet>Nemo</pet>",
+                "        <pet>Gill</pet>",
+                "        <pet>Bloat</pet>",
+                "    </pets>",
                 "    <address>",
                 "        <house-number>42</house-number>",
                 "        <street>Wallaby Way</street>",
