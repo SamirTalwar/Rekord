@@ -9,9 +9,29 @@ public final class Validators {
         return new Validator<T>() {
             @Override public void test(FixedRekord<T> rekord) throws InvalidRekordException {
                 if (!validator.test(rekord)) {
-                    throw new InvalidRekordException("The rekord was invalid.");
+                    throw new UnknownRekordValidationException();
                 }
             }
         };
+    }
+
+    public static <T> Validator<T> everything() {
+        return new Validator<T>() {
+            @Override public void test(FixedRekord<T> rekord) { }
+        };
+    }
+
+    public static <T> Validator<T> nothing() {
+        return new Validator<T>() {
+            @Override public void test(FixedRekord<T> rekord) throws InvalidRekordException {
+                throw new UnknownRekordValidationException();
+            }
+        };
+    }
+
+    public static final class UnknownRekordValidationException extends InvalidRekordException {
+        public UnknownRekordValidationException() {
+            super("The rekord was invalid.");
+        }
     }
 }
