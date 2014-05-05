@@ -1,14 +1,14 @@
 package com.noodlesandwich.rekord.serialization;
 
-public final class StringSerializer implements Serializer<String, String> {
+public final class StringSerializer implements RekordSerializer<String, String> {
     @Override
-    public AccumulatorBuilder<String> start(String name) {
+    public Serializer<String> start(String name) {
         return new SerializedStringBuilder().nest(name);
     }
 
     @Override
-    public String finish(AccumulatorBuilder<String> accumulator) {
-        return accumulator.serialized();
+    public String finish(Serializer<String> serializer) {
+        return serializer.serialized();
     }
 
     private static final class SerializedStringBuilder implements Builder<String> {
@@ -18,13 +18,13 @@ public final class StringSerializer implements Serializer<String, String> {
         }
 
         @Override
-        public AccumulatorBuilder<String> collection(String name) {
-            return Serializers.accumulatorBuilder(this, new StringCollectionAccumulator());
+        public Serializer<String> collection(String name) {
+            return RekordSerializers.serializer(this, new StringCollectionAccumulator());
         }
 
         @Override
-        public AccumulatorBuilder<String> nest(String name) {
-            return Serializers.accumulatorBuilder(this, new StringAccumulator(name));
+        public Serializer<String> nest(String name) {
+            return RekordSerializers.serializer(this, new StringAccumulator(name));
         }
 
     }
@@ -56,7 +56,7 @@ public final class StringSerializer implements Serializer<String, String> {
         }
     }
 
-    private static final class StringAccumulator implements Serializer.Accumulator<String> {
+    private static final class StringAccumulator implements Accumulator<String> {
         private final String name;
         private final DelimitedString builder = new DelimitedString();
 

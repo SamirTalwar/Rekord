@@ -1,8 +1,8 @@
 package com.noodlesandwich.rekord.serialization;
 
-public interface Serializer<A, R> {
-    AccumulatorBuilder<A> start(String name);
-    R finish(AccumulatorBuilder<A> accumulator);
+public interface RekordSerializer<A, R> {
+    Serializer<A> start(String name);
+    R finish(Serializer<A> serializer);
 
     public static interface SerializedProperty<A> {
         A serialized();
@@ -10,13 +10,13 @@ public interface Serializer<A, R> {
 
     public static interface Builder<A> {
         SerializedProperty<A> single(String name, Object value);
-        AccumulatorBuilder<A> collection(String name);
-        AccumulatorBuilder<A> nest(String name);
+        Serializer<A> collection(String name);
+        Serializer<A> nest(String name);
     }
 
     public static interface Accumulator<A> extends SerializedProperty<A> {
         void accumulate(String name, SerializedProperty<A> property);
     }
 
-    public static interface AccumulatorBuilder<A> extends Accumulator<A>, Builder<A> { }
+    public static interface Serializer<A> extends Accumulator<A>, Builder<A> { }
 }

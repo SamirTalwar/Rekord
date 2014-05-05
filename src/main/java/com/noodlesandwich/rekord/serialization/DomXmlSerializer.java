@@ -8,7 +8,7 @@ import com.google.common.base.Joiner;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public final class DomXmlSerializer implements Serializer<Element, Document> {
+public final class DomXmlSerializer implements RekordSerializer<Element, Document> {
     private final DocumentBuilder documentBuilder;
 
     public DomXmlSerializer() {
@@ -20,17 +20,17 @@ public final class DomXmlSerializer implements Serializer<Element, Document> {
     }
 
     @Override
-    public AccumulatorBuilder<Element> start(String name) {
+    public Serializer<Element> start(String name) {
         Document document = documentBuilder.newDocument();
         Element root = document.createElement(slugify(name));
         document.appendChild(root);
-        return Serializers.accumulatorBuilder(new DomXmlBuilder(document), new DomXmlAccumulator(root));
+        return RekordSerializers.serializer(new DomXmlBuilder(document), new DomXmlAccumulator(root));
     }
 
     @Override
-    public Document finish(AccumulatorBuilder<Element> accumulator) {
+    public Document finish(Serializer<Element> serializer) {
         Document document = documentBuilder.newDocument();
-        Element root = accumulator.serialized();
+        Element root = serializer.serialized();
         document.adoptNode(root);
         document.appendChild(root);
         return document;
@@ -62,15 +62,15 @@ public final class DomXmlSerializer implements Serializer<Element, Document> {
         }
 
         @Override
-        public AccumulatorBuilder<Element> collection(String name) {
+        public Serializer<Element> collection(String name) {
             Element child = elementNamed(name, document);
-            return Serializers.accumulatorBuilder(this, new DomXmlCollectionAccumulator(child));
+            return RekordSerializers.serializer(this, new DomXmlCollectionAccumulator(child));
         }
 
         @Override
-        public AccumulatorBuilder<Element> nest(String name) {
+        public Serializer<Element> nest(String name) {
             Element child = elementNamed(name, document);
-            return Serializers.accumulatorBuilder(this, new DomXmlAccumulator(child));
+            return RekordSerializers.serializer(this, new DomXmlAccumulator(child));
         }
     }
 

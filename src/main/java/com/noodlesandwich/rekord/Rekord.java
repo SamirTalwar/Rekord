@@ -2,7 +2,7 @@ package com.noodlesandwich.rekord;
 
 import java.util.Arrays;
 import java.util.Set;
-import com.noodlesandwich.rekord.serialization.Serializer;
+import com.noodlesandwich.rekord.serialization.RekordSerializer;
 import com.noodlesandwich.rekord.serialization.StringSerializer;
 import org.pcollections.OrderedPSet;
 import org.pcollections.PSet;
@@ -57,18 +57,18 @@ public final class Rekord<T> {
         return new Rekord<>(name, properties.without(key));
     }
 
-    public <A, R> R serialize(Serializer<A, R> serializer) {
-        Serializer.AccumulatorBuilder<A> accumulator = serializer.start(name);
-        accumulateIn(accumulator);
-        return serializer.finish(accumulator);
+    public <A, R> R serialize(RekordSerializer<A, R> serializer) {
+        RekordSerializer.Serializer<A> internalSerializer = serializer.start(name);
+        accumulateIn(internalSerializer);
+        return serializer.finish(internalSerializer);
     }
 
     @SuppressWarnings("unchecked")
-    public <A> void accumulateIn(Serializer.AccumulatorBuilder<A> accumulator) {
+    public <A> void accumulateIn(RekordSerializer.Serializer<A> serializer) {
         for (Key<? super T, ?> key : properties.<T>keys()) {
             Key<? super T, Object> castKey = (Key<? super T, Object>) key;
             Object value = castKey.retrieveFrom(properties);
-            castKey.accumulate(value, accumulator);
+            castKey.accumulate(value, serializer);
         }
     }
 
