@@ -20,15 +20,16 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
-public class ValidRekordTest {
+public final class ValidRekordTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();
 
-    @Test public void
-    builds_an_unchangeable_rekord() throws InvalidRekordException {
-        ValidatingRekord<Sandvich> validatingSandvich = ValidRekord.of(Sandvich.class)
+    private static final ValidatingRekord<Sandvich> validatingSandvich
+            = ValidRekord.of(Sandvich.class)
                 .accepting(Sandvich.filling, Sandvich.bread, Sandvich.style)
                 .allowing(noBurgers());
 
+    @Test public void
+    builds_an_unchangeable_rekord() throws InvalidRekordException {
         FixedRekord<Sandvich> sandvich = validatingSandvich
                 .with(Brown, Sandvich.bread)
                 .with(Sandvich.filling, Jam)
@@ -43,10 +44,6 @@ public class ValidRekordTest {
 
     @Test public void
     rejects_invalid_rekords() throws InvalidRekordException {
-        ValidatingRekord<Sandvich> validatingSandvich = ValidRekord.of(Sandvich.class)
-                .accepting(Sandvich.filling, Sandvich.bread, Sandvich.style)
-                .allowing(noBurgers());
-
         ValidatingRekord<Sandvich> invalidSandvich = validatingSandvich
                 .with(White, Sandvich.bread)
                 .with(Sandvich.filling, Ham)
