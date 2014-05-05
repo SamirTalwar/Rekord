@@ -1,7 +1,7 @@
 package com.noodlesandwich.rekord;
 
-import java.util.Set;
 import com.noodlesandwich.rekord.serialization.RekordSerializer;
+import org.pcollections.PSet;
 
 public interface FixedRekord<T> {
     String name();
@@ -10,7 +10,7 @@ public interface FixedRekord<T> {
 
     boolean containsKey(Key<T, ?> key);
 
-    Set<Key<? super T, ?>> keys();
+    PSet<Key<? super T, ?>> keys();
 
     <A, R> R serialize(RekordSerializer<A, R> serializer);
 

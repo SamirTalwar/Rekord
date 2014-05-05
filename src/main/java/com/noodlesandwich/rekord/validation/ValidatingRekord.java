@@ -5,6 +5,7 @@ import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Properties;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.RekordBuilder;
+import org.pcollections.PSet;
 
 public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRekord<T>> {
     private final String name;
@@ -15,6 +16,17 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
         this.name = name;
         this.properties = properties;
         this.validator = validator;
+    }
+
+    @Override
+    public String name() {
+        return name;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public PSet<Key<? super T, ?>> acceptedKeys() {
+        return (PSet) properties.acceptedKeys();
     }
 
     @Override

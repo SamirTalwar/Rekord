@@ -1,6 +1,5 @@
 package com.noodlesandwich.rekord;
 
-import java.util.Set;
 import org.pcollections.HashTreePMap;
 import org.pcollections.HashTreePSet;
 import org.pcollections.OrderedPSet;
@@ -37,9 +36,12 @@ public final class Properties {
         return properties.containsKey(key);
     }
 
-    @SuppressWarnings("unchecked")
-    public <T> Set<Key<? super T, ?>> keys() {
-        return (Set) HashTreePSet.from(assignedKeys.values());
+    public PSet<Key<?, ?>> keys() {
+        return HashTreePSet.from(assignedKeys.values());
+    }
+
+    public PSet<Key<?, ?>> acceptedKeys() {
+        return acceptedKeys;
     }
 
     public Properties with(Property property) {

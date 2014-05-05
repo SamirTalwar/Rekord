@@ -1,7 +1,6 @@
 package com.noodlesandwich.rekord;
 
 import java.util.Arrays;
-import java.util.Set;
 import com.noodlesandwich.rekord.serialization.RekordSerializer;
 import com.noodlesandwich.rekord.serialization.StringSerializer;
 import org.pcollections.OrderedPSet;
@@ -40,9 +39,16 @@ public final class Rekord<T> implements RekordBuilder<T, Rekord<T>>, FixedRekord
         return properties.contains(key);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Set<Key<? super T, ?>> keys() {
-        return properties.keys();
+    public PSet<Key<? super T, ?>> keys() {
+        return (PSet) properties.keys();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public PSet<Key<? super T, ?>> acceptedKeys() {
+        return (PSet) properties.acceptedKeys();
     }
 
     @Override
@@ -74,7 +80,7 @@ public final class Rekord<T> implements RekordBuilder<T, Rekord<T>>, FixedRekord
     @Override
     @SuppressWarnings("unchecked")
     public <A> void accumulateIn(RekordSerializer.Serializer<A> serializer) {
-        for (Key<? super T, ?> key : properties.<T>keys()) {
+        for (Key<? super T, ?> key : keys()) {
             Key<? super T, Object> castKey = (Key<? super T, Object>) key;
             Object value = castKey.retrieveFrom(properties);
             castKey.accumulate(value, serializer);
@@ -115,11 +121,13 @@ public final class Rekord<T> implements RekordBuilder<T, Rekord<T>>, FixedRekord
 
         @SafeVarargs
         public final Rekord<T> accepting(Key<? super T, ?>... keys) {
-            return accepting(OrderedPSet.from(Arrays.<Key<?, ?>>asList(keys)));
+            return accepting(OrderedPSet.from(Arrays.asList(keys)));
         }
 
-        public final Rekord<T> accepting(PSet<Key<?, ?>> keys) {
-            return new Rekord<>(name, new Properties(keys));
+        @SuppressWarnings("unchecked")
+        public final Rekord<T> accepting(PSet<Key<? super T, ?>> keys) {
+            PSet<Key<?, ?>> untypedKeys = (PSet<Key<?, ?>>) (PSet) keys;
+            return new Rekord<>(name, new Properties(untypedKeys));
         }
     }
 }

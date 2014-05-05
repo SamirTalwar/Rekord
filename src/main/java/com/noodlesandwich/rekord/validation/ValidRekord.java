@@ -3,6 +3,7 @@ package com.noodlesandwich.rekord.validation;
 import java.util.Arrays;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Properties;
+import com.noodlesandwich.rekord.RekordBuilder;
 import org.pcollections.OrderedPSet;
 import org.pcollections.PSet;
 
@@ -15,6 +16,10 @@ public final class ValidRekord {
         return new UnkeyedRekord<>(name);
     }
 
+    public static <T, B extends RekordBuilder<T, B>> UnsureRekord<T> validating(B rekord) {
+        return ValidRekord.<T>create(rekord.name()).accepting(rekord.acceptedKeys());
+    }
+
     public static final class UnkeyedRekord<T> {
         private final String name;
 
@@ -24,11 +29,13 @@ public final class ValidRekord {
 
         @SafeVarargs
         public final UnsureRekord<T> accepting(Key<? super T, ?>... keys) {
-            return accepting(OrderedPSet.from(Arrays.<Key<?, ?>>asList(keys)));
+            return accepting(OrderedPSet.from(Arrays.asList(keys)));
         }
 
-        public final UnsureRekord<T> accepting(PSet<Key<?, ?>> keys) {
-            return new UnsureRekord<>(name, new Properties(keys));
+        @SuppressWarnings("unchecked")
+        public final UnsureRekord<T> accepting(PSet<Key<? super T, ?>> keys) {
+            PSet<Key<?, ?>> untypedKeys = (PSet<Key<?, ?>>) (PSet) keys;
+            return new UnsureRekord<>(name, new Properties(untypedKeys));
         }
     }
 
