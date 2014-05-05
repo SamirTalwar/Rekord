@@ -4,8 +4,6 @@ import java.util.Arrays;
 import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Properties;
-import com.noodlesandwich.rekord.Rekord;
-import com.noodlesandwich.rekord.RekordBuilder;
 import org.pcollections.OrderedPSet;
 import org.pcollections.PSet;
 
@@ -45,40 +43,11 @@ public final class ValidRekord {
         }
 
         public ValidatingRekord<T> allowing(Validator<T> validator) {
-            return new ValidatingRekord<>(name, properties);
-        }
-    }
-
-    public static final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRekord<T>> {
-        private final String name;
-        private final Properties properties;
-
-        public ValidatingRekord(String name, Properties properties) {
-            this.name = name;
-            this.properties = properties;
-        }
-
-        @Override
-        public <V> ValidatingRekord<T> with(Key<? super T, V> key, V value) {
-            return new ValidatingRekord<>(name, key.storeTo(properties, value));
-        }
-
-        @Override
-        public <V> ValidatingRekord<T> with(V value, Key<? super T, V> key) {
-            return with(key, value);
-        }
-
-        @Override
-        public ValidatingRekord<T> without(Key<? super T, ?> key) {
-            return new ValidatingRekord<>(name, properties.without(key));
-        }
-
-        public FixedRekord<T> fix() {
-            return new Rekord<>(name, properties);
+            return new ValidatingRekord<>(name, properties, validator);
         }
     }
 
     public static interface Validator<T> {
-        boolean test(Rekord<T> rekord);
+        boolean test(FixedRekord<T> rekord);
     }
 }

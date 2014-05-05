@@ -1,22 +1,30 @@
 package com.noodlesandwich.rekord.validation;
 
 import com.noodlesandwich.rekord.FixedRekord;
-import com.noodlesandwich.rekord.Rekord;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import static com.noodlesandwich.rekord.matchers.RekordMatchers.aRekordOf;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.Brown;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.White;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Ham;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Jam;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Burger;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Roll;
-import static com.noodlesandwich.rekord.validation.ValidRekord.ValidatingRekord;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
 public class ValidRekordTest {
+    @Rule public final ExpectedException expectedException = ExpectedException.none();
+
     @Test public void
-    builds_an_unchangeable_rekord() {
+    builds_an_unchangeable_rekord() throws InvalidRekordException {
         ValidatingRekord<Sandvich> validatingSandvich = ValidRekord.of(Sandvich.class)
                 .accepting(Sandvich.filling, Sandvich.bread, Sandvich.style)
                 .allowing(noBurgers());
@@ -33,9 +41,27 @@ public class ValidRekordTest {
                 .with(Sandvich.style, Roll)));
     }
 
+    @Test public void
+    rejects_invalid_rekords() throws InvalidRekordException {
+        ValidatingRekord<Sandvich> validatingSandvich = ValidRekord.of(Sandvich.class)
+                .accepting(Sandvich.filling, Sandvich.bread, Sandvich.style)
+                .allowing(noBurgers());
+
+        ValidatingRekord<Sandvich> invalidSandvich = validatingSandvich
+                .with(White, Sandvich.bread)
+                .with(Sandvich.filling, Ham)
+                .with(Sandvich.style, Burger);
+
+        expectedException.expect(allOf(
+                instanceOf(InvalidRekordException.class),
+                hasProperty("message", equalTo("This rekord is invalid."))));
+
+        invalidSandvich.fix();
+    }
+
     private static ValidRekord.Validator<Sandvich> noBurgers() {
         return new ValidRekord.Validator<Sandvich>() {
-            @Override public boolean test(Rekord<Sandvich> rekord) {
+            @Override public boolean test(FixedRekord<Sandvich> rekord) {
                 return rekord.get(Sandvich.style) != Burger;
             }
         };
