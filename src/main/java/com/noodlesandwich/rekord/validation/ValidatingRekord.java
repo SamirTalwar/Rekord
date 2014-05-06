@@ -5,6 +5,7 @@ import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Properties;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.RekordBuilder;
+import com.noodlesandwich.rekord.RekordTemplate;
 import org.pcollections.PSet;
 
 public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRekord<T>> {
@@ -16,6 +17,18 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
         this.name = name;
         this.properties = properties;
         this.validator = validator;
+    }
+
+    public static <T> ValidatingRekordBuilder.UnkeyedRekord<T> of(Class<T> type) {
+        return create(type.getSimpleName());
+    }
+
+    public static <T> ValidatingRekordBuilder.UnkeyedRekord<T> create(String name) {
+        return new ValidatingRekordBuilder.UnkeyedRekord<>(name);
+    }
+
+    public static <T> ValidatingRekordBuilder.UnsureRekord<T> validating(RekordTemplate<T> rekord) {
+        return ValidatingRekord.<T>create(rekord.name()).accepting(rekord.acceptedKeys());
     }
 
     @Override

@@ -24,7 +24,7 @@ public final class ValidRekordTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();
 
     private static final ValidatingRekord<Sandvich> validatingSandvich
-            = ValidRekord.of(Sandvich.class)
+            = ValidatingRekord.of(Sandvich.class)
                 .accepting(Sandvich.filling, Sandvich.bread, Sandvich.style)
                 .allowing(noBurgers());
 

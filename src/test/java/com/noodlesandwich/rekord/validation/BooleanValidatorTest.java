@@ -21,7 +21,7 @@ public final class BooleanValidatorTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();
 
     private static final ValidatingRekord<Bratwurst> validatingBratwurst
-            = ValidRekord.validating(Bratwurst.rekord).allowing(when(chopped()));
+            = ValidatingRekord.validating(Bratwurst.rekord).allowing(when(chopped()));
 
     @Test public void
     allows_a_rekord_which_passes_the_test() throws InvalidRekordException {

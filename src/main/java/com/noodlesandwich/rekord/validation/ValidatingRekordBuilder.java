@@ -3,22 +3,11 @@ package com.noodlesandwich.rekord.validation;
 import java.util.Arrays;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Properties;
-import com.noodlesandwich.rekord.RekordTemplate;
 import org.pcollections.OrderedPSet;
 import org.pcollections.PSet;
 
-public final class ValidRekord {
-    public static <T> UnkeyedRekord<T> of(Class<T> type) {
-        return create(type.getSimpleName());
-    }
-
-    public static <T> UnkeyedRekord<T> create(String name) {
-        return new UnkeyedRekord<>(name);
-    }
-
-    public static <T> UnsureRekord<T> validating(RekordTemplate<T> rekord) {
-        return ValidRekord.<T>create(rekord.name()).accepting(rekord.acceptedKeys());
-    }
+public final class ValidatingRekordBuilder {
+    private ValidatingRekordBuilder() { }
 
     public static final class UnkeyedRekord<T> {
         private final String name;

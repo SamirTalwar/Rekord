@@ -15,7 +15,7 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
 public final class AllPropertiesValidatorTest {
-    private static final ValidatingRekord<Address> validatingAddressRequiringAllProperties = ValidRekord.validating(Address.rekord)
+    private static final ValidatingRekord<Address> validatingAddressRequiringAllProperties = ValidatingRekord.validating(Address.rekord)
             .allowing(Validators.<Address>rekordsWithAllProperties());
 
     @Rule public final ExpectedException expectedException = ExpectedException.none();
