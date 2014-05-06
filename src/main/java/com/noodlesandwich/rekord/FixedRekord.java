@@ -3,14 +3,12 @@ package com.noodlesandwich.rekord;
 import com.noodlesandwich.rekord.serialization.RekordSerializer;
 import org.pcollections.PSet;
 
-public interface FixedRekord<T> extends Named {
+public interface FixedRekord<T> extends RekordTemplate<T> {
     <V> V get(Key<? super T, V> key);
 
     boolean containsKey(Key<T, ?> key);
 
     PSet<Key<? super T, ?>> keys();
-
-    PSet<Key<? super T, ?>> acceptedKeys();
 
     <A, R> R serialize(RekordSerializer<A, R> serializer);
 

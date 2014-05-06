@@ -3,7 +3,7 @@ package com.noodlesandwich.rekord.validation;
 import java.util.Arrays;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Properties;
-import com.noodlesandwich.rekord.RekordBuilder;
+import com.noodlesandwich.rekord.RekordTemplate;
 import org.pcollections.OrderedPSet;
 import org.pcollections.PSet;
 
@@ -16,7 +16,7 @@ public final class ValidRekord {
         return new UnkeyedRekord<>(name);
     }
 
-    public static <T, B extends RekordBuilder<T, B>> UnsureRekord<T> validating(B rekord) {
+    public static <T> UnsureRekord<T> validating(RekordTemplate<T> rekord) {
         return ValidRekord.<T>create(rekord.name()).accepting(rekord.acceptedKeys());
     }
 
