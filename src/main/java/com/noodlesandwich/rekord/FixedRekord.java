@@ -12,6 +12,8 @@ public interface FixedRekord<T> {
 
     PSet<Key<? super T, ?>> keys();
 
+    PSet<Key<? super T, ?>> acceptedKeys();
+
     <A, R> R serialize(RekordSerializer<A, R> serializer);
 
     <A> void accumulateIn(RekordSerializer.Serializer<A> serializer);
