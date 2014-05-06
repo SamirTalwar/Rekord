@@ -3,9 +3,7 @@ package com.noodlesandwich.rekord;
 import com.noodlesandwich.rekord.serialization.RekordSerializer;
 import org.pcollections.PSet;
 
-public interface FixedRekord<T> {
-    String name();
-
+public interface FixedRekord<T> extends Named {
     <V> V get(Key<? super T, V> key);
 
     boolean containsKey(Key<T, ?> key);

@@ -2,9 +2,7 @@ package com.noodlesandwich.rekord;
 
 import org.pcollections.PSet;
 
-public interface RekordBuilder<T, B extends RekordBuilder<T, B>> {
-    String name();
-
+public interface RekordBuilder<T, B extends RekordBuilder<T, B>> extends Named {
     PSet<Key<? super T, ?>> acceptedKeys();
 
     <V> B with(Key<? super T, V> key, V value);
