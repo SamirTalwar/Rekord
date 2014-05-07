@@ -1,6 +1,7 @@
 package com.noodlesandwich.rekord.extra;
 
-import com.noodlesandwich.rekord.Rekord;
+import com.noodlesandwich.rekord.FixedRekord;
+import com.noodlesandwich.rekord.validation.InvalidRekordException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -17,30 +18,22 @@ public final class HamcrestValidatorTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();
 
     @Test public void
-    validates_input_immediately() {
+    returns_valid_input_unchanged() throws InvalidRekordException {
+        FixedRekord<Box> box = Box.hamcrestValidatingRekord
+                .with(Box.number, 8)
+                .fix();
+
+        assertThat(box.get(Box.number), is(8));
+    }
+
+    @Test public void
+    validates_input_immediately() throws InvalidRekordException {
         expectedException.expect(allOf(
-                is(instanceOf(ValidationException.class)),
+                is(instanceOf(InvalidRekordException.class)),
                 hasProperty("message", equalTo("<15> was greater than <10>"))));
 
-        Box.rekord.with(Box.lessThanTen, 15);
-    }
-
-    @Test public void
-    returns_valid_input_unchanged() {
-        Rekord<Box> box = Box.rekord
-                .with(Box.lessThanTen, 8);
-
-        assertThat(box.get(Box.lessThanTen), is(8));
-    }
-
-    @Test public void
-    validates_output_on_retrieval() {
-        Rekord<Box> box = Box.rekord
-                .with(Box.anyNumber, 100);
-
-        expectedException.expect(allOf(is(instanceOf(ValidationException.class)),
-                                       hasProperty("message", equalTo("<100> was greater than <10>"))));
-
-        box.get(Box.lessThanTen);
+        Box.hamcrestValidatingRekord
+                .with(Box.number, 15)
+                .fix();
     }
 }

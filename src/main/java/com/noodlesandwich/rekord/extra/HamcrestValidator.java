@@ -1,33 +1,32 @@
 package com.noodlesandwich.rekord.extra;
 
+import com.noodlesandwich.rekord.FixedRekord;
+import com.noodlesandwich.rekord.Key;
+import com.noodlesandwich.rekord.validation.InvalidRekordException;
+import com.noodlesandwich.rekord.validation.Validator;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
-import com.noodlesandwich.rekord.transformers.Transformer;
 
-public final class HamcrestValidator<T> implements Transformer<T, T> {
-    private final Matcher<T> matcher;
+public final class HamcrestValidator<T, V> implements Validator<T> {
+    private final Key<T, V> key;
+    private final Matcher<V> expectedValue;
 
-    public HamcrestValidator(Matcher<T> matcher) {
-        this.matcher = matcher;
+    public static <T, V> Validator<T> theProperty(Key<T, V> key, Matcher<V> expectedValue) {
+        return new HamcrestValidator<>(key, expectedValue);
+    }
+
+    private HamcrestValidator(Key<T, V> key, Matcher<V> expectedValue) {
+        this.key = key;
+        this.expectedValue = expectedValue;
     }
 
     @Override
-    public T transformInput(T value) {
-        validate(value);
-        return value;
-    }
-
-    @Override
-    public T transformOutput(T value) {
-        validate(value);
-        return value;
-    }
-
-    private void validate(T value) {
-        if (!matcher.matches(value)) {
+    public void test(FixedRekord<T> rekord) throws InvalidRekordException {
+        V actualValue = rekord.get(key);
+        if (!expectedValue.matches(actualValue)) {
             StringDescription mismatchDescription = new StringDescription();
-            matcher.describeMismatch(value, mismatchDescription);
-            throw new ValidationException(mismatchDescription.toString());
+            expectedValue.describeMismatch(actualValue, mismatchDescription);
+            throw new InvalidRekordException(mismatchDescription.toString());
         }
     }
 }
