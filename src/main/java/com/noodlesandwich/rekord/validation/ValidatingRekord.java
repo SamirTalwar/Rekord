@@ -2,7 +2,6 @@ package com.noodlesandwich.rekord.validation;
 
 import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Key;
-import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.RekordBuilder;
 import com.noodlesandwich.rekord.RekordTemplate;
 import com.noodlesandwich.rekord.properties.Properties;
@@ -58,8 +57,8 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
         return new ValidatingRekord<>(name, properties.without(key), matcher);
     }
 
-    public FixedRekord<T> fix() throws InvalidRekordException {
-        Rekord<T> rekord = new Rekord<>(name, properties);
+    public ValidRekord<T> fix() throws InvalidRekordException {
+        ValidRekord<T> rekord = new ValidRekord<>(name, properties);
         if (!matcher.matches(rekord)) {
             StringDescription description = new StringDescription();
             description.appendText("Expected that ").appendDescriptionOf(matcher).appendText(", but ");

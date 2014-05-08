@@ -22,7 +22,7 @@ public final class CheckTest {
 
     @Test public void
     allows_a_rekord_which_passes_the_test() throws InvalidRekordException {
-        FixedRekord<Bratwurst> bratwurst = validatingBratwurst
+        ValidRekord<Bratwurst> bratwurst = validatingBratwurst
                 .with(Bratwurst.style, Chopped)
                 .fix();
 

@@ -1,6 +1,5 @@
 package com.noodlesandwich.rekord.validation;
 
-import com.noodlesandwich.rekord.FixedRekord;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -21,7 +20,7 @@ public final class PropertyMatcherTest {
 
     @Test public void
     accepts_a_rekord_with_a_property_that_validates() throws InvalidRekordException {
-        FixedRekord<Box> box = validatingBox
+        ValidRekord<Box> box = validatingBox
                 .with(Box.number, 8)
                 .fix();
 

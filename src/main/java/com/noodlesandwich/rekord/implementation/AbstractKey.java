@@ -1,4 +1,4 @@
-package com.noodlesandwich.rekord.keys;
+package com.noodlesandwich.rekord.implementation;
 
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.transformers.Transformer;

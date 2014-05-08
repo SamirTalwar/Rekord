@@ -30,7 +30,7 @@ public final class ValidatingRekordTest {
 
     @Test public void
     builds_an_unchangeable_rekord() throws InvalidRekordException {
-        FixedRekord<Sandvich> sandvich = validatingSandvich
+        ValidRekord<Sandvich> sandvich = validatingSandvich
                 .with(Brown, Sandvich.bread)
                 .with(Sandvich.filling, Jam)
                 .with(Sandvich.style, Roll)
@@ -44,15 +44,14 @@ public final class ValidatingRekordTest {
 
     @Test public void
     rejects_invalid_rekords() throws InvalidRekordException {
-        ValidatingRekord<Sandvich> invalidSandvich = validatingSandvich
+        expectedException.expect(an(InvalidRekordException.class)
+                .withTheMessage("Expected that burgers are gross, but the sandvich style was <Burger>."));
+
+        validatingSandvich
                 .with(White, Sandvich.bread)
                 .with(Sandvich.filling, Ham)
-                .with(Sandvich.style, Burger);
-
-        expectedException.expect(an(InvalidRekordException.class)
-                .withTheMessage("Expected that burgers are gross, but The sandvich style was <Burger>."));
-
-        invalidSandvich.fix();
+                .with(Sandvich.style, Burger)
+                .fix();
     }
 
     private static Matcher<FixedRekord<Sandvich>> noBurgers() {
@@ -65,7 +64,7 @@ public final class ValidatingRekordTest {
             @Override
             protected boolean matchesSafely(FixedRekord<Sandvich> rekord, Description mismatchDescription) {
                 Sandvich.Style style = rekord.get(Sandvich.style);
-                mismatchDescription.appendText("The sandvich style was ").appendValue(style);
+                mismatchDescription.appendText("the sandvich style was ").appendValue(style);
                 return style != Burger;
             }
         };

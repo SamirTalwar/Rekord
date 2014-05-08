@@ -1,6 +1,5 @@
 package com.noodlesandwich.rekord.validation;
 
-import com.noodlesandwich.rekord.FixedRekord;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -20,7 +19,7 @@ public final class HasPropertiesMatcherTest {
 
     @Test public void
     accepts_a_rekord_with_all_specified_properties() throws InvalidRekordException {
-        FixedRekord<Address> address = validatingAddressRequiringSomeProperties
+        ValidRekord<Address> address = validatingAddressRequiringSomeProperties
                 .with(Address.houseNumber, 22)
                 .with(Address.street, "Acacia Avenue")
                 .with(Address.city, "Aberdeen")

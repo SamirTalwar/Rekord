@@ -1,19 +1,19 @@
 package com.noodlesandwich.rekord;
 
 import java.util.Arrays;
+import com.noodlesandwich.rekord.implementation.FixedRekordDelegate;
 import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.serialization.RekordSerializer;
-import com.noodlesandwich.rekord.serialization.StringSerializer;
 import org.pcollections.OrderedPSet;
 import org.pcollections.PSet;
 
 public final class Rekord<T> implements RekordBuilder<T, Rekord<T>>, FixedRekord<T> {
-    private final String name;
     private final Properties<T> properties;
+    private final FixedRekord<T> delegate;
 
     public Rekord(String name, Properties<T> properties) {
-        this.name = name;
         this.properties = properties;
+        this.delegate = new FixedRekordDelegate<>(name, properties);
     }
 
     public static <T> UnkeyedRekord<T> of(Class<T> type) {
@@ -26,27 +26,27 @@ public final class Rekord<T> implements RekordBuilder<T, Rekord<T>>, FixedRekord
 
     @Override
     public String name() {
-        return name;
+        return delegate.name();
     }
 
     @Override
     public <V> V get(Key<? super T, V> key) {
-        return key.retrieveFrom(properties);
+        return delegate.get(key);
     }
 
     @Override
     public boolean containsKey(Key<T, ?> key) {
-        return properties.contains(key);
+        return delegate.containsKey(key);
     }
 
     @Override
     public PSet<Key<? super T, ?>> keys() {
-        return properties.keys();
+        return delegate.keys();
     }
 
     @Override
     public PSet<Key<? super T, ?>> acceptedKeys() {
-        return properties.acceptedKeys();
+        return delegate.acceptedKeys();
     }
 
     @Override
@@ -55,7 +55,7 @@ public final class Rekord<T> implements RekordBuilder<T, Rekord<T>>, FixedRekord
             throw new NullPointerException("Cannot construct a Rekord property with a null key.");
         }
 
-        return new Rekord<>(name, key.storeTo(properties, value));
+        return new Rekord<>(delegate.name(), key.storeTo(properties, value));
     }
 
     @Override
@@ -65,49 +65,43 @@ public final class Rekord<T> implements RekordBuilder<T, Rekord<T>>, FixedRekord
 
     @Override
     public Rekord<T> without(Key<? super T, ?> key) {
-        return new Rekord<>(name, properties.without(key));
+        return new Rekord<>(delegate.name(), properties.without(key));
     }
 
     @Override
     public <A, R> R serialize(RekordSerializer<A, R> serializer) {
-        RekordSerializer.Serializer<A> internalSerializer = serializer.start(name);
-        accumulateIn(internalSerializer);
-        return serializer.finish(internalSerializer);
+        return delegate.serialize(serializer);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public <A> void accumulateIn(RekordSerializer.Serializer<A> serializer) {
-        for (Key<? super T, ?> key : keys()) {
-            Key<? super T, Object> castKey = (Key<? super T, Object>) key;
-            Object value = castKey.retrieveFrom(properties);
-            castKey.accumulate(value, serializer);
-        }
+        delegate.accumulateIn(serializer);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object other) {
+        if (this == other) {
             return true;
         }
 
-        //noinspection SimplifiableIfStatement
-        if (!(o instanceof Rekord)) {
+        if (!(other instanceof Rekord)) {
             return false;
         }
 
-        return properties.equals(((Rekord<T>) o).properties);
+        @SuppressWarnings("unchecked")
+        Rekord<T> that = (Rekord<T>) other;
+        return delegate.equals(that.delegate);
     }
 
     @Override
     public int hashCode() {
-        return properties.hashCode();
+        return delegate.hashCode();
     }
 
     @Override
     public String toString() {
-        return serialize(new StringSerializer());
+        return delegate.toString();
     }
 
     public static final class UnkeyedRekord<T> {
