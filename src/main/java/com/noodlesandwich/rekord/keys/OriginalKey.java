@@ -5,7 +5,7 @@ import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.properties.Property;
 import com.noodlesandwich.rekord.transformers.Transformer;
 
-public abstract class OriginalKey<T, V> extends Key<T, V> {
+public abstract class OriginalKey<T, V> extends AbstractKey<T, V> {
     private final String name;
 
     public OriginalKey(String name) {

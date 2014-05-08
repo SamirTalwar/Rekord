@@ -7,7 +7,7 @@ import com.noodlesandwich.rekord.serialization.RekordSerializer;
 import com.noodlesandwich.rekord.transformers.Transformer;
 import com.noodlesandwich.rekord.transformers.Transformers;
 
-public final class TransformingKey<T, U, V> extends Key<T, V> {
+public final class TransformingKey<T, U, V> extends AbstractKey<T, V> {
     private final Key<T, U> original;
     private final Transformer<U, V> transformer;
 
