@@ -4,13 +4,15 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.nullValue;
 
 public final class ExceptionMatcher<T extends Throwable> extends TypeSafeDiagnosingMatcher<T> {
     private final Class<T> expectedExceptionClass;
-    private final String expectedMessage;
+    private final Matcher<String> expectedMessage;
 
-    public ExceptionMatcher(Class<T> expectedExceptionClass, String expectedMessage) {
+    private ExceptionMatcher(Class<T> expectedExceptionClass, Matcher<String> expectedMessage) {
         this.expectedExceptionClass = expectedExceptionClass;
         this.expectedMessage = expectedMessage;
     }
@@ -29,7 +31,7 @@ public final class ExceptionMatcher<T extends Throwable> extends TypeSafeDiagnos
                 .appendText("a ")
                 .appendValue(expectedExceptionClass)
                 .appendText(" with the message ")
-                .appendValue(expectedMessage);
+                .appendDescriptionOf(expectedMessage);
     }
 
     @Override
@@ -44,7 +46,7 @@ public final class ExceptionMatcher<T extends Throwable> extends TypeSafeDiagnos
                 .appendValue(actualMessage);
 
         return instanceOf(expectedExceptionClass).matches(actualException)
-                && expectedMessage.equals(actualMessage);
+                && expectedMessage.matches(actualMessage);
     }
 
     public static class ExceptionMatcherBuilder<T extends Throwable> {
@@ -55,7 +57,11 @@ public final class ExceptionMatcher<T extends Throwable> extends TypeSafeDiagnos
         }
 
         public Matcher<T> withTheMessage(String message) {
-            return new ExceptionMatcher<>(exceptionClass, message);
+            return new ExceptionMatcher<>(exceptionClass, equalTo(message));
+        }
+
+        public Matcher<T> withoutAMessage() {
+            return new ExceptionMatcher<>(exceptionClass, nullValue(String.class));
         }
     }
 }

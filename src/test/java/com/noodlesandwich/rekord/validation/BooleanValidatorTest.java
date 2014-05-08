@@ -10,6 +10,7 @@ import static com.noodlesandwich.rekord.testobjects.ExceptionMatcher.an;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst.Style.Chopped;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst.Style.Whole;
+import static com.noodlesandwich.rekord.validation.Validators.UnspecifiedInvalidRekordException;
 import static com.noodlesandwich.rekord.validation.Validators.when;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -35,8 +36,7 @@ public final class BooleanValidatorTest {
         ValidatingRekord<Bratwurst> invalidBratwurst = validatingBratwurst
                 .with(Bratwurst.style, Whole);
 
-        expectedException.expect(an(InvalidRekordException.class)
-                .withTheMessage("The rekord was invalid."));
+        expectedException.expect(an(UnspecifiedInvalidRekordException.class).withoutAMessage());
 
         invalidBratwurst.fix();
     }

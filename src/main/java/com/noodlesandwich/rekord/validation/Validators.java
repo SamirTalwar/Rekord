@@ -13,7 +13,7 @@ public final class Validators {
         return new Validator<T>() {
             @Override public void test(FixedRekord<T> rekord) throws InvalidRekordException {
                 if (!validator.test(rekord)) {
-                    throw new UnknownRekordValidationException();
+                    throw new UnspecifiedInvalidRekordException();
                 }
             }
         };
@@ -28,7 +28,7 @@ public final class Validators {
     public static <T> Validator<T> nothing() {
         return new Validator<T>() {
             @Override public void test(FixedRekord<T> rekord) throws InvalidRekordException {
-                throw new UnknownRekordValidationException();
+                throw new UnspecifiedInvalidRekordException();
             }
         };
     }
@@ -89,11 +89,7 @@ public final class Validators {
         };
     }
 
-    public static final class UnknownRekordValidationException extends InvalidRekordException {
-        public UnknownRekordValidationException() {
-            super("The rekord was invalid.");
-        }
-    }
+    public static final class UnspecifiedInvalidRekordException extends InvalidRekordException { }
 
     public static final class MissingPropertiesException extends InvalidRekordException {
         public <T> MissingPropertiesException(PSet<Key<? super T, ?>> keys) {
