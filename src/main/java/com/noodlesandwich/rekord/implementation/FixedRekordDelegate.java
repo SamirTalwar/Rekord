@@ -58,7 +58,6 @@ public final class FixedRekordDelegate<T> implements FixedRekord<T> {
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object other) {
         if (this == other) {
@@ -69,6 +68,7 @@ public final class FixedRekordDelegate<T> implements FixedRekord<T> {
             return false;
         }
 
+        @SuppressWarnings("unchecked")
         FixedRekordDelegate<T> that = (FixedRekordDelegate<T>) other;
         return properties.equals(that.properties);
     }

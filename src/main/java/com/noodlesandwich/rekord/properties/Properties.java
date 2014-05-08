@@ -56,14 +56,18 @@ public final class Properties<T> {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Properties)) return false;
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+
+        if (!(other instanceof Properties)) {
+            return false;
+        }
 
         @SuppressWarnings("unchecked")
-        Properties<T> other = (Properties<T>) o;
-        return properties.equals(other.properties);
-
+        Properties<T> that = (Properties<T>) other;
+        return properties.equals(that.properties);
     }
 
     @Override
