@@ -1,5 +1,6 @@
-package com.noodlesandwich.rekord;
+package com.noodlesandwich.rekord.properties;
 
+import com.noodlesandwich.rekord.Key;
 import org.pcollections.HashTreePMap;
 import org.pcollections.HashTreePSet;
 import org.pcollections.OrderedPSet;
@@ -11,21 +12,14 @@ public final class Properties<T> {
 
     private final PSet<Key<? super T, ?>> acceptedKeys;
     private final PMap<Key<? super T, ?>, Object> properties;
-    private final PMap<Key<? super T, ?>, Key<? super T, ?>> assignedKeys;
 
     public Properties(PSet<Key<? super T, ?>> acceptedKeys) {
-        this(originalKeys(acceptedKeys),
-             HashTreePMap.<Key<? super T, ?>, Object>empty(),
-             HashTreePMap.<Key<? super T, ?>, Key<? super T, ?>>empty());
+        this(originalKeys(acceptedKeys), HashTreePMap.<Key<? super T, ?>, Object>empty());
     }
 
-    private Properties(PSet<Key<? super T, ?>> acceptedKeys,
-                       PMap<Key<? super T, ?>, Object> properties,
-                       PMap<Key<? super T, ?>, Key<? super T, ?>> assignedKeys)
-    {
+    private Properties(PSet<Key<? super T, ?>> acceptedKeys, PMap<Key<? super T, ?>, Object> properties) {
         this.acceptedKeys = acceptedKeys;
         this.properties = properties;
-        this.assignedKeys = assignedKeys;
     }
 
     @SuppressWarnings("unchecked")
@@ -38,7 +32,7 @@ public final class Properties<T> {
     }
 
     public PSet<Key<? super T, ?>> keys() {
-        return HashTreePSet.from(assignedKeys.values());
+        return HashTreePSet.from(properties.keySet());
     }
 
     public PSet<Key<? super T, ?>> acceptedKeys() {
@@ -48,23 +42,21 @@ public final class Properties<T> {
     public Properties<T> with(Property property) {
         @SuppressWarnings("unchecked")
         Key<? super T, ?> key = (Key<? super T, ?>) property.key();
-        @SuppressWarnings("unchecked")
-        Key<? super T, ?> originalKey = (Key<? super T, ?>) property.originalKey();
-        if (!acceptedKeys.contains(originalKey)) {
-            throw new IllegalArgumentException(String.format(UnacceptableKeyTemplate, originalKey.name()));
+        if (!acceptedKeys.contains(key.original())) {
+            throw new IllegalArgumentException(String.format(UnacceptableKeyTemplate, key.name()));
         }
 
         return new Properties<>(
                 acceptedKeys,
-                properties.plus(originalKey, property.value()),
-                assignedKeys.plus(originalKey, key));
+                properties.plus(key, property.value())
+        );
     }
 
     public Properties<T> without(Key<? super T, ?> key) {
         return new Properties<>(
                 acceptedKeys,
-                properties.minus(key),
-                assignedKeys.minus(key));
+                properties.minus(key)
+        );
     }
 
     @Override

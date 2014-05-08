@@ -1,4 +1,6 @@
-package com.noodlesandwich.rekord;
+package com.noodlesandwich.rekord.properties;
+
+import com.noodlesandwich.rekord.Key;
 
 public final class Property {
     private final Key<?, ?> key;
@@ -19,10 +21,6 @@ public final class Property {
 
     public Key<?, ?> key() {
         return key;
-    }
-
-    public Key<?, ?> originalKey() {
-        return key.original();
     }
 
     public Object value() {

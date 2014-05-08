@@ -1,4 +1,4 @@
-package com.noodlesandwich.rekord;
+package com.noodlesandwich.rekord.properties;
 
 import com.noodlesandwich.rekord.keys.SimpleKey;
 import org.junit.Rule;

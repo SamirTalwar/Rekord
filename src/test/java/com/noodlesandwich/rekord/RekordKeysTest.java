@@ -33,7 +33,7 @@ public final class RekordKeysTest {
                 .with(Sandvich.style, Roll);
 
         assertThat(sandvich.keys(), Matchers
-                .<Key<? super Sandvich, ?>>containsInAnyOrder(Sandvich.filling, Sandvich.style));
+                .<Key<? super Sandvich, ?>>containsInAnyOrder(Sandvich.filling, Sandvich.style.original()));
     }
 
     @SuppressWarnings("unchecked")
