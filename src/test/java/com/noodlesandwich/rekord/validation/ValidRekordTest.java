@@ -23,7 +23,7 @@ public final class ValidRekordTest {
     private static final ValidatingRekord<Sandvich> validatingSandvich
             = ValidatingRekord.of(Sandvich.class)
                 .accepting(Sandvich.filling, Sandvich.bread, Sandvich.style)
-                .allowing(noBurgers());
+                .expecting(noBurgers());
 
     @Test public void
     builds_an_unchangeable_rekord() throws InvalidRekordException {
