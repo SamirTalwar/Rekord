@@ -24,7 +24,7 @@ public abstract class OriginalKey<T, V> extends Key<T, V> {
 
     @Override
     public <P extends T> Properties<P> storeTo(Properties<P> properties, V value) {
-        return properties.with(new Property(this, value));
+        return properties.with(new Property<P, V>(this, value));
     }
 
     @Override

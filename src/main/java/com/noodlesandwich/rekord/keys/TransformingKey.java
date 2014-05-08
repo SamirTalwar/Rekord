@@ -28,7 +28,7 @@ public final class TransformingKey<T, U, V> extends Key<T, V> {
 
     @Override
     public <P extends T> Properties<P> storeTo(Properties<P> properties, V value) {
-        return properties.with(new Property(original, transformer.transformInput(value)));
+        return properties.with(new Property<P, U>(original, transformer.transformInput(value)));
     }
 
     @Override

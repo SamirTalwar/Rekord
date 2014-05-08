@@ -75,8 +75,8 @@ public final class Rekord<T> implements RekordBuilder<T, Rekord<T>>, FixedRekord
         return serializer.finish(internalSerializer);
     }
 
-    @Override
     @SuppressWarnings("unchecked")
+    @Override
     public <A> void accumulateIn(RekordSerializer.Serializer<A> serializer) {
         for (Key<? super T, ?> key : keys()) {
             Key<? super T, Object> castKey = (Key<? super T, Object>) key;

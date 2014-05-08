@@ -39,17 +39,13 @@ public final class Properties<T> {
         return acceptedKeys;
     }
 
-    public Properties<T> with(Property property) {
-        @SuppressWarnings("unchecked")
-        Key<? super T, ?> key = (Key<? super T, ?>) property.key();
+    public Properties<T> with(Property<T, ?> property) {
+        Key<? super T, ?> key = property.key();
         if (!acceptedKeys.contains(key.original())) {
             throw new IllegalArgumentException(String.format(UnacceptableKeyTemplate, key.name()));
         }
 
-        return new Properties<>(
-                acceptedKeys,
-                properties.plus(key, property.value())
-        );
+        return new Properties<>(acceptedKeys, properties.plus(key, property.value()));
     }
 
     public Properties<T> without(Key<? super T, ?> key) {

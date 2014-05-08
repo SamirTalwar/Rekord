@@ -2,11 +2,11 @@ package com.noodlesandwich.rekord.properties;
 
 import com.noodlesandwich.rekord.Key;
 
-public final class Property {
-    private final Key<?, ?> key;
-    private final Object value;
+public final class Property<T, V> {
+    private final Key<? super T, V> key;
+    private final V value;
 
-    public Property(Key<?, ?> key, Object value) {
+    public Property(Key<? super T, V> key, V value) {
         if (key == null) {
             throw new NullPointerException("Cannot construct a Rekord property with a null key.");
         }
@@ -19,11 +19,11 @@ public final class Property {
         this.value = value;
     }
 
-    public Key<?, ?> key() {
+    public Key<? super T, V> key() {
         return key;
     }
 
-    public Object value() {
+    public V value() {
         return value;
     }
 }

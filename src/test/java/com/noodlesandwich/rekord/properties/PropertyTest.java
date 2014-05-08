@@ -14,10 +14,8 @@ public final class PropertyTest {
     the_key_of_a_Rekord_property_cannot_be_null() {
         expectedException.expect(a(NullPointerException.class)
                 .withTheMessage("Cannot construct a Rekord property with a null key."));
-        expectedException.expect(a(NullPointerException.class)
-                .withTheMessage("Cannot construct a Rekord property with a null key."));
 
-        new Property(null, "Random value");
+        new Property<>(null, "Random value");
     }
 
     @Test public void
@@ -25,6 +23,6 @@ public final class PropertyTest {
         expectedException.expect(a(NullPointerException.class)
                 .withTheMessage("Cannot construct a Rekord property with a null value."));
 
-        new Property(SimpleKey.named("Random key"), null);
+        new Property<>(SimpleKey.named("Random key"), null);
     }
 }
