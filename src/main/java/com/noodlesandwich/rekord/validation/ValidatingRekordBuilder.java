@@ -1,8 +1,10 @@
 package com.noodlesandwich.rekord.validation;
 
 import java.util.Arrays;
+import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Properties;
+import org.hamcrest.Matcher;
 import org.pcollections.OrderedPSet;
 import org.pcollections.PSet;
 
@@ -37,8 +39,8 @@ public final class ValidatingRekordBuilder {
             this.properties = properties;
         }
 
-        public ValidatingRekord<T> expecting(Validator<T> validator) {
-            return new ValidatingRekord<>(name, properties, validator);
+        public ValidatingRekord<T> expecting(Matcher<FixedRekord<T>> matcher) {
+            return new ValidatingRekord<>(name, properties, matcher);
         }
     }
 }

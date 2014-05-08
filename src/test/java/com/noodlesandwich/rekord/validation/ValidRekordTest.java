@@ -1,6 +1,9 @@
 package com.noodlesandwich.rekord.validation;
 
 import com.noodlesandwich.rekord.FixedRekord;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -47,17 +50,23 @@ public final class ValidRekordTest {
                 .with(Sandvich.style, Burger);
 
         expectedException.expect(an(InvalidRekordException.class)
-                .withTheMessage("Burgers are gross."));
+                .withTheMessage("Expected that burgers are gross, but The sandvich style was <Burger>."));
 
         invalidSandvich.fix();
     }
 
-    private static Validator<Sandvich> noBurgers() {
-        return new Validator<Sandvich>() {
-            @Override public void test(FixedRekord<Sandvich> rekord) throws InvalidRekordException {
-                if (rekord.get(Sandvich.style) == Burger) {
-                    throw new InvalidRekordException("Burgers are gross.");
-                }
+    private static Matcher<FixedRekord<Sandvich>> noBurgers() {
+        return new TypeSafeDiagnosingMatcher<FixedRekord<Sandvich>>() {
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("burgers are gross");
+            }
+
+            @Override
+            protected boolean matchesSafely(FixedRekord<Sandvich> rekord, Description mismatchDescription) {
+                Sandvich.Style style = rekord.get(Sandvich.style);
+                mismatchDescription.appendText("The sandvich style was ").appendValue(style);
+                return style != Burger;
             }
         };
     }

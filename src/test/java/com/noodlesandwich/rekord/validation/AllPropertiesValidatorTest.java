@@ -36,7 +36,7 @@ public final class AllPropertiesValidatorTest {
     @Test public void
     rejects_a_rekord_with_a_missing_property_when_expecting_all_properties() throws InvalidRekordException {
         expectedException.expect(an(InvalidRekordException.class)
-                .withTheMessage("The rekord was missing the properties [city, postal code]."));
+                .withTheMessage("Expected that all properties are set, but was missing the keys <[city, postal code]>."));
 
         validatingAddressRequiringAllProperties
                 .with(Address.houseNumber, 22)

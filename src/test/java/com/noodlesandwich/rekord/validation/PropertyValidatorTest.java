@@ -9,6 +9,7 @@ import static com.noodlesandwich.rekord.testobjects.ExceptionMatcher.an;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Box;
 import static com.noodlesandwich.rekord.validation.Validators.theProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 
 public final class PropertyValidatorTest {
@@ -16,7 +17,7 @@ public final class PropertyValidatorTest {
 
     private static final ValidatingRekord<Box> validatingBox = ValidatingRekord.of(Box.class)
             .accepting(Box.number)
-            .expecting(theProperty(Box.number, isMoreThanFive()));
+            .expecting(theProperty(Box.number, is(greaterThan(5))));
 
     @Test public void
     accepts_a_rekord_with_a_property_that_validates() throws InvalidRekordException {
@@ -30,21 +31,10 @@ public final class PropertyValidatorTest {
     @Test public void
     rejects_a_rekord_when_the_property_does_not_validate() throws InvalidRekordException {
         expectedException.expect(an(InvalidRekordException.class)
-                .withTheMessage("The value <3> was not more than <5>."));
+                .withTheMessage("Expected that the rekord has the property <number> with the value is a value greater than <5>, but the value was <3>."));
 
         validatingBox
                 .with(Box.number, 3)
                 .fix();
-    }
-
-    private static PropertyValidator<Integer> isMoreThanFive() {
-        return new PropertyValidator<Integer>() {
-            @Override
-            public void test(Integer value) throws InvalidRekordException {
-                if (value <= 5) {
-                    throw new InvalidRekordException(String.format("The value <%s> was not more than <5>.", value));
-                }
-            }
-        };
     }
 }

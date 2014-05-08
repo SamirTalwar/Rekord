@@ -6,7 +6,6 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.nullValue;
 
 public final class ExceptionMatcher<T extends Throwable> extends TypeSafeDiagnosingMatcher<T> {
     private final Class<T> expectedExceptionClass;
@@ -58,10 +57,6 @@ public final class ExceptionMatcher<T extends Throwable> extends TypeSafeDiagnos
 
         public Matcher<T> withTheMessage(String message) {
             return new ExceptionMatcher<>(exceptionClass, equalTo(message));
-        }
-
-        public Matcher<T> withoutAMessage() {
-            return new ExceptionMatcher<>(exceptionClass, nullValue(String.class));
         }
     }
 }

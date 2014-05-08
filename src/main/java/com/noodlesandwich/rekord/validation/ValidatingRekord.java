@@ -6,17 +6,19 @@ import com.noodlesandwich.rekord.Properties;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.RekordBuilder;
 import com.noodlesandwich.rekord.RekordTemplate;
+import org.hamcrest.Matcher;
+import org.hamcrest.StringDescription;
 import org.pcollections.PSet;
 
 public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRekord<T>> {
     private final String name;
     private final Properties properties;
-    private final Validator<T> validator;
+    private final Matcher<FixedRekord<T>> matcher;
 
-    public ValidatingRekord(String name, Properties properties, Validator<T> validator) {
+    public ValidatingRekord(String name, Properties properties, Matcher<FixedRekord<T>> matcher) {
         this.name = name;
         this.properties = properties;
-        this.validator = validator;
+        this.matcher = matcher;
     }
 
     public static <T> ValidatingRekordBuilder.UnkeyedRekord<T> of(Class<T> type) {
@@ -44,7 +46,7 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
 
     @Override
     public <V> ValidatingRekord<T> with(Key<? super T, V> key, V value) {
-        return new ValidatingRekord<>(name, key.storeTo(properties, value), validator);
+        return new ValidatingRekord<>(name, key.storeTo(properties, value), matcher);
     }
 
     @Override
@@ -54,12 +56,18 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
 
     @Override
     public ValidatingRekord<T> without(Key<? super T, ?> key) {
-        return new ValidatingRekord<>(name, properties.without(key), validator);
+        return new ValidatingRekord<>(name, properties.without(key), matcher);
     }
 
     public FixedRekord<T> fix() throws InvalidRekordException {
         Rekord<T> rekord = new Rekord<>(name, properties);
-        validator.test(rekord);
+        if (!matcher.matches(rekord)) {
+            StringDescription description = new StringDescription();
+            description.appendText("Expected that ").appendDescriptionOf(matcher).appendText(", but ");
+            matcher.describeMismatch(rekord, description);
+            description.appendText(".");
+            throw new InvalidRekordException(description.toString());
+        }
         return rekord;
     }
 }

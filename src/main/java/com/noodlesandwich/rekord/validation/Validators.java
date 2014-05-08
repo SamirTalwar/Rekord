@@ -3,97 +3,82 @@ package com.noodlesandwich.rekord.validation;
 import java.util.Arrays;
 import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Key;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.pcollections.OrderedPSet;
 import org.pcollections.PSet;
 
 public final class Validators {
     private Validators() { }
 
-    public static <T> Validator<T> that(final BooleanValidator<T> validator) {
-        return new Validator<T>() {
-            @Override public void test(FixedRekord<T> rekord) throws InvalidRekordException {
-                if (!validator.test(rekord)) {
-                    throw new UnspecifiedInvalidRekordException();
-                }
+    public static <T> Matcher<FixedRekord<T>> that(final BooleanValidator<T> validator) {
+        return new TypeSafeDiagnosingMatcher<FixedRekord<T>>() {
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("an unspecified validation would pass");
+            }
+
+            @Override
+            protected boolean matchesSafely(FixedRekord<T> rekord, Description mismatchDescription) {
+                mismatchDescription.appendText("it failed");
+                return validator.test(rekord);
             }
         };
     }
 
-    public static <T> Validator<T> toAlwaysSucceed() {
-        return new Validator<T>() {
-            @Override public void test(FixedRekord<T> rekord) { }
-        };
-    }
-
-    public static <T> Validator<T> toAlwaysFail() {
-        return new Validator<T>() {
-            @Override public void test(FixedRekord<T> rekord) throws InvalidRekordException {
-                throw new UnspecifiedInvalidRekordException();
+    public static <T> Matcher<FixedRekord<T>> allProperties() {
+        return new TypeSafeDiagnosingMatcher<FixedRekord<T>>() {
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("all properties are set");
             }
-        };
-    }
 
-    public static <T> Validator<T> allProperties() {
-        return new Validator<T>() {
-            @Override public void test(FixedRekord<T> rekord) throws InvalidRekordException {
+            @Override
+            protected boolean matchesSafely(FixedRekord<T> rekord, Description mismatchDescription) {
                 PSet<Key<? super T, ?>> expectedKeys = rekord.acceptedKeys();
                 PSet<Key<? super T, ?>> actualKeys = rekord.keys();
                 PSet<Key<? super T, ?>> missingKeys = expectedKeys.minusAll(actualKeys);
-                if (!missingKeys.isEmpty()) {
-                    throw new MissingPropertiesException(missingKeys);
-                }
+                mismatchDescription.appendText("was missing the keys ").appendValue(missingKeys);
+                return missingKeys.isEmpty();
             }
         };
     }
 
     @SafeVarargs
-    public static <T> Validator<T> theProperties(final Key<? super T, ?>... keys) {
-        return new Validator<T>() {
-            @Override public void test(FixedRekord<T> rekord) throws InvalidRekordException {
-                PSet<Key<? super T, ?>> expectedKeys = OrderedPSet.from(Arrays.asList(keys));
+    public static <T> Matcher<FixedRekord<T>> theProperties(final Key<? super T, ?>... keys) {
+        final PSet<Key<? super T, ?>> expectedKeys = OrderedPSet.from(Arrays.asList(keys));
+        return new TypeSafeDiagnosingMatcher<FixedRekord<T>>() {
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("the rekord has properties with the keys ").appendValue(expectedKeys);
+            }
+
+            @Override
+            protected boolean matchesSafely(FixedRekord<T> rekord, Description mismatchDescription) {
                 PSet<Key<? super T, ?>> actualKeys = rekord.keys();
                 PSet<Key<? super T, ?>> missingKeys = expectedKeys.minusAll(actualKeys);
-                if (!missingKeys.isEmpty()) {
-                    throw new MissingPropertiesException(missingKeys);
-                }
+                mismatchDescription.appendText("was missing the keys ").appendValue(missingKeys);
+                return missingKeys.isEmpty();
             }
         };
     }
 
-    public static <T, V> Validator<T> theProperty(final Key<T, V> key, final PropertyValidator<V> propertyValidator) {
-        return new Validator<T>() {
-            @Override public void test(FixedRekord<T> rekord) throws InvalidRekordException {
-                propertyValidator.test(rekord.get(key));
-            }
-        };
-    }
-
-    public static <T> PropertyValidator<T> isEqualTo(final T expected) {
-        return new PropertyValidator<T>() {
-            @Override public void test(T actual) throws InvalidRekordException {
-                if (!expected.equals(actual)) {
-                    throw new InvalidRekordException(String.format("Expected the value <%s>, but got <%s>.", expected, actual));
-                }
-            }
-        };
-    }
-
-    public static <T> PropertyValidator<T> isNotEqualTo(final T expected) {
-        return new PropertyValidator<T>() {
+    public static <T, V> Matcher<FixedRekord<T>> theProperty(final Key<T, V> key, final Matcher<V> expectedValue) {
+        return new TypeSafeDiagnosingMatcher<FixedRekord<T>>() {
             @Override
-            public void test(T actual) throws InvalidRekordException {
-                if (expected.equals(actual)) {
-                    throw new InvalidRekordException(String.format("Expected any value but <%s>, but got <%s>.", expected, actual));
-                }
+            public void describeTo(Description description) {
+                description
+                        .appendText("the rekord has the property ").appendValue(key)
+                        .appendText(" with the value ").appendDescriptionOf(expectedValue);
+            }
+
+            @Override
+            protected boolean matchesSafely(FixedRekord<T> rekord, Description mismatchDescription) {
+                V actualValue = rekord.get(key);
+                mismatchDescription.appendText("the value was ").appendValue(actualValue);
+                return expectedValue.matches(actualValue);
             }
         };
-    }
-
-    public static final class UnspecifiedInvalidRekordException extends InvalidRekordException { }
-
-    public static final class MissingPropertiesException extends InvalidRekordException {
-        public <T> MissingPropertiesException(PSet<Key<? super T, ?>> keys) {
-            super(String.format("The rekord was missing the properties %s.", keys));
-        }
     }
 }

@@ -37,7 +37,7 @@ public final class SomePropertiesValidatorTest {
     @Test public void
     rejects_a_rekord_that_is_missing_a_specified_property() throws InvalidRekordException {
         expectedException.expect(an(InvalidRekordException.class)
-                .withTheMessage("The rekord was missing the properties [city]."));
+                .withTheMessage("Expected that the rekord has properties with the keys <[street, city]>, but was missing the keys <[city]>."));
 
         validatingAddressRequiringSomeProperties
                 .with(Address.houseNumber, 22)
