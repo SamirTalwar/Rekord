@@ -28,7 +28,7 @@ public final class Properties<T> {
     }
 
     public boolean has(Key<? super T, ?> key) {
-        return properties.containsKey(key);
+        return properties.containsKey(key.original());
     }
 
     public PSet<Key<? super T, ?>> keys() {

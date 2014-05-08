@@ -7,10 +7,12 @@ import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.Brown;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Cheese;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Jam;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Flat;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Roll;
 import static com.noodlesandwich.rekord.validation.RekordMatchers.hasProperties;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
 public final class RekordKeysTest {
@@ -45,5 +47,16 @@ public final class RekordKeysTest {
 
         assertThat(sandvich.acceptedKeys(), Matchers
                 .<Key<? super Sandvich, ?>>containsInAnyOrder(Sandvich.bread, Sandvich.filling, Sandvich.style.original()));
+    }
+
+    @Test public void
+    a_rekord_knows_whether_it_has_a_property_with_a_specific_key() {
+        Rekord<Sandvich> sandvich = Sandvich.rekord
+                .with(Sandvich.filling, Jam)
+                .with(Sandvich.style, Flat);
+
+        assertThat(sandvich.has(Sandvich.filling), is(true));
+        assertThat(sandvich.has(Sandvich.bread), is(false));
+        assertThat(sandvich.has(Sandvich.style), is(true));
     }
 }
