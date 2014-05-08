@@ -27,8 +27,8 @@ public final class FixedRekordDelegate<T> implements FixedRekord<T> {
     }
 
     @Override
-    public boolean containsKey(Key<T, ?> key) {
-        return properties.contains(key);
+    public boolean has(Key<T, ?> key) {
+        return properties.has(key);
     }
 
     @Override

@@ -6,7 +6,7 @@ import org.pcollections.PSet;
 public interface FixedRekord<T> extends RekordTemplate<T> {
     <V> V get(Key<? super T, V> key);
 
-    boolean containsKey(Key<T, ?> key);
+    boolean has(Key<T, ?> key);
 
     PSet<Key<? super T, ?>> keys();
 

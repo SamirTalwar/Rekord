@@ -35,8 +35,8 @@ public final class Rekord<T> implements RekordBuilder<T, Rekord<T>>, FixedRekord
     }
 
     @Override
-    public boolean containsKey(Key<T, ?> key) {
-        return delegate.containsKey(key);
+    public boolean has(Key<T, ?> key) {
+        return delegate.has(key);
     }
 
     @Override

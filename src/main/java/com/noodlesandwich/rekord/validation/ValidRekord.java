@@ -25,8 +25,8 @@ public final class ValidRekord<T> implements FixedRekord<T> {
     }
 
     @Override
-    public boolean containsKey(Key<T, ?> key) {
-        return delegate.containsKey(key);
+    public boolean has(Key<T, ?> key) {
+        return delegate.has(key);
     }
 
     @Override

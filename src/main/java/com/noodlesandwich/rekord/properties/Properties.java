@@ -27,7 +27,7 @@ public final class Properties<T> {
         return (V) properties.get(key);
     }
 
-    public boolean contains(Key<? super T, ?> key) {
+    public boolean has(Key<? super T, ?> key) {
         return properties.containsKey(key);
     }
 
