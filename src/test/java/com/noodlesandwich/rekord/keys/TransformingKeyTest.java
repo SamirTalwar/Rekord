@@ -15,7 +15,7 @@ public final class TransformingKeyTest {
     transforms_according_to_its_transformer() {
         Key<Badabing, String> key = SimpleKey.<Badabing, String>named("key").that(upperCases());
 
-        Properties properties = key.storeTo(new Properties(accepting(key)), "kablammo");
+        Properties<Badabing> properties = key.storeTo(new Properties<>(accepting(key)), "kablammo");
 
         assertThat(key.retrieveFrom(properties), is("KABLAMMO"));
     }
@@ -24,7 +24,7 @@ public final class TransformingKeyTest {
     delegates_to_internal_transformers() {
         Key<Badabing, String> key = SimpleKey.<Badabing, String>named("key").that(defaultsTo("nobody loves me")).then(upperCases());
 
-        Properties properties = new Properties(accepting(key));
+        Properties<Badabing> properties = new Properties<>(accepting(key));
 
         assertThat(key.retrieveFrom(properties), is("NOBODY LOVES ME"));
     }
@@ -33,15 +33,15 @@ public final class TransformingKeyTest {
     allows_the_transformer_to_change_the_type() {
         Key<Badabing, String> key = SimpleKey.<Badabing, Integer>named("key").that(defaultsTo(88)).then(stringifies());
 
-        Properties emptyProperties = new Properties(accepting(key));
-        Properties propertiesWithValue = key.storeTo(emptyProperties, "97");
+        Properties<Badabing> emptyProperties = new Properties<>(accepting(key));
+        Properties<Badabing> propertiesWithValue = key.storeTo(emptyProperties, "97");
 
         assertThat(key.retrieveFrom(propertiesWithValue), is("97"));
         assertThat(key.retrieveFrom(emptyProperties), is("88"));
     }
 
-    private static OrderedPSet<Key<?, ?>> accepting(Key<?, ?> key) {
-        return OrderedPSet.<Key<?, ?>>singleton(key);
+    private static <T> OrderedPSet<Key<? super T, ?>> accepting(Key<T, ?> key) {
+        return OrderedPSet.<Key<? super T, ?>>singleton(key);
     }
 
     private static interface Badabing { }

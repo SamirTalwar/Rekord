@@ -6,58 +6,62 @@ import org.pcollections.OrderedPSet;
 import org.pcollections.PMap;
 import org.pcollections.PSet;
 
-public final class Properties {
+public final class Properties<T> {
     private static final String UnacceptableKeyTemplate = "The key \"%s\" is not a valid key for this Rekord.";
 
-    private final PSet<Key<?, ?>> acceptedKeys;
-    private final PMap<Key<?, ?>, Object> properties;
-    private final PMap<Key<?, ?>, Key<?, ?>> assignedKeys;
+    private final PSet<Key<? super T, ?>> acceptedKeys;
+    private final PMap<Key<? super T, ?>, Object> properties;
+    private final PMap<Key<? super T, ?>, Key<? super T, ?>> assignedKeys;
 
-    public Properties(PSet<Key<?, ?>> acceptedKeys) {
+    public Properties(PSet<Key<? super T, ?>> acceptedKeys) {
         this(originalKeys(acceptedKeys),
-             HashTreePMap.<Key<?, ?>, Object>empty(),
-             HashTreePMap.<Key<?, ?>, Key<?, ?>>empty());
+             HashTreePMap.<Key<? super T, ?>, Object>empty(),
+             HashTreePMap.<Key<? super T, ?>, Key<? super T, ?>>empty());
     }
 
-    private Properties(PSet<Key<?, ?>> acceptedKeys,
-                       PMap<Key<?, ?>, Object> properties,
-                       PMap<Key<?, ?>, Key<?, ?>> assignedKeys)
+    private Properties(PSet<Key<? super T, ?>> acceptedKeys,
+                       PMap<Key<? super T, ?>, Object> properties,
+                       PMap<Key<? super T, ?>, Key<? super T, ?>> assignedKeys)
     {
         this.acceptedKeys = acceptedKeys;
         this.properties = properties;
         this.assignedKeys = assignedKeys;
     }
 
-    public Object get(Key<?, ?> key) {
-        return properties.get(key);
+    @SuppressWarnings("unchecked")
+    public <V> V get(Key<? super T, V> key) {
+        return (V) properties.get(key);
     }
 
-    public boolean contains(Key<?, ?> key) {
+    public boolean contains(Key<? super T, ?> key) {
         return properties.containsKey(key);
     }
 
-    public PSet<Key<?, ?>> keys() {
+    public PSet<Key<? super T, ?>> keys() {
         return HashTreePSet.from(assignedKeys.values());
     }
 
-    public PSet<Key<?, ?>> acceptedKeys() {
+    public PSet<Key<? super T, ?>> acceptedKeys() {
         return acceptedKeys;
     }
 
-    public Properties with(Property property) {
-        Key<?, ?> originalKey = property.originalKey();
+    public Properties<T> with(Property property) {
+        @SuppressWarnings("unchecked")
+        Key<? super T, ?> key = (Key<? super T, ?>) property.key();
+        @SuppressWarnings("unchecked")
+        Key<? super T, ?> originalKey = (Key<? super T, ?>) property.originalKey();
         if (!acceptedKeys.contains(originalKey)) {
             throw new IllegalArgumentException(String.format(UnacceptableKeyTemplate, originalKey.name()));
         }
 
-        return new Properties(
+        return new Properties<>(
                 acceptedKeys,
                 properties.plus(originalKey, property.value()),
-                assignedKeys.plus(originalKey, property.key()));
+                assignedKeys.plus(originalKey, key));
     }
 
-    public Properties without(Key<?, ?> key) {
-        return new Properties(
+    public Properties<T> without(Key<? super T, ?> key) {
+        return new Properties<>(
                 acceptedKeys,
                 properties.minus(key),
                 assignedKeys.minus(key));
@@ -68,7 +72,8 @@ public final class Properties {
         if (this == o) return true;
         if (!(o instanceof Properties)) return false;
 
-        Properties other = (Properties) o;
+        @SuppressWarnings("unchecked")
+        Properties<T> other = (Properties<T>) o;
         return properties.equals(other.properties);
 
     }
@@ -83,9 +88,9 @@ public final class Properties {
         return properties.toString();
     }
 
-    private static PSet<Key<?, ?>> originalKeys(Iterable<Key<?, ?>> keys) {
-        PSet<Key<?, ?>> keyCollection = OrderedPSet.empty();
-        for (Key<?, ?> key : keys) {
+    private static <T> PSet<Key<? super T, ?>> originalKeys(Iterable<Key<? super T, ?>> keys) {
+        PSet<Key<? super T, ?>> keyCollection = OrderedPSet.empty();
+        for (Key<? super T, ?> key : keys) {
             keyCollection = keyCollection.plus(key.original());
         }
         return keyCollection;

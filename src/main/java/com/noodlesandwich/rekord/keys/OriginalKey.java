@@ -23,17 +23,15 @@ public abstract class OriginalKey<T, V> extends Key<T, V> {
     }
 
     @Override
-    public Properties storeTo(Properties properties, V value) {
+    public <P extends T> Properties<P> storeTo(Properties<P> properties, V value) {
         return properties.with(new Property(this, value));
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public V retrieveFrom(Properties properties) {
-        return (V) properties.get(this);
+    public <P extends T> V retrieveFrom(Properties<P> properties) {
+        return properties.get(this);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Key<T, ?> original() {
         return this;

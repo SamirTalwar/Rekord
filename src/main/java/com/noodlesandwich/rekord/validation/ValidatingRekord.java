@@ -12,10 +12,10 @@ import org.pcollections.PSet;
 
 public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRekord<T>> {
     private final String name;
-    private final Properties properties;
+    private final Properties<T> properties;
     private final Matcher<FixedRekord<T>> matcher;
 
-    public ValidatingRekord(String name, Properties properties, Matcher<FixedRekord<T>> matcher) {
+    public ValidatingRekord(String name, Properties<T> properties, Matcher<FixedRekord<T>> matcher) {
         this.name = name;
         this.properties = properties;
         this.matcher = matcher;
@@ -38,10 +38,9 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
         return name;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public PSet<Key<? super T, ?>> acceptedKeys() {
-        return (PSet) properties.acceptedKeys();
+        return properties.acceptedKeys();
     }
 
     @Override

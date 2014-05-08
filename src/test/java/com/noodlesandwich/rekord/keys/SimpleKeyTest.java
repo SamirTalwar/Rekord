@@ -14,7 +14,7 @@ import static org.hamcrest.Matchers.nullValue;
 public final class SimpleKeyTest {
     @Test public void
     retrieves_a_value_from_a_property_map() {
-        Properties properties = new Properties(Thing.keys);
+        Properties<Thing> properties = new Properties<>(Thing.keys);
         properties = Thing.one.storeTo(properties, 1);
         properties = Thing.two.storeTo(properties, 2);
 
@@ -23,7 +23,7 @@ public final class SimpleKeyTest {
 
     @Test public void
     returns_null_if_the_property_map_does_not_contain_the_key() {
-        Properties properties = new Properties(Thing.keys);
+        Properties<Thing> properties = new Properties<>(Thing.keys);
         properties = Thing.one.storeTo(properties, 5);
 
         assertThat(Thing.two.retrieveFrom(properties), is(nullValue()));
@@ -43,6 +43,6 @@ public final class SimpleKeyTest {
         Key<Thing, Integer> one = SimpleKey.named("one");
         Key<Thing, Integer> two = SimpleKey.named("two");
 
-        PSet<Key<?, ?>> keys = OrderedPSet.<Key<?, ?>>empty().plus(one).plus(two);
+        PSet<Key<? super Thing, ?>> keys = OrderedPSet.<Key<? super Thing, ?>>empty().plus(one).plus(two);
     }
 }

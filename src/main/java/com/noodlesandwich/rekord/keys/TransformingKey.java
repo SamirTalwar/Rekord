@@ -27,14 +27,13 @@ public final class TransformingKey<T, U, V> extends Key<T, V> {
     }
 
     @Override
-    public Properties storeTo(Properties properties, V value) {
+    public <P extends T> Properties<P> storeTo(Properties<P> properties, V value) {
         return properties.with(new Property(this, transformer.transformInput(value)));
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public V retrieveFrom(Properties properties) {
-        return transformer.transformOutput((U) properties.get(original));
+    public <P extends T> V retrieveFrom(Properties<P> properties) {
+        return transformer.transformOutput(properties.get(original));
     }
 
     @Override
@@ -42,9 +41,8 @@ public final class TransformingKey<T, U, V> extends Key<T, V> {
         original.accumulate(transformer.transformInput(value), serializer);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Key<T, ?> original() {
+    public Key<T, U> original() {
         return original;
     }
 }

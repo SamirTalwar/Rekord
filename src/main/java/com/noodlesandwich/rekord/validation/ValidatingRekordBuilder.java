@@ -23,18 +23,16 @@ public final class ValidatingRekordBuilder {
             return accepting(OrderedPSet.from(Arrays.asList(keys)));
         }
 
-        @SuppressWarnings("unchecked")
         public final UnsureRekord<T> accepting(PSet<Key<? super T, ?>> keys) {
-            PSet<Key<?, ?>> untypedKeys = (PSet<Key<?, ?>>) (PSet) keys;
-            return new UnsureRekord<>(name, new Properties(untypedKeys));
+            return new UnsureRekord<>(name, new Properties<>(keys));
         }
     }
 
     public static final class UnsureRekord<T> {
         private final String name;
-        private final Properties properties;
+        private final Properties<T> properties;
 
-        public UnsureRekord(String name, Properties properties) {
+        public UnsureRekord(String name, Properties<T> properties) {
             this.name = name;
             this.properties = properties;
         }

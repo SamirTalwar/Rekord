@@ -8,9 +8,9 @@ import org.pcollections.PSet;
 
 public final class Rekord<T> implements RekordBuilder<T, Rekord<T>>, FixedRekord<T> {
     private final String name;
-    private final Properties properties;
+    private final Properties<T> properties;
 
-    public Rekord(String name, Properties properties) {
+    public Rekord(String name, Properties<T> properties) {
         this.name = name;
         this.properties = properties;
     }
@@ -29,7 +29,6 @@ public final class Rekord<T> implements RekordBuilder<T, Rekord<T>>, FixedRekord
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <V> V get(Key<? super T, V> key) {
         return key.retrieveFrom(properties);
     }
@@ -39,16 +38,14 @@ public final class Rekord<T> implements RekordBuilder<T, Rekord<T>>, FixedRekord
         return properties.contains(key);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public PSet<Key<? super T, ?>> keys() {
-        return (PSet) properties.keys();
+        return properties.keys();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public PSet<Key<? super T, ?>> acceptedKeys() {
-        return (PSet) properties.acceptedKeys();
+        return properties.acceptedKeys();
     }
 
     @Override
@@ -124,10 +121,8 @@ public final class Rekord<T> implements RekordBuilder<T, Rekord<T>>, FixedRekord
             return accepting(OrderedPSet.from(Arrays.asList(keys)));
         }
 
-        @SuppressWarnings("unchecked")
         public final Rekord<T> accepting(PSet<Key<? super T, ?>> keys) {
-            PSet<Key<?, ?>> untypedKeys = (PSet<Key<?, ?>>) (PSet) keys;
-            return new Rekord<>(name, new Properties(untypedKeys));
+            return new Rekord<>(name, new Properties<>(keys));
         }
     }
 }

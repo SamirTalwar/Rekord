@@ -10,9 +10,9 @@ public abstract class Key<T, V> implements Named {
         return that(transformer);
     }
 
-    public abstract Properties storeTo(Properties properties, V value);
+    public abstract <P extends T> Properties<P> storeTo(Properties<P> properties, V value);
 
-    public abstract V retrieveFrom(Properties properties);
+    public abstract <P extends T> V retrieveFrom(Properties<P> properties);
 
     public abstract <A> void accumulate(V value, RekordSerializer.Serializer<A> serializer);
 
