@@ -9,12 +9,8 @@ import com.noodlesandwich.rekord.keys.CollectionKey;
 import com.noodlesandwich.rekord.keys.RekordKey;
 import com.noodlesandwich.rekord.keys.SimpleKey;
 import com.noodlesandwich.rekord.transformers.Transformer;
-import com.noodlesandwich.rekord.validation.ValidatingRekord;
 
-import static com.noodlesandwich.rekord.extra.HamcrestValidator.theProperty;
 import static com.noodlesandwich.rekord.transformers.Transformers.defaultsTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.lessThan;
 
 public final class Rekords {
     private Rekords() { }
@@ -125,10 +121,6 @@ public final class Rekords {
 
     public static interface Box {
         Key<Box, Integer> number = SimpleKey.named("number");
-
-        ValidatingRekord<Box> hamcrestValidatingRekord = ValidatingRekord.of(Box.class)
-                .accepting(number)
-                .allowing(theProperty(number, is(lessThan(10))));
     }
 
     @SuppressWarnings("UnusedDeclaration")

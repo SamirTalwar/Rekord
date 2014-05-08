@@ -60,6 +60,14 @@ public final class Validators {
         };
     }
 
+    public static <T, V> Validator<T> theProperty(final Key<T, V> key, final PropertyValidator<V> propertyValidator) {
+        return new Validator<T>() {
+            @Override public void test(FixedRekord<T> rekord) throws InvalidRekordException {
+                propertyValidator.test(rekord.get(key));
+            }
+        };
+    }
+
     public static final class UnknownRekordValidationException extends InvalidRekordException {
         public UnknownRekordValidationException() {
             super("The rekord was invalid.");
