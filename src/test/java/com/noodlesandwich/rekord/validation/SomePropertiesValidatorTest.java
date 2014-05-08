@@ -8,7 +8,7 @@ import org.junit.rules.ExpectedException;
 import static com.noodlesandwich.rekord.matchers.RekordMatchers.aRekordOf;
 import static com.noodlesandwich.rekord.testobjects.ExceptionMatcher.an;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Address;
-import static com.noodlesandwich.rekord.validation.Validators.rekordsWithProperties;
+import static com.noodlesandwich.rekord.validation.Validators.theProperties;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -16,7 +16,7 @@ public final class SomePropertiesValidatorTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();
 
     private static final ValidatingRekord<Address> validatingAddressRequiringSomeProperties = ValidatingRekord.validating(Address.rekord)
-            .allowing(rekordsWithProperties(Address.street, Address.city));
+            .expecting(theProperties(Address.street, Address.city));
 
     @Test public void
     accepts_a_rekord_with_all_specified_properties() throws InvalidRekordException {

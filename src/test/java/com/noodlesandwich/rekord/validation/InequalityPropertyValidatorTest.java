@@ -8,6 +8,7 @@ import org.junit.rules.ExpectedException;
 import static com.noodlesandwich.rekord.testobjects.ExceptionMatcher.an;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Box;
 import static com.noodlesandwich.rekord.validation.Validators.isNotEqualTo;
+import static com.noodlesandwich.rekord.validation.Validators.theProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -18,7 +19,7 @@ public final class InequalityPropertyValidatorTest {
 
     private static final ValidatingRekord<Box> validatingBox = ValidatingRekord.of(Box.class)
             .accepting(Box.number)
-            .allowing(Validators.theProperty(Box.number, isNotEqualTo(15)));
+            .expecting(theProperty(Box.number, isNotEqualTo(15)));
 
     @Test public void
     accepts_a_value_not_equal_to_the_expected_value() throws InvalidRekordException {

@@ -37,7 +37,7 @@ public final class ValidatingRekordBuilder {
             this.properties = properties;
         }
 
-        public ValidatingRekord<T> allowing(Validator<T> validator) {
+        public ValidatingRekord<T> expecting(Validator<T> validator) {
             return new ValidatingRekord<>(name, properties, validator);
         }
     }

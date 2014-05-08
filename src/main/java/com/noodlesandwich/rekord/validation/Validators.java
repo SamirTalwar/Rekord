@@ -9,7 +9,7 @@ import org.pcollections.PSet;
 public final class Validators {
     private Validators() { }
 
-    public static <T> Validator<T> when(final BooleanValidator<T> validator) {
+    public static <T> Validator<T> that(final BooleanValidator<T> validator) {
         return new Validator<T>() {
             @Override public void test(FixedRekord<T> rekord) throws InvalidRekordException {
                 if (!validator.test(rekord)) {
@@ -19,13 +19,13 @@ public final class Validators {
         };
     }
 
-    public static <T> Validator<T> everything() {
+    public static <T> Validator<T> toAlwaysSucceed() {
         return new Validator<T>() {
             @Override public void test(FixedRekord<T> rekord) { }
         };
     }
 
-    public static <T> Validator<T> nothing() {
+    public static <T> Validator<T> toAlwaysFail() {
         return new Validator<T>() {
             @Override public void test(FixedRekord<T> rekord) throws InvalidRekordException {
                 throw new UnspecifiedInvalidRekordException();
@@ -33,7 +33,7 @@ public final class Validators {
         };
     }
 
-    public static <T> Validator<T> rekordsWithAllProperties() {
+    public static <T> Validator<T> allProperties() {
         return new Validator<T>() {
             @Override public void test(FixedRekord<T> rekord) throws InvalidRekordException {
                 PSet<Key<? super T, ?>> expectedKeys = rekord.acceptedKeys();
@@ -47,7 +47,7 @@ public final class Validators {
     }
 
     @SafeVarargs
-    public static <T> Validator<T> rekordsWithProperties(final Key<? super T, ?>... keys) {
+    public static <T> Validator<T> theProperties(final Key<? super T, ?>... keys) {
         return new Validator<T>() {
             @Override public void test(FixedRekord<T> rekord) throws InvalidRekordException {
                 PSet<Key<? super T, ?>> expectedKeys = OrderedPSet.from(Arrays.asList(keys));

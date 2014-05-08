@@ -12,7 +12,7 @@ public final class NothingValidatorTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();
 
     private static final ValidatingRekord<Bier> invalidBier
-            = ValidatingRekord.validating(Bier.rekord).allowing(Validators.<Bier>nothing());
+            = ValidatingRekord.validating(Bier.rekord).expecting(Validators.<Bier>toAlwaysFail());
 
     @Test public void
     rejects_a_rekord_which_fails_the_test_with_a_standard_exception() throws InvalidRekordException {

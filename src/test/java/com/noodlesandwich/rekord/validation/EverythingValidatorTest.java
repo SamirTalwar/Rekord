@@ -11,7 +11,7 @@ import static org.junit.Assert.assertThat;
 
 public final class EverythingValidatorTest {
     private static final ValidatingRekord<Bier> validatingBier
-            = ValidatingRekord.validating(Bier.rekord).allowing(Validators.<Bier>everything());
+            = ValidatingRekord.validating(Bier.rekord).expecting(Validators.<Bier>toAlwaysSucceed());
 
     @Test public void
     accepts_everything() throws InvalidRekordException {

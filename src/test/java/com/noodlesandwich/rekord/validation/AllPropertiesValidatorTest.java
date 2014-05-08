@@ -15,7 +15,7 @@ public final class AllPropertiesValidatorTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();
 
     private static final ValidatingRekord<Address> validatingAddressRequiringAllProperties = ValidatingRekord.validating(Address.rekord)
-            .allowing(Validators.<Address>rekordsWithAllProperties());
+            .expecting(Validators.<Address>allProperties());
 
     @Test public void
     accepts_a_rekord_with_all_its_properties_when_expecting_all_properties() throws InvalidRekordException {

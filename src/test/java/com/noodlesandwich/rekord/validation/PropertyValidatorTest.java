@@ -7,6 +7,7 @@ import org.junit.rules.ExpectedException;
 
 import static com.noodlesandwich.rekord.testobjects.ExceptionMatcher.an;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Box;
+import static com.noodlesandwich.rekord.validation.Validators.theProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -15,7 +16,7 @@ public final class PropertyValidatorTest {
 
     private static final ValidatingRekord<Box> validatingBox = ValidatingRekord.of(Box.class)
             .accepting(Box.number)
-            .allowing(Validators.theProperty(Box.number, isMoreThanFive()));
+            .expecting(theProperty(Box.number, isMoreThanFive()));
 
     @Test public void
     accepts_a_rekord_with_a_property_that_validates() throws InvalidRekordException {
