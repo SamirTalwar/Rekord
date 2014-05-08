@@ -8,7 +8,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import static com.noodlesandwich.rekord.matchers.RekordMatchers.aRekordOf;
 import static com.noodlesandwich.rekord.testobjects.ExceptionMatcher.an;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.Brown;
@@ -17,10 +16,11 @@ import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Ham
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Jam;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Burger;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Roll;
+import static com.noodlesandwich.rekord.validation.RekordMatchers.aRekordOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public final class ValidRekordTest {
+public final class ValidatingRekordTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();
 
     private static final ValidatingRekord<Sandvich> validatingSandvich

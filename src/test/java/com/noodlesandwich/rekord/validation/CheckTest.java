@@ -5,16 +5,16 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import static com.noodlesandwich.rekord.matchers.RekordMatchers.aRekordOf;
 import static com.noodlesandwich.rekord.testobjects.ExceptionMatcher.an;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst.Style.Chopped;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst.Style.Whole;
-import static com.noodlesandwich.rekord.validation.Validators.that;
+import static com.noodlesandwich.rekord.validation.RekordMatchers.aRekordOf;
+import static com.noodlesandwich.rekord.validation.RekordMatchers.that;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public final class BooleanValidatorTest {
+public final class CheckTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();
 
     private static final ValidatingRekord<Bratwurst> validatingBratwurst
@@ -40,9 +40,9 @@ public final class BooleanValidatorTest {
         invalidBratwurst.fix();
     }
 
-    private static BooleanValidator<Bratwurst> itIsChopped() {
-        return new BooleanValidator<Bratwurst>() {
-            @Override public boolean test(FixedRekord<Bratwurst> rekord) {
+    private static Check<Bratwurst> itIsChopped() {
+        return new Check<Bratwurst>() {
+            @Override public boolean check(FixedRekord<Bratwurst> rekord) {
                 return rekord.get(Bratwurst.style) == Chopped;
             }
         };

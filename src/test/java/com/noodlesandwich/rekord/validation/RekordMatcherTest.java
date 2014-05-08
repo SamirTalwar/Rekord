@@ -1,20 +1,20 @@
-package com.noodlesandwich.rekord.matchers;
+package com.noodlesandwich.rekord.validation;
 
-import org.junit.Test;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.testobjects.Measurement;
+import org.junit.Test;
 
+import static com.noodlesandwich.rekord.testobjects.Rekords.Bier;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Person;
+import static com.noodlesandwich.rekord.validation.RekordMatchers.aRekordOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static com.noodlesandwich.rekord.matchers.RekordMatchers.aRekordOf;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Bier;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Person;
 
-public final class RekordMatchersTest {
+public final class RekordMatcherTest {
     @Test public void
     matches_a_Rekord_by_equality() {
         Rekord<Bier> bottle = Bier.rekord

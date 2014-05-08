@@ -3,12 +3,12 @@ package com.noodlesandwich.rekord;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
-import static com.noodlesandwich.rekord.matchers.RekordMatchers.hasKey;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.Brown;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Cheese;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Jam;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Roll;
+import static com.noodlesandwich.rekord.validation.RekordMatchers.hasProperties;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
@@ -21,9 +21,8 @@ public final class RekordKeysTest {
                 .with(Sandvich.bread, Brown);
 
         assertThat(sandvich, allOf(
-                hasKey(Sandvich.filling),
-                hasKey(Sandvich.bread),
-                not(hasKey(Sandvich.style))));
+                hasProperties(Sandvich.filling, Sandvich.bread),
+                not(hasProperties(Sandvich.style))));
     }
 
     @SuppressWarnings("unchecked")
@@ -37,6 +36,7 @@ public final class RekordKeysTest {
                 .<Key<? super Sandvich, ?>>containsInAnyOrder(Sandvich.filling, Sandvich.style));
     }
 
+    @SuppressWarnings("unchecked")
     @Test public void
     a_rekord_can_list_its_allowed_keys() {
         Rekord<Sandvich> sandvich = Sandvich.rekord

@@ -9,10 +9,18 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.pcollections.OrderedPSet;
 import org.pcollections.PSet;
 
-public final class Validators {
-    private Validators() { }
+public final class RekordMatchers {
+    private RekordMatchers() { }
 
-    public static <T> Matcher<FixedRekord<T>> that(final BooleanValidator<T> validator) {
+    public static <T> RekordMatcher<T> aRekordOf(Class<T> type) {
+        return aRekordNamed(type.getSimpleName());
+    }
+
+    public static <T> RekordMatcher<T> aRekordNamed(String name) {
+        return new RekordMatcher<>(name);
+    }
+
+    public static <T> Matcher<FixedRekord<T>> that(final Check<T> check) {
         return new TypeSafeDiagnosingMatcher<FixedRekord<T>>() {
             @Override
             public void describeTo(Description description) {
@@ -22,7 +30,7 @@ public final class Validators {
             @Override
             protected boolean matchesSafely(FixedRekord<T> rekord, Description mismatchDescription) {
                 mismatchDescription.appendText("it failed");
-                return validator.test(rekord);
+                return check.check(rekord);
             }
         };
     }
@@ -46,7 +54,7 @@ public final class Validators {
     }
 
     @SafeVarargs
-    public static <T> Matcher<FixedRekord<T>> theProperties(final Key<? super T, ?>... keys) {
+    public static <T> Matcher<FixedRekord<T>> hasProperties(final Key<? super T, ?>... keys) {
         final PSet<Key<? super T, ?>> expectedKeys = OrderedPSet.from(Arrays.asList(keys));
         return new TypeSafeDiagnosingMatcher<FixedRekord<T>>() {
             @Override
@@ -64,7 +72,7 @@ public final class Validators {
         };
     }
 
-    public static <T, V> Matcher<FixedRekord<T>> theProperty(final Key<T, V> key, final Matcher<V> expectedValue) {
+    public static <T, V> Matcher<FixedRekord<T>> hasProperty(final Key<T, V> key, final Matcher<V> expectedValue) {
         return new TypeSafeDiagnosingMatcher<FixedRekord<T>>() {
             @Override
             public void describeTo(Description description) {
