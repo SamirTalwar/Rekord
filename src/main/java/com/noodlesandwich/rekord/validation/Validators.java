@@ -68,6 +68,16 @@ public final class Validators {
         };
     }
 
+    public static <T> PropertyValidator<T> isEqualTo(final T expected) {
+        return new PropertyValidator<T>() {
+            @Override public void test(T actual) throws InvalidRekordException {
+                if (!expected.equals(actual)) {
+                    throw new InvalidRekordException(String.format("Expected the value <%s>, but got <%s>.", expected, actual));
+                }
+            }
+        };
+    }
+
     public static final class UnknownRekordValidationException extends InvalidRekordException {
         public UnknownRekordValidationException() {
             super("The rekord was invalid.");
