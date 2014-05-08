@@ -8,7 +8,7 @@ import static org.hamcrest.Matchers.is;
 public final class IdentityTransformerTest {
     @Test public void
     transforms_any_input_to_itself() {
-        Transformer<String, String> transformer = new IdentityTransformer<>();
+        Transformer<String, String> transformer = Transformers.identity();
         assertThat(transformer.transformInput("abc"), is("abc"));
     }
 }

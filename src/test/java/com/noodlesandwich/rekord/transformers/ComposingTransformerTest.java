@@ -8,13 +8,13 @@ import static org.hamcrest.Matchers.is;
 public final class ComposingTransformerTest {
     @Test public void
     composes_two_transformers_for_input() {
-        Transformer<Integer, String> transformer = new ComposingTransformer<>(convertToString(), add(5));
+        Transformer<Integer, String> transformer = Transformers.compose(convertToString(), add(5));
         assertThat(transformer.transformInput("80"), is(75));
     }
 
     @Test public void
     composes_two_transformers_for_output() {
-        Transformer<Integer, String> transformer = new ComposingTransformer<>(convertToString(), add(17));
+        Transformer<Integer, String> transformer = Transformers.compose(convertToString(), add(17));
         assertThat(transformer.transformOutput(10), is("27"));
     }
 
