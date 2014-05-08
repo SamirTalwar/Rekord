@@ -7,12 +7,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import static com.noodlesandwich.rekord.testobjects.ExceptionMatcher.an;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Box;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThan;
 
@@ -34,9 +31,8 @@ public final class HamcrestValidatorTest {
 
     @Test public void
     rejects_a_rekord_when_the_property_does_not_validate() throws InvalidRekordException {
-        expectedException.expect(allOf(
-                is(instanceOf(InvalidRekordException.class)),
-                hasProperty("message", equalTo("<15> was greater than <10>"))));
+        expectedException.expect(an(InvalidRekordException.class)
+                .withTheMessage("<15> was greater than <10>"));
 
         validatingBox
                 .with(Box.number, 15)

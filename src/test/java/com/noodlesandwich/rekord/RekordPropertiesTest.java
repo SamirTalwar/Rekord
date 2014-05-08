@@ -10,6 +10,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import static com.noodlesandwich.rekord.testobjects.ExceptionMatcher.a;
+import static com.noodlesandwich.rekord.testobjects.ExceptionMatcher.an;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Address;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst.Style.Chopped;
@@ -23,11 +25,7 @@ import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Let
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Burger;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Wurst;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
 public final class RekordPropertiesTest {
@@ -111,8 +109,8 @@ public final class RekordPropertiesTest {
 
     @Test public void
     the_key_of_a_Rekord_property_cannot_be_null() {
-        expectedException.expect(allOf(instanceOf(NullPointerException.class),
-                                 hasProperty("message", equalTo("Cannot construct a Rekord property with a null key."))));
+        expectedException.expect(a(NullPointerException.class)
+                .withTheMessage("Cannot construct a Rekord property with a null key."));
 
         Bratwurst.rekord
                 .with(null, "Random value");
@@ -120,8 +118,8 @@ public final class RekordPropertiesTest {
 
     @Test public void
     the_value_of_a_Rekord_property_cannot_be_null() {
-        expectedException.expect(allOf(instanceOf(NullPointerException.class),
-                                 hasProperty("message", equalTo("Cannot construct a Rekord property with a null value."))));
+        expectedException.expect(a(NullPointerException.class)
+                .withTheMessage("Cannot construct a Rekord property with a null value."));
 
         Bratwurst.rekord
                 .with(Wurst.curvature, (Double) null);
@@ -129,8 +127,8 @@ public final class RekordPropertiesTest {
 
     @Test public void
     a_Rekord_must_know_all_possible_keys_in_advance() {
-        expectedException.expect(allOf(instanceOf(IllegalArgumentException.class),
-                hasProperty("message", equalTo("The key \"spice\" is not a valid key for this Rekord."))));
+        expectedException.expect(an(IllegalArgumentException.class)
+                .withTheMessage("The key \"spice\" is not a valid key for this Rekord."));
 
         Key<Wurst, Integer> spice = SimpleKey.named("spice");
 

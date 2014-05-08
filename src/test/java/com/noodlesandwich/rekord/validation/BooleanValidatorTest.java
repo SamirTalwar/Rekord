@@ -6,15 +6,12 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import static com.noodlesandwich.rekord.matchers.RekordMatchers.aRekordOf;
+import static com.noodlesandwich.rekord.testobjects.ExceptionMatcher.an;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst.Style.Chopped;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst.Style.Whole;
 import static com.noodlesandwich.rekord.validation.Validators.when;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
 public final class BooleanValidatorTest {
@@ -38,9 +35,8 @@ public final class BooleanValidatorTest {
         ValidatingRekord<Bratwurst> invalidBratwurst = validatingBratwurst
                 .with(Bratwurst.style, Whole);
 
-        expectedException.expect(allOf(
-                instanceOf(InvalidRekordException.class),
-                hasProperty("message", equalTo("The rekord was invalid."))));
+        expectedException.expect(an(InvalidRekordException.class)
+                .withTheMessage("The rekord was invalid."));
 
         invalidBratwurst.fix();
     }
