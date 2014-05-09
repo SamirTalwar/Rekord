@@ -26,8 +26,7 @@ public final class Rekords {
     public static interface Sandvich {
         Key<Sandvich, Bread> bread = SimpleKey.named("bread");
         Key<Sandvich, Filling> filling = SimpleKey.named("filling");
-        Key<Sandvich, Style> _style = SimpleKey.named("style");
-        Key<Sandvich, Style> style = _style.that(defaultsTo(Style.Flat));
+        Key<Sandvich, Style> style = SimpleKey.<Sandvich, Style>named("style").that(defaultsTo(Style.Flat));
 
         Rekord<Sandvich> rekord = Rekord.of(Sandvich.class).accepting(filling, bread, style);
 
