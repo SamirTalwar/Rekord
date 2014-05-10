@@ -4,7 +4,7 @@ import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.implementation.AbstractKey;
 import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.properties.Property;
-import com.noodlesandwich.rekord.serialization.RekordSerializer;
+import com.noodlesandwich.rekord.serialization.Serializer;
 import com.noodlesandwich.rekord.transformers.Transformer;
 import com.noodlesandwich.rekord.transformers.Transformers;
 
@@ -38,8 +38,8 @@ public final class TransformingKey<T, U, V> extends AbstractKey<T, V> {
     }
 
     @Override
-    public <A> void accumulate(V value, RekordSerializer.Serializer<A> serializer) {
-        original.accumulate(transformer.transformInput(value), serializer);
+    public <A> void accumulate(V value, Serializer.Accumulator<A> accumulator) {
+        original.accumulate(transformer.transformInput(value), accumulator);
     }
 
     @Override

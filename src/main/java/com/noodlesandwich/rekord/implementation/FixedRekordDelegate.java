@@ -3,7 +3,7 @@ package com.noodlesandwich.rekord.implementation;
 import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.properties.Properties;
-import com.noodlesandwich.rekord.serialization.RekordSerializer;
+import com.noodlesandwich.rekord.serialization.Serializer;
 import com.noodlesandwich.rekord.serialization.StringSerializer;
 import org.pcollections.PSet;
 
@@ -42,20 +42,8 @@ public final class FixedRekordDelegate<T> implements FixedRekord<T> {
     }
 
     @Override
-    public <A, R> R serialize(RekordSerializer<A, R> serializer) {
-        RekordSerializer.Serializer<A> internalSerializer = serializer.start(name);
-        accumulateIn(internalSerializer);
-        return serializer.finish(internalSerializer);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public <A> void accumulateIn(RekordSerializer.Serializer<A> serializer) {
-        for (Key<? super T, ?> key : keys()) {
-            Key<? super T, Object> castKey = (Key<? super T, Object>) key;
-            Object value = castKey.retrieveFrom(properties);
-            castKey.accumulate(value, serializer);
-        }
+    public <R> R serialize(Serializer<R> serializer) {
+        return serializer.serialize(this);
     }
 
     @Override

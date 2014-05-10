@@ -1,86 +1,78 @@
 package com.noodlesandwich.rekord.serialization;
 
-public final class StringSerializer implements RekordSerializer<String, String> {
+import com.noodlesandwich.rekord.FixedRekord;
+
+public final class StringSerializer implements Serializer<String> {
     @Override
-    public Serializer<String> start(String name) {
-        return new SerializedStringConstructor().newMap(name);
+    public <T> String serialize(FixedRekord<T> rekord) {
+        String rekordContents = Serialization.serialize(rekord).into(new StringAccumulator(Formatter.Rekord));
+        String name = rekord.name();
+        return rekordString(name, rekordContents);
     }
 
-    @Override
-    public String finish(Serializer<String> serializer) {
-        return serializer.serialized();
+    private static String rekordString(String name, String contents) {
+        return String.format("%s {%s}", name, contents);
     }
 
-    private static final class SerializedStringConstructor implements Constructor<String> {
-        @Override
-        public SerializedProperty<String> newProperty(String name, Object value) {
-            return new SingleStringProperty(value.toString());
+    private static final class StringAccumulator implements Accumulator<String> {
+        private final EntryStringBuilder builder;
+
+        public StringAccumulator(Formatter formatter) {
+            this.builder = new EntryStringBuilder(formatter);
         }
 
         @Override
-        public Serializer<String> newCollection(String name) {
-            return RekordSerializers.serializer(this, new StringCollectionAccumulator());
+        public <V> void addValue(String name, V value) {
+            builder.add(name, value);
         }
 
         @Override
-        public Serializer<String> newMap(String name) {
-            return RekordSerializers.serializer(this, new StringMapAccumulator(name));
-        }
-    }
-
-    private static final class SingleStringProperty implements SerializedProperty<String> {
-        private final String value;
-
-        public SingleStringProperty(String value) {
-            this.value = value;
+        public void addCollection(String name, Accumulation<String> accumulation) {
+            StringAccumulator collectionAccumulator = new StringAccumulator(Formatter.Collection);
+            accumulation.accumulateIn(collectionAccumulator);
+            builder.add(name, String.format("[%s]", collectionAccumulator.result()));
         }
 
         @Override
-        public String serialized() {
-            return value;
-        }
-    }
-
-    private static final class StringCollectionAccumulator implements Accumulator<String> {
-        private final DelimitedString builder = new DelimitedString();
-
-        @Override
-        public void accumulate(String name, SerializedProperty<String> property) {
-            builder.add(property.serialized());
+        public void addRekord(String name, String rekordName, Accumulation<String> accumulation) {
+            StringAccumulator rekordAccumulator = new StringAccumulator(Formatter.Rekord);
+            accumulation.accumulateIn(rekordAccumulator);
+            builder.add(name, rekordString(rekordName, rekordAccumulator.result()));
         }
 
         @Override
-        public String serialized() {
-            return String.format("[%s]", builder.toString());
+        public String result() {
+            return builder.toString();
         }
     }
 
-    private static final class StringMapAccumulator implements Accumulator<String> {
-        private final String name;
-        private final DelimitedString builder = new DelimitedString();
+    private static enum Formatter {
+        Collection {
+            @Override public String format(String name, Object value) {
+                return value.toString();
+            }
+        },
+        Rekord {
+            @Override public String format(String name, Object value) {
+                return String.format("%s: %s", name, value.toString());
+            }
+        };
 
-        public StringMapAccumulator(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public void accumulate(String name, SerializedProperty<String> property) {
-            builder.add(String.format("%s: %s", name, property.serialized()));
-        }
-
-        @Override
-        public String serialized() {
-            return String.format("%s {%s}", name, builder.toString());
-        }
+        public abstract String format(String name, Object value);
     }
 
-    private static final class DelimitedString {
+    private static final class EntryStringBuilder {
+        private final Formatter formatter;
         private final StringBuilder entries = new StringBuilder();
         private boolean first = true;
 
-        public void add(String string) {
+        public EntryStringBuilder(Formatter formatter) {
+            this.formatter = formatter;
+        }
+
+        public void add(String name, Object value) {
             appendSeparator();
-            entries.append(string);
+            entries.append(formatter.format(name, value));
         }
 
         @Override

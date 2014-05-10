@@ -2,7 +2,8 @@ package com.noodlesandwich.rekord.keys;
 
 import java.util.Collection;
 import com.noodlesandwich.rekord.Key;
-import com.noodlesandwich.rekord.serialization.RekordSerializer;
+import com.noodlesandwich.rekord.serialization.Serialization;
+import com.noodlesandwich.rekord.serialization.Serializer;
 
 public final class CollectionKey<T, V> extends OriginalKey<T, Collection<V>> {
     private final Key<T, V> contents;
@@ -29,11 +30,12 @@ public final class CollectionKey<T, V> extends OriginalKey<T, Collection<V>> {
     }
 
     @Override
-    public <A> void accumulate(Collection<V> collection, RekordSerializer.Serializer<A> serializer) {
-        RekordSerializer.Serializer<A> collectionSerializer = serializer.newCollection(name());
-        for (V value : collection) {
-            contents.accumulate(value, collectionSerializer);
-        }
-        serializer.accumulate(name(), collectionSerializer);
+    public <A> void accumulate(final Collection<V> collection, Serializer.Accumulator<A> accumulator) {
+        accumulator.addCollection(name(), new Serializer.Accumulation<A>() {
+            @Override
+            public void accumulateIn(Serializer.Accumulator<A> collectionAccumulator) {
+                Serialization.serialize(collection).with(contents).into(collectionAccumulator);
+            }
+        });
     }
 }

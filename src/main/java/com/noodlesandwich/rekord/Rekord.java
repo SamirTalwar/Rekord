@@ -3,7 +3,7 @@ package com.noodlesandwich.rekord;
 import java.util.Arrays;
 import com.noodlesandwich.rekord.implementation.FixedRekordDelegate;
 import com.noodlesandwich.rekord.properties.Properties;
-import com.noodlesandwich.rekord.serialization.RekordSerializer;
+import com.noodlesandwich.rekord.serialization.Serializer;
 import org.pcollections.OrderedPSet;
 import org.pcollections.PSet;
 
@@ -69,14 +69,8 @@ public final class Rekord<T> implements RekordBuilder<T, Rekord<T>>, FixedRekord
     }
 
     @Override
-    public <A, R> R serialize(RekordSerializer<A, R> serializer) {
+    public <R> R serialize(Serializer<R> serializer) {
         return delegate.serialize(serializer);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public <A> void accumulateIn(RekordSerializer.Serializer<A> serializer) {
-        delegate.accumulateIn(serializer);
     }
 
     @Override

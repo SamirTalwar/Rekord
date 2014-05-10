@@ -5,11 +5,12 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import com.google.common.base.Joiner;
+import com.noodlesandwich.rekord.FixedRekord;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-public final class DomXmlSerializer implements RekordSerializer<Element, Document> {
+public final class DomXmlSerializer implements Serializer<Document> {
     private final DocumentBuilder documentBuilder;
 
     public DomXmlSerializer() {
@@ -21,96 +22,47 @@ public final class DomXmlSerializer implements RekordSerializer<Element, Documen
     }
 
     @Override
-    public Serializer<Element> start(String name) {
-        NodeCreator nodeCreator = new NodeCreator(documentBuilder.newDocument());
-        return new DomXmlConstructor(nodeCreator).newMap(name);
-    }
-
-    @Override
-    public Document finish(Serializer<Element> serializer) {
+    public <T> Document serialize(FixedRekord<T> rekord) {
         Document document = documentBuilder.newDocument();
-        Element root = serializer.serialized();
-        document.adoptNode(root);
+        NodeCreator nodeCreator = new NodeCreator(document);
+        Element root = nodeCreator.elementNamed(rekord.name());
+        Serialization.serialize(rekord).into(new DomXmlAccumulator(root, nodeCreator));
         document.appendChild(root);
         return document;
     }
 
-    public static final class DomXmlConstructor implements Constructor<Element> {
+    private static final class DomXmlAccumulator implements Accumulator<Element> {
+        private final Element element;
         private final NodeCreator nodeCreator;
 
-        public DomXmlConstructor(NodeCreator nodeCreator) {
+        public DomXmlAccumulator(Element element, NodeCreator nodeCreator) {
+            this.element = element;
             this.nodeCreator = nodeCreator;
         }
 
         @Override
-        public SerializedProperty<Element> newProperty(String name, Object value) {
-            return new SingleElement(nodeCreator, name, value);
-        }
-
-        @Override
-        public Serializer<Element> newCollection(String name) {
+        public <V> void addValue(String name, V value) {
             Element child = nodeCreator.elementNamed(name);
-            return RekordSerializers.serializer(this, new DomXmlCollectionAccumulator(child));
+            child.appendChild(nodeCreator.textNodeContaining(value.toString()));
+            element.appendChild(child);
         }
 
         @Override
-        public Serializer<Element> newMap(String name) {
+        public void addCollection(String name, Accumulation<Element> accumulation) {
             Element child = nodeCreator.elementNamed(name);
-            return RekordSerializers.serializer(this, new DomXmlMapAccumulator(child));
-        }
-    }
-
-    public static final class SingleElement implements SerializedProperty<Element> {
-        private final NodeCreator nodeCreator;
-        private final String name;
-        private final Object value;
-
-        public SingleElement(NodeCreator nodeCreator, String name, Object value) {
-            this.nodeCreator = nodeCreator;
-            this.name = name;
-            this.value = value;
+            accumulation.accumulateIn(new DomXmlAccumulator(child, nodeCreator));
+            element.appendChild(child);
         }
 
         @Override
-        public Element serialized() {
-            Element element = nodeCreator.elementNamed(name);
-            element.appendChild(nodeCreator.textNodeContaining(value.toString()));
-            return element;
-        }
-    }
-
-    public static final class DomXmlCollectionAccumulator implements Accumulator<Element> {
-        private final Element element;
-
-        public DomXmlCollectionAccumulator(Element element) {
-            this.element = element;
+        public void addRekord(String name, String rekordName, Accumulation<Element> accumulation) {
+            Element child = nodeCreator.elementNamed(name);
+            accumulation.accumulateIn(new DomXmlAccumulator(child, nodeCreator));
+            element.appendChild(child);
         }
 
         @Override
-        public void accumulate(String name, SerializedProperty<Element> property) {
-            element.appendChild(property.serialized());
-        }
-
-        @Override
-        public Element serialized() {
-            return element;
-        }
-    }
-
-    public static final class DomXmlMapAccumulator implements Accumulator<Element> {
-        private final Element element;
-
-        public DomXmlMapAccumulator(Element element) {
-            this.element = element;
-        }
-
-        @Override
-        public void accumulate(String name, SerializedProperty<Element> property) {
-            element.appendChild(property.serialized());
-        }
-
-        @Override
-        public Element serialized() {
+        public Element result() {
             return element;
         }
     }

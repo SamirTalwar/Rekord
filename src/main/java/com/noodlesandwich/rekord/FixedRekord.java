@@ -1,6 +1,6 @@
 package com.noodlesandwich.rekord;
 
-import com.noodlesandwich.rekord.serialization.RekordSerializer;
+import com.noodlesandwich.rekord.serialization.Serializer;
 import org.pcollections.PSet;
 
 public interface FixedRekord<T> extends RekordTemplate<T> {
@@ -10,9 +10,7 @@ public interface FixedRekord<T> extends RekordTemplate<T> {
 
     PSet<Key<? super T, ?>> keys();
 
-    <A, R> R serialize(RekordSerializer<A, R> serializer);
-
-    <A> void accumulateIn(RekordSerializer.Serializer<A> serializer);
+    <R> R serialize(Serializer<R> serializer);
 
     @Override
     boolean equals(Object o);

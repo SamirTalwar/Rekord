@@ -1,7 +1,7 @@
 package com.noodlesandwich.rekord.keys;
 
 import com.noodlesandwich.rekord.Key;
-import com.noodlesandwich.rekord.serialization.RekordSerializer;
+import com.noodlesandwich.rekord.serialization.Serializer;
 
 public final class SimpleKey<T, V> extends OriginalKey<T, V> {
     private SimpleKey(String name) {
@@ -13,7 +13,7 @@ public final class SimpleKey<T, V> extends OriginalKey<T, V> {
     }
 
     @Override
-    public <A> void accumulate(V value, RekordSerializer.Serializer<A> serializer) {
-        serializer.accumulate(name(), serializer.newProperty(name(), value));
+    public <A> void accumulate(V value, Serializer.Accumulator<A> accumulator) {
+        accumulator.addValue(name(), value);
     }
 }

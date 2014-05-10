@@ -1,7 +1,7 @@
 package com.noodlesandwich.rekord;
 
 import com.noodlesandwich.rekord.properties.Properties;
-import com.noodlesandwich.rekord.serialization.RekordSerializer;
+import com.noodlesandwich.rekord.serialization.Serializer;
 import com.noodlesandwich.rekord.transformers.Transformer;
 
 public interface Key<T, V> extends Named {
@@ -13,7 +13,7 @@ public interface Key<T, V> extends Named {
 
     <P extends T> V retrieveFrom(Properties<P> properties);
 
-    <A> void accumulate(V value, RekordSerializer.Serializer<A> serializer);
+    <A> void accumulate(V value, Serializer.Accumulator<A> accumulator);
 
     Key<T, ?> original();
 }

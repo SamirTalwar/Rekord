@@ -2,7 +2,8 @@ package com.noodlesandwich.rekord.keys;
 
 import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Key;
-import com.noodlesandwich.rekord.serialization.RekordSerializer;
+import com.noodlesandwich.rekord.serialization.Serialization;
+import com.noodlesandwich.rekord.serialization.Serializer;
 
 public final class RekordKey<T, V> extends OriginalKey<T, FixedRekord<V>> {
     private RekordKey(String name) {
@@ -14,9 +15,12 @@ public final class RekordKey<T, V> extends OriginalKey<T, FixedRekord<V>> {
     }
 
     @Override
-    public <A> void accumulate(FixedRekord<V> value, RekordSerializer.Serializer<A> serializer) {
-        RekordSerializer.Serializer<A> mapSerializer = serializer.newMap(value.name());
-        value.accumulateIn(mapSerializer);
-        serializer.accumulate(name(), mapSerializer);
+    public <A> void accumulate(final FixedRekord<V> rekord, Serializer.Accumulator<A> accumulator) {
+        accumulator.addRekord(name(), rekord.name(), new Serializer.Accumulation<A>() {
+            @Override
+            public void accumulateIn(Serializer.Accumulator<A> mapAccumulator) {
+                Serialization.serialize(rekord).into(mapAccumulator);
+            }
+        });
     }
 }

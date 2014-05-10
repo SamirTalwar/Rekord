@@ -4,7 +4,7 @@ import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.implementation.FixedRekordDelegate;
 import com.noodlesandwich.rekord.properties.Properties;
-import com.noodlesandwich.rekord.serialization.RekordSerializer;
+import com.noodlesandwich.rekord.serialization.Serializer;
 import org.pcollections.PSet;
 
 public final class ValidRekord<T> implements FixedRekord<T> {
@@ -40,13 +40,8 @@ public final class ValidRekord<T> implements FixedRekord<T> {
     }
 
     @Override
-    public <A, R> R serialize(RekordSerializer<A, R> serializer) {
+    public <R> R serialize(Serializer<R> serializer) {
         return delegate.serialize(serializer);
-    }
-
-    @Override
-    public <A> void accumulateIn(RekordSerializer.Serializer<A> serializer) {
-        delegate.accumulateIn(serializer);
     }
 
     @Override
