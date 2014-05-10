@@ -16,11 +16,6 @@ public final class RekordKey<T, V> extends OriginalKey<T, FixedRekord<V>> {
 
     @Override
     public <A> void accumulate(final FixedRekord<V> rekord, Serializer.Accumulator<A> accumulator) {
-        accumulator.addRekord(name(), rekord.name(), new Serializer.Accumulation<A>() {
-            @Override
-            public void accumulateIn(Serializer.Accumulator<A> mapAccumulator) {
-                Serialization.serialize(rekord).into(mapAccumulator);
-            }
-        });
+        Serialization.serialize(name(), rekord).into(accumulator);
     }
 }

@@ -5,9 +5,7 @@ import com.noodlesandwich.rekord.FixedRekord;
 public final class StringSerializer implements Serializer<String> {
     @Override
     public <T> String serialize(FixedRekord<T> rekord) {
-        String rekordContents = Serialization.serialize(rekord).into(new StringAccumulator(Formatter.Rekord));
-        String name = rekord.name();
-        return rekordString(name, rekordContents);
+        return Serialization.serialize(rekord.name(), rekord).into(new StringAccumulator(Formatter.Value));
     }
 
     private static String rekordString(String name, String contents) {
@@ -28,14 +26,14 @@ public final class StringSerializer implements Serializer<String> {
 
         @Override
         public void addCollection(String name, Accumulation<String> accumulation) {
-            StringAccumulator collectionAccumulator = new StringAccumulator(Formatter.Collection);
+            StringAccumulator collectionAccumulator = new StringAccumulator(Formatter.Value);
             accumulation.accumulateIn(collectionAccumulator);
             builder.add(name, String.format("[%s]", collectionAccumulator.result()));
         }
 
         @Override
         public void addRekord(String name, String rekordName, Accumulation<String> accumulation) {
-            StringAccumulator rekordAccumulator = new StringAccumulator(Formatter.Rekord);
+            StringAccumulator rekordAccumulator = new StringAccumulator(Formatter.Entry);
             accumulation.accumulateIn(rekordAccumulator);
             builder.add(name, rekordString(rekordName, rekordAccumulator.result()));
         }
@@ -47,12 +45,12 @@ public final class StringSerializer implements Serializer<String> {
     }
 
     private static enum Formatter {
-        Collection {
+        Value {
             @Override public String format(String name, Object value) {
                 return value.toString();
             }
         },
-        Rekord {
+        Entry {
             @Override public String format(String name, Object value) {
                 return String.format("%s: %s", name, value.toString());
             }
