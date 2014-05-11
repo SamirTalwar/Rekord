@@ -1,27 +1,17 @@
 package com.noodlesandwich.rekord.testobjects;
 
 import java.util.Collection;
-import java.util.regex.Pattern;
 import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.keys.CollectionKey;
 import com.noodlesandwich.rekord.keys.RekordKey;
 import com.noodlesandwich.rekord.keys.SimpleKey;
-import com.noodlesandwich.rekord.transformers.Transformer;
 
 import static com.noodlesandwich.rekord.transformers.Transformers.defaultsTo;
 
 public final class Rekords {
     private Rekords() { }
-
-    public static interface Restaurant {
-        Key<Restaurant, String> name = SimpleKey.named("name");
-        Key<Restaurant, FixedRekord<Sandvich>> meal = RekordKey.named("meal");
-        Key<Restaurant, String> mealName = meal.that(Sandvich.Stringifies);
-
-        Rekord<Restaurant> rekord = Rekord.of(Restaurant.class).accepting(name, meal);
-    }
 
     public static interface Sandvich {
         Key<Sandvich, Bread> bread = SimpleKey.named("bread");
@@ -46,32 +36,6 @@ public final class Rekords {
             Flat,
             Burger,
             Roll
-        }
-
-        Transformer<FixedRekord<Sandvich>, String> Stringifies = new StringTransformer();
-
-        final class StringTransformer implements Transformer<FixedRekord<Sandvich>, String> {
-            private static final Pattern SPLITTER = Pattern.compile(" ");
-
-            @Override
-            public FixedRekord<Sandvich> transformInput(String value) {
-                String[] values = SPLITTER.split(value);
-                Bread breadValue = Bread.valueOf(values[0]);
-                Filling fillingValue = Filling.valueOf(values[1]);
-                Style styleValue = Style.valueOf(values[2]);
-                return rekord
-                        .with(bread, breadValue)
-                        .with(filling, fillingValue)
-                        .with(style, styleValue);
-            }
-
-            @Override
-            public String transformOutput(FixedRekord<Sandvich> value) {
-                return String.format("%s %s %s",
-                        value.get(bread),
-                        value.get(filling),
-                        value.get(style));
-            }
         }
     }
 
