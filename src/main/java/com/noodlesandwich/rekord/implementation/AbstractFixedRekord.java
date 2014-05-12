@@ -7,11 +7,11 @@ import com.noodlesandwich.rekord.serialization.Serializer;
 import com.noodlesandwich.rekord.serialization.StringSerializer;
 import org.pcollections.PSet;
 
-public final class FixedRekordDelegate<T> implements FixedRekord<T> {
+public abstract class AbstractFixedRekord<T> implements FixedRekord<T> {
     private final String name;
     private final Properties<T> properties;
 
-    public FixedRekordDelegate(String name, Properties<T> properties) {
+    public AbstractFixedRekord(String name, Properties<T> properties) {
         this.name = name;
         this.properties = properties;
     }
@@ -52,12 +52,12 @@ public final class FixedRekordDelegate<T> implements FixedRekord<T> {
             return true;
         }
 
-        if (!(other instanceof FixedRekordDelegate)) {
+        if (!(other instanceof AbstractFixedRekord)) {
             return false;
         }
 
         @SuppressWarnings("unchecked")
-        FixedRekordDelegate<T> that = (FixedRekordDelegate<T>) other;
+        AbstractFixedRekord<T> that = (AbstractFixedRekord<T>) other;
         return properties.equals(that.properties);
     }
 
