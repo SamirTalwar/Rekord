@@ -4,7 +4,6 @@ import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import com.google.common.base.Joiner;
 import com.noodlesandwich.rekord.FixedRekord;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -91,18 +90,27 @@ public final class DomXmlSerializer implements Serializer<Document> {
             return name.toLowerCase();
         }
 
+        private static String join(String... strings) {
+            StringBuilder builder = new StringBuilder();
+            for (String string : strings) {
+                builder.append(string);
+            }
+            return builder.toString();
+        }
+
         private static final Pattern WhiteSpace = Pattern.compile(" ");
-        private static final String XmlNameStartCharsString = Joiner.on("").join(
+        private static final String XmlNameStartCharsString = join(
                 ":", "_",
                 "A-Z", "a-z",
                 "\u00c0-\u00d6", "\u00d8-\u00f6", "\u00f8-\u02ff", "\u0370-\u037D",
                 "\u037F-\u1FFF", "\u200C-\u200D", "\u2070-\u218F", "\u2C00-\u2FEF",
                 "\u3001-\uD7FF", "\uF900-\uFDCF", "\uFDF0-\uFFFD"
         );
-        private static final String XmlNameCharsString = Joiner.on("").join(
+        private static final String XmlNameCharsString = join(
                 XmlNameStartCharsString,
                 "\\-", "\\.", "0-9", "\u00b7", "\u0300-\u036f", "\u203f-\u2040"
         );
+
         private static final Pattern InvalidXmlNameChars = Pattern.compile("[^" + XmlNameCharsString + "]");
         private static final Pattern InvalidXmlNameStartChars = Pattern.compile("[^" + XmlNameStartCharsString + "]");
 
