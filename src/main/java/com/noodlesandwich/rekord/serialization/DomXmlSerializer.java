@@ -9,19 +9,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-public final class DomXmlSerializer implements SafeSerializer<Document> {
-    private final DocumentBuilder documentBuilder;
-
-    public DomXmlSerializer() {
-        try {
-            this.documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        } catch (ParserConfigurationException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
+public final class DomXmlSerializer implements Serializer<Document, ParserConfigurationException> {
     @Override
-    public <T> Document serialize(FixedRekord<T> rekord) {
+    public <T> Document serialize(FixedRekord<T> rekord) throws ParserConfigurationException {
+        DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document document = documentBuilder.newDocument();
         NodeCreator nodeCreator = new NodeCreator(document);
         Element root = nodeCreator.elementNamed(rekord.name());
@@ -30,7 +21,7 @@ public final class DomXmlSerializer implements SafeSerializer<Document> {
         return document;
     }
 
-    private static final class DomXmlAccumulator implements SafeAccumulator<Element> {
+    private static final class DomXmlAccumulator implements SafeSerializer.SafeAccumulator<Element> {
         private final Element element;
         private final NodeCreator nodeCreator;
 

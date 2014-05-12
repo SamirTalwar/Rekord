@@ -1,5 +1,6 @@
 package com.noodlesandwich.rekord.serialization;
 
+import javax.xml.parsers.ParserConfigurationException;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.noodlesandwich.rekord.FixedRekord;
@@ -21,7 +22,7 @@ import static org.xmlmatchers.transform.XmlConverters.the;
 
 public final class DomXmlSerializerTest {
     @Test public void
-    a_rekord_with_one_element_is_serialized_to_XML() {
+    a_rekord_with_one_element_is_serialized_to_XML() throws ParserConfigurationException {
         Rekord<Sandvich> sandvich = Sandvich.rekord
                 .with(Sandvich.filling, Cheese);
 
@@ -35,7 +36,7 @@ public final class DomXmlSerializerTest {
         ))));
     }
     @Test public void
-    a_rekord_with_multiple_elements_is_serialized_to_XML() {
+    a_rekord_with_multiple_elements_is_serialized_to_XML() throws ParserConfigurationException {
         Rekord<Sandvich> sandvich = Sandvich.rekord
                 .with(Sandvich.bread, Brown)
                 .with(Sandvich.filling, Cheese)
@@ -54,7 +55,7 @@ public final class DomXmlSerializerTest {
     }
 
     @Test public void
-    rekord_and_key_names_are_lowercased_and_slugified_into_valid_XML_element_names() {
+    rekord_and_key_names_are_lowercased_and_slugified_into_valid_XML_element_names() throws ParserConfigurationException {
         Key<Person, Integer> key_12345 = SimpleKey.named("12345");
         Key<Person, String> key_up = SimpleKey.named("^up");
 
@@ -83,7 +84,7 @@ public final class DomXmlSerializerTest {
     }
 
     @Test public void
-    a_rekord_with_nested_rekords_is_serialized_to_nested_XML() {
+    a_rekord_with_nested_rekords_is_serialized_to_nested_XML() throws ParserConfigurationException {
         FixedRekord<Person> darla = Person.rekord.with(Person.firstName, "Darla");
         FixedRekord<Person> darlasMum = Person.rekord.with(Person.firstName, "Darla's Mum");
         FixedRekord<Person> person = Person.rekord
