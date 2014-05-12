@@ -9,7 +9,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.pcollections.HashTreePMap;
 import org.pcollections.PMap;
 
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 public final class RekordMatcher<T> extends TypeSafeDiagnosingMatcher<FixedRekord<T>> {
     private final String name;
