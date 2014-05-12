@@ -76,9 +76,9 @@ public final class Serialization {
         }
 
         public <A> A into(Serializer.Accumulator<A> accumulator) {
-            accumulator.addRekord(name, rekord.name(), new Serializer.Accumulation<A>() {
+            accumulator.addRekord(name, rekord.name(), new Serializer.Accumulation() {
                 @Override
-                public void accumulateIn(Serializer.Accumulator<A> mapAccumulator) {
+                public <B> void accumulateIn(Serializer.Accumulator<B> mapAccumulator) {
                     serialize(rekord).into(mapAccumulator);
                 }
             });

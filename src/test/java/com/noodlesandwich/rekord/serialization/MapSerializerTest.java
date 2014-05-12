@@ -1,5 +1,6 @@
 package com.noodlesandwich.rekord.serialization;
 
+import java.util.Collection;
 import java.util.Map;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -8,6 +9,8 @@ import com.noodlesandwich.rekord.Rekord;
 import org.junit.Test;
 
 import static com.noodlesandwich.rekord.testobjects.Rekords.Address;
+import static com.noodlesandwich.rekord.testobjects.Rekords.LegoBag;
+import static com.noodlesandwich.rekord.testobjects.Rekords.LegoBag.Brick;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Person;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.White;
@@ -78,6 +81,24 @@ public final class MapSerializerTest {
                         ImmutableMap.<String, Object>of("first name", "Harry")
                 ),
                 "pets", ImmutableList.of("Corgi #1", "Corgi #2", "Corgi #3"));
+        assertThat(serialized, is(equalTo(expected)));
+    }
+
+    @Test public void
+    serializes_nested_collections() {
+        Rekord<LegoBag> lego = LegoBag.rekord
+                .with(LegoBag.sets, ImmutableList.<Collection<Brick>>of(
+                        ImmutableList.of(Brick.Red, Brick.Green),
+                        ImmutableList.of(Brick.Green, Brick.Blue)
+                ));
+
+        Map<String, Object> serialized = lego.serialize(new MapSerializer());
+
+        Map<String, Object> expected = ImmutableMap.<String, Object>of(
+                "lego sets", ImmutableList.of(
+                        ImmutableList.of(Brick.Red, Brick.Green),
+                        ImmutableList.of(Brick.Green, Brick.Blue)
+                ));
         assertThat(serialized, is(equalTo(expected)));
     }
 }

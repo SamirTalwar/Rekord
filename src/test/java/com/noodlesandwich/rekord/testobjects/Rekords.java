@@ -87,6 +87,18 @@ public final class Rekords {
         Key<Box, Integer> number = SimpleKey.named("number");
     }
 
+    public static interface LegoBag {
+        Key<LegoBag, Collection<Collection<Brick>>> sets = CollectionKey.named("lego sets").of(CollectionKey.named("bricks").of(SimpleKey.<LegoBag, Brick>named("brick")));
+
+        Rekord<LegoBag> rekord = Rekord.of(LegoBag.class).accepting(sets);
+
+        public static enum Brick {
+            Red,
+            Green,
+            Blue
+        }
+    }
+
     @SuppressWarnings("UnusedDeclaration")
     public static final class Jar<T extends Jar.Contents> {
         @SuppressWarnings("unchecked")

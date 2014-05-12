@@ -48,14 +48,14 @@ public final class DomXmlSerializer implements Serializer<Document> {
         }
 
         @Override
-        public void addCollection(String name, Accumulation<Element> accumulation) {
+        public void addCollection(String name, Accumulation accumulation) {
             Element child = nodeCreator.elementNamed(name);
             accumulation.accumulateIn(new DomXmlAccumulator(child, nodeCreator));
             element.appendChild(child);
         }
 
         @Override
-        public void addRekord(String name, String rekordName, Accumulation<Element> accumulation) {
+        public void addRekord(String name, String rekordName, Accumulation accumulation) {
             Element child = nodeCreator.elementNamed(name);
             accumulation.accumulateIn(new DomXmlAccumulator(child, nodeCreator));
             element.appendChild(child);

@@ -31,9 +31,9 @@ public final class CollectionKey<T, V> extends OriginalKey<T, Collection<V>> {
 
     @Override
     public <A> void accumulate(final Collection<V> collection, Serializer.Accumulator<A> accumulator) {
-        accumulator.addCollection(name(), new Serializer.Accumulation<A>() {
+        accumulator.addCollection(name(), new Serializer.Accumulation() {
             @Override
-            public void accumulateIn(Serializer.Accumulator<A> collectionAccumulator) {
+            public <B> void accumulateIn(Serializer.Accumulator<B> collectionAccumulator) {
                 Serialization.serialize(collection).with(contents).into(collectionAccumulator);
             }
         });

@@ -25,14 +25,14 @@ public final class StringSerializer implements Serializer<String> {
         }
 
         @Override
-        public void addCollection(String name, Accumulation<String> accumulation) {
+        public void addCollection(String name, Accumulation accumulation) {
             StringAccumulator collectionAccumulator = new StringAccumulator(Formatter.Value);
             accumulation.accumulateIn(collectionAccumulator);
             builder.add(name, String.format("[%s]", collectionAccumulator.result()));
         }
 
         @Override
-        public void addRekord(String name, String rekordName, Accumulation<String> accumulation) {
+        public void addRekord(String name, String rekordName, Accumulation accumulation) {
             StringAccumulator rekordAccumulator = new StringAccumulator(Formatter.Entry);
             accumulation.accumulateIn(rekordAccumulator);
             builder.add(name, rekordString(rekordName, rekordAccumulator.result()));
