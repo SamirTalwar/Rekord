@@ -15,7 +15,7 @@ public final class RekordKey<T, V> extends OriginalKey<T, FixedRekord<V>> {
     }
 
     @Override
-    public <A> void accumulate(final FixedRekord<V> rekord, Serializer.Accumulator<A> accumulator) {
+    public <A, E extends Exception> void accumulate(final FixedRekord<V> rekord, Serializer.Accumulator<A, E> accumulator) throws E {
         Serialization.serialize(name(), rekord).into(accumulator);
     }
 }

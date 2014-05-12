@@ -39,7 +39,7 @@ public final class Serialization {
             this.key = key;
         }
 
-        public <A> A into(Serializer.Accumulator<A> accumulator) {
+        public <A, E extends Exception> A into(Serializer.Accumulator<A, E> accumulator) throws E {
             for (V value : iterable) {
                 key.accumulate(value, accumulator);
             }
@@ -54,7 +54,7 @@ public final class Serialization {
             this.rekord = rekord;
         }
 
-        public <A> A into(Serializer.Accumulator<A> accumulator) {
+        public <A, E extends Exception> A into(Serializer.Accumulator<A, E> accumulator) throws E {
             for (Key<? super T, ?> key : rekord.keys()) {
                 @SuppressWarnings("unchecked")
                 Key<? super T, Object> castKey = (Key<? super T, Object>) key;
@@ -74,10 +74,10 @@ public final class Serialization {
             this.rekord = rekord;
         }
 
-        public <A> A into(Serializer.Accumulator<A> accumulator) {
+        public <A, E extends Exception> A into(Serializer.Accumulator<A, E> accumulator) throws E {
             accumulator.addRekord(name, rekord.name(), new Serializer.Accumulation() {
                 @Override
-                public <B> void accumulateIn(Serializer.Accumulator<B> mapAccumulator) {
+                public <A2, E2 extends Exception> void accumulateIn(Serializer.Accumulator<A2, E2> mapAccumulator) throws E2 {
                     serialize(rekord).into(mapAccumulator);
                 }
             });

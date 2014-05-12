@@ -29,10 +29,10 @@ public final class IterableKey<T, V, C extends Iterable<V>> extends OriginalKey<
     }
 
     @Override
-    public <A> void accumulate(final C iterable, Serializer.Accumulator<A> accumulator) {
+    public <A, E extends Exception> void accumulate(final C iterable, Serializer.Accumulator<A, E> accumulator) throws E {
         accumulator.addIterable(name(), new Serializer.Accumulation() {
             @Override
-            public <B> void accumulateIn(Serializer.Accumulator<B> iterableAccumulator) {
+            public <A2, E2 extends Exception> void accumulateIn(Serializer.Accumulator<A2, E2> iterableAccumulator) throws E2 {
                 Serialization.serialize(iterable).with(contents).into(iterableAccumulator);
             }
         });

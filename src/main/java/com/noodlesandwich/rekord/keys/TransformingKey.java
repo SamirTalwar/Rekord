@@ -38,7 +38,7 @@ public final class TransformingKey<T, U, V> extends AbstractKey<T, V> {
     }
 
     @Override
-    public <A> void accumulate(V value, Serializer.Accumulator<A> accumulator) {
+    public <A, E extends Exception> void accumulate(V value, Serializer.Accumulator<A, E> accumulator) throws E {
         original.accumulate(transformer.transformInput(value), accumulator);
     }
 

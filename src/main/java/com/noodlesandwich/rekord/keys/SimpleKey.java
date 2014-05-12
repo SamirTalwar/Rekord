@@ -13,7 +13,7 @@ public final class SimpleKey<T, V> extends OriginalKey<T, V> {
     }
 
     @Override
-    public <A> void accumulate(V value, Serializer.Accumulator<A> accumulator) {
+    public <A, E extends Exception> void accumulate(V value, Serializer.Accumulator<A, E> accumulator) throws E {
         accumulator.addValue(name(), value);
     }
 }

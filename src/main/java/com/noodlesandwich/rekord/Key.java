@@ -13,7 +13,7 @@ public interface Key<T, V> extends Named {
 
     <P extends T> V retrieveFrom(Properties<P> properties);
 
-    <A> void accumulate(V value, Serializer.Accumulator<A> accumulator);
+    <A, E extends Exception> void accumulate(V value, Serializer.Accumulator<A, E> accumulator) throws E;
 
     Key<T, ?> original();
 }

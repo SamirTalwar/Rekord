@@ -6,13 +6,13 @@ import java.util.HashMap;
 import java.util.Map;
 import com.noodlesandwich.rekord.FixedRekord;
 
-public final class MapSerializer implements Serializer<Map<String, Object>> {
+public final class MapSerializer implements SafeSerializer<Map<String, Object>> {
     @Override
     public <T> Map<String, Object> serialize(FixedRekord<T> rekord) {
         return Serialization.serialize(rekord).into(new MapRekordAccumulator());
     }
 
-    private static final class MapRekordAccumulator implements Accumulator<Map<String, Object>> {
+    private static final class MapRekordAccumulator implements SafeAccumulator<Map<String, Object>> {
         private final Map<String, Object> result = new HashMap<>();
 
         @Override
@@ -40,7 +40,7 @@ public final class MapSerializer implements Serializer<Map<String, Object>> {
         }
     }
 
-    private static final class MapIterableAccumulator implements Accumulator<Iterable<Object>> {
+    private static final class MapIterableAccumulator implements SafeAccumulator<Iterable<Object>> {
         private final Collection<Object> result = new ArrayList<>();
 
         @Override

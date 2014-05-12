@@ -42,7 +42,7 @@ public abstract class AbstractFixedRekord<T> implements FixedRekord<T> {
     }
 
     @Override
-    public <R> R serialize(Serializer<R> serializer) {
+    public <R, E extends Exception> R serialize(Serializer<R, E> serializer) throws E {
         return serializer.serialize(this);
     }
 

@@ -2,17 +2,17 @@ package com.noodlesandwich.rekord.serialization;
 
 import com.noodlesandwich.rekord.FixedRekord;
 
-public interface Serializer<R> {
-    <T> R serialize(FixedRekord<T> rekord);
+public interface Serializer<R, E extends Exception> {
+    <T> R serialize(FixedRekord<T> rekord) throws E;
 
-    public static interface Accumulator<A> {
-        <V> void addValue(String name, V value);
-        void addIterable(String name, Accumulation accumulation);
-        void addRekord(String name, String rekordName, Accumulation accumulation);
-        A result();
+    public static interface Accumulator<A, E extends Exception> {
+        <V> void addValue(String name, V value) throws E;
+        void addIterable(String name, Accumulation accumulation) throws E;
+        void addRekord(String name, String rekordName, Accumulation accumulation) throws E;
+        A result() throws E;
     }
 
     public static interface Accumulation {
-        <A> void accumulateIn(Accumulator<A> accumulator);
+        <A, E extends Exception> void accumulateIn(Accumulator<A, E> accumulator) throws E;
     }
 }

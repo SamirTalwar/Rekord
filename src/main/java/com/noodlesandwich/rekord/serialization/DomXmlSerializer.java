@@ -9,7 +9,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-public final class DomXmlSerializer implements Serializer<Document> {
+public final class DomXmlSerializer implements SafeSerializer<Document> {
     private final DocumentBuilder documentBuilder;
 
     public DomXmlSerializer() {
@@ -30,7 +30,7 @@ public final class DomXmlSerializer implements Serializer<Document> {
         return document;
     }
 
-    private static final class DomXmlAccumulator implements Accumulator<Element> {
+    private static final class DomXmlAccumulator implements SafeAccumulator<Element> {
         private final Element element;
         private final NodeCreator nodeCreator;
 

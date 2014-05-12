@@ -10,7 +10,7 @@ public interface FixedRekord<T> extends RekordTemplate<T> {
 
     PSet<Key<? super T, ?>> keys();
 
-    <R> R serialize(Serializer<R> serializer);
+    <R, E extends Exception> R serialize(Serializer<R, E> serializer) throws E;
 
     @Override
     boolean equals(Object o);

@@ -2,7 +2,7 @@ package com.noodlesandwich.rekord.serialization;
 
 import com.noodlesandwich.rekord.FixedRekord;
 
-public final class StringSerializer implements Serializer<String> {
+public final class StringSerializer implements SafeSerializer<String> {
     @Override
     public <T> String serialize(FixedRekord<T> rekord) {
         return Serialization.serialize(rekord.name(), rekord).into(new StringAccumulator(Formatter.Value));
@@ -12,7 +12,7 @@ public final class StringSerializer implements Serializer<String> {
         return String.format("%s {%s}", name, contents);
     }
 
-    private static final class StringAccumulator implements Accumulator<String> {
+    private static final class StringAccumulator implements SafeAccumulator<String> {
         private final EntryStringBuilder builder;
 
         public StringAccumulator(Formatter formatter) {
