@@ -81,10 +81,10 @@ public final class Properties<T> {
     }
 
     private static <T> PSet<Key<? super T, ?>> originalKeys(Iterable<Key<? super T, ?>> keys) {
-        PSet<Key<? super T, ?>> keyCollection = OrderedPSet.empty();
+        PSet<Key<? super T, ?>> originalKeys = OrderedPSet.empty();
         for (Key<? super T, ?> key : keys) {
-            keyCollection = keyCollection.plus(key.original());
+            originalKeys = originalKeys.plus(key.original());
         }
-        return keyCollection;
+        return originalKeys;
     }
 }

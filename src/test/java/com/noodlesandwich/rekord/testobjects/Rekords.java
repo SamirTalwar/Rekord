@@ -4,7 +4,7 @@ import java.util.Collection;
 import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Rekord;
-import com.noodlesandwich.rekord.keys.CollectionKey;
+import com.noodlesandwich.rekord.keys.IterableKey;
 import com.noodlesandwich.rekord.keys.RekordKey;
 import com.noodlesandwich.rekord.keys.SimpleKey;
 
@@ -67,8 +67,8 @@ public final class Rekords {
         Key<Person, String> firstName = SimpleKey.named("first name");
         Key<Person, String> lastName = SimpleKey.named("last name");
         Key<Person, Integer> age = SimpleKey.named("age");
-        Key<Person, Collection<FixedRekord<Person>>> favouritePeople = CollectionKey.named("favourite people").of(RekordKey.<Person, Person>named("favourite person"));
-        Key<Person, Collection<String>> pets = CollectionKey.named("pets").of(SimpleKey.<Person, String>named("pet"));
+        Key<Person, Iterable<FixedRekord<Person>>> favouritePeople = IterableKey.named("favourite people").of(RekordKey.<Person, Person>named("favourite person"));
+        Key<Person, Iterable<String>> pets = IterableKey.named("pets").of(SimpleKey.<Person, String>named("pet"));
         Key<Person, FixedRekord<Address>> address = RekordKey.named("address");
 
         Rekord<Person> rekord = Rekord.of(Person.class).accepting(firstName, lastName, age, favouritePeople, pets, address);
@@ -88,7 +88,7 @@ public final class Rekords {
     }
 
     public static interface LegoBag {
-        Key<LegoBag, Collection<Collection<Brick>>> sets = CollectionKey.named("lego sets").of(CollectionKey.named("bricks").of(SimpleKey.<LegoBag, Brick>named("brick")));
+        Key<LegoBag, Collection<Collection<Brick>>> sets = IterableKey.named("lego sets").of(IterableKey.named("bricks").<LegoBag, Brick, Collection<Brick>>of(SimpleKey.<LegoBag, Brick>named("brick")));
 
         Rekord<LegoBag> rekord = Rekord.of(LegoBag.class).accepting(sets);
 
@@ -106,8 +106,8 @@ public final class Rekords {
             return Rekord.<Jar<Cookie>>create("Cookie Jar").accepting(Jar.<Cookie>contents());
         }
 
-        private static final Key<Jar<Contents>, Collection<Contents>> contents
-                = CollectionKey.named("contents").of(SimpleKey.<Jar<Contents>, Contents>named("contents"));
+        private static final Key<Jar<Contents>, Iterable<Contents>> contents
+                = IterableKey.named("contents").of(SimpleKey.<Jar<Contents>, Contents>named("contents"));
 
         @SuppressWarnings("unchecked")
         public static <T extends Jar.Contents> Key<Jar<T>, Collection<T>> contents() {

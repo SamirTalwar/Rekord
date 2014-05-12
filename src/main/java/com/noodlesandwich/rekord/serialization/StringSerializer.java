@@ -25,10 +25,10 @@ public final class StringSerializer implements Serializer<String> {
         }
 
         @Override
-        public void addCollection(String name, Accumulation accumulation) {
-            StringAccumulator collectionAccumulator = new StringAccumulator(Formatter.Value);
-            accumulation.accumulateIn(collectionAccumulator);
-            builder.add(name, String.format("[%s]", collectionAccumulator.result()));
+        public void addIterable(String name, Accumulation accumulation) {
+            StringAccumulator iterableAccumulator = new StringAccumulator(Formatter.Value);
+            accumulation.accumulateIn(iterableAccumulator);
+            builder.add(name, String.format("[%s]", iterableAccumulator.result()));
         }
 
         @Override

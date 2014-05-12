@@ -7,7 +7,7 @@ public interface Serializer<R> {
 
     public static interface Accumulator<A> {
         <V> void addValue(String name, V value);
-        void addCollection(String name, Accumulation accumulation);
+        void addIterable(String name, Accumulation accumulation);
         void addRekord(String name, String rekordName, Accumulation accumulation);
         A result();
     }

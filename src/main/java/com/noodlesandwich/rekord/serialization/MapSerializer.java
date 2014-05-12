@@ -21,10 +21,10 @@ public final class MapSerializer implements Serializer<Map<String, Object>> {
         }
 
         @Override
-        public void addCollection(String name, Accumulation accumulation) {
-            MapCollectionAccumulator collectionAccumulator = new MapCollectionAccumulator();
-            accumulation.accumulateIn(collectionAccumulator);
-            result.put(name, collectionAccumulator.result());
+        public void addIterable(String name, Accumulation accumulation) {
+            MapIterableAccumulator iterableAccumulator = new MapIterableAccumulator();
+            accumulation.accumulateIn(iterableAccumulator);
+            result.put(name, iterableAccumulator.result());
         }
 
         @Override
@@ -40,7 +40,7 @@ public final class MapSerializer implements Serializer<Map<String, Object>> {
         }
     }
 
-    private static final class MapCollectionAccumulator implements Accumulator<Collection<Object>> {
+    private static final class MapIterableAccumulator implements Accumulator<Iterable<Object>> {
         private final Collection<Object> result = new ArrayList<>();
 
         @Override
@@ -49,10 +49,10 @@ public final class MapSerializer implements Serializer<Map<String, Object>> {
         }
 
         @Override
-        public void addCollection(String name, Accumulation accumulation) {
-            MapCollectionAccumulator collectionAccumulator = new MapCollectionAccumulator();
-            accumulation.accumulateIn(collectionAccumulator);
-            result.add(collectionAccumulator.result());
+        public void addIterable(String name, Accumulation accumulation) {
+            MapIterableAccumulator iterableAccumulator = new MapIterableAccumulator();
+            accumulation.accumulateIn(iterableAccumulator);
+            result.add(iterableAccumulator.result());
         }
 
         @Override
@@ -63,7 +63,7 @@ public final class MapSerializer implements Serializer<Map<String, Object>> {
         }
 
         @Override
-        public Collection<Object> result() {
+        public Iterable<Object> result() {
             return result;
         }
     }
