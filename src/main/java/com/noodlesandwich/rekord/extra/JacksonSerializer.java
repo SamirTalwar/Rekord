@@ -20,16 +20,16 @@ public final class JacksonSerializer implements Serializer<Void, IOException> {
         JsonFactory factory = new JsonFactory();
         JsonGenerator generator = factory.createGenerator(writer);
         generator.writeStartObject();
-        Serialization.serialize(rekord).into(new JacksonAccumulator(generator));
+        Serialization.serialize(rekord).into(new JacksonRekordAccumulator(generator));
         generator.writeEndObject();
         generator.close();
         return null;
     }
 
-    private static final class JacksonAccumulator implements Accumulator<Void, IOException> {
+    private static final class JacksonRekordAccumulator implements Accumulator<Void, IOException> {
         private final JsonGenerator generator;
 
-        public JacksonAccumulator(JsonGenerator generator) {
+        public JacksonRekordAccumulator(JsonGenerator generator) {
             this.generator = generator;
         }
 
@@ -73,13 +73,17 @@ public final class JacksonSerializer implements Serializer<Void, IOException> {
         }
 
         @Override
-        public void addIterable(String name, Accumulation accumulation) {
-            throw new UnsupportedOperationException();
+        public void addIterable(String name, Accumulation accumulation) throws IOException {
+            generator.writeStartArray();
+            accumulation.accumulateIn(this);
+            generator.writeEndArray();
         }
 
         @Override
-        public void addRekord(String name, String rekordName, Accumulation accumulation) {
-            throw new UnsupportedOperationException();
+        public void addRekord(String name, String rekordName, Accumulation accumulation) throws IOException {
+            generator.writeStartObject();
+            accumulation.accumulateIn(new JacksonRekordAccumulator(generator));
+            generator.writeEndObject();
         }
 
         @Override

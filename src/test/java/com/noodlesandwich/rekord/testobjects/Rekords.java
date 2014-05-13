@@ -97,8 +97,9 @@ public final class Rekords {
 
     public static interface LegoBag {
         Key<LegoBag, Collection<Collection<Brick>>> sets = IterableKey.named("lego sets").of(IterableKey.named("bricks").<LegoBag, Brick, Collection<Brick>>of(SimpleKey.<LegoBag, Brick>named("brick")));
+        Key<LegoBag, Iterable<FixedRekord<Person>>> minifigs = IterableKey.named("minifigs").of(RekordKey.<LegoBag, Person>named("minifig"));
 
-        Rekord<LegoBag> rekord = Rekord.of(LegoBag.class).accepting(sets);
+        Rekord<LegoBag> rekord = Rekord.of(LegoBag.class).accepting(sets, minifigs);
 
         public static enum Brick {
             Red,
