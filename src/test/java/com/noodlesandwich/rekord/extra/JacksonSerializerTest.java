@@ -26,7 +26,7 @@ public final class JacksonSerializerTest {
                 .with(Person.lastName, "Crockford");
 
         StringWriter writer = new StringWriter();
-        person.serialize(new JacksonSerializer(writer));
+        person.serialize(JacksonSerializer.serializingToWriter(writer));
 
         JSONAssert.assertEquals("{\"first name\": \"Douglas\", \"last name\": \"Crockford\"}", writer.toString(), true);
     }
@@ -43,7 +43,7 @@ public final class JacksonSerializerTest {
                                 .with(Address.city, "San Jose")));
 
         StringWriter writer = new StringWriter();
-        person.serialize(new JacksonSerializer(writer));
+        person.serialize(JacksonSerializer.serializingToWriter(writer));
 
         JSONObject expected = new JSONObject()
                 .put("first name", "Douglas")
@@ -69,7 +69,7 @@ public final class JacksonSerializerTest {
                         Person.rekord.with(Person.firstName, "Batman")));
 
         StringWriter writer = new StringWriter();
-        lego.serialize(new JacksonSerializer(writer));
+        lego.serialize(JacksonSerializer.serializingToWriter(writer));
 
         JSONObject expected = new JSONObject()
                 .put("lego sets", new JSONArray()
@@ -81,5 +81,16 @@ public final class JacksonSerializerTest {
                         .put(new JSONObject().put("first name", "Batman")));
 
         JSONAssert.assertEquals(expected, new JSONObject(writer.toString()), true);
+    }
+
+    @Test public void
+    is_capable_of_serializing_to_a_string() throws JSONException, IOException {
+        Rekord<Person> person = Person.rekord
+                .with(Person.firstName, "Douglas")
+                .with(Person.lastName, "Crockford");
+
+        String json = person.serialize(JacksonSerializer.serializingToString());
+
+        JSONAssert.assertEquals("{\"first name\": \"Douglas\", \"last name\": \"Crockford\"}", json, true);
     }
 }
