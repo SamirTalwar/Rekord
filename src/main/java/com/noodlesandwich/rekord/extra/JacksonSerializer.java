@@ -35,7 +35,41 @@ public final class JacksonSerializer implements Serializer<Void, IOException> {
 
         @Override
         public <V> void addValue(String name, V value) throws IOException {
-            generator.writeObjectField(name, value);
+            generator.writeStringField(name, value.toString());
+        }
+
+        @Override
+        public void addIterable(String name, Accumulation accumulation) throws IOException {
+            generator.writeFieldName(name);
+            generator.writeStartArray();
+            accumulation.accumulateIn(new JacksonIterableAccumulator(generator));
+            generator.writeEndArray();
+        }
+
+        @Override
+        public void addRekord(String name, String rekordName, Accumulation accumulation) throws IOException {
+            generator.writeFieldName(name);
+            generator.writeStartObject();
+            accumulation.accumulateIn(this);
+            generator.writeEndObject();
+        }
+
+        @Override
+        public Void result() {
+            return null;
+        }
+    }
+
+    private static final class JacksonIterableAccumulator implements Accumulator<Void, IOException> {
+        private final JsonGenerator generator;
+
+        public JacksonIterableAccumulator(JsonGenerator generator) {
+            this.generator = generator;
+        }
+
+        @Override
+        public <V> void addValue(String name, V value) throws IOException {
+            generator.writeString(value.toString());
         }
 
         @Override
