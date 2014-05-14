@@ -31,7 +31,7 @@ public final class DomXmlSerializer implements Serializer<Document, ParserConfig
         }
 
         @Override
-        public <V> void addValue(String name, V value) {
+        public void addValue(String name, Object value) {
             Element child = nodeCreator.elementNamed(name);
             child.appendChild(nodeCreator.textNodeContaining(value.toString()));
             element.appendChild(child);

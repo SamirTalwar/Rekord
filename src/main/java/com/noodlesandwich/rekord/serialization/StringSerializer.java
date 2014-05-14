@@ -20,7 +20,7 @@ public final class StringSerializer implements SafeSerializer<String> {
         }
 
         @Override
-        public <V> void addValue(String name, V value) {
+        public void addValue(String name, Object value) {
             builder.add(name, value);
         }
 

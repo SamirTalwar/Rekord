@@ -50,7 +50,7 @@ public final class JacksonSerializer implements Serializer<Void, IOException> {
         }
 
         @Override
-        public <V> void addValue(String name, V value) throws IOException {
+        public void addValue(String name, Object value) throws IOException {
             generator.writeStringField(name, value.toString());
         }
 
@@ -84,7 +84,7 @@ public final class JacksonSerializer implements Serializer<Void, IOException> {
         }
 
         @Override
-        public <V> void addValue(String name, V value) throws IOException {
+        public void addValue(String name, Object value) throws IOException {
             generator.writeString(value.toString());
         }
 

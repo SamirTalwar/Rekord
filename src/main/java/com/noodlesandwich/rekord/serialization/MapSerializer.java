@@ -16,7 +16,7 @@ public final class MapSerializer implements SafeSerializer<Map<String, Object>> 
         private final Map<String, Object> result = new HashMap<>();
 
         @Override
-        public <V> void addValue(String name, V value) {
+        public void addValue(String name, Object value) {
             result.put(name, value);
         }
 
@@ -44,7 +44,7 @@ public final class MapSerializer implements SafeSerializer<Map<String, Object>> 
         private final Collection<Object> result = new ArrayList<>();
 
         @Override
-        public <V> void addValue(String name, V value) {
+        public void addValue(String name, Object value) {
             result.add(value);
         }
 
