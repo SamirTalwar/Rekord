@@ -1,6 +1,8 @@
 package com.noodlesandwich.rekord.validation;
 
 public class InvalidRekordException extends Exception {
+    private static final long serialVersionUID = -8453084058922683226L;
+
     public InvalidRekordException() {
         super();
     }
