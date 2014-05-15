@@ -58,12 +58,15 @@ public abstract class AbstractFixedRekord<T> implements FixedRekord<T> {
 
         @SuppressWarnings("unchecked")
         AbstractFixedRekord<T> that = (AbstractFixedRekord<T>) other;
-        return properties.equals(that.properties);
+        return name.equals(that.name) && properties.equals(that.properties);
+
     }
 
     @Override
     public int hashCode() {
-        return properties.hashCode();
+        int result = name.hashCode();
+        result = 31 * result + properties.hashCode();
+        return result;
     }
 
     @Override
