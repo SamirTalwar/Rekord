@@ -92,7 +92,12 @@ public final class Rekords {
     }
 
     public static interface Box {
+        Key<Box, Boolean> fact = SimpleKey.named("fact");
         Key<Box, Integer> number = SimpleKey.named("number");
+        Key<Box, Double> real = SimpleKey.named("real");
+        Key<Box, String> text = SimpleKey.named("text");
+
+        Rekord<Box> rekord = Rekord.of(Box.class).accepting(fact, number, real, text);
     }
 
     public static interface LegoBag {

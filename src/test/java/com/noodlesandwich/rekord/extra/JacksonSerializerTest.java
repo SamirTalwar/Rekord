@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 
 import static com.noodlesandwich.rekord.testobjects.Rekords.Address;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Box;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Company;
 import static com.noodlesandwich.rekord.testobjects.Rekords.LegoBag;
 import static com.noodlesandwich.rekord.testobjects.Rekords.LegoBag.Brick;
@@ -29,6 +30,20 @@ public final class JacksonSerializerTest {
         person.serialize(JacksonSerializer.serializingToWriter(writer));
 
         JSONAssert.assertEquals("{\"first name\": \"Douglas\", \"last name\": \"Crockford\"}", writer.toString(), true);
+    }
+
+    @Test public void
+    serializes_other_primitives() throws JSONException, IOException {
+        Rekord<Box> box = Box.rekord
+                .with(Box.fact, true)
+                .with(Box.number, 7)
+                .with(Box.real, -1.5)
+                .with(Box.text, "Hiya");
+
+        StringWriter writer = new StringWriter();
+        box.serialize(JacksonSerializer.serializingToWriter(writer));
+
+        JSONAssert.assertEquals("{\"fact\": true, \"number\": 7, \"real\": -1.5, \"text\": \"Hiya\"}", writer.toString(), true);
     }
 
     @Test public void
