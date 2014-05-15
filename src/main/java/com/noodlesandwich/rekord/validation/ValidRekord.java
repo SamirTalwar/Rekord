@@ -12,4 +12,9 @@ public final class ValidRekord<T> extends AbstractFixedRekord<T> {
     public boolean equals(Object other) {
         return other instanceof ValidRekord && super.equals(other);
     }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

@@ -56,6 +56,11 @@ public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBui
         return other instanceof Rekord && super.equals(other);
     }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
     public static final class UnkeyedRekord<T> {
         private final String name;
 
