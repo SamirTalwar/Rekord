@@ -96,8 +96,9 @@ public final class Rekords {
         Key<Box, Integer> number = SimpleKey.named("number");
         Key<Box, Double> real = SimpleKey.named("real");
         Key<Box, String> text = SimpleKey.named("text");
+        Key<Box, Collection<Object>> stuff = IterableKey.named("stuff").of(SimpleKey.<Box, Object>named("object"));
 
-        Rekord<Box> rekord = Rekord.of(Box.class).accepting(fact, number, real, text);
+        Rekord<Box> rekord = Rekord.of(Box.class).accepting(fact, number, real, text, stuff);
     }
 
     public static interface LegoBag {

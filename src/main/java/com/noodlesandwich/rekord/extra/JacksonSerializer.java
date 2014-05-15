@@ -91,7 +91,13 @@ public final class JacksonSerializer implements Serializer<Void, IOException> {
 
         @Override
         public void addValue(String name, Object value) throws IOException {
-            generator.writeString(value.toString());
+            if (value instanceof Number) {
+                generator.writeNumber(((Number) value).doubleValue());
+            } else if (value instanceof Boolean) {
+                generator.writeBoolean((Boolean) value);
+            } else {
+                generator.writeString(value.toString());
+            }
         }
 
         @Override

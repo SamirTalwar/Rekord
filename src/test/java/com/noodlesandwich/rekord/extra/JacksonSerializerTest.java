@@ -38,12 +38,19 @@ public final class JacksonSerializerTest {
                 .with(Box.fact, true)
                 .with(Box.number, 7)
                 .with(Box.real, -1.5)
-                .with(Box.text, "Hiya");
+                .with(Box.text, "Hiya")
+                .with(Box.stuff, ImmutableList.<Object>of(false, 99, 100.001, "Boo"));
 
         StringWriter writer = new StringWriter();
         box.serialize(JacksonSerializer.serializingToWriter(writer));
 
-        JSONAssert.assertEquals("{\"fact\": true, \"number\": 7, \"real\": -1.5, \"text\": \"Hiya\"}", writer.toString(), true);
+        JSONAssert.assertEquals("{" +
+            "\"fact\": true, " +
+            "\"number\": 7, " +
+            "\"real\": -1.5, " +
+            "\"text\": \"Hiya\", " +
+            "\"stuff\": [false, 99, 100.001, \"Boo\"]" +
+        "}", writer.toString(), true);
     }
 
     @Test public void
