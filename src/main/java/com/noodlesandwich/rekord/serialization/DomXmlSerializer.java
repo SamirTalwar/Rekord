@@ -1,5 +1,6 @@
 package com.noodlesandwich.rekord.serialization;
 
+import java.util.Locale;
 import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -10,11 +11,21 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public final class DomXmlSerializer implements Serializer<Document, ParserConfigurationException> {
+    private final Locale locale;
+
+    public DomXmlSerializer() {
+        this(Locale.getDefault());
+    }
+
+    public DomXmlSerializer(Locale locale) {
+        this.locale = locale;
+    }
+
     @Override
     public <T> Document serialize(FixedRekord<T> rekord) throws ParserConfigurationException {
         DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document document = documentBuilder.newDocument();
-        NodeCreator nodeCreator = new NodeCreator(document);
+        NodeCreator nodeCreator = new NodeCreator(locale, document);
         Element root = nodeCreator.elementNamed(rekord.name());
         Serialization.serialize(rekord).into(new DomXmlAccumulator(root, nodeCreator));
         document.appendChild(root);
@@ -58,9 +69,11 @@ public final class DomXmlSerializer implements Serializer<Document, ParserConfig
     }
 
     public static final class NodeCreator {
+        private final Locale locale;
         private final Document document;
 
-        public NodeCreator(Document document) {
+        public NodeCreator(Locale locale, Document document) {
+            this.locale = locale;
             this.document = document;
         }
 
@@ -72,13 +85,13 @@ public final class DomXmlSerializer implements Serializer<Document, ParserConfig
             return document.createTextNode(contents);
         }
 
-        private static String slugify(String name) {
+        private String slugify(String name) {
             name = WhiteSpace.matcher(name).replaceAll("-");
             name = InvalidXmlNameChars.matcher(name).replaceAll("_");
             if (InvalidXmlNameStartChars.matcher(name.substring(0, 1)).matches()) {
                 name = "_" + name;
             }
-            return name.toLowerCase();
+            return name.toLowerCase(locale);
         }
 
         private static String join(String... strings) {

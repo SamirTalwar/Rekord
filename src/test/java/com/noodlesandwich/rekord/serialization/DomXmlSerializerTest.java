@@ -35,6 +35,7 @@ public final class DomXmlSerializerTest {
                 "</sandvich>"
         ))));
     }
+
     @Test public void
     a_rekord_with_multiple_elements_is_serialized_to_XML() throws ParserConfigurationException {
         Rekord<Sandvich> sandvich = Sandvich.rekord
