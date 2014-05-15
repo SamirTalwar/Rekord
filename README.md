@@ -1,8 +1,13 @@
 # Rekords in Java &nbsp; [![Build Status](https://travis-ci.org/SamirTalwar/Rekord.png)](https://travis-ci.org/SamirTalwar/Rekord)
 
-A rekord is an immutable data structure of key-value pairs. Kind of like an immutable map of objects, but completely type-safe, as the keys themselves contain the type information of the value.
+A rekord is an immutable data structure of key-value pairs. Kind of like an immutable map of objects, but completely
+type-safe, as the keys themselves contain the type information of the value.
 
-It can be used as an alternative to classes with getters (immutable beans, if you will) so you don't have to implement a new concrete class for every value concept—instead, a single type has you covered. You also get builders for free, `equals` and `hashCode` are implemented for you, and other concepts, such as validation and default values, can be implemented once and used for all rekords. Finally, all Rekords, being immutable, are thread-safe to construct and to use.
+It can be used as an alternative to classes with getters (immutable beans, if you will) so you don't have to implement a
+new concrete class for every value concept—instead, a single type has you covered. You also get builders for free,
+`equals` and `hashCode` are implemented for you, and other concepts, such as validation and default values,
+can be implemented once and used for all rekords. Finally, all Rekords, being immutable, are thread-safe to construct
+and to use.
 
 And there's no magic.
 
@@ -32,7 +37,8 @@ public interface Sandvich {
 }
 ```
 
-So all you need is one interface and a few constants. The return type of the `Rekord::get` method is the type embodied in the key, so for the sandvich filling, the return type is `Filling`.
+So all you need is one interface and a few constants. The return type of the `Rekord::get` method is the type embodied
+in the key, so for the sandvich filling, the return type is `Filling`.
 
 More examples can be found [in the tests][Tests].
 
@@ -50,13 +56,15 @@ You can use Rekord v0.1 by dropping the following into your Maven `pom.xml`. It'
 </dependency>
 ```
 
-If you're not using Maven, alter as appropriate for your dependency management system. If you just want a JAR, you can [download it directly from Maven][rekord-0.1.jar].
+If you're not using Maven, alter as appropriate for your dependency management system. If you just want a JAR, you can
+[download it directly from Maven][rekord-0.1.jar].
 
 [rekord-0.1.jar]: http://search.maven.org/remotecontent?filepath=com/noodlesandwich/rekord/0.1/rekord-0.1.jar
 
 ### Why "Rekord"?
 
-I was in Germany, at [SoCraTes 2013][SoCraTes Conference], when I named it. So I thought I'd make the name a little more German. ;-)
+I was in Germany, at [SoCraTes 2013][SoCraTes Conference], when I named it. So I thought I'd make the name a little more
+German. ;-)
 
 [SoCraTes Conference]: http://www.socrates-conference.de/
 
