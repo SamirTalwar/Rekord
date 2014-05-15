@@ -94,20 +94,20 @@ There's almost certainly a bunch of stuff we haven't covered. More examples can 
 
 ## Installation
 
-You can use Rekord v0.1 by dropping the following into your Maven `pom.xml`. It's in Maven Central.
+You can use Rekord v0.2 by dropping the following into your Maven `pom.xml`. It's in Maven Central.
 
 ```xml
 <dependency>
     <groupId>com.noodlesandwich</groupId>
     <artifactId>rekord</artifactId>
-    <version>0.1</version>
+    <version>0.2</version>
 </dependency>
 ```
 
 If you're not using Maven, alter as appropriate for your dependency management system. If you just want a JAR, you can
-[download it directly from Maven][rekord-0.1.jar].
+[download it directly from Maven][rekord-0.2.jar].
 
-[rekord-0.1.jar]: http://search.maven.org/remotecontent?filepath=com/noodlesandwich/rekord/0.1/rekord-0.1.jar
+[rekord-0.2.jar]: http://search.maven.org/remotecontent?filepath=com/noodlesandwich/rekord/0.2/rekord-0.2.jar
 
 ## Why "Rekord"?
 
