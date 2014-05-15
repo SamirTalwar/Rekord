@@ -2,16 +2,17 @@ package com.noodlesandwich.rekord;
 
 import org.junit.Test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.Brown;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.White;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Cheese;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Ham;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Burger;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Roll;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 
 public final class RekordBuildersTest {
     @Test public void
@@ -47,5 +48,23 @@ public final class RekordBuildersTest {
                 .with(Sandvich.filling, Ham)));
 
         assertThat(cheeseSandvich, is(not(equalTo(hamSandvich))));
+    }
+
+    @Test public void
+    two_rekords_can_be_merged_with_the_second_clobbering_the_first() {
+        Rekord<Sandvich> whiteRoll = Sandvich.rekord
+                .with(White, Sandvich.bread)
+                .with(Sandvich.style, Roll);
+
+        Rekord<Sandvich> cheeseBurger = Sandvich.rekord
+                .with(Sandvich.filling, Cheese)
+                .with(Sandvich.style, Burger);
+
+        Rekord<Sandvich> whiteCheeseBurger = whiteRoll.merge(cheeseBurger);
+
+        assertThat(whiteCheeseBurger, is(Sandvich.rekord
+                .with(Sandvich.bread, White)
+                .with(Sandvich.filling, Cheese)
+                .with(Sandvich.style, Burger)));
     }
 }
