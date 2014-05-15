@@ -3,7 +3,7 @@
 
     <groupId>com.noodlesandwich</groupId>
     <artifactId>rekord</artifactId>
-    <version>0.2</version>
+    <version>0.3-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Rekord</name>
