@@ -13,22 +13,22 @@ Rekord<Sandvich> sandvich = Sandvich.rekord
         .with(Sandvich.filling, Lettuce)
         .with(Sandvich.style, Burger);
 
-assertThat(sandvich.get(Sandvich.filling), is(Filling.Lettuce));
-assertThat(sandvich.get(Sandvich.style), is(Style.Burger));
-assertThat(sandvich.get(Sandvich.bread), is(Bread.Brown));
+assertThat(sandvich.get(Sandvich.bread), is(Brown));
+assertThat(sandvich.get(Sandvich.filling), is(Lettuce));
+assertThat(sandvich.get(Sandvich.style), is(Burger));
 ```
+
+How's that work? And why is the bread brown? We didn't specify that.
 
 The magic is really in the key. It's defined as follows:
 
 ```java
-public static interface Sandvich {
-    Key<Sandvich, Filling> filling = Key.named("filling");
+public interface Sandvich {
     Key<Sandvich, Bread> bread = Key.named("bread").that(defaultsTo(Brown));
+    Key<Sandvich, Filling> filling = Key.named("filling");
     Key<Sandvich, Style> style = Key.named("style");
 
     Rekord<Sandvich> rekord = Rekord.of(Sandvich.class).accepting(filling, bread, style);
-
-    // ...
 }
 ```
 
