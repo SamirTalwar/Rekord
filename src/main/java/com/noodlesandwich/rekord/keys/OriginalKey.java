@@ -34,7 +34,7 @@ public abstract class OriginalKey<T, V> extends AbstractKey<T, V> {
     }
 
     @Override
-    public Key<T, ?> original() {
+    public Key<T, V> original() {
         return this;
     }
 }
