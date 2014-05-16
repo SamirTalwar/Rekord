@@ -23,11 +23,6 @@ public final class TransformingKey<T, U, V> extends AbstractKey<T, V> {
     }
 
     @Override
-    public <NewV> TransformingKey<T, U, NewV> that(Transformer<V, NewV> transformer) {
-        return new TransformingKey<>(original, Transformers.compose(transformer, this.transformer));
-    }
-
-    @Override
     public <P extends T> Properties<P> storeTo(Properties<P> properties, V value) {
         return properties.with(new Property<P, U>(original, transformer.transformInput(value)));
     }
@@ -35,6 +30,11 @@ public final class TransformingKey<T, U, V> extends AbstractKey<T, V> {
     @Override
     public <P extends T> V retrieveFrom(Properties<P> properties) {
         return transformer.transformOutput(properties.get(original));
+    }
+
+    @Override
+    public <NewV> TransformingKey<T, U, NewV> that(Transformer<V, NewV> transformer) {
+        return new TransformingKey<>(original, Transformers.compose(transformer, this.transformer));
     }
 
     @Override
