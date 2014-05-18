@@ -1,6 +1,7 @@
 package com.noodlesandwich.rekord.validation;
 
 import java.util.Arrays;
+import java.util.List;
 import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Key;
 import org.hamcrest.Description;
@@ -55,7 +56,9 @@ public final class RekordMatchers {
 
     @SafeVarargs
     public static <T> Matcher<FixedRekord<T>> hasProperties(final Key<? super T, ?>... keys) {
-        final PSet<Key<? super T, ?>> expectedKeys = OrderedPSet.from(Arrays.asList(keys));
+        @SuppressWarnings("varargs")
+        List<Key<? super T, ?>> keyList = Arrays.asList(keys);
+        final PSet<Key<? super T, ?>> expectedKeys = OrderedPSet.from(keyList);
         return new TypeSafeDiagnosingMatcher<FixedRekord<T>>() {
             @Override
             public void describeTo(Description description) {
