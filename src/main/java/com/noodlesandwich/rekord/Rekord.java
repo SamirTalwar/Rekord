@@ -69,14 +69,16 @@ public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBui
             this.name = name;
         }
 
+        // CHECKSTYLE:OFF
         @SafeVarargs
         public final Rekord<T> accepting(Key<? super T, ?>... keys) {
             @SuppressWarnings("varargs")
             List<Key<? super T, ?>> keyList = Arrays.asList(keys);
             return accepting(OrderedPSet.from(keyList));
         }
+        // CHECKSTYLE:ON
 
-        public final Rekord<T> accepting(PSet<Key<? super T, ?>> keys) {
+        public Rekord<T> accepting(PSet<Key<? super T, ?>> keys) {
             return new Rekord<>(name, new Properties<>(keys));
         }
     }

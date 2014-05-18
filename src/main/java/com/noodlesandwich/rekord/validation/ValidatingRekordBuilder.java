@@ -19,14 +19,16 @@ public final class ValidatingRekordBuilder {
             this.name = name;
         }
 
+        // CHECKSTYLE:OFF
         @SafeVarargs
         public final UnsureRekord<T> accepting(Key<? super T, ?>... keys) {
             @SuppressWarnings("varargs")
             List<Key<? super T, ?>> keyList = Arrays.asList(keys);
             return accepting(OrderedPSet.from(keyList));
         }
+        // CHECKSTYLE:ON
 
-        public final UnsureRekord<T> accepting(PSet<Key<? super T, ?>> keys) {
+        public UnsureRekord<T> accepting(PSet<Key<? super T, ?>> keys) {
             return new UnsureRekord<>(name, new Properties<>(keys));
         }
     }
