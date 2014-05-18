@@ -17,32 +17,32 @@ public abstract class AbstractFixedRekord<T> implements FixedRekord<T> {
     }
 
     @Override
-    public String name() {
+    public final String name() {
         return name;
     }
 
     @Override
-    public <V> V get(Key<? super T, V> key) {
+    public final <V> V get(Key<? super T, V> key) {
         return key.retrieveFrom(properties);
     }
 
     @Override
-    public boolean has(Key<T, ?> key) {
+    public final boolean has(Key<T, ?> key) {
         return properties.has(key);
     }
 
     @Override
-    public PSet<Key<? super T, ?>> keys() {
+    public final PSet<Key<? super T, ?>> keys() {
         return properties.keys();
     }
 
     @Override
-    public PSet<Key<? super T, ?>> acceptedKeys() {
+    public final PSet<Key<? super T, ?>> acceptedKeys() {
         return properties.acceptedKeys();
     }
 
     @Override
-    public <R, E extends Exception> R serialize(Serializer<R, E> serializer) throws E {
+    public final <R, E extends Exception> R serialize(Serializer<R, E> serializer) throws E {
         return serializer.serialize(this);
     }
 
@@ -70,7 +70,7 @@ public abstract class AbstractFixedRekord<T> implements FixedRekord<T> {
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return serialize(new StringSerializer());
     }
 }

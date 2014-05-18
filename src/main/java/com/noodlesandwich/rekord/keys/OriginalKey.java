@@ -14,27 +14,27 @@ public abstract class OriginalKey<T, V> extends AbstractKey<T, V> {
     }
 
     @Override
-    public String name() {
+    public final String name() {
         return name;
     }
 
     @Override
-    public <P extends T> Properties<P> storeTo(Properties<P> properties, V value) {
+    public final <P extends T> Properties<P> storeTo(Properties<P> properties, V value) {
         return properties.with(new Property<P, V>(this, value));
     }
 
     @Override
-    public <P extends T> V retrieveFrom(Properties<P> properties) {
+    public final <P extends T> V retrieveFrom(Properties<P> properties) {
         return properties.get(this);
     }
 
     @Override
-    public <NewV> Key<T, NewV> that(Transformer<V, NewV> transformer) {
+    public final <NewV> Key<T, NewV> that(Transformer<V, NewV> transformer) {
         return new TransformingKey<>(this, transformer);
     }
 
     @Override
-    public Key<T, V> original() {
+    public final Key<T, V> original() {
         return this;
     }
 }
