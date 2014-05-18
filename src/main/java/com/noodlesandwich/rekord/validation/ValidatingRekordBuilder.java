@@ -1,6 +1,7 @@
 package com.noodlesandwich.rekord.validation;
 
 import java.util.Arrays;
+import java.util.List;
 import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.properties.Properties;
@@ -20,7 +21,9 @@ public final class ValidatingRekordBuilder {
 
         @SafeVarargs
         public final UnsureRekord<T> accepting(Key<? super T, ?>... keys) {
-            return accepting(OrderedPSet.from(Arrays.asList(keys)));
+            @SuppressWarnings("varargs")
+            List<Key<? super T, ?>> keyList = Arrays.asList(keys);
+            return accepting(OrderedPSet.from(keyList));
         }
 
         public final UnsureRekord<T> accepting(PSet<Key<? super T, ?>> keys) {
