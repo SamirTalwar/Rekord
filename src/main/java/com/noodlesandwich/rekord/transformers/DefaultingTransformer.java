@@ -14,6 +14,9 @@ public final class DefaultingTransformer<T> implements Transformer<T, T> {
 
     @Override
     public T transformOutput(T value) {
-        return value != null ? value : defaultValue;
+        if (value != null) {
+            return value;
+        }
+        return defaultValue;
     }
 }
