@@ -24,9 +24,9 @@ public final class JacksonSerializer implements Serializer<Void, IOException> {
         return new Serializer<String, IOException>() {
             @Override
             public <T> String serialize(FixedRekord<T> rekord) throws IOException {
-                StringWriter writer = new StringWriter();
-                serializingToWriter(writer).serialize(rekord);
-                return writer.toString();
+                StringWriter output = new StringWriter();
+                serializingToWriter(output).serialize(rekord);
+                return output.toString();
             }
         };
     }

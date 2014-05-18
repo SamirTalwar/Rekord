@@ -33,8 +33,8 @@ public final class TransformingKey<T, U, V> extends AbstractKey<T, V> {
     }
 
     @Override
-    public <NewV> TransformingKey<T, U, NewV> that(Transformer<V, NewV> transformer) {
-        return new TransformingKey<>(original, Transformers.compose(transformer, this.transformer));
+    public <NewV> TransformingKey<T, U, NewV> that(Transformer<V, NewV> next) {
+        return new TransformingKey<>(original, Transformers.compose(next, transformer));
     }
 
     @Override
