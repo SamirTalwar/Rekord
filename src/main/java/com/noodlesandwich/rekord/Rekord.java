@@ -54,12 +54,12 @@ public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBui
 
     @Override
     public boolean equals(Object other) {
-        return other instanceof Rekord && super.equals(other);
+        return other instanceof Rekord && abstractEquals(other);
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return abstractHashCode();
     }
 
     public static final class UnkeyedRekord<T> {

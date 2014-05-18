@@ -46,8 +46,7 @@ public abstract class AbstractFixedRekord<T> implements FixedRekord<T> {
         return serializer.serialize(this);
     }
 
-    @Override
-    public boolean equals(Object other) {
+    protected final boolean abstractEquals(Object other) {
         if (this == other) {
             return true;
         }
@@ -62,8 +61,7 @@ public abstract class AbstractFixedRekord<T> implements FixedRekord<T> {
 
     }
 
-    @Override
-    public int hashCode() {
+    protected final int abstractHashCode() {
         int result = name.hashCode();
         result = 31 * result + properties.hashCode();
         return result;
