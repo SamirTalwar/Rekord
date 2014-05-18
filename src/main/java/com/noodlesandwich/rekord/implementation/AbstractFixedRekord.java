@@ -1,5 +1,6 @@
 package com.noodlesandwich.rekord.implementation;
 
+import java.util.Objects;
 import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.properties.Properties;
@@ -62,9 +63,7 @@ public abstract class AbstractFixedRekord<T> implements FixedRekord<T> {
     }
 
     protected final int abstractHashCode() {
-        int result = name.hashCode();
-        result = 31 * result + properties.hashCode();
-        return result;
+        return Objects.hash(name, properties);
     }
 
     @Override
