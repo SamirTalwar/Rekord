@@ -69,8 +69,8 @@ public final class Rekords {
         Key<Person, Integer> age = SimpleKey.named("age");
         Key<Person, Iterable<FixedRekord<Person>>> favouritePeople = IterableKey.named("favourite people").of(RekordKey.<Person, Person>named("favourite person"));
         Key<Person, Iterable<String>> pets = IterableKey.named("pets").of(SimpleKey.<Person, String>named("pet"));
-        Key<Person, FixedRekord<Address>> address = RekordKey.named("address");
-        Key<Person, FixedRekord<Company>> company = RekordKey.named("company");
+        RekordKey<Person, Address> address = RekordKey.named("address");
+        RekordKey<Person, Company> company = RekordKey.named("company");
 
         Rekord<Person> rekord = Rekord.of(Person.class).accepting(firstName, lastName, age, favouritePeople, pets, address, company);
     }
@@ -86,7 +86,7 @@ public final class Rekords {
 
     public static interface Company {
         Key<Company, String> name = SimpleKey.named("name");
-        Key<Company, FixedRekord<Address>> address = RekordKey.named("address");
+        RekordKey<Company, Address> address = RekordKey.named("address");
 
         Rekord<Company> rekord = Rekord.of(Company.class).accepting(name, address);
     }

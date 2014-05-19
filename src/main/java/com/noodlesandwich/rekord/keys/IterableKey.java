@@ -23,7 +23,7 @@ public final class IterableKey<T, V, C extends Iterable<V>> extends OriginalKey<
             this.name = name;
         }
 
-        public <T, V, C extends Iterable<V>> Key<T, C> of(Key<T, V> contents) {
+        public <T, V, C extends Iterable<V>> IterableKey<T, V, C> of(Key<T, V> contents) {
             return new IterableKey<>(name, contents);
         }
     }
