@@ -1,15 +1,15 @@
 package com.noodlesandwich.rekord;
 
 import com.noodlesandwich.rekord.keys.Key;
+import com.noodlesandwich.rekord.keys.KeySet;
 import com.noodlesandwich.rekord.serialization.Serializer;
-import org.pcollections.PSet;
 
 public interface FixedRekord<T> extends RekordTemplate<T> {
     <V> V get(Key<? super T, V> key);
 
     boolean has(Key<? super T, ?> key);
 
-    PSet<Key<? super T, ?>> keys();
+    KeySet<T> keys();
 
     <R, E extends Exception> R serialize(Serializer<R, E> serializer) throws E;
 

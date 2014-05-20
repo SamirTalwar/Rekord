@@ -3,7 +3,6 @@ package com.noodlesandwich.rekord.keys;
 import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.transformers.Transformer;
 import org.junit.Test;
-import org.pcollections.OrderedPSet;
 
 import static com.noodlesandwich.rekord.transformers.Transformers.defaultsTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -39,8 +38,8 @@ public final class TransformingKeyTest {
         assertThat(key.retrieveFrom(emptyProperties), is("88"));
     }
 
-    private static <T> OrderedPSet<Key<? super T, ?>> accepting(Key<T, ?> key) {
-        return OrderedPSet.<Key<? super T, ?>>singleton(key);
+    private static <T> KeySet<T> accepting(Key<T, ?> key) {
+        return Keys.from(key);
     }
 
     private static interface Badabing { }

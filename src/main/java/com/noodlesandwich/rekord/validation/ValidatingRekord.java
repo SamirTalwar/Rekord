@@ -4,10 +4,10 @@ import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.RekordBuilder;
 import com.noodlesandwich.rekord.RekordTemplate;
 import com.noodlesandwich.rekord.keys.Key;
+import com.noodlesandwich.rekord.keys.KeySet;
 import com.noodlesandwich.rekord.properties.Properties;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
-import org.pcollections.PSet;
 
 public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRekord<T>> {
     private final String name;
@@ -38,7 +38,7 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
     }
 
     @Override
-    public PSet<Key<? super T, ?>> acceptedKeys() {
+    public KeySet<T> acceptedKeys() {
         return properties.acceptedKeys();
     }
 

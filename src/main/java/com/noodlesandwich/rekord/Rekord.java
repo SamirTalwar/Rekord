@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import com.noodlesandwich.rekord.implementation.AbstractFixedRekord;
 import com.noodlesandwich.rekord.keys.Key;
+import com.noodlesandwich.rekord.keys.KeySet;
+import com.noodlesandwich.rekord.keys.Keys;
 import com.noodlesandwich.rekord.properties.Properties;
-import org.pcollections.OrderedPSet;
-import org.pcollections.PSet;
 
 public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBuilder<T, Rekord<T>> {
     private final Properties<T> properties;
@@ -72,14 +72,14 @@ public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBui
 
         // CHECKSTYLE:OFF
         @SafeVarargs
-        public final Rekord<T> accepting(Key<? super T, ?>... keys) {
+        public final Rekord<T> accepting(KeySet<? super T>... keys) {
             @SuppressWarnings("varargs")
-            List<Key<? super T, ?>> keyList = Arrays.asList(keys);
-            return accepting(OrderedPSet.from(keyList));
+            List<KeySet<? super T>> keyList = Arrays.asList(keys);
+            return accepting(Keys.from(keyList));
         }
         // CHECKSTYLE:ON
 
-        public Rekord<T> accepting(PSet<Key<? super T, ?>> keys) {
+        public Rekord<T> accepting(KeySet<T> keys) {
             return new Rekord<>(name, new Properties<>(keys));
         }
     }

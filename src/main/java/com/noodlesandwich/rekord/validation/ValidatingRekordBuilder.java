@@ -3,11 +3,10 @@ package com.noodlesandwich.rekord.validation;
 import java.util.Arrays;
 import java.util.List;
 import com.noodlesandwich.rekord.FixedRekord;
-import com.noodlesandwich.rekord.keys.Key;
+import com.noodlesandwich.rekord.keys.KeySet;
+import com.noodlesandwich.rekord.keys.Keys;
 import com.noodlesandwich.rekord.properties.Properties;
 import org.hamcrest.Matcher;
-import org.pcollections.OrderedPSet;
-import org.pcollections.PSet;
 
 public final class ValidatingRekordBuilder {
     private ValidatingRekordBuilder() { }
@@ -21,14 +20,14 @@ public final class ValidatingRekordBuilder {
 
         // CHECKSTYLE:OFF
         @SafeVarargs
-        public final UnsureRekord<T> accepting(Key<? super T, ?>... keys) {
+        public final UnsureRekord<T> accepting(KeySet<? super T>... keys) {
             @SuppressWarnings("varargs")
-            List<Key<? super T, ?>> keyList = Arrays.asList(keys);
-            return accepting(OrderedPSet.from(keyList));
+            List<KeySet<? super T>> keyList = Arrays.asList(keys);
+            return accepting(Keys.from(keyList));
         }
         // CHECKSTYLE:ON
 
-        public UnsureRekord<T> accepting(PSet<Key<? super T, ?>> keys) {
+        public UnsureRekord<T> accepting(KeySet<T> keys) {
             return new UnsureRekord<>(name, new Properties<>(keys));
         }
     }

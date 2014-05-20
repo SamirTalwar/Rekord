@@ -48,7 +48,7 @@ public final class Rekords {
     public static interface Bratwurst extends Wurst {
         Key<Bratwurst, Style> style = SimpleKey.named("style");
 
-        Rekord<Bratwurst> rekord = Rekord.of(Bratwurst.class).accepting(Wurst.curvature, style);
+        Rekord<Bratwurst> rekord = Rekord.of(Bratwurst.class).accepting(Wurst.rekord.acceptedKeys(), style);
 
         public static enum Style {
             Chopped,

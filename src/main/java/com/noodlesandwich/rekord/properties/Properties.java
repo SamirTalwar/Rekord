@@ -1,23 +1,23 @@
 package com.noodlesandwich.rekord.properties;
 
+import java.util.Set;
 import com.noodlesandwich.rekord.keys.Key;
+import com.noodlesandwich.rekord.keys.KeySet;
+import com.noodlesandwich.rekord.keys.Keys;
 import org.pcollections.HashTreePMap;
-import org.pcollections.HashTreePSet;
-import org.pcollections.OrderedPSet;
 import org.pcollections.PMap;
-import org.pcollections.PSet;
 
 public final class Properties<T> {
     private static final String UnacceptableKeyTemplate = "The key \"%s\" is not a valid key for this Rekord.";
 
-    private final PSet<Key<? super T, ?>> acceptedKeys;
+    private final KeySet<T> acceptedKeys;
     private final PMap<Key<? super T, ?>, Object> properties;
 
-    public Properties(PSet<Key<? super T, ?>> acceptedKeys) {
-        this(originalKeys(acceptedKeys), HashTreePMap.<Key<? super T, ?>, Object>empty());
+    public Properties(KeySet<T> acceptedKeys) {
+        this(acceptedKeys.originals(), HashTreePMap.<Key<? super T, ?>, Object>empty());
     }
 
-    private Properties(PSet<Key<? super T, ?>> acceptedKeys, PMap<Key<? super T, ?>, Object> properties) {
+    private Properties(KeySet<T> acceptedKeys, PMap<Key<? super T, ?>, Object> properties) {
         this.acceptedKeys = acceptedKeys;
         this.properties = properties;
     }
@@ -31,11 +31,13 @@ public final class Properties<T> {
         return properties.containsKey(key.original());
     }
 
-    public PSet<Key<? super T, ?>> keys() {
-        return HashTreePSet.from(properties.keySet());
+    public KeySet<T> keys() {
+        @SuppressWarnings("unchecked")
+        Set<KeySet<? super T>> keys = (Set) properties.keySet();
+        return Keys.from(keys);
     }
 
-    public PSet<Key<? super T, ?>> acceptedKeys() {
+    public KeySet<T> acceptedKeys() {
         return acceptedKeys;
     }
 
@@ -78,13 +80,5 @@ public final class Properties<T> {
     @Override
     public String toString() {
         return properties.toString();
-    }
-
-    private static <T> PSet<Key<? super T, ?>> originalKeys(Iterable<Key<? super T, ?>> keys) {
-        PSet<Key<? super T, ?>> originalKeys = OrderedPSet.empty();
-        for (Key<? super T, ?> key : keys) {
-            originalKeys = originalKeys.plus(key.original());
-        }
-        return originalKeys;
     }
 }

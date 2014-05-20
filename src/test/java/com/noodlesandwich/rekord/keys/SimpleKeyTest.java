@@ -2,8 +2,6 @@ package com.noodlesandwich.rekord.keys;
 
 import com.noodlesandwich.rekord.properties.Properties;
 import org.junit.Test;
-import org.pcollections.OrderedPSet;
-import org.pcollections.PSet;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasToString;
@@ -42,6 +40,6 @@ public final class SimpleKeyTest {
         Key<Thing, Integer> one = SimpleKey.named("one");
         Key<Thing, Integer> two = SimpleKey.named("two");
 
-        PSet<Key<? super Thing, ?>> keys = OrderedPSet.<Key<? super Thing, ?>>empty().plus(one).plus(two);
+        KeySet<Thing> keys = Keys.from(one, two);
     }
 }

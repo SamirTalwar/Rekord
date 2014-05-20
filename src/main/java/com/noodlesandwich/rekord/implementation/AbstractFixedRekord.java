@@ -3,10 +3,10 @@ package com.noodlesandwich.rekord.implementation;
 import java.util.Objects;
 import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.keys.Key;
+import com.noodlesandwich.rekord.keys.KeySet;
 import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.serialization.Serializer;
 import com.noodlesandwich.rekord.serialization.StringSerializer;
-import org.pcollections.PSet;
 
 public abstract class AbstractFixedRekord<T> implements FixedRekord<T> {
     private final String name;
@@ -33,12 +33,12 @@ public abstract class AbstractFixedRekord<T> implements FixedRekord<T> {
     }
 
     @Override
-    public final PSet<Key<? super T, ?>> keys() {
+    public final KeySet<T> keys() {
         return properties.keys();
     }
 
     @Override
-    public final PSet<Key<? super T, ?>> acceptedKeys() {
+    public final KeySet<T> acceptedKeys() {
         return properties.acceptedKeys();
     }
 

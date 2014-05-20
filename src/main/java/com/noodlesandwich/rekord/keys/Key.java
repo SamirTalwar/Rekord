@@ -5,7 +5,7 @@ import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.serialization.Serializer;
 import com.noodlesandwich.rekord.transformers.Transformer;
 
-public interface Key<T, V> extends Named {
+public interface Key<T, V> extends KeySet<T>, Named {
     <P extends T> Properties<P> storeTo(Properties<P> properties, V value);
 
     <P extends T> V retrieveFrom(Properties<P> properties);

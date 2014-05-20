@@ -38,7 +38,7 @@ public final class RekordMatcher<T> extends TypeSafeDiagnosingMatcher<FixedRekor
     protected boolean matchesSafely(FixedRekord<T> actualRekord, Description mismatchDescription) {
         mismatchDescription.appendText("a rekord that looks like ").appendValue(actualRekord);
 
-        if (!expectedProperties.keySet().equals(actualRekord.keys())) {
+        if (!expectedProperties.keySet().equals(actualRekord.keys().toSet())) {
             return false;
         }
 

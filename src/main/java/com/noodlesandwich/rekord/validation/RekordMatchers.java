@@ -1,14 +1,15 @@
 package com.noodlesandwich.rekord.validation;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.keys.Key;
+import com.noodlesandwich.rekord.keys.KeySet;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
-import org.pcollections.OrderedPSet;
-import org.pcollections.PSet;
 
 public final class RekordMatchers {
     private RekordMatchers() { }
@@ -45,9 +46,9 @@ public final class RekordMatchers {
 
             @Override
             protected boolean matchesSafely(FixedRekord<T> rekord, Description mismatchDescription) {
-                PSet<Key<? super T, ?>> expectedKeys = rekord.acceptedKeys();
-                PSet<Key<? super T, ?>> actualKeys = rekord.keys();
-                PSet<Key<? super T, ?>> missingKeys = expectedKeys.minusAll(actualKeys);
+                KeySet<T> expectedKeys = rekord.acceptedKeys();
+                KeySet<T> actualKeys = rekord.keys();
+                Set<Key<? super T, ?>> missingKeys = difference(expectedKeys, actualKeys);
                 mismatchDescription.appendText("was missing the keys ").appendValue(missingKeys);
                 return missingKeys.isEmpty();
             }
@@ -57,8 +58,7 @@ public final class RekordMatchers {
     @SafeVarargs
     public static <T> Matcher<FixedRekord<T>> hasProperties(final Key<? super T, ?>... keys) {
         @SuppressWarnings("varargs")
-        List<Key<? super T, ?>> keyList = Arrays.asList(keys);
-        final PSet<Key<? super T, ?>> expectedKeys = OrderedPSet.from(keyList);
+        final Collection<Key<? super T, ?>> expectedKeys = Arrays.asList(keys);
         return new TypeSafeDiagnosingMatcher<FixedRekord<T>>() {
             @Override
             public void describeTo(Description description) {
@@ -67,8 +67,8 @@ public final class RekordMatchers {
 
             @Override
             protected boolean matchesSafely(FixedRekord<T> rekord, Description mismatchDescription) {
-                PSet<Key<? super T, ?>> actualKeys = rekord.keys();
-                PSet<Key<? super T, ?>> missingKeys = expectedKeys.minusAll(actualKeys);
+                KeySet<T> actualKeys = rekord.keys();
+                Set<Key<? super T, ?>> missingKeys = difference(expectedKeys, actualKeys);
                 mismatchDescription.appendText("was missing the keys ").appendValue(missingKeys);
                 return missingKeys.isEmpty();
             }
@@ -91,5 +91,15 @@ public final class RekordMatchers {
                 return expectedValue.matches(actualValue);
             }
         };
+    }
+
+    private static <T> Set<Key<? super T, ?>> difference(Iterable<Key<? super T, ?>> a, KeySet<T> b) {
+        Set<Key<? super T, ?>> missingKeys = new HashSet<>();
+        for (Key<? super T, ?> key : a) {
+            if (!b.contains(key)) {
+                missingKeys.add(key);
+            }
+        }
+        return missingKeys;
     }
 }
