@@ -9,9 +9,9 @@ import static org.hamcrest.Matchers.instanceOf;
 
 public final class ExceptionMatcher<T extends Throwable> extends TypeSafeDiagnosingMatcher<T> {
     private final Class<T> expectedExceptionClass;
-    private final Matcher<String> expectedMessage;
+    private final Matcher<? super String> expectedMessage;
 
-    private ExceptionMatcher(Class<T> expectedExceptionClass, Matcher<String> expectedMessage) {
+    private ExceptionMatcher(Class<T> expectedExceptionClass, Matcher<? super String> expectedMessage) {
         this.expectedExceptionClass = expectedExceptionClass;
         this.expectedMessage = expectedMessage;
     }
@@ -56,7 +56,11 @@ public final class ExceptionMatcher<T extends Throwable> extends TypeSafeDiagnos
         }
 
         public Matcher<T> withTheMessage(String message) {
-            return new ExceptionMatcher<>(exceptionClass, equalTo(message));
+            return withTheMessage(equalTo(message));
+        }
+
+        public Matcher<T> withTheMessage(Matcher<? super String> message) {
+            return new ExceptionMatcher<>(exceptionClass, message);
         }
     }
 }

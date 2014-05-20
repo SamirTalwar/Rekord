@@ -8,6 +8,8 @@ import static com.noodlesandwich.rekord.testobjects.ExceptionMatcher.an;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Address;
 import static com.noodlesandwich.rekord.validation.RekordMatchers.aRekordOf;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 public final class AllPropertiesMatcherTest {
@@ -35,7 +37,9 @@ public final class AllPropertiesMatcherTest {
     @Test public void
     rejects_a_rekord_with_a_missing_property_when_expecting_all_properties() throws InvalidRekordException {
         expectedException.expect(an(InvalidRekordException.class)
-                .withTheMessage("Expected that all properties are set, but was missing the keys <[city, postal code]>."));
+                .withTheMessage(anyOf(
+                        equalTo("Expected that all properties are set, but was missing the keys <[city, postal code]>."),
+                        equalTo("Expected that all properties are set, but was missing the keys <[postal code, city]>."))));
 
         validatingAddressRequiringAllProperties
                 .with(Address.houseNumber, 22)
