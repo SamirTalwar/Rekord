@@ -3,8 +3,8 @@ package com.noodlesandwich.rekord.validation;
 import java.util.Arrays;
 import java.util.List;
 import com.noodlesandwich.rekord.FixedRekord;
+import com.noodlesandwich.rekord.implementation.Keys;
 import com.noodlesandwich.rekord.keys.KeySet;
-import com.noodlesandwich.rekord.keys.Keys;
 import com.noodlesandwich.rekord.properties.Properties;
 import org.hamcrest.Matcher;
 

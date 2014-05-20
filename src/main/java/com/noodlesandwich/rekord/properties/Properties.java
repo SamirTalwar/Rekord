@@ -1,9 +1,9 @@
 package com.noodlesandwich.rekord.properties;
 
 import java.util.Set;
+import com.noodlesandwich.rekord.implementation.Keys;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.KeySet;
-import com.noodlesandwich.rekord.keys.Keys;
 import org.pcollections.HashTreePMap;
 import org.pcollections.PMap;
 

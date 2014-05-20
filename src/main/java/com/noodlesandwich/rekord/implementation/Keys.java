@@ -1,10 +1,12 @@
-package com.noodlesandwich.rekord.keys;
+package com.noodlesandwich.rekord.implementation;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import com.noodlesandwich.rekord.keys.Key;
+import com.noodlesandwich.rekord.keys.KeySet;
 import org.pcollections.OrderedPSet;
 import org.pcollections.PSet;
 

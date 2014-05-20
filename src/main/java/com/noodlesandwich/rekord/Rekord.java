@@ -3,9 +3,9 @@ package com.noodlesandwich.rekord;
 import java.util.Arrays;
 import java.util.List;
 import com.noodlesandwich.rekord.implementation.AbstractFixedRekord;
+import com.noodlesandwich.rekord.implementation.Keys;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.KeySet;
-import com.noodlesandwich.rekord.keys.Keys;
 import com.noodlesandwich.rekord.properties.Properties;
 
 public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBuilder<T, Rekord<T>> {
