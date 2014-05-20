@@ -3,6 +3,7 @@ package com.noodlesandwich.rekord.keys;
 import com.noodlesandwich.rekord.implementation.AbstractKey;
 import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.properties.Property;
+import com.noodlesandwich.rekord.properties.TransformingProperty;
 import com.noodlesandwich.rekord.serialization.Serializer;
 import com.noodlesandwich.rekord.transformers.Transformer;
 import com.noodlesandwich.rekord.transformers.Transformers;
@@ -22,12 +23,12 @@ public final class TransformingKey<T, U, V> extends AbstractKey<T, V> {
     }
 
     @Override
-    public <P extends T> Properties<P> storeTo(Properties<P> properties, V value) {
-        return properties.with(new Property<P, U>(original, transformer.transformInput(value)));
+    public Property<T, U> of(V value) {
+        return new TransformingProperty<>(this, value, transformer);
     }
 
     @Override
-    public <P extends T> V retrieveFrom(Properties<P> properties) {
+    public <P extends T> V get(Properties<P> properties) {
         return transformer.transformOutput(properties.get(original));
     }
 

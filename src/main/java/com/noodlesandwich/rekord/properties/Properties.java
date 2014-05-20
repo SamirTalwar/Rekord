@@ -41,7 +41,7 @@ public final class Properties<T> {
         return acceptedKeys;
     }
 
-    public Properties<T> with(Property<T, ?> property) {
+    public Properties<T> with(Property<? super T, ?> property) {
         Key<? super T, ?> key = property.key();
         if (!acceptedKeys.contains(key.original())) {
             throw new IllegalArgumentException(String.format(UnacceptableKeyTemplate, key.name()));

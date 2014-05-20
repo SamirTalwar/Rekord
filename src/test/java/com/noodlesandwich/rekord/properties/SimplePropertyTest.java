@@ -7,7 +7,7 @@ import org.junit.rules.ExpectedException;
 
 import static com.noodlesandwich.rekord.testobjects.ExceptionMatcher.a;
 
-public final class PropertyTest {
+public final class SimplePropertyTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();
 
     @Test public void
@@ -15,7 +15,7 @@ public final class PropertyTest {
         expectedException.expect(a(NullPointerException.class)
                 .withTheMessage("Cannot construct a Rekord property with a null key."));
 
-        new Property<>(null, "Random value");
+        new SimpleProperty<>(null, "Random value");
     }
 
     @Test public void
@@ -23,6 +23,6 @@ public final class PropertyTest {
         expectedException.expect(a(NullPointerException.class)
                 .withTheMessage("Cannot construct a Rekord property with a null value."));
 
-        new Property<>(SimpleKey.named("Random key"), null);
+        new SimpleProperty<>(SimpleKey.named("Random key"), null);
     }
 }

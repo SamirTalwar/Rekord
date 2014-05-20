@@ -44,7 +44,7 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
 
     @Override
     public <V> ValidatingRekord<T> with(Key<? super T, V> key, V value) {
-        return new ValidatingRekord<>(name, key.storeTo(properties, value), matcher);
+        return new ValidatingRekord<>(name, properties.with(key.of(value)), matcher);
     }
 
     @Override

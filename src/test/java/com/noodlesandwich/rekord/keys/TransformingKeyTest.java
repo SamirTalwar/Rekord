@@ -14,33 +14,30 @@ public final class TransformingKeyTest {
     transforms_according_to_its_transformer() {
         Key<Badabing, String> key = SimpleKey.<Badabing, String>named("key").that(upperCases());
 
-        Properties<Badabing> properties = key.storeTo(new Properties<>(accepting(key)), "kablammo");
+        Properties<Badabing> properties = new Properties<>(Keys.from(key))
+                .with(key.of("kablammo"));
 
-        assertThat(key.retrieveFrom(properties), is("KABLAMMO"));
+        assertThat(key.get(properties), is("KABLAMMO"));
     }
 
     @Test public void
     delegates_to_internal_transformers() {
         Key<Badabing, String> key = SimpleKey.<Badabing, String>named("key").that(defaultsTo("nobody loves me")).then(upperCases());
 
-        Properties<Badabing> properties = new Properties<>(accepting(key));
+        Properties<Badabing> properties = new Properties<>(Keys.from(key));
 
-        assertThat(key.retrieveFrom(properties), is("NOBODY LOVES ME"));
+        assertThat(key.get(properties), is("NOBODY LOVES ME"));
     }
 
     @Test public void
     allows_the_transformer_to_change_the_type() {
         Key<Badabing, String> key = SimpleKey.<Badabing, Integer>named("key").that(defaultsTo(88)).then(stringifies());
 
-        Properties<Badabing> emptyProperties = new Properties<>(accepting(key));
-        Properties<Badabing> propertiesWithValue = key.storeTo(emptyProperties, "97");
+        Properties<Badabing> emptyProperties = new Properties<>(Keys.from(key));
+        Properties<Badabing> propertiesWithValue = emptyProperties.with(key.of("97"));
 
-        assertThat(key.retrieveFrom(propertiesWithValue), is("97"));
-        assertThat(key.retrieveFrom(emptyProperties), is("88"));
-    }
-
-    private static <T> KeySet<T> accepting(Key<T, ?> key) {
-        return Keys.from(key);
+        assertThat(key.get(propertiesWithValue), is("97"));
+        assertThat(key.get(emptyProperties), is("88"));
     }
 
     private static interface Badabing { }

@@ -2,13 +2,14 @@ package com.noodlesandwich.rekord.keys;
 
 import com.noodlesandwich.rekord.Named;
 import com.noodlesandwich.rekord.properties.Properties;
+import com.noodlesandwich.rekord.properties.Property;
 import com.noodlesandwich.rekord.serialization.Serializer;
 import com.noodlesandwich.rekord.transformers.Transformer;
 
 public interface Key<T, V> extends KeySet<T>, Named {
-    <P extends T> Properties<P> storeTo(Properties<P> properties, V value);
+    Property<T, ?> of(V value);
 
-    <P extends T> V retrieveFrom(Properties<P> properties);
+    <P extends T> V get(Properties<P> properties);
 
     <NewV> Key<T, NewV> that(Transformer<V, NewV> transformer);
 

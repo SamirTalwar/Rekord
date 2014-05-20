@@ -30,7 +30,7 @@ public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBui
             throw new NullPointerException("Cannot construct a Rekord property with a null key.");
         }
 
-        return new Rekord<>(name(), key.storeTo(properties, value));
+        return new Rekord<>(name(), properties.with(key.of(value)));
     }
 
     @Override
