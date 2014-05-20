@@ -38,7 +38,7 @@ public final class JacksonSerializer implements Serializer<Void, IOException> {
         generator.writeStartObject();
         Serialization.serialize(rekord).into(new JacksonRekordAccumulator(generator));
         generator.writeEndObject();
-        generator.close();
+        generator.flush();
         return null;
     }
 

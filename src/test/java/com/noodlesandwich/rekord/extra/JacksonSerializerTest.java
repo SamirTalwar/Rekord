@@ -2,6 +2,7 @@ package com.noodlesandwich.rekord.extra;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.util.Collection;
 import com.google.common.collect.ImmutableList;
 import com.noodlesandwich.rekord.FixedRekord;
@@ -28,6 +29,7 @@ public final class JacksonSerializerTest {
 
         StringWriter writer = new StringWriter();
         person.serialize(JacksonSerializer.serializingToWriter(writer));
+        writer.close();
 
         JSONAssert.assertEquals("{\"first name\": \"Douglas\", \"last name\": \"Crockford\"}", writer.toString(), true);
     }
@@ -114,5 +116,56 @@ public final class JacksonSerializerTest {
         String json = person.serialize(JacksonSerializer.serializingToString());
 
         JSONAssert.assertEquals("{\"first name\": \"Douglas\", \"last name\": \"Crockford\"}", json, true);
+    }
+
+    @Test public void
+    lets_the_owner_of_the_writer_close_it() throws JSONException, IOException {
+        Rekord<Person> person = Person.rekord
+                .with(Person.firstName, "Douglas")
+                .with(Person.lastName, "Crockford");
+
+        ClosingStringWriter writer = new ClosingStringWriter();
+
+        person.serialize(JacksonSerializer.serializingToWriter(writer));
+        person.serialize(JacksonSerializer.serializingToWriter(writer));
+
+        JSONAssert.assertEquals(
+                "{\"first name\": \"Douglas\", \"last name\": \"Crockford\"}" +
+                "{\"first name\": \"Douglas\", \"last name\": \"Crockford\"}",
+                writer.toString(),
+                true);
+    }
+
+    private static final class ClosingStringWriter extends Writer {
+        private final StringWriter delegate = new StringWriter();
+        private boolean open = true;
+
+        @Override
+        public void write(char[] cbuf, int off, int len) throws IOException {
+            checkOpen();
+            delegate.write(cbuf, off, len);
+        }
+
+        @Override
+        public void flush() throws IOException {
+            checkOpen();
+            delegate.flush();
+        }
+
+        @Override
+        public void close() {
+            this.open = false;
+        }
+
+        @Override
+        public String toString() {
+            return delegate.toString();
+        }
+
+        private void checkOpen() throws IOException {
+            if (!open) {
+                throw new IOException("Writer already closed.");
+            }
+        }
     }
 }
