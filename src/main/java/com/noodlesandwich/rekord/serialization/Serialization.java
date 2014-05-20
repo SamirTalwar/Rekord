@@ -1,7 +1,7 @@
 package com.noodlesandwich.rekord.serialization;
 
 import com.noodlesandwich.rekord.FixedRekord;
-import com.noodlesandwich.rekord.Key;
+import com.noodlesandwich.rekord.keys.Key;
 
 public final class Serialization {
     private Serialization() { }

@@ -1,6 +1,5 @@
 package com.noodlesandwich.rekord.keys;
 
-import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.serialization.Serializer;
 
 public final class SimpleKey<T, V> extends OriginalKey<T, V> {

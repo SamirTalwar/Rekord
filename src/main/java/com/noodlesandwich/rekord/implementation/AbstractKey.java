@@ -1,6 +1,6 @@
 package com.noodlesandwich.rekord.implementation;
 
-import com.noodlesandwich.rekord.Key;
+import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.transformers.Transformer;
 
 public abstract class AbstractKey<T, V> implements Key<T, V> {

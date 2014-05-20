@@ -1,5 +1,6 @@
-package com.noodlesandwich.rekord;
+package com.noodlesandwich.rekord.keys;
 
+import com.noodlesandwich.rekord.Named;
 import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.serialization.Serializer;
 import com.noodlesandwich.rekord.transformers.Transformer;

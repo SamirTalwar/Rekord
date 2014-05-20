@@ -1,5 +1,6 @@
 package com.noodlesandwich.rekord;
 
+import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.serialization.Serializer;
 import org.pcollections.PSet;
 

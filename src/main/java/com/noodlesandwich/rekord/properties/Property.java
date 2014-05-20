@@ -1,6 +1,6 @@
 package com.noodlesandwich.rekord.properties;
 
-import com.noodlesandwich.rekord.Key;
+import com.noodlesandwich.rekord.keys.Key;
 
 public final class Property<T, V> {
     private final Key<? super T, V> key;

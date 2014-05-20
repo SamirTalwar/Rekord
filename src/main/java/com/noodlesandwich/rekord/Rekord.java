@@ -3,6 +3,7 @@ package com.noodlesandwich.rekord;
 import java.util.Arrays;
 import java.util.List;
 import com.noodlesandwich.rekord.implementation.AbstractFixedRekord;
+import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.properties.Properties;
 import org.pcollections.OrderedPSet;
 import org.pcollections.PSet;

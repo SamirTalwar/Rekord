@@ -2,9 +2,9 @@ package com.noodlesandwich.rekord.testobjects;
 
 import java.util.Collection;
 import com.noodlesandwich.rekord.FixedRekord;
-import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.keys.IterableKey;
+import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.RekordKey;
 import com.noodlesandwich.rekord.keys.SimpleKey;
 

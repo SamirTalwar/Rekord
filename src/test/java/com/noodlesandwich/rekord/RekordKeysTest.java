@@ -1,5 +1,6 @@
 package com.noodlesandwich.rekord;
 
+import com.noodlesandwich.rekord.keys.Key;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 

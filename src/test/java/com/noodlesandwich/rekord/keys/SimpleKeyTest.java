@@ -1,6 +1,5 @@
 package com.noodlesandwich.rekord.keys;
 
-import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.properties.Properties;
 import org.junit.Test;
 import org.pcollections.OrderedPSet;

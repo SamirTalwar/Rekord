@@ -2,7 +2,7 @@ package com.noodlesandwich.rekord.implementation;
 
 import java.util.Objects;
 import com.noodlesandwich.rekord.FixedRekord;
-import com.noodlesandwich.rekord.Key;
+import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.serialization.Serializer;
 import com.noodlesandwich.rekord.serialization.StringSerializer;

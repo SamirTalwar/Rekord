@@ -1,6 +1,5 @@
 package com.noodlesandwich.rekord.keys;
 
-import com.noodlesandwich.rekord.Key;
 import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.transformers.Transformer;
 import org.junit.Test;

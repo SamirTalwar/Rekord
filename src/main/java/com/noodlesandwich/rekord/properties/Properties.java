@@ -1,6 +1,6 @@
 package com.noodlesandwich.rekord.properties;
 
-import com.noodlesandwich.rekord.Key;
+import com.noodlesandwich.rekord.keys.Key;
 import org.pcollections.HashTreePMap;
 import org.pcollections.HashTreePSet;
 import org.pcollections.OrderedPSet;
