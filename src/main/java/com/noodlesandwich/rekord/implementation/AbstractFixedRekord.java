@@ -28,7 +28,7 @@ public abstract class AbstractFixedRekord<T> implements FixedRekord<T> {
     }
 
     @Override
-    public final boolean has(Key<T, ?> key) {
+    public final boolean has(Key<? super T, ?> key) {
         return properties.has(key);
     }
 
