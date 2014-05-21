@@ -10,14 +10,6 @@ public final class TransformingProperty<T, U, V> implements Property<T, U> {
     private final Transformer<U, V> transformer;
 
     public TransformingProperty(TransformingKey<T, U, V> key, V value, Transformer<U, V> transformer) {
-        if (key == null) {
-            throw new NullPointerException("Cannot construct a Rekord property with a null key.");
-        }
-
-        if (value == null) {
-            throw new NullPointerException("Cannot construct a Rekord property with a null value.");
-        }
-
         this.key = key;
         this.value = value;
         this.transformer = transformer;

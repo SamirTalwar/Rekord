@@ -26,10 +26,6 @@ public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBui
 
     @Override
     public <V> Rekord<T> with(Key<? super T, V> key, V value) {
-        if (key == null) {
-            throw new NullPointerException("Cannot construct a Rekord property with a null key.");
-        }
-
         return new Rekord<>(name(), properties.with(key.of(value)));
     }
 

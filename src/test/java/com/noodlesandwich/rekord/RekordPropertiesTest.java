@@ -110,8 +110,7 @@ public final class RekordPropertiesTest {
 
     @Test public void
     the_key_of_a_Rekord_property_cannot_be_null() {
-        expectedException.expect(a(NullPointerException.class)
-                .withTheMessage("Cannot construct a Rekord property with a null key."));
+        expectedException.expect(a(NullPointerException.class));
 
         Bratwurst.rekord
                 .with(null, "Random value");
@@ -120,7 +119,7 @@ public final class RekordPropertiesTest {
     @Test public void
     the_value_of_a_Rekord_property_cannot_be_null() {
         expectedException.expect(a(NullPointerException.class)
-                .withTheMessage("Cannot construct a Rekord property with a null value."));
+                .withTheMessage("A property cannot have a null value."));
 
         Bratwurst.rekord
                 .with(Wurst.curvature, (Double) null);

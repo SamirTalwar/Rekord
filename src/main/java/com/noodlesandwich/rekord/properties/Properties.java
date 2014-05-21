@@ -43,11 +43,21 @@ public final class Properties<T> {
 
     public Properties<T> with(Property<? super T, ?> property) {
         Key<? super T, ?> key = property.key();
+        Object value = property.value();
+
+        if (key == null) {
+            throw new NullPointerException("A property cannot have a null key.");
+        }
+
+        if (value == null) {
+            throw new NullPointerException("A property cannot have a null value.");
+        }
+
         if (!acceptedKeys.contains(key.original())) {
             throw new IllegalArgumentException(String.format(UnacceptableKeyTemplate, key.name()));
         }
 
-        return new Properties<>(acceptedKeys, properties.plus(key, property.value()));
+        return new Properties<>(acceptedKeys, properties.plus(key, value));
     }
 
     public Properties<T> without(Key<? super T, ?> key) {
