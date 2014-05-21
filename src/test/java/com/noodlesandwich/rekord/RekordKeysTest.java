@@ -1,9 +1,13 @@
 package com.noodlesandwich.rekord;
 
 import com.noodlesandwich.rekord.keys.Key;
+import com.noodlesandwich.rekord.keys.SimpleKey;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
+import static com.noodlesandwich.rekord.testobjects.ExceptionMatcher.an;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst.Style.Chopped;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich;
@@ -20,6 +24,8 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
 public final class RekordKeysTest {
+    @Rule public final ExpectedException expectedException = ExpectedException.none();
+
     @Test public void
     a_Rekord_can_tell_which_keys_are_being_used() {
         Rekord<Sandvich> sandvich = Sandvich.rekord
@@ -29,6 +35,17 @@ public final class RekordKeysTest {
         assertThat(sandvich, allOf(
                 hasProperties(Sandvich.filling, Sandvich.bread),
                 not(hasProperties(Sandvich.style))));
+    }
+
+    @Test public void
+    a_Rekord_must_know_all_possible_keys_in_advance() {
+        expectedException.expect(an(IllegalArgumentException.class)
+                .withTheMessage("The key \"spice\" is not a valid key for this Rekord."));
+
+        Key<Wurst, Integer> spice = SimpleKey.named("spice");
+
+        Rekord.of(Bratwurst.class).accepting(Wurst.curvature, Bratwurst.style)
+                .with(spice, 7);
     }
 
     @SuppressWarnings("unchecked")
