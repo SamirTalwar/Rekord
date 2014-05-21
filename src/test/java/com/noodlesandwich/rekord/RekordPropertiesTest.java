@@ -3,8 +3,10 @@ package com.noodlesandwich.rekord;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import com.noodlesandwich.rekord.properties.Property;
 import com.noodlesandwich.rekord.validation.RekordMatchers;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -21,6 +23,7 @@ import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.Brown
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Cheese;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Lettuce;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Burger;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Flat;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Wurst;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -131,6 +134,18 @@ public final class RekordPropertiesTest {
 
         assertThat(wurst, is(Bratwurst.rekord
                 .with(Bratwurst.style, Whole)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test public void
+    a_Rekord_will_provide_its_properties_as_an_Iterable() {
+        Rekord<Sandvich> sandvich = Sandvich.rekord
+                .with(Sandvich.filling, Lettuce)
+                .with(Sandvich.style, Flat);
+
+        assertThat(sandvich.properties(), Matchers.<Property<? super Sandvich, ?>>containsInAnyOrder(
+                Sandvich.filling.of(Lettuce),
+                Sandvich.style.of(Flat)));
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})

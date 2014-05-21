@@ -7,6 +7,7 @@ import com.noodlesandwich.rekord.implementation.Keys;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.KeySet;
 import com.noodlesandwich.rekord.properties.Properties;
+import com.noodlesandwich.rekord.properties.Property;
 
 public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBuilder<T, Rekord<T>> {
     private final Properties<T> properties;
@@ -25,13 +26,18 @@ public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBui
     }
 
     @Override
+    public <V> Rekord<T> with(Property<? super T, V> property) {
+        return new Rekord<>(name(), properties.with(property));
+    }
+
+    @Override
     public <V> Rekord<T> with(Key<? super T, V> key, V value) {
-        return new Rekord<>(name(), properties.with(key.of(value)));
+        return with(key.of(value));
     }
 
     @Override
     public <V> Rekord<T> with(V value, Key<? super T, V> key) {
-        return with(key, value);
+        return with(key.of(value));
     }
 
     @Override
@@ -41,10 +47,8 @@ public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBui
 
     public Rekord<T> merge(FixedRekord<T> other) {
         Rekord<T> result = this;
-        for (Key<? super T, ?> key : other.keys()) {
-            @SuppressWarnings("unchecked")
-            Key<? super T, Object> castKey = (Key<? super T, Object>) key;
-            result = result.with(castKey, other.get(castKey));
+        for (Property<? super T, ?> property : other.properties()) {
+            result = result.with(property);
         }
         return result;
     }

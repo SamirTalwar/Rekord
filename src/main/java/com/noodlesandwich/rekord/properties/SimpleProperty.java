@@ -4,18 +4,18 @@ import java.util.Objects;
 import com.noodlesandwich.rekord.keys.Key;
 
 public final class SimpleProperty<T, V> implements Property<T, V> {
-    private static final String FORMAT_STRING = "(%s: %s)";
+    private static final String FormatString = "(%s: %s)";
 
-    private final Key<? super T, V> key;
+    private final Key<T, V> key;
     private final V value;
 
-    public SimpleProperty(Key<? super T, V> key, V value) {
+    public SimpleProperty(Key<T, V> key, V value) {
         this.key = key;
         this.value = value;
     }
 
     @Override
-    public Key<? super T, V> key() {
+    public Key<T, V> key() {
         return key;
     }
 
@@ -47,6 +47,6 @@ public final class SimpleProperty<T, V> implements Property<T, V> {
 
     @Override
     public String toString() {
-        return String.format(FORMAT_STRING, key, value);
+        return String.format(FormatString, key, value);
     }
 }

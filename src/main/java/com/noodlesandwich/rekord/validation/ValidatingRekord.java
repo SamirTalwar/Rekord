@@ -6,6 +6,7 @@ import com.noodlesandwich.rekord.RekordTemplate;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.KeySet;
 import com.noodlesandwich.rekord.properties.Properties;
+import com.noodlesandwich.rekord.properties.Property;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
 
@@ -43,13 +44,18 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
     }
 
     @Override
+    public <V> ValidatingRekord<T> with(Property<? super T, V> property) {
+        return new ValidatingRekord<>(name, properties.with(property), matcher);
+    }
+
+    @Override
     public <V> ValidatingRekord<T> with(Key<? super T, V> key, V value) {
-        return new ValidatingRekord<>(name, properties.with(key.of(value)), matcher);
+        return with(key.of(value));
     }
 
     @Override
     public <V> ValidatingRekord<T> with(V value, Key<? super T, V> key) {
-        return with(key, value);
+        return with(key.of(value));
     }
 
     @Override

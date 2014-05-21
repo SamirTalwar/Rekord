@@ -1,5 +1,7 @@
 package com.noodlesandwich.rekord.properties;
 
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import com.noodlesandwich.rekord.implementation.Keys;
 import com.noodlesandwich.rekord.keys.Key;
@@ -7,24 +9,28 @@ import com.noodlesandwich.rekord.keys.KeySet;
 import org.pcollections.HashTreePMap;
 import org.pcollections.PMap;
 
-public final class Properties<T> {
+public final class Properties<T> implements PropertySet<T> {
     private static final String UnacceptableKeyTemplate = "The key \"%s\" is not a valid key for this Rekord.";
 
     private final KeySet<T> acceptedKeys;
-    private final PMap<Key<? super T, ?>, Object> properties;
+    private final PMap<Key<? super T, ?>, Property<? super T, ?>> properties;
 
     public Properties(KeySet<T> acceptedKeys) {
-        this(acceptedKeys.originals(), HashTreePMap.<Key<? super T, ?>, Object>empty());
+        this(acceptedKeys.originals(), HashTreePMap.<Key<? super T, ?>, Property<? super T, ?>>empty());
     }
 
-    private Properties(KeySet<T> acceptedKeys, PMap<Key<? super T, ?>, Object> properties) {
+    private Properties(KeySet<T> acceptedKeys, PMap<Key<? super T, ?>, Property<? super T, ?>> properties) {
         this.acceptedKeys = acceptedKeys;
         this.properties = properties;
     }
 
     @SuppressWarnings("unchecked")
     public <V> V get(Key<? super T, V> key) {
-        return (V) properties.get(key);
+        if (!has(key)) {
+            return null;
+        }
+
+        return (V) properties.get(key.original()).value();
     }
 
     public boolean has(Key<? super T, ?> key) {
@@ -32,8 +38,10 @@ public final class Properties<T> {
     }
 
     public KeySet<T> keys() {
-        @SuppressWarnings("unchecked")
-        Set<KeySet<? super T>> keys = (Set) properties.keySet();
+        Set<KeySet<? super T>> keys = new HashSet<>();
+        for (Property<? super T, ?> property : properties.values()) {
+            keys.add(property.key());
+        }
         return Keys.from(keys);
     }
 
@@ -43,28 +51,30 @@ public final class Properties<T> {
 
     public Properties<T> with(Property<? super T, ?> property) {
         Key<? super T, ?> key = property.key();
+        Key<? super T, ?> originalKey = key.original();
         Object value = property.value();
-
-        if (key == null) {
-            throw new NullPointerException("A property cannot have a null key.");
-        }
 
         if (value == null) {
             throw new NullPointerException("A property cannot have a null value.");
         }
 
-        if (!acceptedKeys.contains(key.original())) {
+        if (!acceptedKeys.contains(originalKey)) {
             throw new IllegalArgumentException(String.format(UnacceptableKeyTemplate, key.name()));
         }
 
-        return new Properties<>(acceptedKeys, properties.plus(key, value));
+        return new Properties<>(acceptedKeys, properties.plus(originalKey, property));
     }
 
     public Properties<T> without(Key<? super T, ?> key) {
         return new Properties<>(
                 acceptedKeys,
-                properties.minus(key)
+                properties.minus(key.original())
         );
+    }
+
+    @Override
+    public Iterator<Property<? super T, ?>> iterator() {
+        return properties.values().iterator();
     }
 
     @Override

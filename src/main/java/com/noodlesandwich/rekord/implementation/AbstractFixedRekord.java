@@ -5,6 +5,7 @@ import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.KeySet;
 import com.noodlesandwich.rekord.properties.Properties;
+import com.noodlesandwich.rekord.properties.PropertySet;
 import com.noodlesandwich.rekord.serialization.Serializer;
 import com.noodlesandwich.rekord.serialization.StringSerializer;
 
@@ -40,6 +41,11 @@ public abstract class AbstractFixedRekord<T> implements FixedRekord<T> {
     @Override
     public final KeySet<T> acceptedKeys() {
         return properties.acceptedKeys();
+    }
+
+    @Override
+    public final PropertySet<T> properties() {
+        return properties;
     }
 
     @Override

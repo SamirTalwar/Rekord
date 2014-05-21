@@ -6,7 +6,7 @@ import com.noodlesandwich.rekord.keys.TransformingKey;
 import com.noodlesandwich.rekord.transformers.Transformer;
 
 public final class TransformingProperty<T, U, V> implements Property<T, U> {
-    private static final String FORMAT_STRING = "transformation over (%s: %s)";
+    private static final String FormatString = "transformation over (%s: %s)";
 
     private final TransformingKey<T, U, V> key;
     private final V value;
@@ -51,6 +51,6 @@ public final class TransformingProperty<T, U, V> implements Property<T, U> {
 
     @Override
     public String toString() {
-        return String.format(FORMAT_STRING, key, value);
+        return String.format(FormatString, key, value);
     }
 }
