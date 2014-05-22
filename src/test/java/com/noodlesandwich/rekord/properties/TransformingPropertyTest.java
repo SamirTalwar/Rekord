@@ -1,43 +1,53 @@
-package com.noodlesandwich.rekord.keys;
+package com.noodlesandwich.rekord.properties;
 
-import com.noodlesandwich.rekord.implementation.KeySet;
-import com.noodlesandwich.rekord.implementation.LimitedPropertyMap;
+import com.noodlesandwich.rekord.Rekord;
+import com.noodlesandwich.rekord.keys.Key;
+import com.noodlesandwich.rekord.keys.SimpleKey;
 import com.noodlesandwich.rekord.transformers.Transformer;
 import org.junit.Test;
 
 import static com.noodlesandwich.rekord.transformers.Transformers.defaultsTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
-public final class TransformingKeyTest {
+public final class TransformingPropertyTest {
     @Test public void
     transforms_according_to_its_transformer() {
         Key<Badabing, String> key = SimpleKey.<Badabing, String>named("key").that(upperCases());
 
-        LimitedPropertyMap<Badabing> properties = new LimitedPropertyMap<>(KeySet.from(key))
+        Rekord<Badabing> rekord = Rekord.of(Badabing.class).accepting(key)
                 .with(key.of("kablammo"));
 
-        assertThat(key.get(properties), is("KABLAMMO"));
+        assertThat(rekord.get(key), is("KABLAMMO"));
     }
 
     @Test public void
     delegates_to_internal_transformers() {
         Key<Badabing, String> key = SimpleKey.<Badabing, String>named("key").that(defaultsTo("nobody loves me")).then(upperCases());
 
-        LimitedPropertyMap<Badabing> properties = new LimitedPropertyMap<>(KeySet.from(key));
+        Rekord<Badabing> rekord = Rekord.of(Badabing.class).accepting(key);
 
-        assertThat(key.get(properties), is("NOBODY LOVES ME"));
+        assertThat(rekord.get(key), is("NOBODY LOVES ME"));
     }
 
     @Test public void
     allows_the_transformer_to_change_the_type() {
-        Key<Badabing, String> key = SimpleKey.<Badabing, Integer>named("key").that(defaultsTo(88)).then(stringifies());
+        Key<Badabing, Integer> key = SimpleKey.named("key");
+        Key<Badabing, String> transformedKey = key.that(defaultsTo(88)).then(stringifies());
 
-        LimitedPropertyMap<Badabing> emptyProperties = new LimitedPropertyMap<>(KeySet.from(key));
-        LimitedPropertyMap<Badabing> propertiesWithValue = emptyProperties.with(key.of("97"));
+        Rekord<Badabing> emptyRekord = Rekord.of(Badabing.class).accepting(key);
+        Rekord<Badabing> rekordWithValue = emptyRekord.with(key.of(45));
+        Rekord<Badabing> rekordWithTransformedValue = emptyRekord.with(transformedKey.of("97"));
 
-        assertThat(key.get(propertiesWithValue), is("97"));
-        assertThat(key.get(emptyProperties), is("88"));
+        assertThat(emptyRekord.get(key), is(nullValue()));
+        assertThat(emptyRekord.get(transformedKey), is("88"));
+
+        assertThat(rekordWithValue.get(key), is(45));
+        assertThat(rekordWithValue.get(transformedKey), is("45"));
+
+        assertThat(rekordWithTransformedValue.get(key), is(97));
+        assertThat(rekordWithTransformedValue.get(transformedKey), is("97"));
     }
 
     private static interface Badabing { }

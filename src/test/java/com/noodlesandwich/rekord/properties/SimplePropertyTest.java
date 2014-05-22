@@ -1,7 +1,8 @@
-package com.noodlesandwich.rekord.keys;
+package com.noodlesandwich.rekord.properties;
 
-import com.noodlesandwich.rekord.implementation.KeySet;
-import com.noodlesandwich.rekord.implementation.LimitedPropertyMap;
+import com.noodlesandwich.rekord.Rekord;
+import com.noodlesandwich.rekord.keys.Key;
+import com.noodlesandwich.rekord.keys.SimpleKey;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -9,22 +10,22 @@ import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
-public final class SimpleKeyTest {
+public final class SimplePropertyTest {
     @Test public void
-    retrieves_a_value_from_a_property_map() {
-        LimitedPropertyMap<Thing> properties = new LimitedPropertyMap<>(Thing.keys)
+    retrieves_a_value() {
+        Rekord<Thing> rekord = Thing.rekord
                 .with(Thing.one.of(1))
                 .with(Thing.two.of(2));
 
-        assertThat(Thing.one.get(properties), is(1));
+        assertThat(rekord.get(Thing.one), is(1));
     }
 
     @Test public void
-    returns_null_if_the_property_map_does_not_contain_the_key() {
-        LimitedPropertyMap<Thing> properties = new LimitedPropertyMap<>(Thing.keys)
+    returns_null_if_the_rekord_does_not_contain_the_key() {
+        Rekord<Thing> rekord = Thing.rekord
                 .with(Thing.one.of(5));
 
-        assertThat(Thing.two.get(properties), is(nullValue()));
+        assertThat(rekord.get(Thing.two), is(nullValue()));
     }
 
     @Test public void
@@ -41,6 +42,6 @@ public final class SimpleKeyTest {
         Key<Thing, Integer> one = SimpleKey.named("one");
         Key<Thing, Integer> two = SimpleKey.named("two");
 
-        Keys<Thing> keys = KeySet.from(one, two);
+        Rekord<Thing> rekord = Rekord.of(Thing.class).accepting(one, two);
     }
 }

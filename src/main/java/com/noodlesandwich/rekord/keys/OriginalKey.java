@@ -1,7 +1,7 @@
 package com.noodlesandwich.rekord.keys;
 
 import com.noodlesandwich.rekord.implementation.AbstractKey;
-import com.noodlesandwich.rekord.implementation.LimitedPropertyMap;
+import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.properties.Property;
 import com.noodlesandwich.rekord.properties.SimpleProperty;
 import com.noodlesandwich.rekord.transformers.Transformer;
@@ -24,7 +24,7 @@ public abstract class OriginalKey<T, V> extends AbstractKey<T, V> {
     }
 
     @Override
-    public final <P extends T> V get(LimitedPropertyMap<P> properties) {
+    public final <P extends T> V get(Properties<P> properties) {
         return properties.get(this);
     }
 
