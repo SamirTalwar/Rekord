@@ -1,9 +1,10 @@
 package com.noodlesandwich.rekord.keys;
 
+import com.noodlesandwich.rekord.implementation.AbstractKey;
 import com.noodlesandwich.rekord.serialization.Serialization;
 import com.noodlesandwich.rekord.serialization.Serializer;
 
-public final class IterableKey<T, V, C extends Iterable<V>> extends OriginalKey<T, C> {
+public final class IterableKey<T, V, C extends Iterable<V>> extends AbstractKey<T, C> {
     private final Key<T, V> contents;
 
     private IterableKey(String name, Key<T, V> contents) {

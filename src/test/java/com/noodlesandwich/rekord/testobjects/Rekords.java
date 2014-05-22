@@ -8,15 +8,13 @@ import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.RekordKey;
 import com.noodlesandwich.rekord.keys.SimpleKey;
 
-import static com.noodlesandwich.rekord.transformers.Transformers.defaultsTo;
-
 public final class Rekords {
     private Rekords() { }
 
     public static interface Sandvich {
         Key<Sandvich, Bread> bread = SimpleKey.named("bread");
         Key<Sandvich, Filling> filling = SimpleKey.named("filling");
-        Key<Sandvich, Style> style = SimpleKey.<Sandvich, Style>named("style").that(defaultsTo(Style.Flat));
+        Key<Sandvich, Style> style = SimpleKey.named("style");
 
         Rekord<Sandvich> rekord = Rekord.of(Sandvich.class).accepting(filling, bread, style);
 

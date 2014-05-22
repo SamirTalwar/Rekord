@@ -25,7 +25,7 @@ public final class RekordMatcher<T> extends TypeSafeDiagnosingMatcher<FixedRekor
     }
 
     public <V> RekordMatcher<T> with(Key<? super T, V> key, Matcher<V> valueMatcher) {
-        expectedProperties = expectedProperties.plus(key.original(), valueMatcher);
+        expectedProperties = expectedProperties.plus(key, valueMatcher);
         return this;
     }
 

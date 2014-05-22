@@ -35,15 +35,6 @@ public final class KeySet<T> implements Keys<T> {
     }
 
     @Override
-    public Keys<T> originals() {
-        PSet<Key<? super T, ?>> originalKeys = OrderedPSet.empty();
-        for (Key<? super T, ?> key : keys) {
-            originalKeys = originalKeys.plus(key.original());
-        }
-        return new KeySet<>(originalKeys);
-    }
-
-    @Override
     public Iterator<Key<? super T, ?>> iterator() {
         return keys.iterator();
     }

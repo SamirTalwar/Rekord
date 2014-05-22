@@ -1,10 +1,11 @@
 package com.noodlesandwich.rekord.keys;
 
 import com.noodlesandwich.rekord.FixedRekord;
+import com.noodlesandwich.rekord.implementation.AbstractKey;
 import com.noodlesandwich.rekord.serialization.Serialization;
 import com.noodlesandwich.rekord.serialization.Serializer;
 
-public final class RekordKey<T, V> extends OriginalKey<T, FixedRekord<V>> {
+public final class RekordKey<T, V> extends AbstractKey<T, FixedRekord<V>> {
     private RekordKey(String name) {
         super(name);
     }

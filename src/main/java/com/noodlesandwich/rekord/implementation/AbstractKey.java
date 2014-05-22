@@ -4,23 +4,23 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 import com.noodlesandwich.rekord.keys.Key;
-import com.noodlesandwich.rekord.keys.Keys;
-import com.noodlesandwich.rekord.transformers.Transformer;
+import com.noodlesandwich.rekord.properties.Property;
 
 public abstract class AbstractKey<T, V> implements Key<T, V> {
-    @Override
-    public final <NewV> Key<T, NewV> then(Transformer<V, NewV> transformer) {
-        return that(transformer);
+    private final String name;
+
+    public AbstractKey(String name) {
+        this.name = name;
     }
 
     @Override
-    public final String toString() {
-        return name();
+    public final String name() {
+        return name;
     }
 
     @Override
-    public final Keys<T> originals() {
-        return original();
+    public final Property<T, V> of(V value) {
+        return new Property<>(this, value);
     }
 
     @Override
@@ -36,5 +36,10 @@ public abstract class AbstractKey<T, V> implements Key<T, V> {
     @Override
     public final Set<Key<? super T, ?>> toSet() {
         return Collections.<Key<? super T, ?>>singleton(this);
+    }
+
+    @Override
+    public final String toString() {
+        return name();
     }
 }

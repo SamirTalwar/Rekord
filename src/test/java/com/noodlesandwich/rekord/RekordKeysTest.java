@@ -56,7 +56,7 @@ public final class RekordKeysTest {
                 .with(Sandvich.style, Roll);
 
         assertThat(sandvich.keys(), Matchers
-                .<Key<? super Sandvich, ?>>containsInAnyOrder(Sandvich.filling, Sandvich.style.original()));
+                .<Key<? super Sandvich, ?>>containsInAnyOrder(Sandvich.filling, Sandvich.style));
     }
 
     @SuppressWarnings("unchecked")
@@ -67,7 +67,7 @@ public final class RekordKeysTest {
                 .with(Sandvich.style, Roll);
 
         assertThat(sandvich.acceptedKeys(), Matchers
-                .<Key<? super Sandvich, ?>>containsInAnyOrder(Sandvich.bread, Sandvich.filling, Sandvich.style.original()));
+                .<Key<? super Sandvich, ?>>containsInAnyOrder(Sandvich.bread, Sandvich.filling, Sandvich.style));
     }
 
     @Test public void

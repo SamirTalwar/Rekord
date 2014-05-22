@@ -24,7 +24,7 @@ public abstract class AbstractFixedRekord<T> implements FixedRekord<T> {
 
     @Override
     public final <V> V get(Key<? super T, V> key) {
-        return key.get(properties);
+        return properties.get(key);
     }
 
     @Override

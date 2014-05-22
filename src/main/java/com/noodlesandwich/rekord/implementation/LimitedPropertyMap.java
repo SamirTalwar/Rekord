@@ -17,7 +17,7 @@ public final class LimitedPropertyMap<T> implements Properties<T> {
     private final PMap<Key<? super T, ?>, Property<? super T, ?>> properties;
 
     public LimitedPropertyMap(Keys<T> acceptedKeys) {
-        this(acceptedKeys.originals(), HashTreePMap.<Key<? super T, ?>, Property<? super T, ?>>empty());
+        this(acceptedKeys, HashTreePMap.<Key<? super T, ?>, Property<? super T, ?>>empty());
     }
 
     private LimitedPropertyMap(Keys<T> acceptedKeys, PMap<Key<? super T, ?>, Property<? super T, ?>> properties) {
@@ -31,11 +31,11 @@ public final class LimitedPropertyMap<T> implements Properties<T> {
             return null;
         }
 
-        return (V) properties.get(key.original()).value();
+        return (V) properties.get(key).value();
     }
 
     public boolean has(Key<? super T, ?> key) {
-        return properties.containsKey(key.original());
+        return properties.containsKey(key);
     }
 
     public Keys<T> keys() {
@@ -52,24 +52,23 @@ public final class LimitedPropertyMap<T> implements Properties<T> {
 
     public LimitedPropertyMap<T> with(Property<? super T, ?> property) {
         Key<? super T, ?> key = property.key();
-        Key<? super T, ?> originalKey = key.original();
         Object value = property.value();
 
         if (value == null) {
             throw new NullPointerException("A property cannot have a null value.");
         }
 
-        if (!acceptedKeys.contains(originalKey)) {
+        if (!acceptedKeys.contains(key)) {
             throw new IllegalArgumentException(String.format(UnacceptableKeyTemplate, key.name()));
         }
 
-        return new LimitedPropertyMap<>(acceptedKeys, properties.plus(originalKey, property));
+        return new LimitedPropertyMap<>(acceptedKeys, properties.plus(key, property));
     }
 
     public LimitedPropertyMap<T> without(Key<? super T, ?> key) {
         return new LimitedPropertyMap<>(
                 acceptedKeys,
-                properties.minus(key.original())
+                properties.minus(key)
         );
     }
 
