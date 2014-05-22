@@ -1,7 +1,7 @@
 package com.noodlesandwich.rekord.keys;
 
-import com.noodlesandwich.rekord.implementation.Keys;
-import com.noodlesandwich.rekord.properties.Properties;
+import com.noodlesandwich.rekord.implementation.KeySet;
+import com.noodlesandwich.rekord.implementation.LimitedPropertyMap;
 import com.noodlesandwich.rekord.transformers.Transformer;
 import org.junit.Test;
 
@@ -14,7 +14,7 @@ public final class TransformingKeyTest {
     transforms_according_to_its_transformer() {
         Key<Badabing, String> key = SimpleKey.<Badabing, String>named("key").that(upperCases());
 
-        Properties<Badabing> properties = new Properties<>(Keys.from(key))
+        LimitedPropertyMap<Badabing> properties = new LimitedPropertyMap<>(KeySet.from(key))
                 .with(key.of("kablammo"));
 
         assertThat(key.get(properties), is("KABLAMMO"));
@@ -24,7 +24,7 @@ public final class TransformingKeyTest {
     delegates_to_internal_transformers() {
         Key<Badabing, String> key = SimpleKey.<Badabing, String>named("key").that(defaultsTo("nobody loves me")).then(upperCases());
 
-        Properties<Badabing> properties = new Properties<>(Keys.from(key));
+        LimitedPropertyMap<Badabing> properties = new LimitedPropertyMap<>(KeySet.from(key));
 
         assertThat(key.get(properties), is("NOBODY LOVES ME"));
     }
@@ -33,8 +33,8 @@ public final class TransformingKeyTest {
     allows_the_transformer_to_change_the_type() {
         Key<Badabing, String> key = SimpleKey.<Badabing, Integer>named("key").that(defaultsTo(88)).then(stringifies());
 
-        Properties<Badabing> emptyProperties = new Properties<>(Keys.from(key));
-        Properties<Badabing> propertiesWithValue = emptyProperties.with(key.of("97"));
+        LimitedPropertyMap<Badabing> emptyProperties = new LimitedPropertyMap<>(KeySet.from(key));
+        LimitedPropertyMap<Badabing> propertiesWithValue = emptyProperties.with(key.of("97"));
 
         assertThat(key.get(propertiesWithValue), is("97"));
         assertThat(key.get(emptyProperties), is("88"));

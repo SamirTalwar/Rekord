@@ -6,41 +6,41 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import com.noodlesandwich.rekord.keys.Key;
-import com.noodlesandwich.rekord.keys.KeySet;
+import com.noodlesandwich.rekord.keys.Keys;
 import org.pcollections.OrderedPSet;
 import org.pcollections.PSet;
 
-public final class Keys<T> implements KeySet<T> {
+public final class KeySet<T> implements Keys<T> {
     private final PSet<Key<? super T, ?>> keys;
 
-    private Keys(PSet<Key<? super T, ?>> keys) {
+    private KeySet(PSet<Key<? super T, ?>> keys) {
         this.keys = keys;
     }
 
     @SafeVarargs
-    public static <T> KeySet<T> from(KeySet<? super T>... keys) {
+    public static <T> Keys<T> from(Keys<? super T>... keys) {
         @SuppressWarnings("varargs")
-        List<KeySet<? super T>> keyList = Arrays.asList(keys);
+        List<Keys<? super T>> keyList = Arrays.asList(keys);
         return from(keyList);
     }
 
-    public static <T> KeySet<T> from(Collection<KeySet<? super T>> keys) {
+    public static <T> Keys<T> from(Collection<Keys<? super T>> keys) {
         PSet<Key<? super T, ?>> result = OrderedPSet.empty();
-        for (KeySet<? super T> keySet : keys) {
-            for (Key<? super T, ?> key : keySet) {
+        for (Keys<? super T> innerKeys : keys) {
+            for (Key<? super T, ?> key : innerKeys) {
                 result = result.plus(key);
             }
         }
-        return new Keys<>(result);
+        return new KeySet<>(result);
     }
 
     @Override
-    public KeySet<T> originals() {
+    public Keys<T> originals() {
         PSet<Key<? super T, ?>> originalKeys = OrderedPSet.empty();
         for (Key<? super T, ?> key : keys) {
             originalKeys = originalKeys.plus(key.original());
         }
-        return new Keys<>(originalKeys);
+        return new KeySet<>(originalKeys);
     }
 
     @Override
@@ -64,12 +64,12 @@ public final class Keys<T> implements KeySet<T> {
             return true;
         }
 
-        if (!(o instanceof Keys)) {
+        if (!(o instanceof KeySet)) {
             return false;
         }
 
         @SuppressWarnings("unchecked")
-        Keys<T> that = (Keys<T>) o;
+        KeySet<T> that = (KeySet<T>) o;
         return this.keys.equals(that.keys);
 
     }

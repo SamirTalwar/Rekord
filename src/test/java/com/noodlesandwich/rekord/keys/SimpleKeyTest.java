@@ -1,7 +1,7 @@
 package com.noodlesandwich.rekord.keys;
 
-import com.noodlesandwich.rekord.implementation.Keys;
-import com.noodlesandwich.rekord.properties.Properties;
+import com.noodlesandwich.rekord.implementation.KeySet;
+import com.noodlesandwich.rekord.implementation.LimitedPropertyMap;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -12,7 +12,7 @@ import static org.hamcrest.Matchers.nullValue;
 public final class SimpleKeyTest {
     @Test public void
     retrieves_a_value_from_a_property_map() {
-        Properties<Thing> properties = new Properties<>(Thing.keys)
+        LimitedPropertyMap<Thing> properties = new LimitedPropertyMap<>(Thing.keys)
                 .with(Thing.one.of(1))
                 .with(Thing.two.of(2));
 
@@ -21,7 +21,7 @@ public final class SimpleKeyTest {
 
     @Test public void
     returns_null_if_the_property_map_does_not_contain_the_key() {
-        Properties<Thing> properties = new Properties<>(Thing.keys)
+        LimitedPropertyMap<Thing> properties = new LimitedPropertyMap<>(Thing.keys)
                 .with(Thing.one.of(5));
 
         assertThat(Thing.two.get(properties), is(nullValue()));
@@ -41,6 +41,6 @@ public final class SimpleKeyTest {
         Key<Thing, Integer> one = SimpleKey.named("one");
         Key<Thing, Integer> two = SimpleKey.named("two");
 
-        KeySet<Thing> keys = Keys.from(one, two);
+        Keys<Thing> keys = KeySet.from(one, two);
     }
 }

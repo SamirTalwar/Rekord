@@ -3,19 +3,19 @@ package com.noodlesandwich.rekord.validation;
 import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.RekordBuilder;
 import com.noodlesandwich.rekord.RekordTemplate;
+import com.noodlesandwich.rekord.implementation.LimitedPropertyMap;
 import com.noodlesandwich.rekord.keys.Key;
-import com.noodlesandwich.rekord.keys.KeySet;
-import com.noodlesandwich.rekord.properties.Properties;
+import com.noodlesandwich.rekord.keys.Keys;
 import com.noodlesandwich.rekord.properties.Property;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
 
 public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRekord<T>> {
     private final String name;
-    private final Properties<T> properties;
+    private final LimitedPropertyMap<T> properties;
     private final Matcher<FixedRekord<T>> matcher;
 
-    public ValidatingRekord(String name, Properties<T> properties, Matcher<FixedRekord<T>> matcher) {
+    public ValidatingRekord(String name, LimitedPropertyMap<T> properties, Matcher<FixedRekord<T>> matcher) {
         this.name = name;
         this.properties = properties;
         this.matcher = matcher;
@@ -39,7 +39,7 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
     }
 
     @Override
-    public KeySet<T> acceptedKeys() {
+    public Keys<T> acceptedKeys() {
         return properties.acceptedKeys();
     }
 

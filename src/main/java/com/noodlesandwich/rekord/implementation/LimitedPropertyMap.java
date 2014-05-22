@@ -1,0 +1,105 @@
+package com.noodlesandwich.rekord.implementation;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+import com.noodlesandwich.rekord.keys.Key;
+import com.noodlesandwich.rekord.keys.Keys;
+import com.noodlesandwich.rekord.properties.Properties;
+import com.noodlesandwich.rekord.properties.Property;
+import org.pcollections.HashTreePMap;
+import org.pcollections.PMap;
+
+public final class LimitedPropertyMap<T> implements Properties<T> {
+    private static final String UnacceptableKeyTemplate = "The key \"%s\" is not a valid key for this Rekord.";
+
+    private final Keys<T> acceptedKeys;
+    private final PMap<Key<? super T, ?>, Property<? super T, ?>> properties;
+
+    public LimitedPropertyMap(Keys<T> acceptedKeys) {
+        this(acceptedKeys.originals(), HashTreePMap.<Key<? super T, ?>, Property<? super T, ?>>empty());
+    }
+
+    private LimitedPropertyMap(Keys<T> acceptedKeys, PMap<Key<? super T, ?>, Property<? super T, ?>> properties) {
+        this.acceptedKeys = acceptedKeys;
+        this.properties = properties;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <V> V get(Key<? super T, V> key) {
+        if (!has(key)) {
+            return null;
+        }
+
+        return (V) properties.get(key.original()).value();
+    }
+
+    public boolean has(Key<? super T, ?> key) {
+        return properties.containsKey(key.original());
+    }
+
+    public Keys<T> keys() {
+        Set<Keys<? super T>> keys = new HashSet<>();
+        for (Property<? super T, ?> property : properties.values()) {
+            keys.add(property.key());
+        }
+        return KeySet.from(keys);
+    }
+
+    public Keys<T> acceptedKeys() {
+        return acceptedKeys;
+    }
+
+    public LimitedPropertyMap<T> with(Property<? super T, ?> property) {
+        Key<? super T, ?> key = property.key();
+        Key<? super T, ?> originalKey = key.original();
+        Object value = property.value();
+
+        if (value == null) {
+            throw new NullPointerException("A property cannot have a null value.");
+        }
+
+        if (!acceptedKeys.contains(originalKey)) {
+            throw new IllegalArgumentException(String.format(UnacceptableKeyTemplate, key.name()));
+        }
+
+        return new LimitedPropertyMap<>(acceptedKeys, properties.plus(originalKey, property));
+    }
+
+    public LimitedPropertyMap<T> without(Key<? super T, ?> key) {
+        return new LimitedPropertyMap<>(
+                acceptedKeys,
+                properties.minus(key.original())
+        );
+    }
+
+    @Override
+    public Iterator<Property<? super T, ?>> iterator() {
+        return properties.values().iterator();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+
+        if (!(other instanceof LimitedPropertyMap)) {
+            return false;
+        }
+
+        @SuppressWarnings("unchecked")
+        LimitedPropertyMap<T> that = (LimitedPropertyMap<T>) other;
+        return properties.equals(that.properties);
+    }
+
+    @Override
+    public int hashCode() {
+        return properties.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return properties.toString();
+    }
+}

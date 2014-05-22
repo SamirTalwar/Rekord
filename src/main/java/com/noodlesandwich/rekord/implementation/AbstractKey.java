@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 import com.noodlesandwich.rekord.keys.Key;
-import com.noodlesandwich.rekord.keys.KeySet;
+import com.noodlesandwich.rekord.keys.Keys;
 import com.noodlesandwich.rekord.transformers.Transformer;
 
 public abstract class AbstractKey<T, V> implements Key<T, V> {
@@ -19,7 +19,7 @@ public abstract class AbstractKey<T, V> implements Key<T, V> {
     }
 
     @Override
-    public final KeySet<T> originals() {
+    public final Keys<T> originals() {
         return original();
     }
 

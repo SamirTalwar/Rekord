@@ -1,7 +1,7 @@
 package com.noodlesandwich.rekord;
 
-import com.noodlesandwich.rekord.keys.KeySet;
+import com.noodlesandwich.rekord.keys.Keys;
 
 public interface RekordTemplate<T> extends Named {
-    KeySet<T> acceptedKeys();
+    Keys<T> acceptedKeys();
 }

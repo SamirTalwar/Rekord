@@ -3,9 +3,9 @@ package com.noodlesandwich.rekord.validation;
 import java.util.Arrays;
 import java.util.List;
 import com.noodlesandwich.rekord.FixedRekord;
-import com.noodlesandwich.rekord.implementation.Keys;
-import com.noodlesandwich.rekord.keys.KeySet;
-import com.noodlesandwich.rekord.properties.Properties;
+import com.noodlesandwich.rekord.implementation.KeySet;
+import com.noodlesandwich.rekord.implementation.LimitedPropertyMap;
+import com.noodlesandwich.rekord.keys.Keys;
 import org.hamcrest.Matcher;
 
 public final class ValidatingRekordBuilder {
@@ -20,23 +20,23 @@ public final class ValidatingRekordBuilder {
 
         // CHECKSTYLE:OFF
         @SafeVarargs
-        public final UnsureRekord<T> accepting(KeySet<? super T>... keys) {
+        public final UnsureRekord<T> accepting(Keys<? super T>... keys) {
             @SuppressWarnings("varargs")
-            List<KeySet<? super T>> keyList = Arrays.asList(keys);
-            return accepting(Keys.from(keyList));
+            List<Keys<? super T>> keyList = Arrays.asList(keys);
+            return accepting(KeySet.from(keyList));
         }
         // CHECKSTYLE:ON
 
-        public UnsureRekord<T> accepting(KeySet<T> keys) {
-            return new UnsureRekord<>(name, new Properties<>(keys));
+        public UnsureRekord<T> accepting(Keys<T> keys) {
+            return new UnsureRekord<>(name, new LimitedPropertyMap<>(keys));
         }
     }
 
     public static final class UnsureRekord<T> {
         private final String name;
-        private final Properties<T> properties;
+        private final LimitedPropertyMap<T> properties;
 
-        public UnsureRekord(String name, Properties<T> properties) {
+        public UnsureRekord(String name, LimitedPropertyMap<T> properties) {
             this.name = name;
             this.properties = properties;
         }

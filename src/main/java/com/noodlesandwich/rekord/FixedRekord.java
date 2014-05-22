@@ -1,8 +1,8 @@
 package com.noodlesandwich.rekord;
 
 import com.noodlesandwich.rekord.keys.Key;
-import com.noodlesandwich.rekord.keys.KeySet;
-import com.noodlesandwich.rekord.properties.PropertySet;
+import com.noodlesandwich.rekord.keys.Keys;
+import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.serialization.Serializer;
 
 public interface FixedRekord<T> extends RekordTemplate<T> {
@@ -10,9 +10,9 @@ public interface FixedRekord<T> extends RekordTemplate<T> {
 
     boolean has(Key<? super T, ?> key);
 
-    KeySet<T> keys();
+    Keys<T> keys();
 
-    PropertySet<T> properties();
+    Properties<T> properties();
 
     <R, E extends Exception> R serialize(Serializer<R, E> serializer) throws E;
 

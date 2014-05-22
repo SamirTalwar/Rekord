@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.keys.Key;
-import com.noodlesandwich.rekord.keys.KeySet;
+import com.noodlesandwich.rekord.keys.Keys;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
@@ -46,8 +46,8 @@ public final class RekordMatchers {
 
             @Override
             protected boolean matchesSafely(FixedRekord<T> rekord, Description mismatchDescription) {
-                KeySet<T> expectedKeys = rekord.acceptedKeys();
-                KeySet<T> actualKeys = rekord.keys();
+                Keys<T> expectedKeys = rekord.acceptedKeys();
+                Keys<T> actualKeys = rekord.keys();
                 Set<Key<? super T, ?>> missingKeys = difference(expectedKeys, actualKeys);
                 mismatchDescription.appendText("was missing the keys ").appendValue(missingKeys);
                 return missingKeys.isEmpty();
@@ -67,7 +67,7 @@ public final class RekordMatchers {
 
             @Override
             protected boolean matchesSafely(FixedRekord<T> rekord, Description mismatchDescription) {
-                KeySet<T> actualKeys = rekord.keys();
+                Keys<T> actualKeys = rekord.keys();
                 Set<Key<? super T, ?>> missingKeys = difference(expectedKeys, actualKeys);
                 mismatchDescription.appendText("was missing the keys ").appendValue(missingKeys);
                 return missingKeys.isEmpty();
@@ -93,7 +93,7 @@ public final class RekordMatchers {
         };
     }
 
-    private static <T> Set<Key<? super T, ?>> difference(Iterable<Key<? super T, ?>> a, KeySet<T> b) {
+    private static <T> Set<Key<? super T, ?>> difference(Iterable<Key<? super T, ?>> a, Keys<T> b) {
         Set<Key<? super T, ?>> missingKeys = new HashSet<>();
         for (Key<? super T, ?> key : a) {
             if (!b.contains(key)) {

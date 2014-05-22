@@ -1,10 +1,10 @@
 package com.noodlesandwich.rekord.validation;
 
 import com.noodlesandwich.rekord.implementation.AbstractFixedRekord;
-import com.noodlesandwich.rekord.properties.Properties;
+import com.noodlesandwich.rekord.implementation.LimitedPropertyMap;
 
 public final class ValidRekord<T> extends AbstractFixedRekord<T> {
-    public ValidRekord(String name, Properties<T> properties) {
+    public ValidRekord(String name, LimitedPropertyMap<T> properties) {
         super(name, properties);
     }
 
