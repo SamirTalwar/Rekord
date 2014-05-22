@@ -12,7 +12,7 @@ import com.noodlesandwich.rekord.properties.Property;
 public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBuilder<T, Rekord<T>> {
     private final LimitedPropertyMap<T> properties;
 
-    public Rekord(String name, LimitedPropertyMap<T> properties) {
+    private Rekord(String name, LimitedPropertyMap<T> properties) {
         super(name, properties);
         this.properties = properties;
     }
@@ -66,7 +66,7 @@ public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBui
     public static final class UnkeyedRekord<T> {
         private final String name;
 
-        public UnkeyedRekord(String name) {
+        private UnkeyedRekord(String name) {
             this.name = name;
         }
 

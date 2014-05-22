@@ -1,8 +1,11 @@
 package com.noodlesandwich.rekord.validation;
 
+import java.util.Arrays;
+import java.util.List;
 import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.RekordBuilder;
 import com.noodlesandwich.rekord.RekordTemplate;
+import com.noodlesandwich.rekord.implementation.KeySet;
 import com.noodlesandwich.rekord.implementation.LimitedPropertyMap;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.Keys;
@@ -15,21 +18,21 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
     private final LimitedPropertyMap<T> properties;
     private final Matcher<FixedRekord<T>> matcher;
 
-    public ValidatingRekord(String name, LimitedPropertyMap<T> properties, Matcher<FixedRekord<T>> matcher) {
+    private ValidatingRekord(String name, LimitedPropertyMap<T> properties, Matcher<FixedRekord<T>> matcher) {
         this.name = name;
         this.properties = properties;
         this.matcher = matcher;
     }
 
-    public static <T> ValidatingRekordBuilder.UnkeyedRekord<T> of(Class<T> type) {
+    public static <T> UnkeyedRekord<T> of(Class<T> type) {
         return create(type.getSimpleName());
     }
 
-    public static <T> ValidatingRekordBuilder.UnkeyedRekord<T> create(String name) {
-        return new ValidatingRekordBuilder.UnkeyedRekord<>(name);
+    public static <T> UnkeyedRekord<T> create(String name) {
+        return new UnkeyedRekord<>(name);
     }
 
-    public static <T> ValidatingRekordBuilder.UnsureRekord<T> validating(RekordTemplate<T> rekord) {
+    public static <T> UnsureRekord<T> validating(RekordTemplate<T> rekord) {
         return ValidatingRekord.<T>create(rekord.name()).accepting(rekord.acceptedKeys());
     }
 
@@ -73,5 +76,40 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
             throw new InvalidRekordException(description.toString());
         }
         return rekord;
+    }
+
+    public static final class UnkeyedRekord<T> {
+        private final String name;
+
+        private UnkeyedRekord(String name) {
+            this.name = name;
+        }
+
+        // CHECKSTYLE:OFF
+        @SafeVarargs
+        public final UnsureRekord<T> accepting(Keys<? super T>... keys) {
+            @SuppressWarnings("varargs")
+            List<Keys<? super T>> keyList = Arrays.asList(keys);
+            return accepting(KeySet.from(keyList));
+        }
+        // CHECKSTYLE:ON
+
+        public UnsureRekord<T> accepting(Keys<T> keys) {
+            return new UnsureRekord<>(name, new LimitedPropertyMap<>(keys));
+        }
+    }
+
+    public static final class UnsureRekord<T> {
+        private final String name;
+        private final LimitedPropertyMap<T> properties;
+
+        private UnsureRekord(String name, LimitedPropertyMap<T> properties) {
+            this.name = name;
+            this.properties = properties;
+        }
+
+        public ValidatingRekord<T> expecting(Matcher<FixedRekord<T>> matcher) {
+            return new ValidatingRekord<>(name, properties, matcher);
+        }
     }
 }

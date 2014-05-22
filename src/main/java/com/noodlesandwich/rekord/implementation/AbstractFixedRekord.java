@@ -12,7 +12,7 @@ public abstract class AbstractFixedRekord<T> implements FixedRekord<T> {
     private final String name;
     private final LimitedPropertyMap<T> properties;
 
-    public AbstractFixedRekord(String name, LimitedPropertyMap<T> properties) {
+    protected AbstractFixedRekord(String name, LimitedPropertyMap<T> properties) {
         this.name = name;
         this.properties = properties;
     }

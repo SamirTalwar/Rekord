@@ -4,7 +4,7 @@ import com.noodlesandwich.rekord.implementation.AbstractFixedRekord;
 import com.noodlesandwich.rekord.implementation.LimitedPropertyMap;
 
 public final class ValidRekord<T> extends AbstractFixedRekord<T> {
-    public ValidRekord(String name, LimitedPropertyMap<T> properties) {
+    ValidRekord(String name, LimitedPropertyMap<T> properties) {
         super(name, properties);
     }
 
