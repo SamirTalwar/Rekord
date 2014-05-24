@@ -4,6 +4,10 @@ import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.keys.Key;
 
 public final class StringSerializer implements SafeSerializer<String> {
+    private static final String EntryFormat = "%s: %s";
+    private static final String CollectionFormat = "[%s]";
+    private static final String RekordFormat = "%s {%s}";
+
     @Override
     public <T> String serialize(Key<?, FixedRekord<T>> key, FixedRekord<T> rekord) {
         StringAccumulator accumulator = new StringAccumulator(Formatter.Value);
@@ -11,15 +15,11 @@ public final class StringSerializer implements SafeSerializer<String> {
         return accumulator.result();
     }
 
-    private static String rekordString(String name, String contents) {
-        return String.format("%s {%s}", name, contents);
-    }
-
     private static final class StringAccumulator implements SafeAccumulator<String> {
-        private final EntryStringBuilder builder;
+        private final CollectionStringBuilder builder;
 
         public StringAccumulator(Formatter formatter) {
-            this.builder = new EntryStringBuilder(formatter);
+            this.builder = new CollectionStringBuilder(formatter);
         }
 
         @Override
@@ -31,14 +31,14 @@ public final class StringSerializer implements SafeSerializer<String> {
         public void addIterable(String name, Accumulation accumulation) {
             StringAccumulator iterableAccumulator = new StringAccumulator(Formatter.Value);
             accumulation.accumulateIn(iterableAccumulator);
-            builder.add(name, String.format("[%s]", iterableAccumulator.result()));
+            builder.addIterable(name, iterableAccumulator.result());
         }
 
         @Override
         public void addRekord(String name, String rekordName, Accumulation accumulation) {
             StringAccumulator rekordAccumulator = new StringAccumulator(Formatter.Entry);
             accumulation.accumulateIn(rekordAccumulator);
-            builder.add(name, rekordString(rekordName, rekordAccumulator.result()));
+            builder.addRekord(name, rekordName, rekordAccumulator.result());
         }
 
         @Override
@@ -55,30 +55,38 @@ public final class StringSerializer implements SafeSerializer<String> {
         },
         Entry {
             @Override public String format(String name, Object value) {
-                return String.format("%s: %s", name, value.toString());
+                return String.format(EntryFormat, name, value.toString());
             }
         };
 
         public abstract String format(String name, Object value);
     }
 
-    private static final class EntryStringBuilder {
+    private static final class CollectionStringBuilder {
         private final Formatter formatter;
         private final StringBuilder entries = new StringBuilder();
         private boolean first = true;
 
-        public EntryStringBuilder(Formatter formatter) {
+        public CollectionStringBuilder(Formatter formatter) {
             this.formatter = formatter;
         }
 
-        public void add(String name, Object value) {
-            appendSeparator();
-            entries.append(formatter.format(name, value));
+        public void addIterable(String name, String iterable) {
+            add(name, String.format(CollectionFormat, iterable));
+        }
+
+        public void addRekord(String name, String rekordName, String rekord) {
+            add(name, String.format(RekordFormat, rekordName, rekord));
         }
 
         @Override
         public String toString() {
             return entries.toString();
+        }
+
+        private void add(String name, Object value) {
+            appendSeparator();
+            entries.append(formatter.format(name, value));
         }
 
         private void appendSeparator() {
