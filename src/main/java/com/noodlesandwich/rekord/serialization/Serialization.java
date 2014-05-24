@@ -15,10 +15,6 @@ public final class Serialization {
         return new RekordSerialization<>(rekord);
     }
 
-    public static <T> NamedRekordSerialization<T> serialize(String name, FixedRekord<T> rekord) {
-        return new NamedRekordSerialization<>(name, rekord);
-    }
-
     public static final class IterableSerializationBuilder<V> {
         private final Iterable<V> iterable;
 
@@ -62,26 +58,6 @@ public final class Serialization {
                 Object value = property.value();
                 castKey.accumulate(value, accumulator);
             }
-            return accumulator.result();
-        }
-    }
-
-    public static final class NamedRekordSerialization<T> {
-        private final String name;
-        private final FixedRekord<T> rekord;
-
-        public NamedRekordSerialization(String name, FixedRekord<T> rekord) {
-            this.name = name;
-            this.rekord = rekord;
-        }
-
-        public <A, E extends Exception> A into(Serializer.Accumulator<A, E> accumulator) throws E {
-            accumulator.addRekord(name, rekord.name(), new Serializer.Accumulation() {
-                @Override
-                public <A2, E2 extends Exception> void accumulateIn(Serializer.Accumulator<A2, E2> mapAccumulator) throws E2 {
-                    serialize(rekord).into(mapAccumulator);
-                }
-            });
             return accumulator.result();
         }
     }

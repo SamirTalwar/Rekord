@@ -4,6 +4,7 @@ import java.util.Objects;
 import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.Keys;
+import com.noodlesandwich.rekord.keys.RekordKey;
 import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.serialization.Serializer;
 import com.noodlesandwich.rekord.serialization.StringSerializer;
@@ -49,7 +50,7 @@ public abstract class AbstractFixedRekord<T> implements FixedRekord<T> {
 
     @Override
     public final <R, E extends Exception> R serialize(Serializer<R, E> serializer) throws E {
-        return serializer.serialize(this);
+        return serializer.serialize(RekordKey.<T, T>named(name()), this);
     }
 
     protected final boolean abstractEquals(Object other) {

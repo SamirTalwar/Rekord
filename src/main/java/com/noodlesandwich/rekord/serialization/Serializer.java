@@ -1,9 +1,10 @@
 package com.noodlesandwich.rekord.serialization;
 
 import com.noodlesandwich.rekord.FixedRekord;
+import com.noodlesandwich.rekord.keys.Key;
 
 public interface Serializer<R, E extends Exception> {
-    <T> R serialize(FixedRekord<T> rekord) throws E;
+    <T> R serialize(Key<?, FixedRekord<T>> key, FixedRekord<T> rekord) throws E;
 
     public interface Accumulator<A, E extends Exception> {
         void addValue(String name, Object value) throws E;

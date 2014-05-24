@@ -6,6 +6,7 @@ import java.io.Writer;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.noodlesandwich.rekord.FixedRekord;
+import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.serialization.Serialization;
 import com.noodlesandwich.rekord.serialization.Serializer;
 
@@ -23,16 +24,16 @@ public final class JacksonSerializer implements Serializer<Void, IOException> {
     public static Serializer<String, IOException> serializingToString() {
         return new Serializer<String, IOException>() {
             @Override
-            public <T> String serialize(FixedRekord<T> rekord) throws IOException {
+            public <T> String serialize(Key<?, FixedRekord<T>> key, FixedRekord<T> rekord) throws IOException {
                 StringWriter output = new StringWriter();
-                serializingToWriter(output).serialize(rekord);
+                serializingToWriter(output).serialize(key, rekord);
                 return output.toString();
             }
         };
     }
 
     @Override
-    public <T> Void serialize(FixedRekord<T> rekord) throws IOException {
+    public <T> Void serialize(Key<?, FixedRekord<T>> key, FixedRekord<T> rekord) throws IOException {
         JsonFactory factory = new JsonFactory();
         JsonGenerator generator = factory.createGenerator(writer);
         generator.writeStartObject();
