@@ -25,12 +25,12 @@ public abstract class AbstractFixedRekord<T> implements FixedRekord<T> {
 
     @Override
     public final <V> V get(Key<? super T, V> key) {
-        return properties.get(key);
+        return key.get(properties);
     }
 
     @Override
     public final boolean has(Key<? super T, ?> key) {
-        return properties.has(key);
+        return key.test(properties);
     }
 
     @Override

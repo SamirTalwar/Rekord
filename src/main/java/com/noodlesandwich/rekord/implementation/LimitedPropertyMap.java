@@ -7,10 +7,11 @@ import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.Keys;
 import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.properties.Property;
+import com.noodlesandwich.rekord.properties.PropertyMap;
 import org.pcollections.HashTreePMap;
 import org.pcollections.PMap;
 
-public final class LimitedPropertyMap<T> implements Properties<T> {
+public final class LimitedPropertyMap<T> implements Properties<T>, PropertyMap<T> {
     private static final String UnacceptableKeyTemplate = "The key \"%s\" is not a valid key for this Rekord.";
 
     private final Keys<T> acceptedKeys;
@@ -26,6 +27,7 @@ public final class LimitedPropertyMap<T> implements Properties<T> {
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public <V> V get(Key<? super T, V> key) {
         if (!has(key)) {
             return null;
@@ -34,6 +36,7 @@ public final class LimitedPropertyMap<T> implements Properties<T> {
         return (V) properties.get(key).value();
     }
 
+    @Override
     public boolean has(Key<? super T, ?> key) {
         return properties.containsKey(key);
     }
