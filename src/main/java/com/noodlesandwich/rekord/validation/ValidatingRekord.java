@@ -66,6 +66,15 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
         return new ValidatingRekord<>(name, properties.without(key), matcher);
     }
 
+    @Override
+    public ValidatingRekord<T> merge(FixedRekord<T> other) {
+        ValidatingRekord<T> result = this;
+        for (Property<? super T, ?> property : other.properties()) {
+            result = result.with(property);
+        }
+        return result;
+    }
+
     public ValidRekord<T> fix() throws InvalidRekordException {
         ValidRekord<T> rekord = new ValidRekord<>(name, properties);
         if (!matcher.matches(rekord)) {

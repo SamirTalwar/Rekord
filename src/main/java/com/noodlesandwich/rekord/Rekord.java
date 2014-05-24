@@ -45,6 +45,7 @@ public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBui
         return new Rekord<>(name(), properties.without(key));
     }
 
+    @Override
     public Rekord<T> merge(FixedRekord<T> other) {
         Rekord<T> result = this;
         for (Property<? super T, ?> property : other.properties()) {
