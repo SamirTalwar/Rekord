@@ -1,7 +1,6 @@
 package com.noodlesandwich.rekord.keys;
 
 import com.noodlesandwich.rekord.implementation.AbstractKey;
-import com.noodlesandwich.rekord.serialization.Serialization;
 import com.noodlesandwich.rekord.serialization.Serializer;
 
 public final class IterableKey<T, V, C extends Iterable<V>> extends AbstractKey<T, C> {
@@ -33,7 +32,9 @@ public final class IterableKey<T, V, C extends Iterable<V>> extends AbstractKey<
         accumulator.addIterable(name(), new Serializer.Accumulation() {
             @Override
             public <A2, E2 extends Exception> void accumulateIn(Serializer.Accumulator<A2, E2> iterableAccumulator) throws E2 {
-                Serialization.serialize(iterable).with(contents).into(iterableAccumulator);
+                for (V value : iterable) {
+                    contents.accumulate(value, iterableAccumulator);
+                }
             }
         });
     }
