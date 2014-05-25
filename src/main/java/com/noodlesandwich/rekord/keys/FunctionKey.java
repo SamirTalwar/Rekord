@@ -27,7 +27,11 @@ public final class FunctionKey<T, V, W> extends AbstractKey<T, W> {
 
     @Override
     public W get(PropertyMap<? extends T> properties) {
-        return function.applyForward(properties.get(key));
+        if (!key.test(properties)) {
+            return null;
+        }
+
+        return function.applyForward(key.get(properties));
     }
 
     @Override
