@@ -16,8 +16,8 @@ public final class FunctionKey<T, V, W> extends AbstractKey<T, W> {
         this.function = function;
     }
 
-    public static UnwrappedKeyLens named(String name) {
-        return new UnwrappedKeyLens(name);
+    public static UnwrappedFunctionKey named(String name) {
+        return new UnwrappedFunctionKey(name);
     }
 
     @Override
@@ -44,23 +44,23 @@ public final class FunctionKey<T, V, W> extends AbstractKey<T, W> {
         throw new UnsupportedOperationException();
     }
 
-    public static final class UnwrappedKeyLens {
+    public static final class UnwrappedFunctionKey {
         private final String name;
 
-        private UnwrappedKeyLens(String name) {
+        private UnwrappedFunctionKey(String name) {
             this.name = name;
         }
 
-        public <T, V> DysfunctionalKeyLens<T, V> wrapping(Key<T, V> key) {
-            return new DysfunctionalKeyLens<>(name, key);
+        public <T, V> DysfunctionalFunctionKey<T, V> wrapping(Key<T, V> key) {
+            return new DysfunctionalFunctionKey<>(name, key);
         }
     }
 
-    public static final class DysfunctionalKeyLens<T, V> {
+    public static final class DysfunctionalFunctionKey<T, V> {
         private final String name;
         private final Key<T, V> key;
 
-        private DysfunctionalKeyLens(String name, Key<T, V> key) {
+        private DysfunctionalFunctionKey(String name, Key<T, V> key) {
             this.name = name;
             this.key = key;
         }
