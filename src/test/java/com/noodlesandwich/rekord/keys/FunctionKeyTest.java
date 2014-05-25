@@ -50,6 +50,22 @@ public final class FunctionKeyTest {
         assertThat(address.has(countryCode), is(false));
     }
 
+    @Test public void
+    the_original_key_can_be_used_for_retrieval() {
+        Rekord<Address> address = Address.rekord
+                .with(houseNumberString, "42");
+
+        assertThat(address.get(Address.houseNumber), is(42));
+    }
+
+    @Test public void
+    the_original_key_can_be_used_for_storage() {
+        Rekord<Address> address = Address.rekord
+                .with(Address.houseNumber, 42);
+
+        assertThat(address.get(houseNumberString), is("42"));
+    }
+
     private static final InvertibleFunction<Integer, String> IntegerToString = new InvertibleFunction<Integer, String>() {
         @Override
         public String applyForward(Integer input) {
