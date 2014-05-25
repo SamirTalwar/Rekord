@@ -27,7 +27,7 @@ public final class FunctionKey<T, V, W> extends AbstractKey<T, W> {
 
     @Override
     public W get(PropertyMap<? extends T> properties) {
-        if (!key.test(properties)) {
+        if (!test(properties)) {
             return null;
         }
 
@@ -36,7 +36,7 @@ public final class FunctionKey<T, V, W> extends AbstractKey<T, W> {
 
     @Override
     public boolean test(PropertyMap<? extends T> properties) {
-        throw new UnsupportedOperationException();
+        return key.test(properties);
     }
 
     @Override
