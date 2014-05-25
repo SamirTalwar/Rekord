@@ -78,8 +78,20 @@ public final class Rekords {
         Key<Address, String> street = SimpleKey.named("street");
         Key<Address, String> city = SimpleKey.named("city");
         Key<Address, String> postalCode = SimpleKey.named("postal code");
+        Key<Address, Country> country = SimpleKey.named("country");
 
-        Rekord<Address> rekord = Rekord.of(Address.class).accepting(houseNumber, street, city, postalCode);
+        Rekord<Address> rekord = Rekord.of(Address.class).accepting(houseNumber, street, city, postalCode, country);
+    }
+
+    public static enum Country {
+        Australia,
+        Austria,
+        Canada,
+        Germany,
+        NewZealand,
+        Switzerland,
+        UnitedKingdom,
+        UnitedStates
     }
 
     public static interface Company {
