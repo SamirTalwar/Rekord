@@ -20,6 +20,10 @@ public final class FunctionKey<T, V, W> extends AbstractKey<T, W> {
         return new UnwrappedFunctionKey(name);
     }
 
+    public static <T, V> DysfunctionalFunctionKey<T, V> wrapping(Key<T, V> key) {
+        return named(key.name()).wrapping(key);
+    }
+
     @Override
     public Property<T, V> of(W value) {
         return new Property<>(key, function.applyBackward(value));

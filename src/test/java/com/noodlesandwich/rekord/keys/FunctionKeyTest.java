@@ -17,6 +17,9 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
 public final class FunctionKeyTest {
+    private static final Key<Address, String> houseNumberString = FunctionKey.wrapping(Address.houseNumber).with(integerToString());
+    private static final Key<Address, CountryCode> countryCode = FunctionKey.named("country code").wrapping(Address.country).with(countryCodeMapping());
+
     @Test public void
     modifies_an_existing_key() {
         Rekord<Address> address = Address.rekord
@@ -66,29 +69,38 @@ public final class FunctionKeyTest {
         assertThat(address.get(houseNumberString), is("42"));
     }
 
-    private static final InvertibleFunction<Integer, String> IntegerToString = new InvertibleFunction<Integer, String>() {
-        @Override
-        public String applyForward(Integer input) {
-            return input.toString();
-        }
+    @Test public void
+    uses_the_original_rekord_name_if_none_is_provided() {
+        assertThat(houseNumberString.name(), is("house number"));
+    }
 
-        @Override
-        public Integer applyBackward(String input) {
-            return Integer.parseInt(input);
-        }
-    };
+    private static InvertibleFunction<Integer, String> integerToString() {
+        return new InvertibleFunction<Integer, String>() {
+            @Override
+            public String applyForward(Integer input) {
+                return input.toString();
+            }
 
-    private static final InvertibleFunction<Country, CountryCode> CountryCodeMapping = new InvertibleFunction<Country, CountryCode>() {
-        @Override
-        public CountryCode applyForward(Country input) {
-            return CountryCode.ForwardMapping.get(input);
-        }
+            @Override
+            public Integer applyBackward(String input) {
+                return Integer.parseInt(input);
+            }
+        };
+    }
 
-        @Override
-        public Country applyBackward(CountryCode input) {
-            return CountryCode.BackwardMapping.get(input);
-        }
-    };
+    private static InvertibleFunction<Country, CountryCode> countryCodeMapping() {
+        return new InvertibleFunction<Country, CountryCode>() {
+            @Override
+            public CountryCode applyForward(Country input) {
+                return CountryCode.ForwardMapping.get(input);
+            }
+
+            @Override
+            public Country applyBackward(CountryCode input) {
+                return CountryCode.BackwardMapping.get(input);
+            }
+        };
+    }
 
     private static enum CountryCode {
         AU(Country.Australia),
@@ -117,7 +129,4 @@ public final class FunctionKeyTest {
 
         private static final Map<CountryCode, Country> BackwardMapping = Mapping.inverse();
     }
-
-    private static final Key<Address, String> houseNumberString = FunctionKey.named("house number as string").wrapping(Address.houseNumber).with(IntegerToString);
-    private static final Key<Address, CountryCode> countryCode = FunctionKey.named("country code").wrapping(Address.country).with(CountryCodeMapping);
 }
