@@ -17,8 +17,10 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
 public final class FunctionKeyTest {
-    private static final Key<Address, String> houseNumberString = FunctionKey.wrapping(Address.houseNumber).with(integerToString());
-    private static final Key<Address, CountryCode> countryCode = FunctionKey.named("country code").wrapping(Address.country).with(countryCodeMapping());
+    private static final Key<Address, String> houseNumberString
+            = FunctionKey.wrapping(Address.houseNumber).with(integerToString());
+    private static final Key<Address, CountryCode> countryCode
+            = FunctionKey.named("country code").wrapping(Address.country).with(countryCodeMapping());
 
     @Test public void
     modifies_an_existing_key() {
