@@ -38,7 +38,7 @@ public final class DefaultedKey<T, V> extends AbstractKey<T, V> {
     }
 
     @Override
-    public <A, E extends Exception> void accumulate(V value, Serializer.Accumulator<A, E> accumulator) throws E {
+    public <A, E extends Exception> void accumulate(V value, Serializer.Accumulator<A, E> accumulator) {
         throw new UnsupportedOperationException();
     }
 
