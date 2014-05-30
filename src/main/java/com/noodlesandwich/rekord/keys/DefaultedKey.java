@@ -34,7 +34,7 @@ public final class DefaultedKey<T, V> extends AbstractKey<T, V> {
 
     @Override
     public boolean test(PropertyMap<? extends T> properties) {
-        throw new UnsupportedOperationException();
+        return key.test(properties);
     }
 
     @Override

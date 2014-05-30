@@ -37,6 +37,21 @@ public final class RekordMatchers {
         };
     }
 
+    public static <T, V> Matcher<FixedRekord<T>> hasKey(final Key<T, V> key) {
+        return new TypeSafeDiagnosingMatcher<FixedRekord<T>>() {
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("has a property with the key ").appendValue(key);
+            }
+
+            @Override
+            protected boolean matchesSafely(FixedRekord<T> rekord, Description mismatchDescription) {
+                mismatchDescription.appendText("did not have a property with the key ").appendValue(key);
+                return rekord.has(key);
+            }
+        };
+    }
+
     public static <T> Matcher<FixedRekord<T>> allProperties() {
         return new TypeSafeDiagnosingMatcher<FixedRekord<T>>() {
             @Override
