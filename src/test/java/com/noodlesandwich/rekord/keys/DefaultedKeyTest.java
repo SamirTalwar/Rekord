@@ -23,4 +23,12 @@ public final class DefaultedKeyTest {
 
         assertThat(whiteRoll.get(styleDefaultingToFlat), is(Roll));
     }
+
+    @Test public void
+    provides_the_default_value_if_there_is_no_value_available() {
+        Rekord<Sandvich> whiteRoll = Sandvich.rekord
+                .with(Sandvich.bread, White);
+
+        assertThat(whiteRoll.get(styleDefaultingToFlat), is(Flat));
+    }
 }

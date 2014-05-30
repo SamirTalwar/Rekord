@@ -7,10 +7,12 @@ import com.noodlesandwich.rekord.serialization.Serializer;
 
 public final class DefaultedKey<T, V> extends AbstractKey<T, V> {
     private final Key<T, V> key;
+    private final V defaultValue;
 
     public DefaultedKey(Key<T, V> key, V defaultValue) {
         super(key.name());
         this.key = key;
+        this.defaultValue = defaultValue;
     }
 
     public static <T, V> UnsureDefaultedKey<T, V> wrapping(Key<T, V> key) {
@@ -24,6 +26,9 @@ public final class DefaultedKey<T, V> extends AbstractKey<T, V> {
 
     @Override
     public V get(PropertyMap<? extends T> properties) {
+        if (!properties.has(key)) {
+            return defaultValue;
+        }
         return properties.get(key);
     }
 
