@@ -20,8 +20,8 @@ public final class DefaultedKey<T, V> extends AbstractKey<T, V> {
     }
 
     @Override
-    public Property<T, V> of(V value) {
-        throw new UnsupportedOperationException();
+    public Property<T, ?> of(V value) {
+        return key.of(value);
     }
 
     @Override

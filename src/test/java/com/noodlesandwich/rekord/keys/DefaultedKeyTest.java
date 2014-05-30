@@ -5,7 +5,9 @@ import org.junit.Test;
 
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.White;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Cheese;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Burger;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Flat;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Roll;
 import static com.noodlesandwich.rekord.validation.RekordMatchers.hasKey;
@@ -37,5 +39,14 @@ public final class DefaultedKeyTest {
     @Test public void
     delegates_its_existence_test_to_the_underlying_key() {
         assertThat(Sandvich.rekord, not(hasKey(styleDefaultingToFlat)));
+    }
+
+    @Test public void
+    can_be_used_for_storage() {
+        Rekord<Sandvich> whiteRoll = Sandvich.rekord
+                .with(Sandvich.filling, Cheese)
+                .with(styleDefaultingToFlat, Burger);
+
+        assertThat(whiteRoll.get(Sandvich.style), is(Burger));
     }
 }
