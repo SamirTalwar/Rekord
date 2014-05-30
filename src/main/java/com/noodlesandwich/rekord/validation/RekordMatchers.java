@@ -37,15 +37,15 @@ public final class RekordMatchers {
         };
     }
 
-    public static <T, V> Matcher<FixedRekord<T>> hasKey(final Key<T, V> key) {
-        return new TypeSafeDiagnosingMatcher<FixedRekord<T>>() {
+    public static <T, V> Matcher<FixedRekord<? extends T>> hasKey(final Key<T, V> key) {
+        return new TypeSafeDiagnosingMatcher<FixedRekord<? extends T>>() {
             @Override
             public void describeTo(Description description) {
                 description.appendText("has a property with the key ").appendValue(key);
             }
 
             @Override
-            protected boolean matchesSafely(FixedRekord<T> rekord, Description mismatchDescription) {
+            protected boolean matchesSafely(FixedRekord<? extends T> rekord, Description mismatchDescription) {
                 mismatchDescription.appendText("did not have a property with the key ").appendValue(key);
                 return rekord.has(key);
             }

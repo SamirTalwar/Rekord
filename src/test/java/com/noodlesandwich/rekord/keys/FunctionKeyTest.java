@@ -12,8 +12,10 @@ import org.junit.Test;
 
 import static com.noodlesandwich.rekord.testobjects.Rekords.Address;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Country;
+import static com.noodlesandwich.rekord.validation.RekordMatchers.hasKey;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 
 public final class FunctionKeyTest {
@@ -44,7 +46,7 @@ public final class FunctionKeyTest {
         Rekord<Address> address = Address.rekord
                 .with(countryCode, CountryCode.AU);
 
-        assertThat(address.has(countryCode), is(true));
+        assertThat(address, hasKey(countryCode));
     }
 
     @Test public void
@@ -52,7 +54,7 @@ public final class FunctionKeyTest {
         Rekord<Address> address = Address.rekord
                 .with(Address.street, "Wallaby Way");
 
-        assertThat(address.has(countryCode), is(false));
+        assertThat(address, not(hasKey(countryCode)));
     }
 
     @Test public void
