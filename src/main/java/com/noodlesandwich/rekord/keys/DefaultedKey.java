@@ -26,10 +26,11 @@ public final class DefaultedKey<T, V> extends AbstractKey<T, V> {
 
     @Override
     public V get(PropertyMap<? extends T> properties) {
-        if (!properties.has(key)) {
+        V value = key.get(properties);
+        if (value == null) {
             return defaultValue;
         }
-        return properties.get(key);
+        return value;
     }
 
     @Override

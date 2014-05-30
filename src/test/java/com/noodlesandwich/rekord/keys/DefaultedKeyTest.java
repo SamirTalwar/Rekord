@@ -6,6 +6,7 @@ import org.junit.Test;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.White;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Cheese;
+import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Ham;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Burger;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Flat;
@@ -18,6 +19,8 @@ import static org.hamcrest.Matchers.not;
 public final class DefaultedKeyTest {
     private static final Key<Sandvich, Style> styleDefaultingToFlat
             = DefaultedKey.wrapping(Sandvich.style).defaultingTo(Flat);
+    private static final Key<Sandvich, Style> pointlessKey
+            = DefaultedKey.wrapping(styleDefaultingToFlat).defaultingTo(Roll);
 
     @Test public void
     delegates_to_the_underlying_key_if_there_is_a_stored_value() {
@@ -30,15 +33,23 @@ public final class DefaultedKeyTest {
 
     @Test public void
     provides_the_default_value_if_there_is_no_value_available() {
-        Rekord<Sandvich> whiteRoll = Sandvich.rekord
+        Rekord<Sandvich> sandvich = Sandvich.rekord
                 .with(Sandvich.bread, White);
 
-        assertThat(whiteRoll.get(styleDefaultingToFlat), is(Flat));
+        assertThat(sandvich.get(styleDefaultingToFlat), is(Flat));
     }
 
     @Test public void
     delegates_its_existence_test_to_the_underlying_key() {
         assertThat(Sandvich.rekord, not(hasKey(styleDefaultingToFlat)));
+    }
+
+    @Test public void
+    delegates_retrieval_to_the_underlying_key() {
+        Rekord<Sandvich> hamSandvich = Sandvich.rekord
+                .with(Sandvich.filling, Ham);
+
+        assertThat(hamSandvich.get(pointlessKey), is(Flat));
     }
 
     @Test public void
