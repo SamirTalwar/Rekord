@@ -8,6 +8,9 @@ public abstract class AbstractKey<T, V> implements Key<T, V> {
     private final String name;
 
     public AbstractKey(String name) {
+        if (name == null) {
+            throw new NullPointerException("The name of a key must not be null.");
+        }
         this.name = name;
     }
 

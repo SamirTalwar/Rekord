@@ -11,8 +11,12 @@ import com.google.common.collect.Maps;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.functions.InvertibleFunction;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
+import static com.noodlesandwich.rekord.functions.Functions.invertibleIdentity;
+import static com.noodlesandwich.rekord.testobjects.ExceptionMatcher.a;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Address;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Country;
 import static com.noodlesandwich.rekord.validation.RekordMatchers.hasKey;
@@ -22,6 +26,8 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 
 public final class FunctionKeyTest {
+    @Rule public final ExpectedException expectedException = ExpectedException.none();
+
     private static final Key<Address, String> houseNumberString
             = FunctionKey.wrapping(Address.houseNumber).with(integerToString());
 
@@ -97,6 +103,30 @@ public final class FunctionKeyTest {
     @Test public void
     uses_the_original_rekord_name_if_none_is_provided() {
         assertThat(houseNumberString.name(), is("house number"));
+    }
+
+    @Test public void
+    rejects_a_null_name() {
+        expectedException.expect(a(NullPointerException.class)
+                .withTheMessage("The name of a key must not be null."));
+
+        FunctionKey.named(null).wrapping(SimpleKey.named("name")).with(invertibleIdentity());
+    }
+
+    @Test public void
+    rejects_a_null_key() {
+        expectedException.expect(a(NullPointerException.class)
+                .withTheMessage("The underlying key of a FunctionKey must not be null."));
+
+        FunctionKey.named("name").wrapping(null).with(invertibleIdentity());
+    }
+
+    @Test public void
+    rejects_a_null_function() {
+        expectedException.expect(a(NullPointerException.class)
+                .withTheMessage("The function of a FunctionKey must not be null."));
+
+        FunctionKey.named("name").wrapping(SimpleKey.named("name")).with(null);
     }
 
     private static InvertibleFunction<Integer, String> integerToString() {

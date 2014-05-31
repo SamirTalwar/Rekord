@@ -56,6 +56,9 @@ public final class FunctionKey<T, V, W> extends DelegatingKey<T, V, W> {
         }
 
         public <T, V> DysfunctionalFunctionKey<T, V> wrapping(Key<T, V> key) {
+            if (key == null) {
+                throw new NullPointerException("The underlying key of a FunctionKey must not be null.");
+            }
             return new DysfunctionalFunctionKey<>(name, key);
         }
     }
@@ -70,6 +73,9 @@ public final class FunctionKey<T, V, W> extends DelegatingKey<T, V, W> {
         }
 
         public <W> FunctionKey<T, V, W> with(InvertibleFunction<V, W> function) {
+            if (function == null) {
+                throw new NullPointerException("The function of a FunctionKey must not be null.");
+            }
             return new FunctionKey<>(name, key, function);
         }
     }
