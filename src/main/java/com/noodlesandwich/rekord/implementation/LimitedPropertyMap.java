@@ -44,7 +44,10 @@ public final class LimitedPropertyMap<T> implements Properties<T>, PropertyMap<T
     public Keys<T> keys() {
         Set<Keys<? super T>> keys = new HashSet<>();
         for (Property<? super T, ?> property : properties.values()) {
-            keys.add(property.key());
+            Key<? super T, ?> key = property.key();
+            if (key.test(this)) {
+                keys.add(key);
+            }
         }
         return KeySet.from(keys);
     }

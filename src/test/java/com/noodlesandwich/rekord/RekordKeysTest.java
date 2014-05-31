@@ -1,14 +1,20 @@
 package com.noodlesandwich.rekord;
 
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.Map;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableMap;
 import com.noodlesandwich.rekord.functions.InvertibleFunction;
+import com.noodlesandwich.rekord.implementation.AbstractKey;
 import com.noodlesandwich.rekord.keys.DefaultedKey;
 import com.noodlesandwich.rekord.keys.FunctionKey;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.SimpleKey;
+import com.noodlesandwich.rekord.properties.Property;
+import com.noodlesandwich.rekord.properties.PropertyMap;
+import com.noodlesandwich.rekord.serialization.Serializer;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
@@ -38,6 +44,8 @@ import static org.hamcrest.Matchers.not;
 
 public final class RekordKeysTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();
+
+    private static final Key<Object, Object> missingKey = new MissingKey<>();
 
     @Test public void
     a_Rekord_can_tell_which_keys_are_being_used() {
@@ -70,6 +78,21 @@ public final class RekordKeysTest {
 
         assertThat(sandvich.keys(), Matchers
                 .<Key<? super Sandvich, ?>>containsInAnyOrder(Sandvich.filling, Sandvich.style));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test public void
+    whether_a_property_is_present_is_up_to_the_key() {
+        Rekord<Bratwurst> bratwurstRekord = Rekord.of(Bratwurst.class)
+                .accepting(Bratwurst.rekord.acceptedKeys(), missingKey);
+
+        Rekord<Bratwurst> bratwurst = bratwurstRekord
+                .with(Wurst.curvature, 0.5)
+                .with(Bratwurst.style, Chopped)
+                .with(missingKey, "Boop.");
+
+        assertThat(bratwurst.keys(), Matchers
+                .<Key<? super Bratwurst, ?>>containsInAnyOrder(Wurst.curvature, Bratwurst.style));
     }
 
     @SuppressWarnings("unchecked")
@@ -143,5 +166,36 @@ public final class RekordKeysTest {
                 return backwardRota.get(filling);
             }
         };
+    }
+
+    private static final class MissingKey<T, V> extends AbstractKey<T, V> {
+        public MissingKey() {
+            super("<missing>");
+        }
+
+        @Override
+        public Property<T, ?> of(V value) {
+            return new Property<>(this, value);
+        }
+
+        @Override
+        public V get(PropertyMap<? extends T> properties) {
+            return null;
+        }
+
+        @Override
+        public boolean test(PropertyMap<? extends T> properties) {
+            return false;
+        }
+
+        @Override
+        public <A, E extends Exception> void accumulate(V value, Serializer.Accumulator<A, E> accumulator) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public Iterator<Key<? super T, ?>> iterator() {
+            return Collections.<Key<? super T, ?>>singleton(this).iterator();
+        }
     }
 }
