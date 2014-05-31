@@ -14,6 +14,16 @@ public final class InvertibleFunctionTest {
         assertThat(incrementor.applyBackward(9), is(8));
     }
 
+    @Test public void
+    can_be_composed() {
+        InvertibleFunction<Integer, String> stringIncrementor =
+                Functions.compose(stringify, Functions.invertibleFrom(increment, decrement));
+                Functions.compose(stringify, Functions.invertibleFrom(increment, decrement));
+
+        assertThat(stringIncrementor.applyForward(12), is("13"));
+        assertThat(stringIncrementor.applyBackward("1"), is(0));
+    }
+
     private static final Function<Integer, Integer> increment = new Function<Integer, Integer>() {
         @Override
         public Integer apply(Integer input) {
@@ -25,6 +35,18 @@ public final class InvertibleFunctionTest {
         @Override
         public Integer apply(Integer input) {
             return input - 1;
+        }
+    };
+
+    private static final InvertibleFunction<Integer, String> stringify = new InvertibleFunction<Integer, String>() {
+        @Override
+        public String applyForward(Integer input) {
+            return input.toString();
+        }
+
+        @Override
+        public Integer applyBackward(String input) {
+            return Integer.parseInt(input);
         }
     };
 }

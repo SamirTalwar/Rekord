@@ -31,4 +31,21 @@ public final class Functions {
             }
         };
     }
+
+    public static <A, B, C> InvertibleFunction<A, C> compose(
+            final InvertibleFunction<B, C> b,
+            final InvertibleFunction<A, B> a
+    ) {
+        return new InvertibleFunction<A, C>() {
+            @Override
+            public C applyForward(A input) {
+                return b.applyForward(a.applyForward(input));
+            }
+
+            @Override
+            public A applyBackward(C input) {
+                return a.applyBackward(b.applyBackward(input));
+            }
+        };
+    }
 }
