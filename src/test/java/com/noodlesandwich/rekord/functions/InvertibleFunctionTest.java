@@ -7,6 +7,14 @@ import static org.hamcrest.Matchers.is;
 
 public final class InvertibleFunctionTest {
     @Test public void
+    has_an_identity_function() {
+        InvertibleFunction<Double, Double> identity = Functions.invertibleIdentity();
+
+        assertThat(identity.applyForward(7.5), is(7.5));
+        assertThat(identity.applyBackward(12.34), is(12.34));
+    }
+
+    @Test public void
     can_be_constructed_from_a_pair_of_functions() {
         InvertibleFunction<Integer, Integer> incrementor = Functions.invertibleFrom(increment, decrement);
 

@@ -7,6 +7,11 @@ import static org.hamcrest.Matchers.is;
 
 public final class FunctionTest {
     @Test public void
+    has_an_identity_function() {
+        assertThat(Functions.<String>identity().apply("beep"), is("beep"));
+    }
+
+    @Test public void
     can_be_composed() {
         Function<Integer, String> stringMultiplier = Functions.compose(stringify(), multiplyBy(2));
 

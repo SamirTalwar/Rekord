@@ -3,6 +3,29 @@ package com.noodlesandwich.rekord.functions;
 public final class Functions {
     private Functions() { }
 
+    public static <T> Function<T, T> identity() {
+        return new Function<T, T>() {
+            @Override
+            public T apply(T input) {
+                return input;
+            }
+        };
+    }
+
+    public static <T> InvertibleFunction<T, T> invertibleIdentity() {
+        return new InvertibleFunction<T, T>() {
+            @Override
+            public T applyForward(T input) {
+                return input;
+            }
+
+            @Override
+            public T applyBackward(T input) {
+                return input;
+            }
+        };
+    }
+
     public static <A, B> InvertibleFunction<A, B> invertibleFrom(
             final Function<A, B> applyForward,
             final Function<B, A> applyBackward
