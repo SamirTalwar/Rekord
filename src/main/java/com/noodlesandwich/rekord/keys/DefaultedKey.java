@@ -1,16 +1,15 @@
 package com.noodlesandwich.rekord.keys;
 
-import com.noodlesandwich.rekord.implementation.AbstractKey;
 import com.noodlesandwich.rekord.properties.Property;
 import com.noodlesandwich.rekord.properties.PropertyMap;
 import com.noodlesandwich.rekord.serialization.Serializer;
 
-public final class DefaultedKey<T, V> extends AbstractKey<T, V> {
+public final class DefaultedKey<T, V> extends DelegatingKey<T, V, V> {
     private final Key<T, V> key;
     private final V defaultValue;
 
     private DefaultedKey(Key<T, V> key, V defaultValue) {
-        super(key.name());
+        super(key.name(), key);
         this.key = key;
         this.defaultValue = defaultValue;
     }

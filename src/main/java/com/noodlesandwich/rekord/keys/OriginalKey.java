@@ -1,5 +1,7 @@
 package com.noodlesandwich.rekord.keys;
 
+import java.util.Collections;
+import java.util.Iterator;
 import com.noodlesandwich.rekord.implementation.AbstractKey;
 import com.noodlesandwich.rekord.properties.Property;
 import com.noodlesandwich.rekord.properties.PropertyMap;
@@ -22,5 +24,10 @@ public abstract class OriginalKey<T, V> extends AbstractKey<T, V> {
     @Override
     public final boolean test(PropertyMap<? extends T> properties) {
         return properties.has(this);
+    }
+
+    @Override
+    public final Iterator<Key<? super T, ?>> iterator() {
+        return Collections.<Key<? super T, ?>>singleton(this).iterator();
     }
 }

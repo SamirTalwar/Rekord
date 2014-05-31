@@ -1,6 +1,7 @@
 package com.noodlesandwich.rekord.keys;
 
 import com.noodlesandwich.rekord.Rekord;
+import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -64,6 +65,12 @@ public final class DefaultedKeyTest {
                 .with(styleDefaultingToFlat, Burger);
 
         assertThat(whiteRoll.get(Sandvich.style), is(Burger));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test public void
+    provides_the_underlying_key_when_iterating() {
+        assertThat(styleDefaultingToFlat, Matchers.<Key<? super Sandvich, ?>>contains(Sandvich.style));
     }
 
     @Test public void

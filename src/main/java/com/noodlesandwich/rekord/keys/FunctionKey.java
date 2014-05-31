@@ -1,17 +1,16 @@
 package com.noodlesandwich.rekord.keys;
 
 import com.noodlesandwich.rekord.functions.InvertibleFunction;
-import com.noodlesandwich.rekord.implementation.AbstractKey;
 import com.noodlesandwich.rekord.properties.Property;
 import com.noodlesandwich.rekord.properties.PropertyMap;
 import com.noodlesandwich.rekord.serialization.Serializer;
 
-public final class FunctionKey<T, V, W> extends AbstractKey<T, W> {
+public final class FunctionKey<T, V, W> extends DelegatingKey<T, V, W> {
     private final Key<T, V> key;
     private final InvertibleFunction<V, W> function;
 
     private FunctionKey(String name, Key<T, V> key, InvertibleFunction<V, W> function) {
-        super(name);
+        super(name, key);
         this.key = key;
         this.function = function;
     }

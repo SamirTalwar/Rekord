@@ -8,6 +8,7 @@ import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Maps;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.functions.InvertibleFunction;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import static com.noodlesandwich.rekord.testobjects.Rekords.Address;
@@ -71,6 +72,12 @@ public final class FunctionKeyTest {
                 .with(Address.houseNumber, 42);
 
         assertThat(address.get(houseNumberString), is("42"));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test public void
+    provides_the_underlying_key_when_iterating() {
+        assertThat(houseNumberString, Matchers.<Key<? super Address, ?>>contains(Address.houseNumber));
     }
 
     @Test public void

@@ -1,7 +1,6 @@
 package com.noodlesandwich.rekord.implementation;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.Set;
 import com.noodlesandwich.rekord.keys.Key;
 
@@ -15,11 +14,6 @@ public abstract class AbstractKey<T, V> implements Key<T, V> {
     @Override
     public final String name() {
         return name;
-    }
-
-    @Override
-    public final Iterator<Key<? super T, ?>> iterator() {
-        return Collections.<Key<? super T, ?>>singleton(this).iterator();
     }
 
     @Override
