@@ -11,7 +11,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import static com.noodlesandwich.rekord.testobjects.ExceptionMatcher.a;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Address;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst.Style.Chopped;
@@ -106,23 +105,6 @@ public final class RekordPropertiesTest {
 
         assertThat(wurst.get(Wurst.curvature), is(0.1));
         assertThat(wurst.get(Bratwurst.style), is(Whole));
-    }
-
-    @Test public void
-    the_key_of_a_Rekord_property_cannot_be_null() {
-        expectedException.expect(a(NullPointerException.class));
-
-        Bratwurst.rekord
-                .with(null, "Random value");
-    }
-
-    @Test public void
-    the_value_of_a_Rekord_property_cannot_be_null() {
-        expectedException.expect(a(NullPointerException.class)
-                .withTheMessage("A property cannot have a null value."));
-
-        Bratwurst.rekord
-                .with(Wurst.curvature, (Double) null);
     }
 
     @Test public void

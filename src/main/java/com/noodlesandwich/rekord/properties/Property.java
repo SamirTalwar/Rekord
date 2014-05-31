@@ -10,6 +10,14 @@ public final class Property<T, V> {
     private final V value;
 
     public Property(Key<T, V> key, V value) {
+        if (key == null) {
+            throw new NullPointerException("A property cannot have a null key.");
+        }
+
+        if (value == null) {
+            throw new NullPointerException("A property cannot have a null value.");
+        }
+
         this.key = key;
         this.value = value;
     }

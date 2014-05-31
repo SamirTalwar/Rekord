@@ -55,16 +55,9 @@ public final class LimitedPropertyMap<T> implements Properties<T>, PropertyMap<T
 
     public LimitedPropertyMap<T> with(Property<? super T, ?> property) {
         Key<? super T, ?> key = property.key();
-        Object value = property.value();
-
-        if (value == null) {
-            throw new NullPointerException("A property cannot have a null value.");
-        }
-
         if (!acceptedKeys.contains(key)) {
             throw new IllegalArgumentException(String.format(UnacceptableKeyTemplate, key.name()));
         }
-
         return new LimitedPropertyMap<>(acceptedKeys, properties.plus(key, property));
     }
 
