@@ -5,12 +5,12 @@ import com.noodlesandwich.rekord.properties.PropertyMap;
 import com.noodlesandwich.rekord.serialization.Serializer;
 
 public final class DefaultedKey<T, V> extends DelegatingKey<T, V, V> {
-    private final Key<T, V> key;
+    private final Key<T, V> underlyingKey;
     private final V defaultValue;
 
-    private DefaultedKey(Key<T, V> key, V defaultValue) {
-        super(key.name(), key);
-        this.key = key;
+    private DefaultedKey(Key<T, V> underlyingKey, V defaultValue) {
+        super(underlyingKey.name(), underlyingKey);
+        this.underlyingKey = underlyingKey;
         this.defaultValue = defaultValue;
     }
 
@@ -23,12 +23,12 @@ public final class DefaultedKey<T, V> extends DelegatingKey<T, V, V> {
 
     @Override
     public Property<T, ?> of(V value) {
-        return key.of(value);
+        return underlyingKey.of(value);
     }
 
     @Override
     public V get(PropertyMap<? extends T> properties) {
-        V value = key.get(properties);
+        V value = underlyingKey.get(properties);
         if (value == null) {
             return defaultValue;
         }
@@ -37,7 +37,7 @@ public final class DefaultedKey<T, V> extends DelegatingKey<T, V, V> {
 
     @Override
     public boolean test(PropertyMap<? extends T> properties) {
-        return key.test(properties);
+        return underlyingKey.test(properties);
     }
 
     @Override

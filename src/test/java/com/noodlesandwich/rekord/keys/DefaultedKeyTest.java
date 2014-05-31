@@ -32,7 +32,7 @@ public final class DefaultedKeyTest {
     delegates_to_the_underlying_key_if_there_is_a_stored_value() {
         Rekord<Sandvich> whiteRoll = Sandvich.rekord
                 .with(Sandvich.bread, White)
-                .with(Sandvich.style, Roll);
+                .with(styleDefaultingToFlat, Roll);
 
         assertThat(whiteRoll.get(styleDefaultingToFlat), is(Roll));
     }
@@ -59,12 +59,21 @@ public final class DefaultedKeyTest {
     }
 
     @Test public void
-    can_be_used_for_storage() {
+    the_underlying_key_can_be_used_for_retrieval() {
         Rekord<Sandvich> whiteRoll = Sandvich.rekord
                 .with(Sandvich.filling, Cheese)
                 .with(styleDefaultingToFlat, Burger);
 
         assertThat(whiteRoll.get(Sandvich.style), is(Burger));
+    }
+
+    @Test public void
+    the_underlying_key_can_be_used_for_storage() {
+        Rekord<Sandvich> whiteRoll = Sandvich.rekord
+                .with(Sandvich.filling, Cheese)
+                .with(Sandvich.style, Burger);
+
+        assertThat(whiteRoll.get(styleDefaultingToFlat), is(Burger));
     }
 
     @SuppressWarnings("unchecked")

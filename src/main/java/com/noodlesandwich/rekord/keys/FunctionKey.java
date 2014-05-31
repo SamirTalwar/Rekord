@@ -6,12 +6,12 @@ import com.noodlesandwich.rekord.properties.PropertyMap;
 import com.noodlesandwich.rekord.serialization.Serializer;
 
 public final class FunctionKey<T, V, W> extends DelegatingKey<T, V, W> {
-    private final Key<T, V> key;
+    private final Key<T, V> underlyingKey;
     private final InvertibleFunction<V, W> function;
 
-    private FunctionKey(String name, Key<T, V> key, InvertibleFunction<V, W> function) {
-        super(name, key);
-        this.key = key;
+    private FunctionKey(String name, Key<T, V> underlyingKey, InvertibleFunction<V, W> function) {
+        super(name, underlyingKey);
+        this.underlyingKey = underlyingKey;
         this.function = function;
     }
 
@@ -25,7 +25,7 @@ public final class FunctionKey<T, V, W> extends DelegatingKey<T, V, W> {
 
     @Override
     public Property<T, V> of(W value) {
-        return new Property<>(key, function.applyBackward(value));
+        return new Property<>(underlyingKey, function.applyBackward(value));
     }
 
     @Override
@@ -34,12 +34,12 @@ public final class FunctionKey<T, V, W> extends DelegatingKey<T, V, W> {
             return null;
         }
 
-        return function.applyForward(key.get(properties));
+        return function.applyForward(underlyingKey.get(properties));
     }
 
     @Override
     public boolean test(PropertyMap<? extends T> properties) {
-        return key.test(properties);
+        return underlyingKey.test(properties);
     }
 
     @Override

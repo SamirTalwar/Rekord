@@ -59,7 +59,7 @@ public final class FunctionKeyTest {
     }
 
     @Test public void
-    the_original_key_can_be_used_for_retrieval() {
+    the_underlying_key_can_be_used_for_retrieval() {
         Rekord<Address> address = Address.rekord
                 .with(houseNumberString, "42");
 
@@ -67,7 +67,7 @@ public final class FunctionKeyTest {
     }
 
     @Test public void
-    the_original_key_can_be_used_for_storage() {
+    the_underlying_key_can_be_used_for_storage() {
         Rekord<Address> address = Address.rekord
                 .with(Address.houseNumber, 42);
 
