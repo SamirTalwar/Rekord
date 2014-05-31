@@ -39,7 +39,8 @@ public final class FunctionKey<T, V, W> extends DelegatingKey<T, V, W> {
 
     @Override
     public boolean test(PropertyMap<? extends T> properties) {
-        return underlyingKey.test(properties);
+        V value = underlyingKey.get(properties);
+        return value != null && function.applyForward(value) != null;
     }
 
     @Override

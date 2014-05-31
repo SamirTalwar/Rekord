@@ -2,9 +2,11 @@ package com.noodlesandwich.rekord.keys;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Set;
 import com.google.common.base.Function;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.functions.InvertibleFunction;
@@ -22,6 +24,10 @@ import static org.hamcrest.Matchers.nullValue;
 public final class FunctionKeyTest {
     private static final Key<Address, String> houseNumberString
             = FunctionKey.wrapping(Address.houseNumber).with(integerToString());
+
+    private static final Key<Address, Integer> superstitiousHouseNumber
+            = FunctionKey.wrapping(Address.houseNumber).with(superstition());
+
     private static final Key<Address, CountryCode> countryCode
             = FunctionKey.named("country code").wrapping(Address.country).with(countryCodeMapping());
 
@@ -56,6 +62,14 @@ public final class FunctionKeyTest {
                 .with(Address.street, "Wallaby Way");
 
         assertThat(address, not(hasKey(countryCode)));
+    }
+
+    @Test public void
+    tests_as_absent_if_the_returned_value_from_the_function_is_null() {
+        Rekord<Address> address = Address.rekord
+                .with(Address.houseNumber, 13);
+
+        assertThat(address, not(hasKey(superstitiousHouseNumber)));
     }
 
     @Test public void
@@ -95,6 +109,28 @@ public final class FunctionKeyTest {
             @Override
             public Integer applyBackward(String input) {
                 return Integer.parseInt(input);
+            }
+        };
+    }
+
+    private static InvertibleFunction<Integer, Integer> superstition() {
+        return new InvertibleFunction<Integer, Integer>() {
+            Set<Integer> unlucky = ImmutableSet.of(4, 7, 13);
+
+            @Override
+            public Integer applyForward(Integer input) {
+                if (unlucky.contains(input)) {
+                    return null;
+                }
+                return input;
+            }
+
+            @Override
+            public Integer applyBackward(Integer input) {
+                if (unlucky.contains(input)) {
+                    return null;
+                }
+                return input;
             }
         };
     }
