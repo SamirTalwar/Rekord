@@ -1,8 +1,11 @@
 package com.noodlesandwich.rekord.keys;
 
 import com.noodlesandwich.rekord.Rekord;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
+import static com.noodlesandwich.rekord.testobjects.ExceptionMatcher.a;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.White;
 import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Cheese;
@@ -17,6 +20,8 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
 public final class DefaultedKeyTest {
+    @Rule public final ExpectedException expectedException = ExpectedException.none();
+
     private static final Key<Sandvich, Style> styleDefaultingToFlat
             = DefaultedKey.wrapping(Sandvich.style).defaultingTo(Flat);
     private static final Key<Sandvich, Style> pointlessKey
@@ -59,5 +64,21 @@ public final class DefaultedKeyTest {
                 .with(styleDefaultingToFlat, Burger);
 
         assertThat(whiteRoll.get(Sandvich.style), is(Burger));
+    }
+
+    @Test public void
+    rejects_a_null_key() {
+        expectedException.expect(a(NullPointerException.class)
+                .withTheMessage("The underlying key of a DefaultedKey must not be null."));
+
+        DefaultedKey.wrapping(null);
+    }
+
+    @Test public void
+    rejects_a_null_default_value() {
+        expectedException.expect(a(NullPointerException.class)
+                .withTheMessage("The default value of a DefaultedKey must not be null."));
+
+        DefaultedKey.wrapping(Sandvich.bread).defaultingTo(null);
     }
 }

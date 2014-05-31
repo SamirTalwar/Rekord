@@ -9,13 +9,16 @@ public final class DefaultedKey<T, V> extends AbstractKey<T, V> {
     private final Key<T, V> key;
     private final V defaultValue;
 
-    public DefaultedKey(Key<T, V> key, V defaultValue) {
+    private DefaultedKey(Key<T, V> key, V defaultValue) {
         super(key.name());
         this.key = key;
         this.defaultValue = defaultValue;
     }
 
     public static <T, V> UnsureDefaultedKey<T, V> wrapping(Key<T, V> key) {
+        if (key == null) {
+            throw new NullPointerException("The underlying key of a DefaultedKey must not be null.");
+        }
         return new UnsureDefaultedKey<>(key);
     }
 
@@ -46,11 +49,14 @@ public final class DefaultedKey<T, V> extends AbstractKey<T, V> {
     public static final class UnsureDefaultedKey<T, V> {
         private final Key<T, V> key;
 
-        public UnsureDefaultedKey(Key<T, V> key) {
+        private UnsureDefaultedKey(Key<T, V> key) {
             this.key = key;
         }
 
         public DefaultedKey<T, V> defaultingTo(V defaultValue) {
+            if (defaultValue == null) {
+                throw new NullPointerException("The default value of a DefaultedKey must not be null.");
+            }
             return new DefaultedKey<>(key, defaultValue);
         }
     }
