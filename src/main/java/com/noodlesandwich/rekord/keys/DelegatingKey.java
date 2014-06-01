@@ -4,10 +4,10 @@ import java.util.Collections;
 import java.util.Iterator;
 import com.noodlesandwich.rekord.implementation.AbstractKey;
 
-public abstract class DelegatingKey<T, V, W> extends AbstractKey<T, W> {
-    private final Key<T, V> key;
+public abstract class DelegatingKey<T, V> extends AbstractKey<T, V> {
+    private final Key<T, ?> key;
 
-    public DelegatingKey(String name, Key<T, V> key) {
+    public DelegatingKey(String name, Key<T, ?> key) {
         super(name);
         this.key = key;
     }

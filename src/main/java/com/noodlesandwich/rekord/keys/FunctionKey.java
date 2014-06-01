@@ -5,7 +5,7 @@ import com.noodlesandwich.rekord.properties.Property;
 import com.noodlesandwich.rekord.properties.PropertyMap;
 import com.noodlesandwich.rekord.serialization.Serializer;
 
-public final class FunctionKey<T, V, W> extends DelegatingKey<T, V, W> {
+public final class FunctionKey<T, V, W> extends DelegatingKey<T, W> {
     private final Key<T, V> underlyingKey;
     private final InvertibleFunction<V, W> function;
 

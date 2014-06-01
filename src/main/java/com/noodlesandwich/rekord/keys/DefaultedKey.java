@@ -4,7 +4,7 @@ import com.noodlesandwich.rekord.properties.Property;
 import com.noodlesandwich.rekord.properties.PropertyMap;
 import com.noodlesandwich.rekord.serialization.Serializer;
 
-public final class DefaultedKey<T, V> extends DelegatingKey<T, V, V> {
+public final class DefaultedKey<T, V> extends DelegatingKey<T, V> {
     private final Key<T, V> underlyingKey;
     private final V defaultValue;
 
