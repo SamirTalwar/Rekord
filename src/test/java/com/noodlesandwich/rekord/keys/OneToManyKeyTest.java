@@ -31,6 +31,16 @@ public final class OneToManyKeyTest {
                 .with(Address.city, "Cupertino")));
     }
 
+    @Test public void
+    maps_many_keys_onto_a_single_key_during_retrieval() {
+        Rekord<Address> address = Address.rekord
+                .with(Address.houseNumber, 37)
+                .with(Address.street, "Duckbill Street")
+                .with(Address.city, "Paloma");
+
+        assertThat(address.get(firstLine), is("37 Duckbill Street"));
+    }
+
     private static InvertibleFunction<PropertyMap<Address>, String> concatenateHouseNumberAndStreet() {
         return new InvertibleFunction<PropertyMap<Address>, String>() {
             private final Pattern whitespace = Pattern.compile(" ");

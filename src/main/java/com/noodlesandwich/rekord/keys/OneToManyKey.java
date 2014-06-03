@@ -23,9 +23,10 @@ public final class OneToManyKey<T, V> extends DelegatingKey<T, V> {
         throw new UnsupportedOperationException();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <R extends T> V get(PropertyMap<R> properties) {
-        throw new UnsupportedOperationException();
+        return function.applyForward((PropertyMap<T>) properties);
     }
 
     @Override
