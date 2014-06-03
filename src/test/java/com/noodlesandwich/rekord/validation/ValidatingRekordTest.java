@@ -1,6 +1,9 @@
 package com.noodlesandwich.rekord.validation;
 
 import com.noodlesandwich.rekord.FixedRekord;
+import com.noodlesandwich.rekord.keys.Key;
+import com.noodlesandwich.rekord.keys.SimpleKey;
+import com.noodlesandwich.rekord.properties.UnacceptableKeyException;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
@@ -52,6 +55,17 @@ public final class ValidatingRekordTest {
                 .with(Sandvich.filling, Ham)
                 .with(Sandvich.style, Burger)
                 .fix();
+    }
+
+    @Test public void
+    a_Rekord_must_know_all_possible_keys_in_advance() {
+        expectedException.expect(an(UnacceptableKeyException.class)
+                .withTheMessage("The key \"size\" is not a valid key for this Rekord."));
+
+        Key<Sandvich, Integer> size = SimpleKey.named("size");
+
+        validatingSandvich
+                .with(size, 4);
     }
 
     private static Matcher<FixedRekord<Sandvich>> noBurgers() {
