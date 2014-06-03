@@ -26,6 +26,11 @@ public final class LimitedPropertyMap<T> implements Properties<T>, PropertyMap<T
         this.properties = properties;
     }
 
+    @Override
+    public boolean has(Key<? super T, ?> key) {
+        return properties.containsKey(key);
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public <V> V get(Key<? super T, V> key) {
@@ -36,9 +41,19 @@ public final class LimitedPropertyMap<T> implements Properties<T>, PropertyMap<T
         return (V) properties.get(key).value();
     }
 
-    @Override
-    public boolean has(Key<? super T, ?> key) {
-        return properties.containsKey(key);
+    public LimitedPropertyMap<T> set(Property<? super T, ?> property) {
+        Key<? super T, ?> key = property.key();
+        if (!acceptedKeys.contains(key)) {
+            throw new IllegalArgumentException(String.format(UnacceptableKeyTemplate, key.name()));
+        }
+        return new LimitedPropertyMap<>(acceptedKeys, properties.plus(key, property));
+    }
+
+    public LimitedPropertyMap<T> remove(Key<? super T, ?> key) {
+        return new LimitedPropertyMap<>(
+                acceptedKeys,
+                properties.minus(key)
+        );
     }
 
     public Keys<T> keys() {
@@ -54,21 +69,6 @@ public final class LimitedPropertyMap<T> implements Properties<T>, PropertyMap<T
 
     public Keys<T> acceptedKeys() {
         return acceptedKeys;
-    }
-
-    public LimitedPropertyMap<T> with(Property<? super T, ?> property) {
-        Key<? super T, ?> key = property.key();
-        if (!acceptedKeys.contains(key)) {
-            throw new IllegalArgumentException(String.format(UnacceptableKeyTemplate, key.name()));
-        }
-        return new LimitedPropertyMap<>(acceptedKeys, properties.plus(key, property));
-    }
-
-    public LimitedPropertyMap<T> without(Key<? super T, ?> key) {
-        return new LimitedPropertyMap<>(
-                acceptedKeys,
-                properties.minus(key)
-        );
     }
 
     @Override

@@ -48,7 +48,7 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
 
     @Override
     public <V> ValidatingRekord<T> with(Property<? super T, V> property) {
-        return new ValidatingRekord<>(name, properties.with(property), matcher);
+        return new ValidatingRekord<>(name, properties.set(property), matcher);
     }
 
     @Override
@@ -63,7 +63,7 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
 
     @Override
     public ValidatingRekord<T> without(Key<? super T, ?> key) {
-        return new ValidatingRekord<>(name, properties.without(key), matcher);
+        return new ValidatingRekord<>(name, properties.remove(key), matcher);
     }
 
     @Override

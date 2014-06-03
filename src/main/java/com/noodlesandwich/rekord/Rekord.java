@@ -27,7 +27,7 @@ public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBui
 
     @Override
     public <V> Rekord<T> with(Property<? super T, V> property) {
-        return new Rekord<>(name(), properties.with(property));
+        return new Rekord<>(name(), properties.set(property));
     }
 
     @Override
@@ -42,7 +42,7 @@ public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBui
 
     @Override
     public Rekord<T> without(Key<? super T, ?> key) {
-        return new Rekord<>(name(), properties.without(key));
+        return new Rekord<>(name(), properties.remove(key));
     }
 
     @Override
