@@ -30,13 +30,18 @@ public abstract class AbstractFixedRekord<T> implements FixedRekord<T> {
     }
 
     @Override
-    public final <V> V get(Key<? super T, V> key) {
-        return key.get(properties);
+    public final Keys<T> acceptedKeys() {
+        return acceptedKeys;
     }
 
     @Override
     public final boolean has(Key<? super T, ?> key) {
         return key.test(properties);
+    }
+
+    @Override
+    public final <V> V get(Key<? super T, V> key) {
+        return key.get(properties);
     }
 
     @Override
@@ -49,11 +54,6 @@ public abstract class AbstractFixedRekord<T> implements FixedRekord<T> {
             }
         }
         return KeySet.from(keys);
-    }
-
-    @Override
-    public final Keys<T> acceptedKeys() {
-        return acceptedKeys;
     }
 
     @Override

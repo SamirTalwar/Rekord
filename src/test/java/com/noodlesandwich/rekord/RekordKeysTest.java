@@ -175,8 +175,8 @@ public final class RekordKeysTest {
         }
 
         @Override
-        public Property<T, ?> of(V value) {
-            return new Property<>(this, value);
+        public boolean test(PropertyMap<? extends T> properties) {
+            return false;
         }
 
         @Override
@@ -185,8 +185,8 @@ public final class RekordKeysTest {
         }
 
         @Override
-        public boolean test(PropertyMap<? extends T> properties) {
-            return false;
+        public Property<T, ?> of(V value) {
+            return new Property<>(this, value);
         }
 
         @Override

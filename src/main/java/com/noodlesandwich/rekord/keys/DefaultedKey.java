@@ -22,8 +22,8 @@ public final class DefaultedKey<T, V> extends DelegatingKey<T, V> {
     }
 
     @Override
-    public Property<T, ?> of(V value) {
-        return underlyingKey.of(value);
+    public boolean test(PropertyMap<? extends T> properties) {
+        return underlyingKey.test(properties);
     }
 
     @Override
@@ -36,8 +36,8 @@ public final class DefaultedKey<T, V> extends DelegatingKey<T, V> {
     }
 
     @Override
-    public boolean test(PropertyMap<? extends T> properties) {
-        return underlyingKey.test(properties);
+    public Property<T, ?> of(V value) {
+        return underlyingKey.of(value);
     }
 
     @Override

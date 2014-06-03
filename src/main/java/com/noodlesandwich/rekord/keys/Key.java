@@ -6,11 +6,11 @@ import com.noodlesandwich.rekord.properties.PropertyMap;
 import com.noodlesandwich.rekord.serialization.Serializer;
 
 public interface Key<T, V> extends Keys<T>, Named {
-    Property<T, ?> of(V value);
+    boolean test(PropertyMap<? extends T> properties);
 
     V get(PropertyMap<? extends T> properties);
 
-    boolean test(PropertyMap<? extends T> properties);
+    Property<T, ?> of(V value);
 
     <A, E extends Exception> void accumulate(V value, Serializer.Accumulator<A, E> accumulator) throws E;
 }
