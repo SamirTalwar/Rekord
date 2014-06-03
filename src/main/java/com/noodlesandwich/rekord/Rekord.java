@@ -8,13 +8,14 @@ import com.noodlesandwich.rekord.implementation.PersistentPropertyMap;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.Keys;
 import com.noodlesandwich.rekord.properties.Property;
+import com.noodlesandwich.rekord.properties.PropertyMap;
 import com.noodlesandwich.rekord.properties.UnacceptableKeyException;
 
 public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBuilder<T, Rekord<T>> {
     private final Keys<T> acceptedKeys;
-    private final PersistentPropertyMap<T> properties;
+    private final PropertyMap<T> properties;
 
-    private Rekord(String name, Keys<T> acceptedKeys, PersistentPropertyMap<T> properties) {
+    private Rekord(String name, Keys<T> acceptedKeys, PropertyMap<T> properties) {
         super(name, acceptedKeys, properties);
         this.acceptedKeys = acceptedKeys;
         this.properties = properties;

@@ -2,13 +2,12 @@ package com.noodlesandwich.rekord.implementation;
 
 import java.util.Iterator;
 import com.noodlesandwich.rekord.keys.Key;
-import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.properties.Property;
 import com.noodlesandwich.rekord.properties.PropertyMap;
 import org.pcollections.HashTreePMap;
 import org.pcollections.PMap;
 
-public final class PersistentPropertyMap<T> implements Properties<T>, PropertyMap<T> {
+public final class PersistentPropertyMap<T> implements PropertyMap<T> {
     private final PMap<Key<? super T, ?>, Property<? super T, ?>> properties;
 
     public PersistentPropertyMap() {

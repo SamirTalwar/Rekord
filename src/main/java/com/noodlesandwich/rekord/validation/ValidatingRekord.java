@@ -10,16 +10,17 @@ import com.noodlesandwich.rekord.implementation.PersistentPropertyMap;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.Keys;
 import com.noodlesandwich.rekord.properties.Property;
+import com.noodlesandwich.rekord.properties.PropertyMap;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
 
 public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRekord<T>> {
     private final String name;
     private final Keys<T> acceptedKeys;
-    private final PersistentPropertyMap<T> properties;
+    private final PropertyMap<T> properties;
     private final Matcher<FixedRekord<T>> matcher;
 
-    private ValidatingRekord(String name, Keys<T> acceptedKeys, PersistentPropertyMap<T> properties, Matcher<FixedRekord<T>> matcher) {
+    private ValidatingRekord(String name, Keys<T> acceptedKeys, PropertyMap<T> properties, Matcher<FixedRekord<T>> matcher) {
         this.name = name;
         this.acceptedKeys = acceptedKeys;
         this.properties = properties;
@@ -113,9 +114,9 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
     public static final class UnsureRekord<T> {
         private final String name;
         private final Keys<T> acceptedKeys;
-        private final PersistentPropertyMap<T> properties;
+        private final PropertyMap<T> properties;
 
-        private UnsureRekord(String name, Keys<T> acceptedKeys, PersistentPropertyMap<T> properties) {
+        private UnsureRekord(String name, Keys<T> acceptedKeys, PropertyMap<T> properties) {
             this.name = name;
             this.acceptedKeys = acceptedKeys;
             this.properties = properties;
