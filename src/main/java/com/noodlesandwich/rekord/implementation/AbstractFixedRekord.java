@@ -14,10 +14,12 @@ import com.noodlesandwich.rekord.serialization.StringSerializer;
 
 public abstract class AbstractFixedRekord<T> implements FixedRekord<T> {
     private final String name;
-    private final LimitedPropertyMap<T> properties;
+    private final Keys<T> acceptedKeys;
+    private final PersistentPropertyMap<T> properties;
 
-    protected AbstractFixedRekord(String name, LimitedPropertyMap<T> properties) {
+    protected AbstractFixedRekord(String name, Keys<T> acceptedKeys, PersistentPropertyMap<T> properties) {
         this.name = name;
+        this.acceptedKeys = acceptedKeys;
         this.properties = properties;
     }
 
@@ -50,7 +52,7 @@ public abstract class AbstractFixedRekord<T> implements FixedRekord<T> {
 
     @Override
     public final Keys<T> acceptedKeys() {
-        return properties.acceptedKeys();
+        return acceptedKeys;
     }
 
     @Override

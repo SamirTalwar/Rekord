@@ -4,16 +4,20 @@ import java.util.Arrays;
 import java.util.List;
 import com.noodlesandwich.rekord.implementation.AbstractFixedRekord;
 import com.noodlesandwich.rekord.implementation.KeySet;
-import com.noodlesandwich.rekord.implementation.LimitedPropertyMap;
+import com.noodlesandwich.rekord.implementation.PersistentPropertyMap;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.Keys;
 import com.noodlesandwich.rekord.properties.Property;
 
 public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBuilder<T, Rekord<T>> {
-    private final LimitedPropertyMap<T> properties;
+    private static final String UnacceptableKeyTemplate = "The key \"%s\" is not a valid key for this Rekord.";
 
-    private Rekord(String name, LimitedPropertyMap<T> properties) {
-        super(name, properties);
+    private final Keys<T> acceptedKeys;
+    private final PersistentPropertyMap<T> properties;
+
+    private Rekord(String name, Keys<T> acceptedKeys, PersistentPropertyMap<T> properties) {
+        super(name, acceptedKeys, properties);
+        this.acceptedKeys = acceptedKeys;
         this.properties = properties;
     }
 
@@ -27,7 +31,11 @@ public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBui
 
     @Override
     public <V> Rekord<T> with(Property<? super T, V> property) {
-        return new Rekord<>(name(), properties.set(property));
+        Key<? super T, ?> key = property.key();
+        if (!acceptedKeys.contains(key)) {
+            throw new IllegalArgumentException(String.format(UnacceptableKeyTemplate, key.name()));
+        }
+        return new Rekord<>(name(), acceptedKeys, properties.set(property));
     }
 
     @Override
@@ -42,7 +50,7 @@ public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBui
 
     @Override
     public Rekord<T> without(Key<? super T, ?> key) {
-        return new Rekord<>(name(), properties.remove(key));
+        return new Rekord<>(name(), acceptedKeys, properties.remove(key));
     }
 
     @Override
@@ -81,7 +89,7 @@ public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBui
         // CHECKSTYLE:ON
 
         public Rekord<T> accepting(Keys<T> keys) {
-            return new Rekord<>(name, new LimitedPropertyMap<>(keys));
+            return new Rekord<>(name, keys, new PersistentPropertyMap<T>());
         }
     }
 }

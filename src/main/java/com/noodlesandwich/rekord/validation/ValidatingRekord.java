@@ -6,7 +6,7 @@ import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.RekordBuilder;
 import com.noodlesandwich.rekord.RekordTemplate;
 import com.noodlesandwich.rekord.implementation.KeySet;
-import com.noodlesandwich.rekord.implementation.LimitedPropertyMap;
+import com.noodlesandwich.rekord.implementation.PersistentPropertyMap;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.Keys;
 import com.noodlesandwich.rekord.properties.Property;
@@ -15,11 +15,13 @@ import org.hamcrest.StringDescription;
 
 public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRekord<T>> {
     private final String name;
-    private final LimitedPropertyMap<T> properties;
+    private final Keys<T> acceptedKeys;
+    private final PersistentPropertyMap<T> properties;
     private final Matcher<FixedRekord<T>> matcher;
 
-    private ValidatingRekord(String name, LimitedPropertyMap<T> properties, Matcher<FixedRekord<T>> matcher) {
+    private ValidatingRekord(String name, Keys<T> acceptedKeys, PersistentPropertyMap<T> properties, Matcher<FixedRekord<T>> matcher) {
         this.name = name;
+        this.acceptedKeys = acceptedKeys;
         this.properties = properties;
         this.matcher = matcher;
     }
@@ -43,12 +45,12 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
 
     @Override
     public Keys<T> acceptedKeys() {
-        return properties.acceptedKeys();
+        return acceptedKeys;
     }
 
     @Override
     public <V> ValidatingRekord<T> with(Property<? super T, V> property) {
-        return new ValidatingRekord<>(name, properties.set(property), matcher);
+        return new ValidatingRekord<>(name, acceptedKeys, properties.set(property), matcher);
     }
 
     @Override
@@ -63,7 +65,7 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
 
     @Override
     public ValidatingRekord<T> without(Key<? super T, ?> key) {
-        return new ValidatingRekord<>(name, properties.remove(key), matcher);
+        return new ValidatingRekord<>(name, acceptedKeys, properties.remove(key), matcher);
     }
 
     @Override
@@ -76,7 +78,7 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
     }
 
     public ValidRekord<T> fix() throws InvalidRekordException {
-        ValidRekord<T> rekord = new ValidRekord<>(name, properties);
+        ValidRekord<T> rekord = new ValidRekord<>(name, acceptedKeys, properties);
         if (!matcher.matches(rekord)) {
             StringDescription description = new StringDescription();
             description.appendText("Expected that ").appendDescriptionOf(matcher).appendText(", but ");
@@ -104,21 +106,23 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
         // CHECKSTYLE:ON
 
         public UnsureRekord<T> accepting(Keys<T> keys) {
-            return new UnsureRekord<>(name, new LimitedPropertyMap<>(keys));
+            return new UnsureRekord<>(name, keys, new PersistentPropertyMap<T>());
         }
     }
 
     public static final class UnsureRekord<T> {
         private final String name;
-        private final LimitedPropertyMap<T> properties;
+        private final Keys<T> acceptedKeys;
+        private final PersistentPropertyMap<T> properties;
 
-        private UnsureRekord(String name, LimitedPropertyMap<T> properties) {
+        private UnsureRekord(String name, Keys<T> acceptedKeys, PersistentPropertyMap<T> properties) {
             this.name = name;
+            this.acceptedKeys = acceptedKeys;
             this.properties = properties;
         }
 
         public ValidatingRekord<T> expecting(Matcher<FixedRekord<T>> matcher) {
-            return new ValidatingRekord<>(name, properties, matcher);
+            return new ValidatingRekord<>(name, acceptedKeys, properties, matcher);
         }
     }
 }
