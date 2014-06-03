@@ -7,10 +7,12 @@ import com.noodlesandwich.rekord.properties.PropertyMap;
 import com.noodlesandwich.rekord.serialization.Serializer;
 
 public final class OneToManyKey<T, V> extends DelegatingKey<T, V> {
+    private final Keys<T> keys;
     private final InvertibleFunction<PropertyMap<T>, V> function;
 
     public OneToManyKey(String name, Keys<T> keys, InvertibleFunction<PropertyMap<T>, V> function) {
         super(name, keys);
+        this.keys = keys;
         this.function = function;
     }
 
@@ -20,7 +22,12 @@ public final class OneToManyKey<T, V> extends DelegatingKey<T, V> {
 
     @Override
     public <R extends T> boolean test(PropertyMap<R> properties) {
-        throw new UnsupportedOperationException();
+        for (Key<? super T, ?> key : keys) {
+            if (!key.test(properties)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @SuppressWarnings("unchecked")

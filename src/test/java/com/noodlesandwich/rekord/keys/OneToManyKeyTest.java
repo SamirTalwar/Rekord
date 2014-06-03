@@ -9,8 +9,10 @@ import com.noodlesandwich.rekord.properties.PropertyMap;
 import org.junit.Test;
 
 import static com.noodlesandwich.rekord.testobjects.Rekords.Address;
+import static com.noodlesandwich.rekord.validation.RekordMatchers.hasKey;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 
 public final class OneToManyKeyTest {
     private static final Key<Address, String> firstLine =
@@ -39,6 +41,25 @@ public final class OneToManyKeyTest {
                 .with(Address.city, "Paloma");
 
         assertThat(address.get(firstLine), is("37 Duckbill Street"));
+    }
+
+    @Test public void
+    tests_as_true_when_all_keys_are_present() {
+        Rekord<Address> address = Address.rekord
+                .with(Address.houseNumber, 99)
+                .with(Address.street, "Luftballons")
+                .with(Address.city, "Berlin");
+
+        assertThat(address, hasKey(firstLine));
+    }
+
+    @Test public void
+    tests_as_false_when_any_key_is_absent() {
+        Rekord<Address> address = Address.rekord
+                .with(Address.street, "Nope")
+                .with(Address.city, "Berlin");
+
+        assertThat(address, not(hasKey(firstLine)));
     }
 
     private static InvertibleFunction<PropertyMap<Address>, String> concatenateHouseNumberAndStreet() {
