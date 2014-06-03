@@ -1,8 +1,6 @@
 package com.noodlesandwich.rekord.implementation;
 
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.Keys;
 import com.noodlesandwich.rekord.properties.Properties;
@@ -56,17 +54,6 @@ public final class LimitedPropertyMap<T> implements Properties<T>, PropertyMap<T
                 acceptedKeys,
                 properties.minus(key)
         );
-    }
-
-    public Keys<T> keys() {
-        Set<Keys<? super T>> keys = new HashSet<>();
-        for (Property<? super T, ?> property : properties.values()) {
-            Key<? super T, ?> key = property.key();
-            if (key.test(this)) {
-                keys.add(key);
-            }
-        }
-        return KeySet.from(keys);
     }
 
     public Keys<T> acceptedKeys() {
