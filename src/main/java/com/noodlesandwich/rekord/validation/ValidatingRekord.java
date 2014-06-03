@@ -1,7 +1,5 @@
 package com.noodlesandwich.rekord.validation;
 
-import java.util.Arrays;
-import java.util.List;
 import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.RekordBuilder;
 import com.noodlesandwich.rekord.RekordTemplate;
@@ -104,11 +102,10 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
         }
 
         // CHECKSTYLE:OFF
+        @SuppressWarnings("varargs")
         @SafeVarargs
         public final UnsureRekord<T> accepting(Keys<? super T>... keys) {
-            @SuppressWarnings("varargs")
-            List<Keys<? super T>> keyList = Arrays.asList(keys);
-            return accepting(KeySet.from(keyList));
+            return accepting(KeySet.from(keys));
         }
         // CHECKSTYLE:ON
 

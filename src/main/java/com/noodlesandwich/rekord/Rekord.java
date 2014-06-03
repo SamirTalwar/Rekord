@@ -1,7 +1,5 @@
 package com.noodlesandwich.rekord;
 
-import java.util.Arrays;
-import java.util.List;
 import com.noodlesandwich.rekord.implementation.AbstractFixedRekord;
 import com.noodlesandwich.rekord.implementation.KeySet;
 import com.noodlesandwich.rekord.implementation.PersistentPropertyMap;
@@ -81,11 +79,10 @@ public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBui
         }
 
         // CHECKSTYLE:OFF
+        @SuppressWarnings("varargs")
         @SafeVarargs
         public final Rekord<T> accepting(Keys<? super T>... keys) {
-            @SuppressWarnings("varargs")
-            List<Keys<? super T>> keyList = Arrays.asList(keys);
-            return accepting(KeySet.from(keyList));
+            return accepting(KeySet.from(keys));
         }
         // CHECKSTYLE:ON
 

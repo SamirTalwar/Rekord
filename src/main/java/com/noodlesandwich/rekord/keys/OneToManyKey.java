@@ -58,12 +58,16 @@ public final class OneToManyKey<T, V> extends DelegatingKey<T, V> {
         }
 
         // CHECKSTYLE:OFF
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings("varargs")
         @SafeVarargs
         public final <T> DysfunctionalOneToManyKey<T> over(Keys<T>... keys) {
-            return new DysfunctionalOneToManyKey<>(name, KeySet.from(keys));
+            return over(KeySet.from(keys));
         }
         // CHECKSTYLE:ON
+
+        public <T> DysfunctionalOneToManyKey<T> over(Keys<T> keys) {
+            return new DysfunctionalOneToManyKey<>(name, keys);
+        }
     }
 
     public static final class DysfunctionalOneToManyKey<T> {

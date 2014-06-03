@@ -3,7 +3,6 @@ package com.noodlesandwich.rekord.implementation;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.Keys;
@@ -17,11 +16,10 @@ public final class KeySet<T> implements Keys<T> {
         this.keys = keys;
     }
 
+    @SuppressWarnings("varargs")
     @SafeVarargs
     public static <T> Keys<T> from(Keys<? super T>... keys) {
-        @SuppressWarnings("varargs")
-        List<Keys<? super T>> keyList = Arrays.asList(keys);
-        return from(keyList);
+        return from(Arrays.asList(keys));
     }
 
     public static <T> Keys<T> from(Collection<Keys<? super T>> keys) {
