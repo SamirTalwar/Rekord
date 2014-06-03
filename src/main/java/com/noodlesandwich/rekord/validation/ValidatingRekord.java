@@ -51,22 +51,26 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
 
     @Override
     public <V> ValidatingRekord<T> with(Property<? super T, V> property) {
-        return new ValidatingRekord<>(name, acceptedKeys, properties.set(property), matcher);
+        return set(properties.set(property));
     }
 
     @Override
     public <V> ValidatingRekord<T> with(Key<? super T, V> key, V value) {
-        return with(key.of(value));
+        return set(key.set(value, properties));
     }
 
     @Override
     public <V> ValidatingRekord<T> with(V value, Key<? super T, V> key) {
-        return with(key.of(value));
+        return set(key.set(value, properties));
     }
 
     @Override
     public ValidatingRekord<T> without(Key<? super T, ?> key) {
-        return new ValidatingRekord<>(name, acceptedKeys, properties.remove(key), matcher);
+        return set(properties.remove(key));
+    }
+
+    private ValidatingRekord<T> set(PropertyMap<T> newProperties) {
+        return new ValidatingRekord<>(name, acceptedKeys, newProperties, matcher);
     }
 
     @Override

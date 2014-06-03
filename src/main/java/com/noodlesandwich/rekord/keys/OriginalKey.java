@@ -12,18 +12,18 @@ public abstract class OriginalKey<T, V> extends AbstractKey<T, V> {
     }
 
     @Override
-    public final boolean test(PropertyMap<? extends T> properties) {
+    public final <R extends T> boolean test(PropertyMap<R> properties) {
         return properties.has(this);
     }
 
     @Override
-    public final V get(PropertyMap<? extends T> properties) {
+    public final <R extends T> V get(PropertyMap<R> properties) {
         return properties.get(this);
     }
 
     @Override
-    public final Property<T, V> of(V value) {
-        return new Property<>(this, value);
+    public final <R extends T> PropertyMap<R> set(V value, PropertyMap<R> properties) {
+        return properties.set(new Property<>(this, value));
     }
 
     @Override

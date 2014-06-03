@@ -1,16 +1,15 @@
 package com.noodlesandwich.rekord.keys;
 
 import com.noodlesandwich.rekord.Named;
-import com.noodlesandwich.rekord.properties.Property;
 import com.noodlesandwich.rekord.properties.PropertyMap;
 import com.noodlesandwich.rekord.serialization.Serializer;
 
 public interface Key<T, V> extends Keys<T>, Named {
-    boolean test(PropertyMap<? extends T> properties);
+    <R extends T> boolean test(PropertyMap<R> properties);
 
-    V get(PropertyMap<? extends T> properties);
+    <R extends T> V get(PropertyMap<R> properties);
 
-    Property<T, ?> of(V value);
+    <R extends T> PropertyMap<R> set(V value, PropertyMap<R> properties);
 
     <A, E extends Exception> void accumulate(V value, Serializer.Accumulator<A, E> accumulator) throws E;
 }

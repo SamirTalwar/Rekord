@@ -8,8 +8,8 @@ import com.noodlesandwich.rekord.implementation.PersistentPropertyMap;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.Keys;
 import com.noodlesandwich.rekord.properties.Property;
+import com.noodlesandwich.rekord.properties.PropertyExtraction;
 import com.noodlesandwich.rekord.properties.PropertyMap;
-import com.noodlesandwich.rekord.properties.UnacceptableKeyException;
 
 public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBuilder<T, Rekord<T>> {
     private final Keys<T> acceptedKeys;
@@ -31,26 +31,27 @@ public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBui
 
     @Override
     public <V> Rekord<T> with(Property<? super T, V> property) {
-        Key<? super T, ?> key = property.key();
-        if (!acceptedKeys.contains(key)) {
-            throw new UnacceptableKeyException(key);
-        }
-        return new Rekord<>(name(), acceptedKeys, properties.set(property));
+        return set(properties.set(property));
     }
 
     @Override
     public <V> Rekord<T> with(Key<? super T, V> key, V value) {
-        return with(key.of(value));
+        return set(key.set(value, properties));
     }
 
     @Override
     public <V> Rekord<T> with(V value, Key<? super T, V> key) {
-        return with(key.of(value));
+        return set(key.set(value, properties));
     }
 
     @Override
     public Rekord<T> without(Key<? super T, ?> key) {
-        return new Rekord<>(name(), acceptedKeys, properties.remove(key));
+        return set(properties.remove(key));
+    }
+
+    private Rekord<T> set(PropertyMap<T> newProperties) {
+        PropertyExtraction.checkAcceptabilityOf(newProperties, acceptedKeys);
+        return new Rekord<>(name(), acceptedKeys, newProperties);
     }
 
     @Override

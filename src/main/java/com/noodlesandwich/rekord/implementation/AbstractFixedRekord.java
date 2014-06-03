@@ -1,14 +1,12 @@
 package com.noodlesandwich.rekord.implementation;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.Keys;
 import com.noodlesandwich.rekord.keys.RekordKey;
 import com.noodlesandwich.rekord.properties.Properties;
-import com.noodlesandwich.rekord.properties.Property;
+import com.noodlesandwich.rekord.properties.PropertyExtraction;
 import com.noodlesandwich.rekord.properties.PropertyMap;
 import com.noodlesandwich.rekord.serialization.Serializer;
 import com.noodlesandwich.rekord.serialization.StringSerializer;
@@ -46,14 +44,7 @@ public abstract class AbstractFixedRekord<T> implements FixedRekord<T> {
 
     @Override
     public final Keys<T> keys() {
-        Set<Keys<? super T>> keys = new HashSet<>();
-        for (Property<? super T, ?> property : properties) {
-            Key<? super T, ?> key = property.key();
-            if (key.test(properties)) {
-                keys.add(key);
-            }
-        }
-        return KeySet.from(keys);
+        return PropertyExtraction.keysFrom(properties);
     }
 
     @Override

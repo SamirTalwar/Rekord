@@ -126,8 +126,8 @@ public final class RekordPropertiesTest {
                 .with(Sandvich.style, Flat);
 
         assertThat(sandvich.properties(), Matchers.<Property<? super Sandvich, ?>>containsInAnyOrder(
-                Sandvich.filling.of(Lettuce),
-                Sandvich.style.of(Flat)));
+                new Property<>(Sandvich.filling, Lettuce),
+                new Property<>(Sandvich.style, Flat)));
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})

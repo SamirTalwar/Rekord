@@ -12,7 +12,6 @@ import com.noodlesandwich.rekord.keys.DefaultedKey;
 import com.noodlesandwich.rekord.keys.FunctionKey;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.SimpleKey;
-import com.noodlesandwich.rekord.properties.Property;
 import com.noodlesandwich.rekord.properties.PropertyMap;
 import com.noodlesandwich.rekord.properties.UnacceptableKeyException;
 import com.noodlesandwich.rekord.serialization.Serializer;
@@ -46,7 +45,7 @@ import static org.hamcrest.Matchers.not;
 public final class RekordKeysTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();
 
-    private static final Key<Object, Object> missingKey = new MissingKey<>();
+    private static final Key<Object, Object> missingKey = new BrokenKey<>();
 
     @Test public void
     a_Rekord_can_tell_which_keys_are_being_used() {
@@ -169,24 +168,24 @@ public final class RekordKeysTest {
         };
     }
 
-    private static final class MissingKey<T, V> extends AbstractKey<T, V> {
-        public MissingKey() {
-            super("<missing>");
+    private static final class BrokenKey<T, V> extends AbstractKey<T, V> {
+        public BrokenKey() {
+            super("<broken>");
         }
 
         @Override
-        public boolean test(PropertyMap<? extends T> properties) {
+        public <R extends T> boolean test(PropertyMap<R> properties) {
             return false;
         }
 
         @Override
-        public V get(PropertyMap<? extends T> properties) {
+        public <R extends T> V get(PropertyMap<R> properties) {
             return null;
         }
 
         @Override
-        public Property<T, ?> of(V value) {
-            return new Property<>(this, value);
+        public <R extends T> PropertyMap<R> set(V value, PropertyMap<R> properties) {
+            return properties;
         }
 
         @Override
