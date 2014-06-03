@@ -113,23 +113,21 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
         // CHECKSTYLE:ON
 
         public UnsureRekord<T> accepting(Keys<T> keys) {
-            return new UnsureRekord<>(name, keys, new PersistentPropertyMap<T>());
+            return new UnsureRekord<>(name, keys);
         }
     }
 
     public static final class UnsureRekord<T> {
         private final String name;
         private final Keys<T> acceptedKeys;
-        private final PropertyMap<T> properties;
 
-        private UnsureRekord(String name, Keys<T> acceptedKeys, PropertyMap<T> properties) {
+        private UnsureRekord(String name, Keys<T> acceptedKeys) {
             this.name = name;
             this.acceptedKeys = acceptedKeys;
-            this.properties = properties;
         }
 
         public ValidatingRekord<T> expecting(Matcher<FixedRekord<T>> matcher) {
-            return new ValidatingRekord<>(name, acceptedKeys, properties, matcher);
+            return new ValidatingRekord<>(name, acceptedKeys, new PersistentPropertyMap<T>(), matcher);
         }
     }
 }
