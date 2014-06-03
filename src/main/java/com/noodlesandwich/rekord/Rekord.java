@@ -8,7 +8,7 @@ import com.noodlesandwich.rekord.implementation.PersistentPropertyMap;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.Keys;
 import com.noodlesandwich.rekord.properties.Property;
-import com.noodlesandwich.rekord.properties.PropertyExtraction;
+import com.noodlesandwich.rekord.properties.PropertyKeys;
 import com.noodlesandwich.rekord.properties.PropertyMap;
 
 public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBuilder<T, Rekord<T>> {
@@ -50,7 +50,7 @@ public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBui
     }
 
     private Rekord<T> set(PropertyMap<T> newProperties) {
-        PropertyExtraction.checkAcceptabilityOf(newProperties, acceptedKeys);
+        PropertyKeys.checkAcceptabilityOf(newProperties, acceptedKeys);
         return new Rekord<>(name(), acceptedKeys, newProperties);
     }
 

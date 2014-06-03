@@ -6,8 +6,8 @@ import com.noodlesandwich.rekord.implementation.KeySet;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.Keys;
 
-public final class PropertyExtraction {
-    private PropertyExtraction() { }
+public final class PropertyKeys {
+    private PropertyKeys() { }
 
     public static <T> Keys<T> keysFrom(PropertyMap<T> properties) {
         Set<Keys<? super T>> keys = new HashSet<>();

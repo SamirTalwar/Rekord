@@ -10,7 +10,7 @@ import com.noodlesandwich.rekord.implementation.PersistentPropertyMap;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.Keys;
 import com.noodlesandwich.rekord.properties.Property;
-import com.noodlesandwich.rekord.properties.PropertyExtraction;
+import com.noodlesandwich.rekord.properties.PropertyKeys;
 import com.noodlesandwich.rekord.properties.PropertyMap;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
@@ -71,7 +71,7 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
     }
 
     private ValidatingRekord<T> set(PropertyMap<T> newProperties) {
-        PropertyExtraction.checkAcceptabilityOf(newProperties, acceptedKeys);
+        PropertyKeys.checkAcceptabilityOf(newProperties, acceptedKeys);
         return new ValidatingRekord<>(name, acceptedKeys, newProperties, matcher);
     }
 
