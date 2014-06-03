@@ -1,19 +1,18 @@
 package com.noodlesandwich.rekord.keys;
 
-import java.util.Collections;
 import java.util.Iterator;
 import com.noodlesandwich.rekord.implementation.AbstractKey;
 
 public abstract class DelegatingKey<T, V> extends AbstractKey<T, V> {
-    private final Key<T, ?> key;
+    private final Keys<T> keys;
 
-    public DelegatingKey(String name, Key<T, ?> key) {
+    public DelegatingKey(String name, Keys<T> keys) {
         super(name);
-        this.key = key;
+        this.keys = keys;
     }
 
     @Override
     public final Iterator<Key<? super T, ?>> iterator() {
-        return Collections.<Key<? super T, ?>>singleton(key).iterator();
+        return keys.iterator();
     }
 }

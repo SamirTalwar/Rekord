@@ -1,0 +1,72 @@
+package com.noodlesandwich.rekord.keys;
+
+import com.noodlesandwich.rekord.functions.InvertibleFunction;
+import com.noodlesandwich.rekord.implementation.KeySet;
+import com.noodlesandwich.rekord.properties.Property;
+import com.noodlesandwich.rekord.properties.PropertyMap;
+import com.noodlesandwich.rekord.serialization.Serializer;
+
+public final class OneToManyKey<T, V> extends DelegatingKey<T, V> {
+    private final InvertibleFunction<PropertyMap<T>, V> function;
+
+    public OneToManyKey(String name, Keys<T> keys, InvertibleFunction<PropertyMap<T>, V> function) {
+        super(name, keys);
+        this.function = function;
+    }
+
+    public static UnmappedOneToManyKey named(String name) {
+        return new UnmappedOneToManyKey(name);
+    }
+
+    @Override
+    public <R extends T> boolean test(PropertyMap<R> properties) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <R extends T> V get(PropertyMap<R> properties) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <R extends T> PropertyMap<R> set(V value, PropertyMap<R> properties) {
+        PropertyMap<R> newProperties = properties;
+        for (Property<? super T, ?> property : function.applyBackward(value)) {
+            newProperties = newProperties.set(property);
+        }
+        return newProperties;
+    }
+
+    @Override
+    public <A, E extends Exception> void accumulate(V value, Serializer.Accumulator<A, E> accumulator) {
+        throw new UnsupportedOperationException();
+    }
+
+    public static final class UnmappedOneToManyKey {
+        private final String name;
+
+        private UnmappedOneToManyKey(String name) {
+            this.name = name;
+        }
+
+        @SuppressWarnings("unchecked")
+        @SafeVarargs
+        public final <T> DysfunctionalOneToManyKey<T> over(Keys<T>... keys) {
+            return new DysfunctionalOneToManyKey<>(name, KeySet.from(keys));
+        }
+    }
+
+    public static final class DysfunctionalOneToManyKey<T> {
+        private final String name;
+        private final Keys<T> keys;
+
+        public DysfunctionalOneToManyKey(String name, Keys<T> keys) {
+            this.name = name;
+            this.keys = keys;
+        }
+
+        public <V> OneToManyKey<T, V> with(InvertibleFunction<PropertyMap<T>, V> function) {
+            return new OneToManyKey<>(name, keys, function);
+        }
+    }
+}
