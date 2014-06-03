@@ -41,6 +41,7 @@ public final class LimitedPropertyMap<T> implements Properties<T>, PropertyMap<T
         return (V) properties.get(key).value();
     }
 
+    @Override
     public LimitedPropertyMap<T> set(Property<? super T, ?> property) {
         Key<? super T, ?> key = property.key();
         if (!acceptedKeys.contains(key)) {
@@ -49,6 +50,7 @@ public final class LimitedPropertyMap<T> implements Properties<T>, PropertyMap<T
         return new LimitedPropertyMap<>(acceptedKeys, properties.plus(key, property));
     }
 
+    @Override
     public LimitedPropertyMap<T> remove(Key<? super T, ?> key) {
         return new LimitedPropertyMap<>(
                 acceptedKeys,
