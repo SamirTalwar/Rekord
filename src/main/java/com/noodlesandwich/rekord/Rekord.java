@@ -8,10 +8,9 @@ import com.noodlesandwich.rekord.implementation.PersistentPropertyMap;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.Keys;
 import com.noodlesandwich.rekord.properties.Property;
+import com.noodlesandwich.rekord.properties.UnacceptableKeyException;
 
 public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBuilder<T, Rekord<T>> {
-    private static final String UnacceptableKeyTemplate = "The key \"%s\" is not a valid key for this Rekord.";
-
     private final Keys<T> acceptedKeys;
     private final PersistentPropertyMap<T> properties;
 
@@ -33,7 +32,7 @@ public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBui
     public <V> Rekord<T> with(Property<? super T, V> property) {
         Key<? super T, ?> key = property.key();
         if (!acceptedKeys.contains(key)) {
-            throw new IllegalArgumentException(String.format(UnacceptableKeyTemplate, key.name()));
+            throw new UnacceptableKeyException(key);
         }
         return new Rekord<>(name(), acceptedKeys, properties.set(property));
     }

@@ -14,6 +14,7 @@ import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.SimpleKey;
 import com.noodlesandwich.rekord.properties.Property;
 import com.noodlesandwich.rekord.properties.PropertyMap;
+import com.noodlesandwich.rekord.properties.UnacceptableKeyException;
 import com.noodlesandwich.rekord.serialization.Serializer;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
@@ -60,7 +61,7 @@ public final class RekordKeysTest {
 
     @Test public void
     a_Rekord_must_know_all_possible_keys_in_advance() {
-        expectedException.expect(an(IllegalArgumentException.class)
+        expectedException.expect(an(UnacceptableKeyException.class)
                 .withTheMessage("The key \"spice\" is not a valid key for this Rekord."));
 
         Key<Wurst, Integer> spice = SimpleKey.named("spice");
