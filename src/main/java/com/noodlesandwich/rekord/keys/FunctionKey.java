@@ -3,7 +3,6 @@ package com.noodlesandwich.rekord.keys;
 import com.noodlesandwich.rekord.functions.InvertibleFunction;
 import com.noodlesandwich.rekord.properties.Property;
 import com.noodlesandwich.rekord.properties.PropertyMap;
-import com.noodlesandwich.rekord.serialization.Serializer;
 
 public final class FunctionKey<T, V, W> extends DelegatingKey<T, W> {
     private final Key<T, V> underlyingKey;
@@ -41,11 +40,6 @@ public final class FunctionKey<T, V, W> extends DelegatingKey<T, W> {
     @Override
     public <R extends T> PropertyMap<R> set(W value, PropertyMap<R> properties) {
         return properties.set(new Property<>(underlyingKey, function.applyBackward(value)));
-    }
-
-    @Override
-    public <A, E extends Exception> void accumulate(W value, Serializer.Accumulator<A, E> accumulator) {
-        throw new UnsupportedOperationException();
     }
 
     public static final class UnwrappedFunctionKey {

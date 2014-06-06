@@ -1,7 +1,6 @@
 package com.noodlesandwich.rekord.keys;
 
 import com.noodlesandwich.rekord.properties.PropertyMap;
-import com.noodlesandwich.rekord.serialization.Serializer;
 
 public final class DefaultedKey<T, V> extends DelegatingKey<T, V> {
     private final Key<T, V> underlyingKey;
@@ -37,11 +36,6 @@ public final class DefaultedKey<T, V> extends DelegatingKey<T, V> {
     @Override
     public <R extends T> PropertyMap<R> set(V value, PropertyMap<R> properties) {
         return underlyingKey.set(value, properties);
-    }
-
-    @Override
-    public <A, E extends Exception> void accumulate(V value, Serializer.Accumulator<A, E> accumulator) {
-        throw new UnsupportedOperationException();
     }
 
     public static final class UnsureDefaultedKey<T, V> {

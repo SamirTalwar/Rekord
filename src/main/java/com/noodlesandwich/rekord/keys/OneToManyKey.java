@@ -4,7 +4,6 @@ import com.noodlesandwich.rekord.functions.InvertibleFunction;
 import com.noodlesandwich.rekord.implementation.KeySet;
 import com.noodlesandwich.rekord.properties.Property;
 import com.noodlesandwich.rekord.properties.PropertyMap;
-import com.noodlesandwich.rekord.serialization.Serializer;
 
 public final class OneToManyKey<T, V> extends DelegatingKey<T, V> {
     private final Keys<T> keys;
@@ -43,11 +42,6 @@ public final class OneToManyKey<T, V> extends DelegatingKey<T, V> {
             newProperties = newProperties.set(property);
         }
         return newProperties;
-    }
-
-    @Override
-    public <A, E extends Exception> void accumulate(V value, Serializer.Accumulator<A, E> accumulator) {
-        throw new UnsupportedOperationException();
     }
 
     public static final class UnmappedOneToManyKey {
