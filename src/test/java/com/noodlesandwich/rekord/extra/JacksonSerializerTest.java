@@ -5,7 +5,6 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Collection;
 import com.google.common.collect.ImmutableList;
-import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Rekord;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -87,7 +86,7 @@ public final class JacksonSerializerTest {
                 .with(LegoBag.sets, ImmutableList.<Collection<Brick>>of(
                         ImmutableList.of(Brick.Green, Brick.Red),
                         ImmutableList.of(Brick.Red, Brick.Blue, Brick.Red)))
-                .with(LegoBag.minifigs, ImmutableList.<FixedRekord<Person>>of(
+                .with(LegoBag.minifigs, ImmutableList.of(
                         Person.rekord.with(Person.firstName, "Indiana").with(Person.lastName, "Jones"),
                         Person.rekord.with(Person.firstName, "Luke").with(Person.lastName, "Skywalker"),
                         Person.rekord.with(Person.firstName, "Batman")));

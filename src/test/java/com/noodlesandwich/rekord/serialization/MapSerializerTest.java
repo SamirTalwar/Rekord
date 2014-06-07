@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Map;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Rekord;
 import org.junit.Test;
 
@@ -63,7 +62,7 @@ public final class MapSerializerTest {
         Rekord<Person> person = Person.rekord
                 .with(Person.firstName, "Queen Elizabeth")
                 .with(Person.lastName, "II")
-                .with(Person.favouritePeople, ImmutableList.<FixedRekord<Person>>of(
+                .with(Person.favouritePeople, ImmutableList.of(
                         Person.rekord.with(Person.firstName, "William"),
                         Person.rekord.with(Person.firstName, "Harry")))
                 .with(Person.pets, ImmutableList.of(

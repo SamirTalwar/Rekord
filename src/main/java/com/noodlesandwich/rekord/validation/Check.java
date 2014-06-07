@@ -1,7 +1,7 @@
 package com.noodlesandwich.rekord.validation;
 
-import com.noodlesandwich.rekord.FixedRekord;
+import com.noodlesandwich.rekord.Rekord;
 
 public interface Check<T> {
-    boolean check(FixedRekord<T> rekord);
+    boolean check(Rekord<T> rekord);
 }

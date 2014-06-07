@@ -3,7 +3,6 @@ package com.noodlesandwich.rekord.serialization;
 import javax.xml.parsers.ParserConfigurationException;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
-import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.Rekords;
 import com.noodlesandwich.rekord.keys.Key;
@@ -87,9 +86,9 @@ public final class DomXmlSerializerTest {
 
     @Test public void
     a_rekord_with_nested_rekords_is_serialized_to_nested_XML() throws ParserConfigurationException {
-        FixedRekord<Person> darla = Person.rekord.with(Person.firstName, "Darla");
-        FixedRekord<Person> darlasMum = Person.rekord.with(Person.firstName, "Darla's Mum");
-        FixedRekord<Person> person = Person.rekord
+        Rekord<Person> darla = Person.rekord.with(Person.firstName, "Darla");
+        Rekord<Person> darlasMum = Person.rekord.with(Person.firstName, "Darla's Mum");
+        Rekord<Person> person = Person.rekord
                 .with(Person.firstName, "Philip")
                 .with(Person.lastName, "Sherman")
                 .with(Person.favouritePeople, ImmutableList.of(darla, darlasMum))

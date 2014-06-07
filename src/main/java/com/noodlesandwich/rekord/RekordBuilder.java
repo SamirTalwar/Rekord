@@ -12,5 +12,5 @@ public interface RekordBuilder<T, B extends RekordBuilder<T, B>> extends RekordT
 
     B without(Key<? super T, ?> key);
 
-    B merge(FixedRekord<T> other);
+    B merge(Rekord<T> other);
 }

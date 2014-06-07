@@ -1,7 +1,6 @@
 package com.noodlesandwich.rekord.testobjects;
 
 import java.util.Collection;
-import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.Rekords;
 import com.noodlesandwich.rekord.keys.IterableKey;
@@ -66,7 +65,7 @@ public final class TestRekords {
         Key<Person, String> firstName = SimpleKey.named("first name");
         Key<Person, String> lastName = SimpleKey.named("last name");
         Key<Person, Integer> age = SimpleKey.named("age");
-        Key<Person, Iterable<FixedRekord<Person>>> favouritePeople = IterableKey.named("favourite people").of(RekordKey.<Person, Person>named("favourite person"));
+        Key<Person, Iterable<Rekord<Person>>> favouritePeople = IterableKey.named("favourite people").of(RekordKey.<Person, Person>named("favourite person"));
         Key<Person, Iterable<String>> pets = IterableKey.named("pets").of(SimpleKey.<Person, String>named("pet"));
         RekordKey<Person, Address> address = RekordKey.named("address");
         RekordKey<Person, Company> company = RekordKey.named("company");
@@ -114,7 +113,7 @@ public final class TestRekords {
 
     public static interface LegoBag {
         Key<LegoBag, Collection<Collection<Brick>>> sets = IterableKey.named("lego sets").of(IterableKey.named("bricks").<LegoBag, Brick, Collection<Brick>>of(SimpleKey.<LegoBag, Brick>named("brick")));
-        Key<LegoBag, Iterable<FixedRekord<Person>>> minifigs = IterableKey.named("minifigs").of(RekordKey.<LegoBag, Person>named("minifig"));
+        Key<LegoBag, Iterable<Rekord<Person>>> minifigs = IterableKey.named("minifigs").of(RekordKey.<LegoBag, Person>named("minifig"));
 
         Rekord<LegoBag> rekord = Rekords.of(LegoBag.class).accepting(sets, minifigs);
 

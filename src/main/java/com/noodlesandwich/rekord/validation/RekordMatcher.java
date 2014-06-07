@@ -1,7 +1,7 @@
 package com.noodlesandwich.rekord.validation;
 
 import java.util.Map;
-import com.noodlesandwich.rekord.FixedRekord;
+import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.keys.Key;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -11,7 +11,7 @@ import org.pcollections.PMap;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 
-public final class RekordMatcher<T> extends TypeSafeDiagnosingMatcher<FixedRekord<T>> {
+public final class RekordMatcher<T> extends TypeSafeDiagnosingMatcher<Rekord<T>> {
     private final String name;
     private PMap<Key<? super T, ?>, Matcher<?>> expectedProperties = HashTreePMap.empty();
 
@@ -35,7 +35,7 @@ public final class RekordMatcher<T> extends TypeSafeDiagnosingMatcher<FixedRekor
     }
 
     @Override
-    protected boolean matchesSafely(FixedRekord<T> actualRekord, Description mismatchDescription) {
+    protected boolean matchesSafely(Rekord<T> actualRekord, Description mismatchDescription) {
         mismatchDescription.appendText("a rekord that looks like ").appendValue(actualRekord);
 
         if (!expectedProperties.keySet().equals(actualRekord.keys().toSet())) {

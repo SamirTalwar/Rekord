@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import com.noodlesandwich.rekord.FixedRekord;
+import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.keys.Key;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -23,7 +23,7 @@ public final class DomXmlSerializer implements Serializer<Document, ParserConfig
     }
 
     @Override
-    public <T> Document serialize(Key<?, FixedRekord<T>> key, FixedRekord<T> rekord) throws ParserConfigurationException {
+    public <T> Document serialize(Key<?, Rekord<T>> key, Rekord<T> rekord) throws ParserConfigurationException {
         DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document document = documentBuilder.newDocument();
         NodeCreator nodeCreator = new NodeCreator(locale, document);

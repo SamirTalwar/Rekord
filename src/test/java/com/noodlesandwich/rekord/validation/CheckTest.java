@@ -1,6 +1,6 @@
 package com.noodlesandwich.rekord.validation;
 
-import com.noodlesandwich.rekord.FixedRekord;
+import com.noodlesandwich.rekord.Rekord;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -42,7 +42,7 @@ public final class CheckTest {
 
     private static Check<Bratwurst> itIsChopped() {
         return new Check<Bratwurst>() {
-            @Override public boolean check(FixedRekord<Bratwurst> rekord) {
+            @Override public boolean check(Rekord<Bratwurst> rekord) {
                 return rekord.get(Bratwurst.style) == Chopped;
             }
         };

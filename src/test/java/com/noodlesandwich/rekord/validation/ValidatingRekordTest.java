@@ -1,6 +1,6 @@
 package com.noodlesandwich.rekord.validation;
 
-import com.noodlesandwich.rekord.FixedRekord;
+import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.SimpleKey;
 import com.noodlesandwich.rekord.properties.UnacceptableKeyException;
@@ -68,15 +68,15 @@ public final class ValidatingRekordTest {
                 .with(size, 4);
     }
 
-    private static Matcher<FixedRekord<Sandvich>> noBurgers() {
-        return new TypeSafeDiagnosingMatcher<FixedRekord<Sandvich>>() {
+    private static Matcher<Rekord<Sandvich>> noBurgers() {
+        return new TypeSafeDiagnosingMatcher<Rekord<Sandvich>>() {
             @Override
             public void describeTo(Description description) {
                 description.appendText("burgers are gross");
             }
 
             @Override
-            protected boolean matchesSafely(FixedRekord<Sandvich> rekord, Description mismatchDescription) {
+            protected boolean matchesSafely(Rekord<Sandvich> rekord, Description mismatchDescription) {
                 Sandvich.Style style = rekord.get(Sandvich.style);
                 mismatchDescription.appendText("the sandvich style was ").appendValue(style);
                 return style != Burger;

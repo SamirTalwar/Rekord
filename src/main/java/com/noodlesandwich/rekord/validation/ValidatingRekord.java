@@ -1,6 +1,6 @@
 package com.noodlesandwich.rekord.validation;
 
-import com.noodlesandwich.rekord.FixedRekord;
+import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.RekordBuilder;
 import com.noodlesandwich.rekord.RekordTemplate;
 import com.noodlesandwich.rekord.implementation.KeySet;
@@ -17,9 +17,9 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
     private final String name;
     private final Keys<T> acceptedKeys;
     private final Properties<T> properties;
-    private final Matcher<FixedRekord<T>> matcher;
+    private final Matcher<Rekord<T>> matcher;
 
-    private ValidatingRekord(String name, Keys<T> acceptedKeys, Properties<T> properties, Matcher<FixedRekord<T>> matcher) {
+    private ValidatingRekord(String name, Keys<T> acceptedKeys, Properties<T> properties, Matcher<Rekord<T>> matcher) {
         this.name = name;
         this.acceptedKeys = acceptedKeys;
         this.properties = properties;
@@ -74,7 +74,7 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
     }
 
     @Override
-    public ValidatingRekord<T> merge(FixedRekord<T> other) {
+    public ValidatingRekord<T> merge(Rekord<T> other) {
         ValidatingRekord<T> result = this;
         for (Property<? super T, ?> property : other.properties()) {
             result = result.with(property);
@@ -123,7 +123,7 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
             this.acceptedKeys = acceptedKeys;
         }
 
-        public ValidatingRekord<T> expecting(Matcher<FixedRekord<T>> matcher) {
+        public ValidatingRekord<T> expecting(Matcher<Rekord<T>> matcher) {
             return new ValidatingRekord<>(name, acceptedKeys, new PersistentProperties<T>(), matcher);
         }
     }

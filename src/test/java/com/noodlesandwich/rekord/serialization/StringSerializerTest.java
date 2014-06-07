@@ -1,7 +1,6 @@
 package com.noodlesandwich.rekord.serialization;
 
 import com.google.common.collect.ImmutableList;
-import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Rekord;
 import org.junit.Test;
 
@@ -42,15 +41,15 @@ public final class StringSerializerTest {
     @SuppressWarnings("unchecked")
     @Test public void
     serializes_nested_rekords() {
-        FixedRekord<Person> maggie = Person.rekord
+        Rekord<Person> maggie = Person.rekord
                 .with(Person.firstName, "Maggie")
                 .with(Person.lastName, "Simpson");
 
-        FixedRekord<Person> marge = Person.rekord
+        Rekord<Person> marge = Person.rekord
                 .with(Person.firstName, "Marge")
                 .with(Person.lastName, "Simpson");
 
-        FixedRekord<Person> lisa = Person.rekord
+        Rekord<Person> lisa = Person.rekord
                 .with(Person.firstName, "Lisa")
                 .with(Person.lastName, "Simpson")
                 .with(Person.favouritePeople, ImmutableList.of(maggie, marge))
