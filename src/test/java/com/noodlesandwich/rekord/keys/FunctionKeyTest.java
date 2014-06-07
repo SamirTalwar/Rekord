@@ -17,8 +17,8 @@ import org.junit.rules.ExpectedException;
 
 import static com.noodlesandwich.rekord.functions.Functions.invertibleIdentity;
 import static com.noodlesandwich.rekord.testobjects.ExceptionMatcher.a;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Address;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Country;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Address;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Country;
 import static com.noodlesandwich.rekord.validation.RekordMatchers.hasKey;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;

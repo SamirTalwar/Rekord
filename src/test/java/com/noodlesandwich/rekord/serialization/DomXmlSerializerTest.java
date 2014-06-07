@@ -5,17 +5,18 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Rekord;
+import com.noodlesandwich.rekord.Rekords;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.SimpleKey;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
-import static com.noodlesandwich.rekord.testobjects.Rekords.Address;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Person;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.Brown;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Cheese;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Roll;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Address;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Person;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Bread.Brown;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Filling.Cheese;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Style.Roll;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.xmlmatchers.XmlMatchers.isSimilarTo;
 import static org.xmlmatchers.transform.XmlConverters.the;
@@ -60,7 +61,7 @@ public final class DomXmlSerializerTest {
         Key<Person, Integer> key_12345 = SimpleKey.named("12345");
         Key<Person, String> key_up = SimpleKey.named("^up");
 
-        Rekord<Person> modifiedPersonRekord = Rekord.<Person>create("sea creaTURE")
+        Rekord<Person> modifiedPersonRekord = Rekords.<Person>create("sea creaTURE")
                 .accepting(Person.firstName, Person.lastName, Person.age, key_12345, key_up);
 
         Rekord<Person> spongebob = modifiedPersonRekord

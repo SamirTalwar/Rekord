@@ -6,9 +6,9 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import static com.noodlesandwich.rekord.testobjects.ExceptionMatcher.an;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst.Style.Chopped;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst.Style.Whole;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Bratwurst;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Bratwurst.Style.Chopped;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Bratwurst.Style.Whole;
 import static com.noodlesandwich.rekord.validation.RekordMatchers.aRekordOf;
 import static com.noodlesandwich.rekord.validation.RekordMatchers.that;
 import static org.hamcrest.MatcherAssert.assertThat;

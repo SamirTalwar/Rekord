@@ -5,8 +5,8 @@ import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Rekord;
 import org.junit.Test;
 
-import static com.noodlesandwich.rekord.testobjects.Rekords.Address;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Person;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Address;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Person;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anyOf;

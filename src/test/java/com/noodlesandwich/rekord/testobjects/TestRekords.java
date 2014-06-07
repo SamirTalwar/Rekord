@@ -3,20 +3,21 @@ package com.noodlesandwich.rekord.testobjects;
 import java.util.Collection;
 import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Rekord;
+import com.noodlesandwich.rekord.Rekords;
 import com.noodlesandwich.rekord.keys.IterableKey;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.RekordKey;
 import com.noodlesandwich.rekord.keys.SimpleKey;
 
-public final class Rekords {
-    private Rekords() { }
+public final class TestRekords {
+    private TestRekords() { }
 
     public static interface Sandvich {
         Key<Sandvich, Bread> bread = SimpleKey.named("bread");
         Key<Sandvich, Filling> filling = SimpleKey.named("filling");
         Key<Sandvich, Style> style = SimpleKey.named("style");
 
-        Rekord<Sandvich> rekord = Rekord.of(Sandvich.class).accepting(filling, bread, style);
+        Rekord<Sandvich> rekord = Rekords.of(Sandvich.class).accepting(filling, bread, style);
 
         public static enum Bread {
             Brown,
@@ -40,13 +41,13 @@ public final class Rekords {
     public static interface Wurst {
         Key<Wurst, Double> curvature = SimpleKey.named("curvature");
 
-        Rekord<Wurst> rekord = Rekord.of(Wurst.class).accepting(curvature);
+        Rekord<Wurst> rekord = Rekords.of(Wurst.class).accepting(curvature);
     }
 
     public static interface Bratwurst extends Wurst {
         Key<Bratwurst, Style> style = SimpleKey.named("style");
 
-        Rekord<Bratwurst> rekord = Rekord.of(Bratwurst.class).accepting(Wurst.rekord.acceptedKeys(), style);
+        Rekord<Bratwurst> rekord = Rekords.of(Bratwurst.class).accepting(Wurst.rekord.acceptedKeys(), style);
 
         public static enum Style {
             Chopped,
@@ -58,7 +59,7 @@ public final class Rekords {
         Key<Bier, Measurement.Volume> volume = SimpleKey.named("volume");
         Key<Bier, Measurement.Length> head = SimpleKey.named("head");
 
-        Rekord<Bier> rekord = Rekord.of(Bier.class).accepting(volume, head);
+        Rekord<Bier> rekord = Rekords.of(Bier.class).accepting(volume, head);
     }
 
     public static interface Person {
@@ -70,7 +71,7 @@ public final class Rekords {
         RekordKey<Person, Address> address = RekordKey.named("address");
         RekordKey<Person, Company> company = RekordKey.named("company");
 
-        Rekord<Person> rekord = Rekord.of(Person.class).accepting(firstName, lastName, age, favouritePeople, pets, address, company);
+        Rekord<Person> rekord = Rekords.of(Person.class).accepting(firstName, lastName, age, favouritePeople, pets, address, company);
     }
 
     public static interface Address {
@@ -80,7 +81,7 @@ public final class Rekords {
         Key<Address, String> postalCode = SimpleKey.named("postal code");
         Key<Address, Country> country = SimpleKey.named("country");
 
-        Rekord<Address> rekord = Rekord.of(Address.class).accepting(houseNumber, street, city, postalCode, country);
+        Rekord<Address> rekord = Rekords.of(Address.class).accepting(houseNumber, street, city, postalCode, country);
     }
 
     public static enum Country {
@@ -98,7 +99,7 @@ public final class Rekords {
         Key<Company, String> name = SimpleKey.named("name");
         RekordKey<Company, Address> address = RekordKey.named("address");
 
-        Rekord<Company> rekord = Rekord.of(Company.class).accepting(name, address);
+        Rekord<Company> rekord = Rekords.of(Company.class).accepting(name, address);
     }
 
     public static interface Box {
@@ -108,14 +109,14 @@ public final class Rekords {
         Key<Box, String> text = SimpleKey.named("text");
         Key<Box, Collection<Object>> stuff = IterableKey.named("stuff").of(SimpleKey.<Box, Object>named("object"));
 
-        Rekord<Box> rekord = Rekord.of(Box.class).accepting(fact, number, real, text, stuff);
+        Rekord<Box> rekord = Rekords.of(Box.class).accepting(fact, number, real, text, stuff);
     }
 
     public static interface LegoBag {
         Key<LegoBag, Collection<Collection<Brick>>> sets = IterableKey.named("lego sets").of(IterableKey.named("bricks").<LegoBag, Brick, Collection<Brick>>of(SimpleKey.<LegoBag, Brick>named("brick")));
         Key<LegoBag, Iterable<FixedRekord<Person>>> minifigs = IterableKey.named("minifigs").of(RekordKey.<LegoBag, Person>named("minifig"));
 
-        Rekord<LegoBag> rekord = Rekord.of(LegoBag.class).accepting(sets, minifigs);
+        Rekord<LegoBag> rekord = Rekords.of(LegoBag.class).accepting(sets, minifigs);
 
         public static enum Brick {
             Red,
@@ -128,7 +129,7 @@ public final class Rekords {
     public static final class Jar<T extends Jar.Contents> {
         @SuppressWarnings("unchecked")
         public static Rekord<Jar<Cookie>> ofCookies() {
-            return Rekord.<Jar<Cookie>>create("Cookie Jar").accepting(Jar.<Cookie>contents());
+            return Rekords.<Jar<Cookie>>create("Cookie Jar").accepting(Jar.<Cookie>contents());
         }
 
         private static final Key<Jar<Contents>, Iterable<Contents>> contents

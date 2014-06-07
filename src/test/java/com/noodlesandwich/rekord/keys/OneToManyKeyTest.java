@@ -8,7 +8,7 @@ import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.properties.Property;
 import org.junit.Test;
 
-import static com.noodlesandwich.rekord.testobjects.Rekords.Address;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Address;
 import static com.noodlesandwich.rekord.validation.RekordMatchers.hasKey;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;

@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import static com.noodlesandwich.rekord.testobjects.ExceptionMatcher.an;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Box;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Box;
 import static com.noodlesandwich.rekord.validation.RekordMatchers.hasProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;

@@ -13,12 +13,12 @@ import org.json.JSONObject;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 
-import static com.noodlesandwich.rekord.testobjects.Rekords.Address;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Box;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Company;
-import static com.noodlesandwich.rekord.testobjects.Rekords.LegoBag;
-import static com.noodlesandwich.rekord.testobjects.Rekords.LegoBag.Brick;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Person;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Address;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Box;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Company;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.LegoBag;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.LegoBag.Brick;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Person;
 
 public final class JacksonSerializerTest {
     @Test public void

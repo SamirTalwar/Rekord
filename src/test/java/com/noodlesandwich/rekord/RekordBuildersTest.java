@@ -2,13 +2,13 @@ package com.noodlesandwich.rekord;
 
 import org.junit.Test;
 
-import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.Brown;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.White;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Cheese;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Ham;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Burger;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Roll;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Bread.Brown;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Bread.White;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Filling.Cheese;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Filling.Ham;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Style.Burger;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Style.Roll;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;

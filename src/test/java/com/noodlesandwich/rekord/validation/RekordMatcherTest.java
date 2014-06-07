@@ -4,8 +4,8 @@ import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.testobjects.Measurement;
 import org.junit.Test;
 
-import static com.noodlesandwich.rekord.testobjects.Rekords.Bier;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Person;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Bier;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Person;
 import static com.noodlesandwich.rekord.validation.RekordMatchers.aRekordOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;

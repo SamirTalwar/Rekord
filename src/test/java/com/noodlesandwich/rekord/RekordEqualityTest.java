@@ -1,13 +1,13 @@
 package com.noodlesandwich.rekord;
 
-import org.junit.Test;
 import com.noodlesandwich.rekord.testobjects.Measurement;
+import org.junit.Test;
 
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Bier;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Bier;
 
 public final class RekordEqualityTest {
     @Test public void

@@ -21,20 +21,20 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import static com.noodlesandwich.rekord.testobjects.ExceptionMatcher.an;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Bratwurst.Style.Chopped;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.Brown;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Bread.White;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Cheese;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Ham;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Jam;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Filling.Lettuce;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Flat;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Sandvich.Style.Roll;
-import static com.noodlesandwich.rekord.testobjects.Rekords.Wurst;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Bratwurst;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Bratwurst.Style.Chopped;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Bread;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Bread.Brown;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Bread.White;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Filling;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Filling.Cheese;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Filling.Ham;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Filling.Jam;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Filling.Lettuce;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Style.Flat;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Style.Roll;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Wurst;
 import static com.noodlesandwich.rekord.validation.RekordMatchers.hasKey;
 import static com.noodlesandwich.rekord.validation.RekordMatchers.hasProperties;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -65,7 +65,7 @@ public final class RekordKeysTest {
 
         Key<Wurst, Integer> spice = SimpleKey.named("spice");
 
-        Rekord.of(Bratwurst.class).accepting(Wurst.curvature, Bratwurst.style)
+        Rekords.of(Bratwurst.class).accepting(Wurst.curvature, Bratwurst.style)
                 .with(spice, 7);
     }
 
@@ -83,7 +83,7 @@ public final class RekordKeysTest {
     @SuppressWarnings("unchecked")
     @Test public void
     whether_a_property_is_present_is_up_to_the_key() {
-        Rekord<Bratwurst> bratwurstRekord = Rekord.of(Bratwurst.class)
+        Rekord<Bratwurst> bratwurstRekord = Rekords.of(Bratwurst.class)
                 .accepting(Bratwurst.rekord.acceptedKeys(), missingKey);
 
         Rekord<Bratwurst> bratwurst = bratwurstRekord
@@ -133,7 +133,7 @@ public final class RekordKeysTest {
     a_rekord_is_aware_of_the_underlying_keys_even_when_constructed_with_wrapping_keys() {
         Key<Sandvich, Bread> bread = DefaultedKey.wrapping(Sandvich.bread).defaultingTo(Brown);
         Key<Sandvich, Filling> filling = FunctionKey.wrapping(Sandvich.filling).with(rotatedFillings());
-        Rekord<Sandvich> sandvichRekord = Rekord.of(Sandvich.class)
+        Rekord<Sandvich> sandvichRekord = Rekords.of(Sandvich.class)
                 .accepting(bread, filling, Sandvich.style);
 
         Rekord<Sandvich> sandvich = sandvichRekord
