@@ -1,8 +1,8 @@
 package com.noodlesandwich.rekord.keys;
 
 import com.noodlesandwich.rekord.functions.InvertibleFunction;
+import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.properties.Property;
-import com.noodlesandwich.rekord.properties.PropertyMap;
 
 public final class FunctionKey<T, V, W> extends DelegatingKey<T, W> {
     private final Key<T, V> underlyingKey;
@@ -23,13 +23,13 @@ public final class FunctionKey<T, V, W> extends DelegatingKey<T, W> {
     }
 
     @Override
-    public <R extends T> boolean test(PropertyMap<R> properties) {
+    public <R extends T> boolean test(Properties<R> properties) {
         V value = underlyingKey.get(properties);
         return value != null && function.applyForward(value) != null;
     }
 
     @Override
-    public <R extends T> W get(PropertyMap<R> properties) {
+    public <R extends T> W get(Properties<R> properties) {
         if (!test(properties)) {
             return null;
         }
@@ -38,7 +38,7 @@ public final class FunctionKey<T, V, W> extends DelegatingKey<T, W> {
     }
 
     @Override
-    public <R extends T> PropertyMap<R> set(W value, PropertyMap<R> properties) {
+    public <R extends T> Properties<R> set(W value, Properties<R> properties) {
         return properties.set(new Property<>(underlyingKey, function.applyBackward(value)));
     }
 

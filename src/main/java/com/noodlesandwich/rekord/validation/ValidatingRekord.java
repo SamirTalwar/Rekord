@@ -4,22 +4,22 @@ import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.RekordBuilder;
 import com.noodlesandwich.rekord.RekordTemplate;
 import com.noodlesandwich.rekord.implementation.KeySet;
-import com.noodlesandwich.rekord.implementation.PersistentPropertyMap;
+import com.noodlesandwich.rekord.implementation.PersistentProperties;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.Keys;
+import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.properties.Property;
 import com.noodlesandwich.rekord.properties.PropertyKeys;
-import com.noodlesandwich.rekord.properties.PropertyMap;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
 
 public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRekord<T>> {
     private final String name;
     private final Keys<T> acceptedKeys;
-    private final PropertyMap<T> properties;
+    private final Properties<T> properties;
     private final Matcher<FixedRekord<T>> matcher;
 
-    private ValidatingRekord(String name, Keys<T> acceptedKeys, PropertyMap<T> properties, Matcher<FixedRekord<T>> matcher) {
+    private ValidatingRekord(String name, Keys<T> acceptedKeys, Properties<T> properties, Matcher<FixedRekord<T>> matcher) {
         this.name = name;
         this.acceptedKeys = acceptedKeys;
         this.properties = properties;
@@ -68,7 +68,7 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
         return set(properties.remove(key));
     }
 
-    private ValidatingRekord<T> set(PropertyMap<T> newProperties) {
+    private ValidatingRekord<T> set(Properties<T> newProperties) {
         PropertyKeys.checkAcceptabilityOf(newProperties, acceptedKeys);
         return new ValidatingRekord<>(name, acceptedKeys, newProperties, matcher);
     }
@@ -124,7 +124,7 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
         }
 
         public ValidatingRekord<T> expecting(Matcher<FixedRekord<T>> matcher) {
-            return new ValidatingRekord<>(name, acceptedKeys, new PersistentPropertyMap<T>(), matcher);
+            return new ValidatingRekord<>(name, acceptedKeys, new PersistentProperties<T>(), matcher);
         }
     }
 }

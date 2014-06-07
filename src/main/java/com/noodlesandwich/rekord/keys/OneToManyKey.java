@@ -2,14 +2,14 @@ package com.noodlesandwich.rekord.keys;
 
 import com.noodlesandwich.rekord.functions.InvertibleFunction;
 import com.noodlesandwich.rekord.implementation.KeySet;
+import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.properties.Property;
-import com.noodlesandwich.rekord.properties.PropertyMap;
 
 public final class OneToManyKey<T, V> extends DelegatingKey<T, V> {
     private final Keys<T> keys;
-    private final InvertibleFunction<PropertyMap<T>, V> function;
+    private final InvertibleFunction<Properties<T>, V> function;
 
-    public OneToManyKey(String name, Keys<T> keys, InvertibleFunction<PropertyMap<T>, V> function) {
+    public OneToManyKey(String name, Keys<T> keys, InvertibleFunction<Properties<T>, V> function) {
         super(name, keys);
         this.keys = keys;
         this.function = function;
@@ -20,7 +20,7 @@ public final class OneToManyKey<T, V> extends DelegatingKey<T, V> {
     }
 
     @Override
-    public <R extends T> boolean test(PropertyMap<R> properties) {
+    public <R extends T> boolean test(Properties<R> properties) {
         for (Key<? super T, ?> key : keys) {
             if (!key.test(properties)) {
                 return false;
@@ -31,13 +31,13 @@ public final class OneToManyKey<T, V> extends DelegatingKey<T, V> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <R extends T> V get(PropertyMap<R> properties) {
-        return function.applyForward((PropertyMap<T>) properties);
+    public <R extends T> V get(Properties<R> properties) {
+        return function.applyForward((Properties<T>) properties);
     }
 
     @Override
-    public <R extends T> PropertyMap<R> set(V value, PropertyMap<R> properties) {
-        PropertyMap<R> newProperties = properties;
+    public <R extends T> Properties<R> set(V value, Properties<R> properties) {
+        Properties<R> newProperties = properties;
         for (Property<? super T, ?> property : function.applyBackward(value)) {
             newProperties = newProperties.set(property);
         }
@@ -73,7 +73,7 @@ public final class OneToManyKey<T, V> extends DelegatingKey<T, V> {
             this.keys = keys;
         }
 
-        public <V> OneToManyKey<T, V> with(InvertibleFunction<PropertyMap<T>, V> function) {
+        public <V> OneToManyKey<T, V> with(InvertibleFunction<Properties<T>, V> function) {
             return new OneToManyKey<>(name, keys, function);
         }
     }

@@ -12,7 +12,7 @@ import com.noodlesandwich.rekord.keys.DefaultedKey;
 import com.noodlesandwich.rekord.keys.FunctionKey;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.SimpleKey;
-import com.noodlesandwich.rekord.properties.PropertyMap;
+import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.properties.UnacceptableKeyException;
 import com.noodlesandwich.rekord.serialization.Serializer;
 import org.hamcrest.Matchers;
@@ -174,17 +174,17 @@ public final class RekordKeysTest {
         }
 
         @Override
-        public <R extends T> boolean test(PropertyMap<R> properties) {
+        public <R extends T> boolean test(Properties<R> properties) {
             return false;
         }
 
         @Override
-        public <R extends T> V get(PropertyMap<R> properties) {
+        public <R extends T> V get(Properties<R> properties) {
             return null;
         }
 
         @Override
-        public <R extends T> PropertyMap<R> set(V value, PropertyMap<R> properties) {
+        public <R extends T> Properties<R> set(V value, Properties<R> properties) {
             return properties;
         }
 

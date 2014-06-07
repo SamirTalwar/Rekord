@@ -1,6 +1,6 @@
 package com.noodlesandwich.rekord.keys;
 
-import com.noodlesandwich.rekord.properties.PropertyMap;
+import com.noodlesandwich.rekord.properties.Properties;
 
 public final class DefaultedKey<T, V> extends DelegatingKey<T, V> {
     private final Key<T, V> underlyingKey;
@@ -20,12 +20,12 @@ public final class DefaultedKey<T, V> extends DelegatingKey<T, V> {
     }
 
     @Override
-    public <R extends T> boolean test(PropertyMap<R> properties) {
+    public <R extends T> boolean test(Properties<R> properties) {
         return underlyingKey.test(properties);
     }
 
     @Override
-    public <R extends T> V get(PropertyMap<R> properties) {
+    public <R extends T> V get(Properties<R> properties) {
         V value = underlyingKey.get(properties);
         if (value == null) {
             return defaultValue;
@@ -34,7 +34,7 @@ public final class DefaultedKey<T, V> extends DelegatingKey<T, V> {
     }
 
     @Override
-    public <R extends T> PropertyMap<R> set(V value, PropertyMap<R> properties) {
+    public <R extends T> Properties<R> set(V value, Properties<R> properties) {
         return underlyingKey.set(value, properties);
     }
 

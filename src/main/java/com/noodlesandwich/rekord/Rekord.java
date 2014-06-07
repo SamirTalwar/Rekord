@@ -2,18 +2,18 @@ package com.noodlesandwich.rekord;
 
 import com.noodlesandwich.rekord.implementation.AbstractFixedRekord;
 import com.noodlesandwich.rekord.implementation.KeySet;
-import com.noodlesandwich.rekord.implementation.PersistentPropertyMap;
+import com.noodlesandwich.rekord.implementation.PersistentProperties;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.Keys;
+import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.properties.Property;
 import com.noodlesandwich.rekord.properties.PropertyKeys;
-import com.noodlesandwich.rekord.properties.PropertyMap;
 
 public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBuilder<T, Rekord<T>> {
     private final Keys<T> acceptedKeys;
-    private final PropertyMap<T> properties;
+    private final Properties<T> properties;
 
-    private Rekord(String name, Keys<T> acceptedKeys, PropertyMap<T> properties) {
+    private Rekord(String name, Keys<T> acceptedKeys, Properties<T> properties) {
         super(name, acceptedKeys, properties);
         this.acceptedKeys = acceptedKeys;
         this.properties = properties;
@@ -47,7 +47,7 @@ public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBui
         return set(properties.remove(key));
     }
 
-    private Rekord<T> set(PropertyMap<T> newProperties) {
+    private Rekord<T> set(Properties<T> newProperties) {
         PropertyKeys.checkAcceptabilityOf(newProperties, acceptedKeys);
         return new Rekord<>(name(), acceptedKeys, newProperties);
     }
@@ -87,7 +87,7 @@ public final class Rekord<T> extends AbstractFixedRekord<T> implements RekordBui
         // CHECKSTYLE:ON
 
         public Rekord<T> accepting(Keys<T> keys) {
-            return new Rekord<>(name, keys, new PersistentPropertyMap<T>());
+            return new Rekord<>(name, keys, new PersistentProperties<T>());
         }
     }
 }

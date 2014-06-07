@@ -2,19 +2,19 @@ package com.noodlesandwich.rekord.implementation;
 
 import java.util.Iterator;
 import com.noodlesandwich.rekord.keys.Key;
+import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.properties.Property;
-import com.noodlesandwich.rekord.properties.PropertyMap;
 import org.pcollections.HashTreePMap;
 import org.pcollections.PMap;
 
-public final class PersistentPropertyMap<T> implements PropertyMap<T> {
+public final class PersistentProperties<T> implements Properties<T> {
     private final PMap<Key<? super T, ?>, Property<? super T, ?>> properties;
 
-    public PersistentPropertyMap() {
+    public PersistentProperties() {
         this(HashTreePMap.<Key<? super T, ?>, Property<? super T, ?>>empty());
     }
 
-    private PersistentPropertyMap(PMap<Key<? super T, ?>, Property<? super T, ?>> properties) {
+    private PersistentProperties(PMap<Key<? super T, ?>, Property<? super T, ?>> properties) {
         this.properties = properties;
     }
 
@@ -34,14 +34,14 @@ public final class PersistentPropertyMap<T> implements PropertyMap<T> {
     }
 
     @Override
-    public PersistentPropertyMap<T> set(Property<? super T, ?> property) {
+    public PersistentProperties<T> set(Property<? super T, ?> property) {
         Key<? super T, ?> key = property.key();
-        return new PersistentPropertyMap<>(properties.plus(key, property));
+        return new PersistentProperties<>(properties.plus(key, property));
     }
 
     @Override
-    public PersistentPropertyMap<T> remove(Key<? super T, ?> key) {
-        return new PersistentPropertyMap<>(
+    public PersistentProperties<T> remove(Key<? super T, ?> key) {
+        return new PersistentProperties<>(
                 properties.minus(key)
         );
     }
@@ -57,12 +57,12 @@ public final class PersistentPropertyMap<T> implements PropertyMap<T> {
             return true;
         }
 
-        if (!(other instanceof PersistentPropertyMap)) {
+        if (!(other instanceof PersistentProperties)) {
             return false;
         }
 
         @SuppressWarnings("unchecked")
-        PersistentPropertyMap<T> that = (PersistentPropertyMap<T>) other;
+        PersistentProperties<T> that = (PersistentProperties<T>) other;
         return properties.equals(that.properties);
     }
 

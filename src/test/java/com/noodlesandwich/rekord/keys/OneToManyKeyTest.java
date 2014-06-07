@@ -3,9 +3,9 @@ package com.noodlesandwich.rekord.keys;
 import java.util.regex.Pattern;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.functions.InvertibleFunction;
-import com.noodlesandwich.rekord.implementation.PersistentPropertyMap;
+import com.noodlesandwich.rekord.implementation.PersistentProperties;
+import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.properties.Property;
-import com.noodlesandwich.rekord.properties.PropertyMap;
 import org.junit.Test;
 
 import static com.noodlesandwich.rekord.testobjects.Rekords.Address;
@@ -62,19 +62,19 @@ public final class OneToManyKeyTest {
         assertThat(address, not(hasKey(firstLine)));
     }
 
-    private static InvertibleFunction<PropertyMap<Address>, String> concatenateHouseNumberAndStreet() {
-        return new InvertibleFunction<PropertyMap<Address>, String>() {
+    private static InvertibleFunction<Properties<Address>, String> concatenateHouseNumberAndStreet() {
+        return new InvertibleFunction<Properties<Address>, String>() {
             private final Pattern whitespace = Pattern.compile(" ");
 
             @Override
-            public String applyForward(PropertyMap<Address> input) {
+            public String applyForward(Properties<Address> input) {
                 return String.format("%d %s", input.get(Address.houseNumber), input.get(Address.street));
             }
 
             @Override
-            public PropertyMap<Address> applyBackward(String input) {
+            public Properties<Address> applyBackward(String input) {
                 String[] split = whitespace.split(input, 2);
-                return new PersistentPropertyMap<Address>()
+                return new PersistentProperties<Address>()
                         .set(new Property<>(Address.houseNumber, Integer.parseInt(split[0])))
                         .set(new Property<>(Address.street, split[1]));
             }

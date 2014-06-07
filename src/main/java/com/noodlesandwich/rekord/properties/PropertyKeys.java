@@ -9,7 +9,7 @@ import com.noodlesandwich.rekord.keys.Keys;
 public final class PropertyKeys {
     private PropertyKeys() { }
 
-    public static <T> Keys<T> keysFrom(PropertyMap<T> properties) {
+    public static <T> Keys<T> keysFrom(Properties<T> properties) {
         Set<Keys<? super T>> keys = new HashSet<>();
         for (Property<? super T, ?> property : properties) {
             Key<? super T, ?> key = property.key();
@@ -20,7 +20,7 @@ public final class PropertyKeys {
         return KeySet.from(keys);
     }
 
-    public static <T> void checkAcceptabilityOf(PropertyMap<T> properties, Keys<T> acceptedKeys) {
+    public static <T> void checkAcceptabilityOf(Properties<T> properties, Keys<T> acceptedKeys) {
         for (Key<? super T, ?> key : keysFrom(properties)) {
             if (!acceptedKeys.contains(key)) {
                 throw new UnacceptableKeyException(key);

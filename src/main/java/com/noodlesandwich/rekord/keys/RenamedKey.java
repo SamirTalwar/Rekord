@@ -1,6 +1,6 @@
 package com.noodlesandwich.rekord.keys;
 
-import com.noodlesandwich.rekord.properties.PropertyMap;
+import com.noodlesandwich.rekord.properties.Properties;
 
 public final class RenamedKey<T, V> extends DelegatingKey<T, V> {
     private final Key<T, V> key;
@@ -15,17 +15,17 @@ public final class RenamedKey<T, V> extends DelegatingKey<T, V> {
     }
 
     @Override
-    public <R extends T> boolean test(PropertyMap<R> properties) {
+    public <R extends T> boolean test(Properties<R> properties) {
         return key.test(properties);
     }
 
     @Override
-    public <R extends T> V get(PropertyMap<R> properties) {
+    public <R extends T> V get(Properties<R> properties) {
         return key.get(properties);
     }
 
     @Override
-    public <R extends T> PropertyMap<R> set(V value, PropertyMap<R> properties) {
+    public <R extends T> Properties<R> set(V value, Properties<R> properties) {
         return key.set(value, properties);
     }
 
