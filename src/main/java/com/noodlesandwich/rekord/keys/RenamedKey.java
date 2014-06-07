@@ -5,7 +5,7 @@ import com.noodlesandwich.rekord.properties.PropertyMap;
 public final class RenamedKey<T, V> extends DelegatingKey<T, V> {
     private final Key<T, V> key;
 
-    public RenamedKey(String name, Key<T, V> key) {
+    private RenamedKey(String name, Key<T, V> key) {
         super(name, key);
         this.key = key;
     }
@@ -32,7 +32,7 @@ public final class RenamedKey<T, V> extends DelegatingKey<T, V> {
     public static final class UnnamedRenamedKey<T, V> {
         private final Key<T, V> key;
 
-        public UnnamedRenamedKey(Key<T, V> key) {
+        private UnnamedRenamedKey(Key<T, V> key) {
             this.key = key;
         }
 
