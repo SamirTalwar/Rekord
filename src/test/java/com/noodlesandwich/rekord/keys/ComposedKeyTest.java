@@ -4,6 +4,7 @@ import com.noodlesandwich.rekord.Rekord;
 import org.junit.Test;
 
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Address;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Company;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Person;
 import static com.noodlesandwich.rekord.validation.RekordMatchers.hasKey;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -79,5 +80,19 @@ public final class ComposedKeyTest {
                 .with(Person.firstName, "Zhong");
 
         assertThat(zhong, not(hasKey(Person.city)));
+    }
+
+    @Test public void
+    composes_multiple_levels() {
+        BuildableKey<Person, Rekord<Address>, Rekord<Address>> companyAddress
+                = ComposedKey.named("company address").composing(Person.company).with(Company.address);
+        Key<Person, String> companyCity =
+                ComposedKey.named("company city").composing(companyAddress).with(Address.city);
+
+        Rekord<Person> anna = Person.rekord
+                .with(Person.firstName, "Anna")
+                .with(companyCity, "St. Petersburg");
+
+        assertThat(anna.get(Person.company).get(Company.address).get(Address.city), is("St. Petersburg"));
     }
 }

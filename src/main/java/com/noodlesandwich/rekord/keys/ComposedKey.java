@@ -78,5 +78,9 @@ public final class ComposedKey<T, V, W> extends AbstractKey<T, W> {
         public <W> Key<T, W> with(Key<V, W> after) {
             return new ComposedKey<>(name, before, after);
         }
+
+        public <W> BuildableKey<T, Rekord<W>, Rekord<W>> with(BuildableKey<V, Rekord<W>, Rekord<W>> after) {
+            return new BuildableKeyDecorator<>(new ComposedKey<>(name, before, after), after.builder());
+        }
     }
 }
