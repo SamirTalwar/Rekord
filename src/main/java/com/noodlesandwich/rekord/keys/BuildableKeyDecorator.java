@@ -2,11 +2,11 @@ package com.noodlesandwich.rekord.keys;
 
 import com.noodlesandwich.rekord.properties.Properties;
 
-public final class BuildableKeyDecorator<T, V, B> extends DelegatingKey<T, V> implements BuildableKey<T, V, B> {
+public final class BuildableKeyDecorator<T, V> extends DelegatingKey<T, V> implements BuildableKey<T, V> {
     private final Key<T, V> key;
-    private final B builder;
+    private final V builder;
 
-    public BuildableKeyDecorator(Key<T, V> key, B builder) {
+    public BuildableKeyDecorator(Key<T, V> key, V builder) {
         super(key.name(), key);
         this.key = key;
         this.builder = builder;
@@ -28,7 +28,7 @@ public final class BuildableKeyDecorator<T, V, B> extends DelegatingKey<T, V> im
     }
 
     @Override
-    public B builder() {
+    public V builder() {
         return builder;
     }
 }

@@ -84,7 +84,7 @@ public final class ComposedKeyTest {
 
     @Test public void
     composes_multiple_levels() {
-        BuildableKey<Person, Rekord<Address>, Rekord<Address>> companyAddress
+        BuildableKey<Person, Rekord<Address>> companyAddress
                 = ComposedKey.named("company address").composing(Person.company).with(Company.address);
         Key<Person, String> companyCity =
                 ComposedKey.named("company city").composing(companyAddress).with(Address.city);
