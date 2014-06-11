@@ -9,6 +9,7 @@ import static com.noodlesandwich.rekord.validation.RekordMatchers.hasKey;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 
 public final class ComposedKeyTest {
     @Test public void
@@ -21,6 +22,21 @@ public final class ComposedKeyTest {
     }
 
     @Test public void
+    modifies_an_existing_nested_rekord_instead_of_wiping_it_out() {
+        Rekord<Person> remi = Person.rekord
+                .with(Person.firstName, "Remi")
+                .with(Person.address, Address.rekord
+                        .with(Address.houseNumber, 5)
+                        .with(Address.street, "boulevard Descartes"))
+                .with(Person.city, "Paris");
+
+        assertThat(remi.get(Person.address), is(Address.rekord
+                .with(Address.houseNumber, 5)
+                .with(Address.street, "boulevard Descartes")
+                .with(Address.city, "Paris")));
+    }
+
+    @Test public void
     retrieves_values_using_the_composed_key() {
         Rekord<Person> martijn = Person.rekord
                 .with(Person.firstName, "Martijn")
@@ -28,6 +44,14 @@ public final class ComposedKeyTest {
                         .with(Address.city, "London"));
 
         assertThat(martijn.get(Person.city), is("London"));
+    }
+
+    @Test public void
+    returns_null_when_the_before_key_is_not_present() {
+        Rekord<Person> graham = Person.rekord
+                .with(Person.firstName, "Graham");
+
+        assertThat(graham.get(Person.city), is(nullValue()));
     }
 
     @Test public void
@@ -47,5 +71,13 @@ public final class ComposedKeyTest {
                 .with(Person.address, Address.rekord);
 
         assertThat(brian, not(hasKey(Person.city)));
+    }
+
+    @Test public void
+    tests_as_absent_when_the_before_key_is_not_present() {
+        Rekord<Person> zhong = Person.rekord
+                .with(Person.firstName, "Zhong");
+
+        assertThat(zhong, not(hasKey(Person.city)));
     }
 }

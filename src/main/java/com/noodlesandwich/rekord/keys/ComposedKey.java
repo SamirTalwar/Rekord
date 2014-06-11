@@ -22,18 +22,26 @@ public final class ComposedKey<T, V, W> extends AbstractKey<T, W> {
 
     @Override
     public <R extends T> boolean test(Properties<R> properties) {
-        return before.get(properties).has(after);
+        return before.test(properties) && before.get(properties).has(after);
     }
 
     @Override
     public <R extends T> W get(Properties<R> properties) {
-        return before.get(properties).get(after);
+        Rekord<V> inner = before.get(properties);
+        if (inner == null) {
+            return null;
+        }
+        return inner.get(after);
     }
 
     @Override
     public <R extends T> Properties<R> set(W value, Properties<R> properties) {
-        Rekord<V> inner = before.builder().with(after, value);
-        return before.set(inner, properties);
+        Rekord<V> inner = before.get(properties);
+        if (inner == null) {
+            inner = before.builder();
+        }
+        Rekord<V> modifiedInner = inner.with(after, value);
+        return before.set(modifiedInner, properties);
     }
 
     @Override
