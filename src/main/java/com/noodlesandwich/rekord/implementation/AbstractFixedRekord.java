@@ -48,7 +48,7 @@ public abstract class AbstractFixedRekord<T> implements Rekord<T> {
     }
 
     public final <R, E extends Exception> R serialize(Serializer<R, E> serializer) throws E {
-        return serializer.serialize(RekordKey.<T, T>named(name()), this);
+        return serializer.serialize(RekordKey.named(name()).builtFrom(this), this);
     }
 
     protected final boolean abstractEquals(Object other) {

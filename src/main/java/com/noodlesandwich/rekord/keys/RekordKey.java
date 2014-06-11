@@ -5,12 +5,12 @@ import com.noodlesandwich.rekord.serialization.Serialization;
 import com.noodlesandwich.rekord.serialization.Serializer;
 
 public final class RekordKey<T, V> extends OriginalKey<T, Rekord<V>> {
-    private RekordKey(String name) {
+    private RekordKey(String name, Rekord<V> builder) {
         super(name);
     }
 
-    public static <T, R> RekordKey<T, R> named(String name) {
-        return new RekordKey<>(name);
+    public static UnbuildableRekordKey named(String name) {
+        return new UnbuildableRekordKey(name);
     }
 
     @Override
@@ -21,5 +21,17 @@ public final class RekordKey<T, V> extends OriginalKey<T, Rekord<V>> {
                 Serialization.serialize(rekord).into(mapAccumulator);
             }
         });
+    }
+
+    public static final class UnbuildableRekordKey {
+        private final String name;
+
+        public UnbuildableRekordKey(String name) {
+            this.name = name;
+        }
+
+        public <T, V> RekordKey<T, V> builtFrom(Rekord<V> builder) {
+            return new RekordKey<>(name, builder);
+        }
     }
 }
