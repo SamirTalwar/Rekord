@@ -4,13 +4,21 @@ import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.serialization.Serialization;
 import com.noodlesandwich.rekord.serialization.Serializer;
 
-public final class RekordKey<T, V> extends OriginalKey<T, Rekord<V>> {
+public final class RekordKey<T, V> extends OriginalKey<T, Rekord<V>> implements BuildableKey<T, Rekord<V>, Rekord<V>> {
+    private final Rekord<V> builder;
+
     private RekordKey(String name, Rekord<V> builder) {
         super(name);
+        this.builder = builder;
     }
 
     public static UnbuildableRekordKey named(String name) {
         return new UnbuildableRekordKey(name);
+    }
+
+    @Override
+    public Rekord<V> builder() {
+        return builder;
     }
 
     @Override

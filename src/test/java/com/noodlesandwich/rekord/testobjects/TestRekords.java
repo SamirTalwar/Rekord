@@ -3,6 +3,7 @@ package com.noodlesandwich.rekord.testobjects;
 import java.util.Collection;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.Rekords;
+import com.noodlesandwich.rekord.keys.ComposedKey;
 import com.noodlesandwich.rekord.keys.IterableKey;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.RekordKey;
@@ -68,6 +69,7 @@ public final class TestRekords {
         Key<Person, Iterable<Rekord<Person>>> favouritePeople = IterableKey.named("favourite people").of(RekordKey.named("favourite person").<Person, Person>builtFrom(Person.rekord));
         Key<Person, Iterable<String>> pets = IterableKey.named("pets").of(SimpleKey.<Person, String>named("pet"));
         RekordKey<Person, Address> address = RekordKey.named("address").builtFrom(Address.rekord);
+        Key<Person, String> city = ComposedKey.named("city").composing(address).with(Address.city);
         RekordKey<Person, Company> company = RekordKey.named("company").builtFrom(Company.rekord);
 
         Rekord<Person> rekord = Rekords.of(Person.class).accepting(firstName, lastName, age, favouritePeople, pets, address, company);
