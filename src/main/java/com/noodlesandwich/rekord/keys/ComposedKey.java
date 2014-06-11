@@ -22,12 +22,12 @@ public final class ComposedKey<T, V, W> extends AbstractKey<T, W> {
 
     @Override
     public <R extends T> boolean test(Properties<R> properties) {
-        throw new UnsupportedOperationException();
+        return before.get(properties).has(after);
     }
 
     @Override
     public <R extends T> W get(Properties<R> properties) {
-        throw new UnsupportedOperationException();
+        return before.get(properties).get(after);
     }
 
     @Override
