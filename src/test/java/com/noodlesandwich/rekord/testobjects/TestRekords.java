@@ -85,17 +85,6 @@ public final class TestRekords {
         Rekord<Address> rekord = Rekords.of(Address.class).accepting(houseNumber, street, city, postalCode, country);
     }
 
-    public static enum Country {
-        Australia,
-        Austria,
-        Canada,
-        Germany,
-        NewZealand,
-        Switzerland,
-        UnitedKingdom,
-        UnitedStates
-    }
-
     public static interface Company {
         Key<Company, String> name = SimpleKey.named("name");
         RekordKey<Company, Address> address = RekordKey.named("address").builtFrom(Address.rekord);
@@ -124,6 +113,17 @@ public final class TestRekords {
             Green,
             Blue
         }
+    }
+
+    public static enum Country {
+        Australia,
+        Austria,
+        Canada,
+        Germany,
+        NewZealand,
+        Switzerland,
+        UnitedKingdom,
+        UnitedStates
     }
 
     @SuppressWarnings("UnusedDeclaration")
