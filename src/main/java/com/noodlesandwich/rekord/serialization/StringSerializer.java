@@ -1,7 +1,6 @@
 package com.noodlesandwich.rekord.serialization;
 
-import com.noodlesandwich.rekord.Rekord;
-import com.noodlesandwich.rekord.keys.Key;
+import com.noodlesandwich.rekord.FixedRekord;
 
 public final class StringSerializer implements SafeSerializer<String> {
     private static final String EntryFormat = "%s: %s";
@@ -9,10 +8,23 @@ public final class StringSerializer implements SafeSerializer<String> {
     private static final String RekordFormat = "%s {%s}";
 
     @Override
-    public <T> String serialize(Key<?, Rekord<T>> key, Rekord<T> rekord) {
+    public <T> String serialize(String name, final FixedRekord<T> rekord) {
         StringAccumulator accumulator = new StringAccumulator(Formatter.Value);
-        key.accumulate(rekord, accumulator);
+        accumulator.addRekord(name, rekord.name(), new StringAccumulation<>(rekord));
         return accumulator.result();
+    }
+
+    private static final class StringAccumulation<T> implements Accumulation {
+        private final FixedRekord<T> rekord;
+
+        public StringAccumulation(FixedRekord<T> rekord) {
+            this.rekord = rekord;
+        }
+
+        @Override
+        public <A2, E2 extends Exception> void accumulateIn(Accumulator<A2, E2> mapAccumulator) throws E2 {
+            Serialization.serialize(rekord).into(mapAccumulator);
+        }
     }
 
     private static final class StringAccumulator implements SafeAccumulator<String> {
@@ -28,14 +40,14 @@ public final class StringSerializer implements SafeSerializer<String> {
         }
 
         @Override
-        public void addIterable(String name, Accumulation accumulation) {
+        public void addIterable(String name, Serializer.Accumulation accumulation) {
             StringAccumulator iterableAccumulator = new StringAccumulator(Formatter.Value);
             accumulation.accumulateIn(iterableAccumulator);
             builder.addIterable(name, iterableAccumulator.result());
         }
 
         @Override
-        public void addRekord(String name, String rekordName, Accumulation accumulation) {
+        public void addRekord(String name, String rekordName, Serializer.Accumulation accumulation) {
             StringAccumulator rekordAccumulator = new StringAccumulator(Formatter.Entry);
             accumulation.accumulateIn(rekordAccumulator);
             builder.addRekord(name, rekordName, rekordAccumulator.result());

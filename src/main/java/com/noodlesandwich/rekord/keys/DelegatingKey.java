@@ -13,8 +13,12 @@ public abstract class DelegatingKey<T, V> extends AbstractKey<T, V> {
     }
 
     @Override
-    public final <A, E extends Exception> void accumulate(V value, Serializer.Accumulator<A, E> accumulator) {
-        throw new UnsupportedOperationException();
+    public final <A, E extends Exception> void accumulate(V value, Serializer.Accumulator<A, E> accumulator) throws E {
+        for (Key<? super T, ?> key : keys) {
+            @SuppressWarnings("unchecked")
+            Key<? super T, Object> castKey = (Key<? super T, Object>) key;
+            castKey.accumulate(value, accumulator);
+        }
     }
 
     @Override

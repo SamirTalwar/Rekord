@@ -1,20 +1,20 @@
 package com.noodlesandwich.rekord.serialization;
 
-import com.noodlesandwich.rekord.Rekord;
+import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.properties.Property;
 
 public final class Serialization {
     private Serialization() { }
 
-    public static <T> RekordSerialization<T> serialize(Rekord<T> rekord) {
+    public static <T> RekordSerialization<T> serialize(FixedRekord<T> rekord) {
         return new RekordSerialization<>(rekord);
     }
 
     public static final class RekordSerialization<T> {
-        private final Rekord<T> rekord;
+        private final FixedRekord<T> rekord;
 
-        public RekordSerialization(Rekord<T> rekord) {
+        public RekordSerialization(FixedRekord<T> rekord) {
             this.rekord = rekord;
         }
 

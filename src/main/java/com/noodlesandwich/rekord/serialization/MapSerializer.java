@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import com.noodlesandwich.rekord.Rekord;
-import com.noodlesandwich.rekord.keys.Key;
+import com.noodlesandwich.rekord.FixedRekord;
 
 public final class MapSerializer implements SafeSerializer<Map<String, Object>> {
     @Override
-    public <T> Map<String, Object> serialize(Key<?, Rekord<T>> key, Rekord<T> rekord) {
+    public <T> Map<String, Object> serialize(String name, FixedRekord<T> rekord) {
         return Serialization.serialize(rekord).into(new MapRekordAccumulator());
     }
 

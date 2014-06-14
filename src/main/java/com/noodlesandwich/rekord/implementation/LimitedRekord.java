@@ -1,5 +1,6 @@
 package com.noodlesandwich.rekord.implementation;
 
+import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.Keys;
@@ -7,7 +8,7 @@ import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.properties.Property;
 import com.noodlesandwich.rekord.properties.PropertyKeys;
 
-public final class LimitedRekord<T> extends AbstractFixedRekord<T> {
+public final class LimitedRekord<T> extends AbstractFixedRekord<T> implements Rekord<T> {
     private final Keys<T> acceptedKeys;
     private final Properties<T> properties;
 
@@ -43,7 +44,7 @@ public final class LimitedRekord<T> extends AbstractFixedRekord<T> {
     }
 
     @Override
-    public Rekord<T> merge(Rekord<T> other) {
+    public Rekord<T> merge(FixedRekord<T> other) {
         Rekord<T> result = this;
         for (Property<? super T, ?> property : other.properties()) {
             result = result.with(property);
