@@ -1,14 +1,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.noodlesandwich</groupId>
-    <artifactId>rekord-parent</artifactId>
-    <version>0.3-SNAPSHOT</version>
+    <artifactId>rekord</artifactId>
     <packaging>pom</packaging>
 
-    <name>Rekord Parent</name>
+    <name>Rekord</name>
     <description>Records in Java. Useful as a replacement for Java beans/value objects/type-safe maps that requires less code.</description>
     <url>https://github.com/SamirTalwar/Rekord</url>
+
+    <parent>
+        <groupId>com.noodlesandwich</groupId>
+        <artifactId>rekord-parent</artifactId>
+        <version>0.3-SNAPSHOT</version>
+    </parent>
 
     <licenses>
         <license>
@@ -17,17 +21,6 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-
-    <modules>
-        <module>core</module>
-        <module>all</module>
-    </modules>
-
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
-    </parent>
 
     <scm>
         <connection>scm:git:git@github.com:SamirTalwar/Rekord.git</connection>
@@ -51,6 +44,14 @@
             <email>samir@noodlesandwich.com</email>
         </developer>
     </developers>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.noodlesandwich</groupId>
+            <artifactId>rekord-core</artifactId>
+            <version>0.3-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
     <profiles>
         <profile>
