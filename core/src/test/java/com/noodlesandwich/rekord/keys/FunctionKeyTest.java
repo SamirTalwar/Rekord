@@ -16,7 +16,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import static com.noodlesandwich.rekord.functions.Functions.invertibleIdentity;
-import static com.noodlesandwich.rekord.testobjects.ExceptionMatcher.a;
+import static com.noodlesandwich.rekord.test.ExceptionMatcher.a;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Address;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Country;
 import static com.noodlesandwich.rekord.validation.RekordMatchers.hasKey;

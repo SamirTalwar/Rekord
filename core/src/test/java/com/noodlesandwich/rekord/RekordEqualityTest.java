@@ -1,6 +1,6 @@
 package com.noodlesandwich.rekord;
 
-import com.noodlesandwich.rekord.testobjects.Measurement;
+import com.noodlesandwich.rekord.test.Measurement;
 import org.junit.Test;
 
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Bier;

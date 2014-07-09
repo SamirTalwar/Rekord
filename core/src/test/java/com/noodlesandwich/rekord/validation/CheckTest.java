@@ -5,7 +5,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import static com.noodlesandwich.rekord.testobjects.ExceptionMatcher.an;
+import static com.noodlesandwich.rekord.test.ExceptionMatcher.an;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Bratwurst;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Bratwurst.Style.Chopped;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Bratwurst.Style.Whole;

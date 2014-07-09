@@ -1,7 +1,7 @@
 package com.noodlesandwich.rekord.validation;
 
 import com.noodlesandwich.rekord.Rekord;
-import com.noodlesandwich.rekord.testobjects.Measurement;
+import com.noodlesandwich.rekord.test.Measurement;
 import org.junit.Test;
 
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Bier;

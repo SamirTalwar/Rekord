@@ -1,4 +1,4 @@
-package com.noodlesandwich.rekord.testobjects;
+package com.noodlesandwich.rekord.test;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;

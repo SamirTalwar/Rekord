@@ -1,4 +1,4 @@
-package com.noodlesandwich.rekord.testobjects;
+package com.noodlesandwich.rekord.test;
 
 public final class Measurement {
     public static MeasurementBuilder of(int value) {

@@ -5,7 +5,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import static com.noodlesandwich.rekord.testobjects.ExceptionMatcher.a;
+import static com.noodlesandwich.rekord.test.ExceptionMatcher.a;
 
 public final class PropertyTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();

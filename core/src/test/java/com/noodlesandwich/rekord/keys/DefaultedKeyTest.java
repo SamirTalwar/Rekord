@@ -6,7 +6,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import static com.noodlesandwich.rekord.testobjects.ExceptionMatcher.a;
+import static com.noodlesandwich.rekord.test.ExceptionMatcher.a;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Bread.White;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Filling.Cheese;

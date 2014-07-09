@@ -9,6 +9,7 @@ import com.noodlesandwich.rekord.keys.IterableKey;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.RekordKey;
 import com.noodlesandwich.rekord.keys.SimpleKey;
+import com.noodlesandwich.rekord.test.Measurement;
 
 public final class TestRekords {
     private TestRekords() { }
