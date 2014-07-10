@@ -13,11 +13,13 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 
 public final class ComposedKeyTest {
+    private final Key<Person, String> city = ComposedKey.named("city").composing(Person.address).with(Address.city);
+
     @Test public void
     composes_a_RekordKey_with_another_key() {
         Rekord<Person> heinz = Person.rekord
                 .with(Person.firstName, "Heinz")
-                .with(Person.city, "Heraklion");
+                .with(city, "Heraklion");
 
         assertThat(heinz.get(Person.address).get(Address.city), is("Heraklion"));
     }
@@ -29,7 +31,7 @@ public final class ComposedKeyTest {
                 .with(Person.address, Address.rekord
                         .with(Address.houseNumber, 5)
                         .with(Address.street, "boulevard Descartes"))
-                .with(Person.city, "Paris");
+                .with(city, "Paris");
 
         assertThat(remi.get(Person.address), is(Address.rekord
                 .with(Address.houseNumber, 5)
@@ -44,7 +46,7 @@ public final class ComposedKeyTest {
                 .with(Person.address, Address.rekord
                         .with(Address.city, "London"));
 
-        assertThat(martijn.get(Person.city), is("London"));
+        assertThat(martijn.get(city), is("London"));
     }
 
     @Test public void
@@ -52,7 +54,7 @@ public final class ComposedKeyTest {
         Rekord<Person> graham = Person.rekord
                 .with(Person.firstName, "Graham");
 
-        assertThat(graham.get(Person.city), is(nullValue()));
+        assertThat(graham.get(city), is(nullValue()));
     }
 
     @Test public void
@@ -62,7 +64,7 @@ public final class ComposedKeyTest {
                 .with(Person.address, Address.rekord
                         .with(Address.city, "London"));
 
-        assertThat(ben, hasKey(Person.city));
+        assertThat(ben, hasKey(city));
     }
 
     @Test public void
@@ -71,7 +73,7 @@ public final class ComposedKeyTest {
                 .with(Person.firstName, "Brian")
                 .with(Person.address, Address.rekord);
 
-        assertThat(brian, not(hasKey(Person.city)));
+        assertThat(brian, not(hasKey(city)));
     }
 
     @Test public void
@@ -79,7 +81,7 @@ public final class ComposedKeyTest {
         Rekord<Person> zhong = Person.rekord
                 .with(Person.firstName, "Zhong");
 
-        assertThat(zhong, not(hasKey(Person.city)));
+        assertThat(zhong, not(hasKey(city)));
     }
 
     @Test public void
