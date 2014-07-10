@@ -13,7 +13,7 @@ import com.noodlesandwich.rekord.test.Measurement;
 public final class TestRekords {
     private TestRekords() { }
 
-    public static interface Sandvich {
+    public interface Sandvich {
         Key<Sandvich, Bread> bread = SimpleKey.named("bread");
         Key<Sandvich, Filling> filling = SimpleKey.named("filling");
         Key<Sandvich, Style> style = SimpleKey.named("style");
@@ -39,13 +39,13 @@ public final class TestRekords {
         }
     }
 
-    public static interface Wurst {
+    public interface Wurst {
         Key<Wurst, Double> curvature = SimpleKey.named("curvature");
 
         Rekord<Wurst> rekord = Rekords.of(Wurst.class).accepting(curvature);
     }
 
-    public static interface Bratwurst extends Wurst {
+    public interface Bratwurst extends Wurst {
         Key<Bratwurst, Style> style = SimpleKey.named("style");
 
         Rekord<Bratwurst> rekord = Rekords.of(Bratwurst.class).accepting(Wurst.rekord.acceptedKeys(), style);
@@ -56,14 +56,14 @@ public final class TestRekords {
         }
     }
 
-    public static interface Bier {
+    public interface Bier {
         Key<Bier, Measurement.Volume> volume = SimpleKey.named("volume");
         Key<Bier, Measurement.Length> head = SimpleKey.named("head");
 
         Rekord<Bier> rekord = Rekords.of(Bier.class).accepting(volume, head);
     }
 
-    public static interface Person {
+    public interface Person {
         Key<Person, String> firstName = SimpleKey.named("first name");
         Key<Person, String> lastName = SimpleKey.named("last name");
         Key<Person, Integer> age = SimpleKey.named("age");
@@ -75,7 +75,7 @@ public final class TestRekords {
         Rekord<Person> rekord = Rekords.of(Person.class).accepting(firstName, lastName, age, favouritePeople, pets, address, company);
     }
 
-    public static interface Address {
+    public interface Address {
         Key<Address, Integer> houseNumber = SimpleKey.named("house number");
         Key<Address, String> street = SimpleKey.named("street");
         Key<Address, String> city = SimpleKey.named("city");
@@ -85,14 +85,14 @@ public final class TestRekords {
         Rekord<Address> rekord = Rekords.of(Address.class).accepting(houseNumber, street, city, postalCode, country);
     }
 
-    public static interface Company {
+    public interface Company {
         Key<Company, String> name = SimpleKey.named("name");
         BuildableKey<Company, Rekord<Address>> address = RekordKey.named("address").builtFrom(Address.rekord);
 
         Rekord<Company> rekord = Rekords.of(Company.class).accepting(name, address);
     }
 
-    public static interface Box {
+    public interface Box {
         Key<Box, Boolean> fact = SimpleKey.named("fact");
         Key<Box, Integer> number = SimpleKey.named("number");
         Key<Box, Double> real = SimpleKey.named("real");
@@ -102,7 +102,7 @@ public final class TestRekords {
         Rekord<Box> rekord = Rekords.of(Box.class).accepting(fact, number, real, text, stuff);
     }
 
-    public static interface LegoBag {
+    public interface LegoBag {
         Key<LegoBag, Collection<Collection<Brick>>> sets = IterableKey.named("lego sets").of(IterableKey.named("bricks").<LegoBag, Brick, Collection<Brick>>of(SimpleKey.<LegoBag, Brick>named("brick")));
         Key<LegoBag, Iterable<Rekord<Person>>> minifigs = IterableKey.named("minifigs").of(RekordKey.named("minifig").<LegoBag, Person>builtFrom(Person.rekord));
 
@@ -141,7 +141,7 @@ public final class TestRekords {
             return (Key<Jar<T>, Collection<T>>) (Key) contents;
         }
 
-        public static interface Contents { }
+        public interface Contents { }
 
         public static final class Cookie implements Jar.Contents { }
     }

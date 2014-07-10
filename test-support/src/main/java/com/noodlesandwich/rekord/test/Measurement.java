@@ -1,6 +1,10 @@
 package com.noodlesandwich.rekord.test;
 
 public final class Measurement {
+    private static final int MillilitresInLitre = 1000;
+
+    private Measurement() { }
+
     public static MeasurementBuilder of(int value) {
         return new MeasurementBuilder(value);
     }
@@ -17,7 +21,7 @@ public final class Measurement {
         }
 
         public Volume l() {
-            return new Volume(value * 1000);
+            return new Volume(value * MillilitresInLitre);
         }
 
         public Length cm() {
@@ -34,8 +38,13 @@ public final class Measurement {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof Volume)) return false;
+            if (this == o) {
+                return true;
+            }
+
+            if (!(o instanceof Volume)) {
+                return false;
+            }
 
             Volume volume = (Volume) o;
             return value == volume.value;
@@ -62,8 +71,13 @@ public final class Measurement {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof Length)) return false;
+            if (this == o) {
+                return true;
+            }
+
+            if (!(o instanceof Length)) {
+                return false;
+            }
 
             Length length = (Length) o;
             return value == length.value;

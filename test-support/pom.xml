@@ -8,6 +8,10 @@
     <description>Test support classes for Rekord.</description>
     <url>https://github.com/SamirTalwar/Rekord</url>
 
+    <properties>
+        <checkstyle.suppressions>${project.basedir}/build/checkstyle-suppressions.xml</checkstyle.suppressions>
+    </properties>
+
     <parent>
         <groupId>com.noodlesandwich</groupId>
         <artifactId>rekord-parent</artifactId>
@@ -26,26 +30,4 @@
             <version>1.3</version>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.12.1</version>
-                <executions>
-                    <execution>
-                        <id>validate</id>
-                        <phase>validate</phase>
-                        <configuration>
-                            <skip>true</skip>
-                        </configuration>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 </project>

@@ -10,6 +10,11 @@
     <description>Records in Java. Useful as a replacement for Java beans/value objects/type-safe maps that requires less code.</description>
     <url>https://github.com/SamirTalwar/Rekord</url>
 
+    <properties>
+        <checkstyle.configuration>build/checkstyle.xml</checkstyle.configuration>
+        <checkstyle.suppressions>build/checkstyle-suppressions.xml</checkstyle.suppressions>
+    </properties>
+
     <modules>
         <module>core</module>
         <module>test-support</module>
@@ -96,7 +101,9 @@
                         <id>validate</id>
                         <phase>validate</phase>
                         <configuration>
-                            <configLocation>build/checkstyle.xml</configLocation>
+                            <configLocation>${checkstyle.configuration}</configLocation>
+                            <suppressionsLocation>${checkstyle.suppressions}</suppressionsLocation>
+                            <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
                             <encoding>UTF-8</encoding>
                             <consoleOutput>true</consoleOutput>
                             <failsOnError>true</failsOnError>
