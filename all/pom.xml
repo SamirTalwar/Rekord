@@ -49,7 +49,7 @@
         <dependency>
             <groupId>com.noodlesandwich</groupId>
             <artifactId>rekord-core</artifactId>
-            <version>0.3-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
