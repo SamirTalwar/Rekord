@@ -5,7 +5,6 @@
     <packaging>jar</packaging>
 
     <name>Rekord Core</name>
-    <description>Records in Java. Useful as a replacement for Java beans/value objects/type-safe maps that requires less code.</description>
     <url>https://github.com/SamirTalwar/Rekord</url>
 
     <parent>
