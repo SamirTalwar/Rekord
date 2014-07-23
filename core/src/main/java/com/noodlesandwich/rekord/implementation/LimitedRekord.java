@@ -54,11 +54,11 @@ public final class LimitedRekord<T> extends AbstractFixedRekord<T> implements Re
 
     @Override
     public boolean equals(Object other) {
-        return other instanceof Rekord && abstractEquals(other);
+        return other instanceof Rekord && FixedRekordHelpers.equals(this, other);
     }
 
     @Override
     public int hashCode() {
-        return abstractHashCode();
+        return FixedRekordHelpers.hashCode(this);
     }
 }

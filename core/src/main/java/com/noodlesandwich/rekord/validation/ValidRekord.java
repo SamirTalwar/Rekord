@@ -1,6 +1,7 @@
 package com.noodlesandwich.rekord.validation;
 
 import com.noodlesandwich.rekord.implementation.AbstractFixedRekord;
+import com.noodlesandwich.rekord.implementation.FixedRekordHelpers;
 import com.noodlesandwich.rekord.keys.Keys;
 import com.noodlesandwich.rekord.properties.Properties;
 
@@ -11,11 +12,11 @@ public final class ValidRekord<T> extends AbstractFixedRekord<T> {
 
     @Override
     public boolean equals(Object other) {
-        return other instanceof ValidRekord && abstractEquals(other);
+        return other instanceof ValidRekord && FixedRekordHelpers.equals(this, other);
     }
 
     @Override
     public int hashCode() {
-        return abstractHashCode();
+        return FixedRekordHelpers.hashCode(this);
     }
 }

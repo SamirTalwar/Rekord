@@ -1,6 +1,5 @@
 package com.noodlesandwich.rekord.implementation;
 
-import java.util.Objects;
 import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.Keys;
@@ -53,25 +52,6 @@ public abstract class AbstractFixedRekord<T> implements FixedRekord<T> {
     @Override
     public final <R, E extends Exception> R serialize(Serializer<R, E> serializer) throws E {
         return serializer.serialize(name, this);
-    }
-
-    protected final boolean abstractEquals(Object other) {
-        if (this == other) {
-            return true;
-        }
-
-        if (!(other instanceof AbstractFixedRekord)) {
-            return false;
-        }
-
-        @SuppressWarnings("unchecked")
-        AbstractFixedRekord<T> that = (AbstractFixedRekord<T>) other;
-        return name.equals(that.name) && properties.equals(that.properties);
-
-    }
-
-    protected final int abstractHashCode() {
-        return Objects.hash(name, properties);
     }
 
     @Override
