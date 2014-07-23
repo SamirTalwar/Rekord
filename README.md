@@ -3,56 +3,132 @@
 A rekord is an immutable data structure of key-value pairs. Kind of like an immutable map of objects, but completely
 type-safe, as the keys themselves contain the type information of the value.
 
-It can be used as an alternative to classes with getters (immutable beans, if you will) so you don't have to implement a
-new concrete class for every value concept—instead, a single type has you covered. You also get builders for free,
-`equals` and `hashCode` are implemented for you, validation and serialization are covered, and other concepts, such as
-default values, can be implemented once and used for all rekords. Finally, all Rekords, being immutable, are thread-safe
-to construct and to use.
+### Why?
 
-And there's no magic.
-
-An example:
+Duplication is difficult to exterminate in Java code. In particular, one type of structural duplication is scattered
+throughout our software. It looks something like this:
 
 ```java
-Rekord<Sandvich> sandvich = Sandvich.rekord
-        .with(Sandvich.filling, Lettuce)
-        .with(Sandvich.style, Burger);
+public class Person {
+    private final String firstName;
+    private final String lastName;
+    private final LocalDate dateOfBirth;
+    private final Address address;
 
-assertThat(sandvich.get(Sandvich.bread), is(Brown));
-assertThat(sandvich.get(Sandvich.filling), is(Lettuce));
-assertThat(sandvich.get(Sandvich.style), is(Burger));
-```
+    public Person(String firstName, String lastName,
+                  LocalDate dateOfBirth, Address address) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
+    }
 
-How's that work? And why is the bread brown? We didn't specify that.
+    public String getFirstName() {
+        return firstName;
+    }
 
-The magic is really in the key. It's defined as follows:
-
-```java
-public interface Sandvich {
-    Key<Sandvich, Bread> bread = Key.named("bread").that(defaultsTo(Brown));
-    Key<Sandvich, Filling> filling = Key.named("filling");
-    Key<Sandvich, Style> style = Key.named("style");
-
-    Rekord<Sandvich> rekord = Rekord.of(Sandvich.class).accepting(filling, bread, style);
+    // I can't go on. You know the rest.
 }
 ```
 
-So all you need is one interface and a few constants. The return type of the `Rekord::get` method is the type embodied
-in the key, so for the sandvich filling, the return type is `Filling`.
+Of course, that's not all. We then have to make a [builder][Make It Easy], a [matcher][Hamcrest] for readable test
+cases, and everything else to support this, the dumbest of all classes.
+
+OK, now we can use our `Person` type. It's beautiful, right? It just needs some annotations to serialize to JSON, then
+some [JPA][Java Persistence API] annotations for persistence to the database, and…
+
+**UGH.**
+
+### Rekord to the Rescue
+
+Code like the above makes me angry. It's such a waste of space. The same thing, over and over again.
+
+With Rekord, the above suddenly becomes a lot smaller.
+       
+```java
+public interface Person {
+    Key<Person, String> firstName = SimpleKey.named("first name");
+    Key<Person, String> lastName = SimpleKey.named("last name");
+    Key<Person, LocalDate> dateOfBirth = SimpleKey.named("date of birth");
+    Key<Person, FixedRekord<Address>> address = RekordKey.named("address");
+
+    Rekord<Person> rekord = Rekord.of(Person.class)
+        .accepting(firstName, lastName, dateOfBirth, address);
+}
+```
+
+That `Rekord<Person>` object is a *rekord builder*. You can construct new people with it.[^1] Like so:
+
+```java
+Rekord<Person> woz = Person.rekord
+   .with(Person.firstName, "Steve")
+   .with(Person.lastName, "Wozniak")
+   .with(Person.dateOfBirth, LocalDate.of(1950, 8, 11))
+   .with(Person.address, Address.rekord
+       .with(Address.city, "Cupertino"));
+```
+
+`woz` has the type `Rekord<Person>`, but you can treat it basically as if it were a `Person` as shown above. There's only one real difference. Instead of:
+
+```java
+woz.getFirstName()
+```
+
+You call:
+
+```java
+woz.get(Person.firstName)
+```
+
+Simple, right?
+       
+[^1]: Not real people. For that, you need C++.
 
 ### What else?
 
-There's more. Every Rekord is also a **builder**. Rekords themselves are immutable, so the `with` method returns a new
+Rekord is deigned to be used as an alternative to classes with getters (immutable beans, if you will) so you don't have
+to implement a new concrete class for every value concept—instead, a single type has you covered.
+ 
+For free, you also get:
+
+  * [builders][TODO]
+  * [matchers][Hamcrest]
+  * validation
+  * serialization
+  * transformations
+  * `equals` and `hashCode`
+  * `toString`
+
+#### Builders
+
+Every Rekord is also a **builder**. Rekords themselves are immutable, so the `with` method returns a new
 Rekord each time. Use them, pass them around, make new rekords out of them; because they don't mutate, they're perfectly
 safe.
+
+#### Matchers
 
 There are [**matchers**][Hamcrest] for the builders. You can assert that a rekord conforms to a specific specification,
 just check they have specific keys, or anywhere in between. Take a look at [`RekordMatchers`][RekordMatchers.java] for
 more information.
 
+#### Validation
+
 This plays into **validation**. Rather than just building a rekord and using it, you can also create a
 [`ValidatingRekord`][ValidatingRekordTest.java] which allows you to build a rekord up, then ensure it passes a
 specification. Just like the matchers, Hamcrest is used for validation.
+
+#### Transformation
+
+Rekord properties can be transformed on storage and on retrieval. The *rekord-keys* library adds a number of keys that
+wrap existing keys. As of the time of writing, you can:
+
+  * Specify a default value for a key with `DefaultedKey`
+  * Apply an arbitrary (reversible) transformation with `FunctionKey`
+  * Break a value into many values with `OneToManyKey`
+  * Dive into rekords several layers deep with `ComposedKey`
+  * Rename a key with `RenamedKey`
+
+#### Serialization
 
 Finally, rekords can be **serialized**. Whether you want it to be JSON, XML or just a Java map, we've got you covered.
 It's pretty simple. For example:
@@ -88,10 +164,6 @@ There's almost certainly a bunch of stuff we haven't covered. More examples can 
 [serialization]: https://github.com/SamirTalwar/Rekord/tree/master/src/main/java/com/noodlesandwich/rekord/serialization
 [extra]: https://github.com/SamirTalwar/Rekord/tree/master/src/main/java/com/noodlesandwich/rekord/extra
 
-[Guava]: https://code.google.com/p/guava-libraries/
-[Hamcrest]: https://github.com/hamcrest/JavaHamcrest
-[Jackson]: http://jackson.codehaus.org/
-
 ## Installation
 
 You can use Rekord v0.2 by dropping the following into your Maven `pom.xml`. It's in Maven Central.
@@ -126,5 +198,9 @@ Thanks go to:
 
 [@natpryce]: https://twitter.com/natpryce
 [@domfox]: https://twitter.com/domfox
-[Make It Easy]: https://code.google.com/p/make-it-easy/
+
+[Guava]: https://code.google.com/p/guava-libraries/
+[Hamcrest]: https://github.com/hamcrest/JavaHamcrest
+[Jackson]: http://jackson.codehaus.org/
 [karg]: https://github.com/youdevise/karg
+[Make It Easy]: https://code.google.com/p/make-it-easy/
