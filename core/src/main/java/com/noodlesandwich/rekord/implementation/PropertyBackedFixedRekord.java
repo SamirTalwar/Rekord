@@ -8,60 +8,64 @@ import com.noodlesandwich.rekord.properties.PropertyKeys;
 import com.noodlesandwich.rekord.serialization.Serializer;
 import com.noodlesandwich.rekord.serialization.StringSerializer;
 
-public abstract class AbstractFixedRekord<T> implements FixedRekord<T> {
+public final class PropertyBackedFixedRekord<T> implements com.noodlesandwich.rekord.FixedRekord<T> {
     private final String name;
     private final Keys<T> acceptedKeys;
     private final Properties<T> properties;
 
-    protected AbstractFixedRekord(String name, Keys<T> acceptedKeys, Properties<T> properties) {
+    public PropertyBackedFixedRekord(String name, Keys<T> acceptedKeys, Properties<T> properties) {
         this.name = name;
         this.acceptedKeys = acceptedKeys;
         this.properties = properties;
     }
 
     @Override
-    public final String name() {
+    public String name() {
         return name;
     }
 
     @Override
-    public final Keys<T> acceptedKeys() {
+    public Keys<T> acceptedKeys() {
         return acceptedKeys;
     }
 
     @Override
-    public final boolean has(Key<? super T, ?> key) {
+    public boolean has(Key<? super T, ?> key) {
         return key.test(properties);
     }
 
     @Override
-    public final <V> V get(Key<? super T, V> key) {
+    public <V> V get(Key<? super T, V> key) {
         return key.get(properties);
     }
 
     @Override
-    public final Keys<T> keys() {
+    public Keys<T> keys() {
         return PropertyKeys.keysFrom(properties);
     }
 
     @Override
-    public final Properties<T> properties() {
+    public Properties<T> properties() {
         return properties;
     }
 
     @Override
-    public final <R, E extends Exception> R serialize(Serializer<R, E> serializer) throws E {
+    public <R, E extends Exception> R serialize(Serializer<R, E> serializer) throws E {
         return serializer.serialize(name, this);
     }
 
     @Override
-    public abstract boolean equals(Object o);
+    public boolean equals(Object o) {
+        return o instanceof FixedRekord && FixedRekordHelpers.equals(this, o);
+    }
 
     @Override
-    public abstract int hashCode();
+    public int hashCode() {
+        return FixedRekordHelpers.hashCode(this);
+    }
 
     @Override
-    public final String toString() {
+    public String toString() {
         return serialize(new StringSerializer());
     }
 }

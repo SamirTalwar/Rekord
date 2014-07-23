@@ -1,13 +1,53 @@
 package com.noodlesandwich.rekord.validation;
 
-import com.noodlesandwich.rekord.implementation.AbstractFixedRekord;
+import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.implementation.FixedRekordHelpers;
+import com.noodlesandwich.rekord.implementation.PropertyBackedFixedRekord;
+import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.Keys;
 import com.noodlesandwich.rekord.properties.Properties;
+import com.noodlesandwich.rekord.serialization.Serializer;
 
-public final class ValidRekord<T> extends AbstractFixedRekord<T> {
+public final class ValidRekord<T> implements FixedRekord<T> {
+    private final FixedRekord<T> delegate;
+
     ValidRekord(String name, Keys<T> acceptedKeys, Properties<T> properties) {
-        super(name, acceptedKeys, properties);
+        this.delegate = new PropertyBackedFixedRekord<>(name, acceptedKeys, properties);
+    }
+
+    @Override
+    public String name() {
+        return delegate.name();
+    }
+
+    @Override
+    public boolean has(Key<? super T, ?> key) {
+        return delegate.has(key);
+    }
+
+    @Override
+    public <V> V get(Key<? super T, V> key) {
+        return delegate.get(key);
+    }
+
+    @Override
+    public Keys<T> keys() {
+        return delegate.keys();
+    }
+
+    @Override
+    public Keys<T> acceptedKeys() {
+        return delegate.acceptedKeys();
+    }
+
+    @Override
+    public Properties<T> properties() {
+        return delegate.properties();
+    }
+
+    @Override
+    public <R, E extends Exception> R serialize(Serializer<R, E> serializer) throws E {
+        return delegate.serialize(serializer);
     }
 
     @Override
@@ -18,5 +58,10 @@ public final class ValidRekord<T> extends AbstractFixedRekord<T> {
     @Override
     public int hashCode() {
         return FixedRekordHelpers.hashCode(this);
+    }
+
+    @Override
+    public String toString() {
+        return delegate.toString();
     }
 }
