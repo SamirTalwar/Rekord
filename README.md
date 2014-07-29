@@ -112,16 +112,15 @@ more information.
 
 ```java
 Rekord<Person> steve = Person.rekord
-        .with(Person.firstName, "Steve")
-        .with(Person.lastName, "Humperdick")
-        .with(Person.age, 32);
+    .with(Person.firstName, "Steve")
+    .with(Person.lastName, "Wozniak")
+    .with(Person.dateOfBirth, LocalDate.of(1950, 8, 11));
 
 assertThat(steve, is(aRekordOf(Person.class)
-        .with(Person.firstName, equalToIgnoringCase("steVE"))
-        .with(Person.lastName, containsString("Hump"))
-        .with(Person.age, greaterThan(20))));
+    .with(Person.firstName, equalToIgnoringCase("steVE"))
+    .with(Person.lastName, containsString("Woz"))));
 
-assertThat(steve, hasProperty(Person.age, lessThan(50)));
+assertThat(steve, hasProperty(Person.dateOfBirth, lessThan(LocalDate.of(1970, 1, 1))));
 ```
 
 #### Validation
@@ -130,7 +129,22 @@ The matchers play into **validation**. Rather than just building a rekord and us
 [`ValidatingRekord`][ValidatingRekordTest.java] which allows you to build a rekord up, then ensure it passes a
 specification.
  
-Hamcrest is used for validation.
+The same matchers you can use in your tests are used for validation.
+
+When you `fix` a validating rekord, one of two things happen. It will either return a `ValidRekord`, which implements
+the `FixedRekord` interface, providing you the `get` method (and a few others), or it will throw an
+`InvalidRecordException`. Because we use Hamcrest matchers, the exception should have a decent error message which
+explains why the validation failed.
+
+```java
+ValidatingRekord<Person> namedPerson = ValidatingRekord.validating(Person.rekord)
+    .expecting(hasProperties(Person.firstName, Person.lastName));
+    
+ValidRekord<Person> steve = namedPerson
+    .with(Person.lastName, "Wozniak")
+    .with(Person.dateOfBirth, LocalDate.of(1950, 8, 11))
+    .fix(); // throws InvalidRekordException
+```
 
 #### Transformation
 
