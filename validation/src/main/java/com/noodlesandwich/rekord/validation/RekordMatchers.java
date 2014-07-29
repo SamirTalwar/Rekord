@@ -22,21 +22,6 @@ public final class RekordMatchers {
         return new RekordMatcher<>(name);
     }
 
-    public static <T> Matcher<FixedRekord<T>> that(final Check<T> check) {
-        return new TypeSafeDiagnosingMatcher<FixedRekord<T>>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("an unspecified validation would pass");
-            }
-
-            @Override
-            protected boolean matchesSafely(FixedRekord<T> rekord, Description mismatchDescription) {
-                mismatchDescription.appendText("it failed");
-                return check.check(rekord);
-            }
-        };
-    }
-
     public static <T, V> Matcher<FixedRekord<? extends T>> hasKey(final Key<T, V> key) {
         return new TypeSafeDiagnosingMatcher<FixedRekord<? extends T>>() {
             @Override
