@@ -110,22 +110,44 @@ There are [**matchers**][Hamcrest] for the builders. You can assert that a rekor
 just check they have specific keys, or anywhere in between. Take a look at [`RekordMatchers`][RekordMatchers.java] for
 more information.
 
+```java
+Rekord<Person> steve = Person.rekord
+        .with(Person.firstName, "Steve")
+        .with(Person.lastName, "Humperdick")
+        .with(Person.age, 32);
+
+assertThat(steve, is(aRekordOf(Person.class)
+        .with(Person.firstName, equalToIgnoringCase("steVE"))
+        .with(Person.lastName, containsString("Hump"))
+        .with(Person.age, greaterThan(20))));
+
+assertThat(steve, hasProperty(Person.age, lessThan(50)));
+```
+
 #### Validation
 
-This plays into **validation**. Rather than just building a rekord and using it, you can also create a
+The matchers play into **validation**. Rather than just building a rekord and using it, you can also create a
 [`ValidatingRekord`][ValidatingRekordTest.java] which allows you to build a rekord up, then ensure it passes a
-specification. Just like the matchers, Hamcrest is used for validation.
+specification.
+ 
+Hamcrest is used for validation.
 
 #### Transformation
 
 Rekord properties can be transformed on storage and on retrieval. The *rekord-keys* library adds a number of keys that
 wrap existing keys. As of the time of writing, you can:
 
-  * Specify a default value for a key with `DefaultedKey`
-  * Apply an arbitrary (reversible) transformation with `FunctionKey`
-  * Break a value into many values with `OneToManyKey`
-  * Dive into rekords several layers deep with `ComposedKey`
-  * Rename a key with `RenamedKey`
+  * Specify a default value for a key with [`DefaultedKey`][DefaultedKeyTest.java]
+  * Apply an arbitrary (reversible) transformation with [`FunctionKey`][FunctionKeyTest.java]
+  * Break a value into many values with [`OneToManyKey`][OneToManyKeyTest.java]
+  * Dive into rekords several layers deep with [`ComposedKey`][ComposedKeyTest.java]
+  * Rename a key with [`RenamedKey`][RenamedKeyTest.java]
+  
+[ComposedKeyTest.java]: https://github.com/SamirTalwar/Rekord/blob/master/keys/src/test/java/com/noodlesandwich/rekord/keys/ComposedKeyTest.java
+[DefaultedKeyTest.java]: https://github.com/SamirTalwar/Rekord/blob/master/keys/src/test/java/com/noodlesandwich/rekord/keys/DefaultedKeyTest.java
+[FunctionKeyTest.java]: https://github.com/SamirTalwar/Rekord/blob/master/keys/src/test/java/com/noodlesandwich/rekord/keys/FunctionKeyTest.java
+[OneToManyKeyTest.java]: https://github.com/SamirTalwar/Rekord/blob/master/keys/src/test/java/com/noodlesandwich/rekord/keys/OneToManyKeyTest.java
+[RenamedKeyTest.java]: https://github.com/SamirTalwar/Rekord/blob/master/keys/src/test/java/com/noodlesandwich/rekord/keys/RenamedKeyTest.java
 
 #### Serialization
 
