@@ -29,6 +29,8 @@
         <module>keys</module>
         <module>validation</module>
         <module>all</module>
+
+        <module>jackson</module>
     </modules>
 
     <parent>

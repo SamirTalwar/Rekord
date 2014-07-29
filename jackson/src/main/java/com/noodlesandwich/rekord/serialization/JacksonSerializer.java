@@ -1,4 +1,4 @@
-package com.noodlesandwich.rekord.extra;
+package com.noodlesandwich.rekord.serialization;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -6,8 +6,6 @@ import java.io.Writer;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.noodlesandwich.rekord.FixedRekord;
-import com.noodlesandwich.rekord.serialization.Serialization;
-import com.noodlesandwich.rekord.serialization.Serializer;
 
 public final class JacksonSerializer implements Serializer<Void, IOException> {
     private final Writer writer;

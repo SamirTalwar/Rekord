@@ -1,4 +1,4 @@
-package com.noodlesandwich.rekord.extra;
+package com.noodlesandwich.rekord.serialization;
 
 import java.io.IOException;
 import java.io.StringWriter;
