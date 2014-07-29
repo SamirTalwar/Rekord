@@ -156,11 +156,11 @@ libraries and get going.
 
 There's almost certainly a bunch of stuff we haven't covered. More examples can be found [in the tests][Tests].
 
-[Tests]: https://github.com/SamirTalwar/Rekord/tree/master/src/test/java/com/noodlesandwich/rekord
-[RekordMatchers.java]: https://github.com/SamirTalwar/Rekord/blob/master/src/main/java/com/noodlesandwich/rekord/validation/RekordMatchers.java
-[ValidatingRekordTest.java]: https://github.com/SamirTalwar/Rekord/blob/master/src/test/java/com/noodlesandwich/rekord/validation/ValidatingRekordTest.java
-[serialization]: https://github.com/SamirTalwar/Rekord/tree/master/src/main/java/com/noodlesandwich/rekord/serialization
-[extra]: https://github.com/SamirTalwar/Rekord/tree/master/src/main/java/com/noodlesandwich/rekord/extra
+[Tests]: https://github.com/SamirTalwar/Rekord/tree/master/core/src/test/java/com/noodlesandwich/rekord
+[RekordMatchers.java]: https://github.com/SamirTalwar/Rekord/blob/master/validation/src/main/java/com/noodlesandwich/rekord/validation/RekordMatchers.java
+[ValidatingRekordTest.java]: https://github.com/SamirTalwar/Rekord/blob/master/validation/src/test/java/com/noodlesandwich/rekord/validation/ValidatingRekordTest.java
+[serialization]: https://github.com/SamirTalwar/Rekord/tree/master/core/src/main/java/com/noodlesandwich/rekord/serialization
+[extra]: https://github.com/SamirTalwar/Rekord/tree/master/core/src/main/java/com/noodlesandwich/rekord/extra
 
 ## Installation
 
