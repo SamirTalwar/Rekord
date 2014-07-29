@@ -50,5 +50,15 @@
             <artifactId>rekord-core</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.noodlesandwich</groupId>
+            <artifactId>rekord-keys</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.noodlesandwich</groupId>
+            <artifactId>rekord-validation</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

@@ -27,6 +27,7 @@
         <module>core</module>
         <module>test-support</module>
         <module>keys</module>
+        <module>validation</module>
         <module>all</module>
     </modules>
 

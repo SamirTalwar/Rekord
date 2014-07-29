@@ -19,11 +19,6 @@
             <artifactId>pcollections</artifactId>
             <version>${dependencies.pcollections.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-core</artifactId>
-            <version>${dependencies.hamcrest.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>com.google.guava</groupId>

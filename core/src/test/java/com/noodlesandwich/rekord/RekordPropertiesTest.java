@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import com.noodlesandwich.rekord.properties.Property;
-import com.noodlesandwich.rekord.validation.RekordMatchers;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
@@ -63,8 +62,7 @@ public final class RekordPropertiesTest {
         Rekord<Jar<Jar.Cookie>> cookieJar = Jar.ofCookies()
                 .with(Jar.<Jar.Cookie>contents(), cookies);
 
-        assertThat(cookieJar, is(RekordMatchers.<Jar<Jar.Cookie>>aRekordNamed("Cookie Jar")
-                .with(Jar.<Jar.Cookie>contents(), tenCookies())));
+        assertThat(cookieJar.get(Jar.<Jar.Cookie>contents()), is(tenCookies()));
     }
 
     @Test public void

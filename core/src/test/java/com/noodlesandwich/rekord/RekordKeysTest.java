@@ -20,14 +20,10 @@ import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Bread.Brown;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Filling.Cheese;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Filling.Jam;
-import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Style.Flat;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Style.Roll;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Wurst;
-import static com.noodlesandwich.rekord.validation.RekordMatchers.hasKey;
-import static com.noodlesandwich.rekord.validation.RekordMatchers.hasProperties;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.is;
 
 public final class RekordKeysTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();
@@ -40,9 +36,9 @@ public final class RekordKeysTest {
                 .with(Sandvich.filling, Jam)
                 .with(Sandvich.bread, Brown);
 
-        assertThat(sandvich, allOf(
-                hasProperties(Sandvich.filling, Sandvich.bread),
-                not(hasProperties(Sandvich.style))));
+        assertThat(sandvich.has(Sandvich.filling), is(true));
+        assertThat(sandvich.has(Sandvich.bread), is(true));
+        assertThat(sandvich.has(Sandvich.style), is(false));
     }
 
     @Test public void
@@ -93,17 +89,6 @@ public final class RekordKeysTest {
                 .<Key<? super Sandvich, ?>>containsInAnyOrder(Sandvich.bread, Sandvich.filling, Sandvich.style));
     }
 
-    @Test public void
-    a_rekord_knows_whether_it_has_a_property_with_a_specific_key() {
-        Rekord<Sandvich> sandvich = Sandvich.rekord
-                .with(Sandvich.filling, Jam)
-                .with(Sandvich.style, Flat);
-
-        assertThat(sandvich, hasKey(Sandvich.filling));
-        assertThat(sandvich, not(hasKey(Sandvich.bread)));
-        assertThat(sandvich, hasKey(Sandvich.style));
-    }
-
     @SuppressWarnings("unchecked")
     @Test public void
     a_rekord_can_work_with_keys_of_a_supertype() {
@@ -111,7 +96,7 @@ public final class RekordKeysTest {
                 .with(Wurst.curvature, 0.9)
                 .with(Bratwurst.style, Chopped);
 
-        assertThat(bratwurst, hasKey(Wurst.curvature));
+        assertThat(bratwurst.has(Wurst.curvature), is(true));
         assertThat(bratwurst.keys(), Matchers.<Key<? super Bratwurst, ?>>
                 containsInAnyOrder(Wurst.curvature, Bratwurst.style));
     }
