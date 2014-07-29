@@ -146,21 +146,23 @@ assertThat(the(document), isSimilarTo(the(
         "</person>")));
 ```
 
-You can see the list of serializers in the [`serialization`][serialization] package. If you don't spot the one you're
-looking for, just implement your own. The API is fairly simple.
+The available serializers are, at the time of writing: 
 
-There are a couple of extra pieces of functionality in the [`extra`][extra] package. At the moment, there are
-transformers that use [Guava][], and a serializer that uses [Jackson][]. They're hidden away because you'll get
-compilation failures if you try and use them without the correct JAR dependencies. If you're interested, grab the
-libraries and get going.
+  * `StringSerializer`, which is used by `Rekord::toString` to create a string representation of a rekord
+  * `MapSerializer`, which converts a Rekord into a `Map<String, Object>`
+  * `DomXmlSerializer`, which converts a Rekord into a `Document` object. It's demonstrated above
+  * `JacksonSerializer`, which converts a Rekord into JSON, and can either return a `String` or write it directly to a
+    `Writer`
+    
+Note: to use `JacksonSerializer`, you'll need to include `rekord-jackson` as a separate dependency. This is to avoid
+including the [Jackson JSON Processor][] as a dependency of Rekord.
 
 There's almost certainly a bunch of stuff we haven't covered. More examples can be found [in the tests][Tests].
 
-[Tests]: https://github.com/SamirTalwar/Rekord/tree/master/core/src/test/java/com/noodlesandwich/rekord
 [RekordMatchers.java]: https://github.com/SamirTalwar/Rekord/blob/master/validation/src/main/java/com/noodlesandwich/rekord/validation/RekordMatchers.java
 [ValidatingRekordTest.java]: https://github.com/SamirTalwar/Rekord/blob/master/validation/src/test/java/com/noodlesandwich/rekord/validation/ValidatingRekordTest.java
-[serialization]: https://github.com/SamirTalwar/Rekord/tree/master/core/src/main/java/com/noodlesandwich/rekord/serialization
-[extra]: https://github.com/SamirTalwar/Rekord/tree/master/core/src/main/java/com/noodlesandwich/rekord/extra
+[Jackson JSON Processor]: http://jackson.codehaus.org/
+[Tests]: https://github.com/SamirTalwar/Rekord/tree/master/core/src/test/java/com/noodlesandwich/rekord
 
 ## Installation
 
@@ -197,7 +199,6 @@ Thanks go to:
 [@natpryce]: https://twitter.com/natpryce
 [@domfox]: https://twitter.com/domfox
 
-[Guava]: https://code.google.com/p/guava-libraries/
 [Hamcrest]: https://github.com/hamcrest/JavaHamcrest
 [Jackson]: http://jackson.codehaus.org/
 [karg]: https://github.com/youdevise/karg
