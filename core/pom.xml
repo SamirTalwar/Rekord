@@ -21,28 +21,27 @@
         </dependency>
 
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${dependencies.guava.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-library</artifactId>
-            <version>${dependencies.hamcrest.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${dependencies.junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+            <version>${dependencies.hamcrest.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.xmlmatchers</groupId>
             <artifactId>xml-matchers</artifactId>
             <version>${dependencies.xml-matchers.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${dependencies.guava.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
