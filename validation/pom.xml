@@ -39,12 +39,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${dependencies.guava.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>com.noodlesandwich</groupId>
             <artifactId>rekord-test-support</artifactId>
             <version>${project.version}</version>
