@@ -10,7 +10,7 @@
     <parent>
         <groupId>com.noodlesandwich</groupId>
         <artifactId>rekord-parent</artifactId>
-        <version>0.3</version>
+        <version>0.4-SNAPSHOT</version>
     </parent>
 
     <dependencies>
