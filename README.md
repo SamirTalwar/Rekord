@@ -68,7 +68,8 @@ Rekord<Person> woz = Person.rekord
        .with(Address.city, "Cupertino"));
 ```
 
-`woz` has the type `Rekord<Person>`, but you can treat it basically as if it were a `Person` as shown above. There's only one real difference. Instead of:
+`woz` has the type `Rekord<Person>`, but you can treat it basically as if it were a `Person` as shown above. There's
+only one real difference. Instead of:
 
 ```java
 woz.getFirstName()
@@ -89,7 +90,7 @@ to implement a new concrete class for every value concept—instead, a single ty
  
 For free, you also get:
 
-  * [builders][TODO]
+  * [builders][Make It Easy]
   * [matchers][Hamcrest]
   * validation
   * serialization
@@ -161,7 +162,6 @@ There's almost certainly a bunch of stuff we haven't covered. More examples can 
 
 [RekordMatchers.java]: https://github.com/SamirTalwar/Rekord/blob/master/validation/src/main/java/com/noodlesandwich/rekord/validation/RekordMatchers.java
 [ValidatingRekordTest.java]: https://github.com/SamirTalwar/Rekord/blob/master/validation/src/test/java/com/noodlesandwich/rekord/validation/ValidatingRekordTest.java
-[Jackson JSON Processor]: http://jackson.codehaus.org/
 [Tests]: https://github.com/SamirTalwar/Rekord/tree/master/core/src/test/java/com/noodlesandwich/rekord
 
 ## Installation
@@ -200,6 +200,6 @@ Thanks go to:
 [@domfox]: https://twitter.com/domfox
 
 [Hamcrest]: https://github.com/hamcrest/JavaHamcrest
-[Jackson]: http://jackson.codehaus.org/
+[Jackson JSON Processor]: http://jackson.codehaus.org/
 [karg]: https://github.com/youdevise/karg
 [Make It Easy]: https://code.google.com/p/make-it-easy/
