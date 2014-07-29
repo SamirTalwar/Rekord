@@ -57,7 +57,7 @@ public interface Person {
 }
 ```
 
-That `Rekord<Person>` object is a *rekord builder*. You can construct new people with it.[^1] Like so:
+That `Rekord<Person>` object is a *rekord builder*. You can construct new people with it. Like so:
 
 ```java
 Rekord<Person> woz = Person.rekord
@@ -81,8 +81,6 @@ woz.get(Person.firstName)
 ```
 
 Simple, right?
-       
-[^1]: Not real people. For that, you need C++.
 
 ### What else?
 
