@@ -37,6 +37,8 @@ cases, and everything else to support this, the dumbest of all classes.
 OK, now we can use our `Person` type. It's beautiful, right? It just needs some annotations to serialize to JSON, then
 some [JPA][Java Persistence API] annotations for persistence to the database, and…
 
+[Java Persistence API]: http://www.oracle.com/technetwork/java/javaee/tech/persistence-jsp-140049.html
+
 **UGH.**
 
 ### Rekord to the Rescue
