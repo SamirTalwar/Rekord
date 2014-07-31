@@ -210,14 +210,26 @@ You can use Rekord v0.2 by dropping the following into your Maven `pom.xml`. It'
 <dependency>
     <groupId>com.noodlesandwich</groupId>
     <artifactId>rekord</artifactId>
-    <version>0.2</version>
+    <version>0.3</version>
 </dependency>
 ```
 
-If you're not using Maven, alter as appropriate for your dependency management system. If you just want a JAR, you can
-[download it directly from Maven][rekord-0.2.jar].
+If you want to serialize to JSON, grab this one too:
 
-[rekord-0.2.jar]: http://search.maven.org/remotecontent?filepath=com/noodlesandwich/rekord/0.2/rekord-0.2.jar
+```xml
+<dependency>
+    <groupId>com.noodlesandwich</groupId>
+    <artifactId>rekord-jackson</artifactId>
+    <version>0.3</version>
+</dependency>
+```
+
+If you're not using Maven, alter as appropriate for your dependency management system.
+
+There are also individual JARs available if you don't want all of Rekord, or if you want to manually manage your
+dependencies. [You can get them all from Maven Central.][Rekord on Maven Central]
+
+[Rekord on Maven Central]: http://search.maven.org/#search|ga|1|g%3Acom.noodlesandwich%20a%3Arekord*
 
 ## Why "Rekord"?
 
