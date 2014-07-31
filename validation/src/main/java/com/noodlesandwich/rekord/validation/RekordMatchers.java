@@ -10,6 +10,7 @@ import com.noodlesandwich.rekord.keys.Keys;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
+import org.pcollections.HashTreePMap;
 
 public final class RekordMatchers {
     private RekordMatchers() { }
@@ -19,7 +20,7 @@ public final class RekordMatchers {
     }
 
     public static <T> RekordMatcher<T> aRekordNamed(String name) {
-        return new RekordMatcher<>(name);
+        return new RekordMatcher<>(name, HashTreePMap.<Key<? super T, ?>, Matcher<?>>empty());
     }
 
     public static <T, V> Matcher<FixedRekord<? extends T>> hasKey(final Key<T, V> key) {

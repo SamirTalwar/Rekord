@@ -6,27 +6,25 @@ import com.noodlesandwich.rekord.keys.Key;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
-import org.pcollections.HashTreePMap;
 import org.pcollections.PMap;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 
 public final class RekordMatcher<T> extends TypeSafeDiagnosingMatcher<FixedRekord<T>> {
     private final String name;
-    private PMap<Key<? super T, ?>, Matcher<?>> expectedProperties = HashTreePMap.empty();
+    private final PMap<Key<? super T, ?>, Matcher<?>> expectedProperties;
 
-    public RekordMatcher(String name) {
+    public RekordMatcher(String name, PMap<Key<? super T, ?>, Matcher<?>> expectedProperties) {
         this.name = name;
+        this.expectedProperties = expectedProperties;
     }
 
     public <V> RekordMatcher<T> with(Key<? super T, V> key, V value) {
-        with(key, equalTo(value));
-        return this;
+        return with(key, equalTo(value));
     }
 
     public <V> RekordMatcher<T> with(Key<? super T, V> key, Matcher<V> valueMatcher) {
-        expectedProperties = expectedProperties.plus(key, valueMatcher);
-        return this;
+        return new RekordMatcher<>(name, expectedProperties.plus(key, valueMatcher));
     }
 
     @Override
