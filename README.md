@@ -204,7 +204,7 @@ There's almost certainly a bunch of stuff we haven't covered. More examples can 
 
 ## Installation
 
-You can use Rekord v0.2 by dropping the following into your Maven `pom.xml`. It's in Maven Central.
+You can use Rekord v0.3 by dropping the following into your Maven `pom.xml`. It's in Maven Central.
 
 ```xml
 <dependency>
