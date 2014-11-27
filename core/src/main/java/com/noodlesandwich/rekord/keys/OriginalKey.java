@@ -12,22 +12,22 @@ public abstract class OriginalKey<T, V> extends AbstractKey<T, V> {
     }
 
     @Override
-    public final <R extends T> boolean test(Properties<R> properties) {
+    public final boolean test(Properties<T> properties) {
         return properties.has(this);
     }
 
     @Override
-    public final <R extends T> V get(Properties<R> properties) {
+    public final V get(Properties<T> properties) {
         return properties.get(this);
     }
 
     @Override
-    public final <R extends T> Properties<R> set(V value, Properties<R> properties) {
+    public final Properties<T> set(V value, Properties<T> properties) {
         return properties.set(new Property<>(this, value));
     }
 
     @Override
-    public final Iterator<Key<? super T, ?>> iterator() {
-        return Collections.<Key<? super T, ?>>singleton(this).iterator();
+    public final Iterator<Key<T, ?>> iterator() {
+        return Collections.<Key<T, ?>>singleton(this).iterator();
     }
 }

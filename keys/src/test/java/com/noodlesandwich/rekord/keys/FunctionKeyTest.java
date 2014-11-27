@@ -97,7 +97,7 @@ public final class FunctionKeyTest {
     @SuppressWarnings("unchecked")
     @Test public void
     provides_the_underlying_key_when_iterating() {
-        assertThat(houseNumberString, Matchers.<Key<? super Address, ?>>contains(Address.houseNumber));
+        assertThat(houseNumberString, Matchers.<Key<Address, ?>>contains(Address.houseNumber));
     }
 
     @Test public void

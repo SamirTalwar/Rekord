@@ -14,10 +14,9 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import static com.noodlesandwich.rekord.test.ExceptionMatcher.an;
-import static com.noodlesandwich.rekord.testobjects.TestRekords.Bratwurst;
-import static com.noodlesandwich.rekord.testobjects.TestRekords.Bratwurst.Style.Chopped;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Bread.Brown;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Bread.White;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Filling.Cheese;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Filling.Jam;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Style.Roll;
@@ -27,8 +26,6 @@ import static org.hamcrest.Matchers.is;
 
 public final class RekordKeysTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();
-
-    private static final Key<Object, Object> missingKey = new BrokenKey<>();
 
     @Test public void
     a_Rekord_can_tell_which_keys_are_being_used() {
@@ -48,7 +45,7 @@ public final class RekordKeysTest {
 
         Key<Wurst, Integer> spice = SimpleKey.named("spice");
 
-        Rekords.of(Bratwurst.class).accepting(Wurst.curvature, Bratwurst.style)
+        Rekords.of(Wurst.class).accepting(Wurst.curvature)
                 .with(spice, 7);
     }
 
@@ -60,22 +57,23 @@ public final class RekordKeysTest {
                 .with(Sandvich.style, Roll);
 
         assertThat(sandvich.keys(), Matchers
-                .<Key<? super Sandvich, ?>>containsInAnyOrder(Sandvich.filling, Sandvich.style));
+                .<Key<Sandvich, ?>>containsInAnyOrder(Sandvich.filling, Sandvich.style));
     }
 
     @SuppressWarnings("unchecked")
     @Test public void
     whether_a_property_is_present_is_up_to_the_key() {
-        Rekord<Bratwurst> bratwurstRekord = Rekords.of(Bratwurst.class)
-                .accepting(Bratwurst.rekord.acceptedKeys(), missingKey);
+        Key<Sandvich, Object> missingKey = new BrokenKey<>();
+        Rekord<Sandvich> sandvichRekord = Rekords.of(Sandvich.class)
+                .accepting(Sandvich.rekord.acceptedKeys(), missingKey);
 
-        Rekord<Bratwurst> bratwurst = bratwurstRekord
-                .with(Wurst.curvature, 0.5)
-                .with(Bratwurst.style, Chopped)
+        Rekord<Sandvich> sandvich = sandvichRekord
+                .with(Sandvich.filling, Cheese)
+                .with(Sandvich.bread, White)
                 .with(missingKey, "Boop.");
 
-        assertThat(bratwurst.keys(), Matchers
-                .<Key<? super Bratwurst, ?>>containsInAnyOrder(Wurst.curvature, Bratwurst.style));
+        assertThat(sandvich.keys(), Matchers
+                .<Key<Sandvich, ?>>containsInAnyOrder(Sandvich.filling, Sandvich.bread));
     }
 
     @SuppressWarnings("unchecked")
@@ -86,19 +84,7 @@ public final class RekordKeysTest {
                 .with(Sandvich.style, Roll);
 
         assertThat(sandvich.acceptedKeys(), Matchers
-                .<Key<? super Sandvich, ?>>containsInAnyOrder(Sandvich.bread, Sandvich.filling, Sandvich.style));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Test public void
-    a_rekord_can_work_with_keys_of_a_supertype() {
-        Rekord<Bratwurst> bratwurst = Bratwurst.rekord
-                .with(Wurst.curvature, 0.9)
-                .with(Bratwurst.style, Chopped);
-
-        assertThat(bratwurst.has(Wurst.curvature), is(true));
-        assertThat(bratwurst.keys(), Matchers.<Key<? super Bratwurst, ?>>
-                containsInAnyOrder(Wurst.curvature, Bratwurst.style));
+                .<Key<Sandvich, ?>>containsInAnyOrder(Sandvich.bread, Sandvich.filling, Sandvich.style));
     }
 
     private static final class BrokenKey<T, V> extends AbstractKey<T, V> {
@@ -107,17 +93,17 @@ public final class RekordKeysTest {
         }
 
         @Override
-        public <R extends T> boolean test(Properties<R> properties) {
+        public boolean test(Properties<T> properties) {
             return false;
         }
 
         @Override
-        public <R extends T> V get(Properties<R> properties) {
+        public V get(Properties<T> properties) {
             return null;
         }
 
         @Override
-        public <R extends T> Properties<R> set(V value, Properties<R> properties) {
+        public Properties<T> set(V value, Properties<T> properties) {
             return properties;
         }
 
@@ -127,8 +113,8 @@ public final class RekordKeysTest {
         }
 
         @Override
-        public Iterator<Key<? super T, ?>> iterator() {
-            return Collections.<Key<? super T, ?>>singleton(this).iterator();
+        public Iterator<Key<T, ?>> iterator() {
+            return Collections.<Key<T, ?>>singleton(this).iterator();
         }
     }
 }

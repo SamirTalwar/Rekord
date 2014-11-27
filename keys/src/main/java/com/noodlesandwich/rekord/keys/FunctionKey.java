@@ -23,13 +23,13 @@ public final class FunctionKey<T, V, W> extends DelegatingKey<T, W> {
     }
 
     @Override
-    public <R extends T> boolean test(Properties<R> properties) {
+    public boolean test(Properties<T> properties) {
         V value = underlyingKey.get(properties);
         return value != null && function.applyForward(value) != null;
     }
 
     @Override
-    public <R extends T> W get(Properties<R> properties) {
+    public W get(Properties<T> properties) {
         if (!test(properties)) {
             return null;
         }
@@ -38,7 +38,7 @@ public final class FunctionKey<T, V, W> extends DelegatingKey<T, W> {
     }
 
     @Override
-    public <R extends T> Properties<R> set(W value, Properties<R> properties) {
+    public Properties<T> set(W value, Properties<T> properties) {
         return properties.set(new Property<>(underlyingKey, function.applyBackward(value)));
     }
 

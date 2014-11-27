@@ -21,12 +21,12 @@ public final class ValidRekord<T> implements FixedRekord<T> {
     }
 
     @Override
-    public boolean has(Key<? super T, ?> key) {
+    public boolean has(Key<T, ?> key) {
         return delegate.has(key);
     }
 
     @Override
-    public <V> V get(Key<? super T, V> key) {
+    public <V> V get(Key<T, V> key) {
         return delegate.get(key);
     }
 

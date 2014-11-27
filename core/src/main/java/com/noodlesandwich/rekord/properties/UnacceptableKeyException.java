@@ -7,7 +7,7 @@ public final class UnacceptableKeyException extends RuntimeException {
 
     private static final String UnacceptableKeyTemplate = "The key \"%s\" is not a valid key for this Rekord.";
 
-    public <T, V> UnacceptableKeyException(Key<? super T, V> key) {
+    public <T, V> UnacceptableKeyException(Key<T, V> key) {
         super(String.format(UnacceptableKeyTemplate, key.name()));
     }
 }

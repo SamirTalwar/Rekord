@@ -13,17 +13,17 @@ public final class BuildableKeyDecorator<T, V> extends DelegatingKey<T, V> imple
     }
 
     @Override
-    public <R extends T> boolean test(Properties<R> properties) {
+    public boolean test(Properties<T> properties) {
         return key.test(properties);
     }
 
     @Override
-    public <R extends T> V get(Properties<R> properties) {
+    public V get(Properties<T> properties) {
         return key.get(properties);
     }
 
     @Override
-    public <R extends T> Properties<R> set(V value, Properties<R> properties) {
+    public Properties<T> set(V value, Properties<T> properties) {
         return key.set(value, properties);
     }
 

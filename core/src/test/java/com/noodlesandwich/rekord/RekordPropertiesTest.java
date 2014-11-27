@@ -11,9 +11,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Address;
-import static com.noodlesandwich.rekord.testobjects.TestRekords.Bratwurst;
-import static com.noodlesandwich.rekord.testobjects.TestRekords.Bratwurst.Style.Chopped;
-import static com.noodlesandwich.rekord.testobjects.TestRekords.Bratwurst.Style.Whole;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Jar;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Person;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich;
@@ -85,35 +82,22 @@ public final class RekordPropertiesTest {
     }
 
     @Test public void
-    keys_for_supertypes_of_a_RekordType_can_be_used_to_create_Rekord_properties() {
-        Rekord<Bratwurst> wurst = Bratwurst.rekord
-                .with(Wurst.curvature, 0.3)
-                .with(Bratwurst.style, Chopped);
-
-        assertThat(wurst, is(Bratwurst.rekord
-                .with(Wurst.curvature, 0.3)
-                .with(Bratwurst.style, Chopped)));
-    }
-
-    @Test public void
-    Rekords_can_return_individual_values_when_indexed_by_the_key_including_keys_of_supertypes() {
-        Rekord<Bratwurst> wurst = Bratwurst.rekord
-                .with(Wurst.curvature, 0.1)
-                .with(Bratwurst.style, Whole);
+    Rekords_can_return_individual_values_when_indexed_by_the_key() {
+        Rekord<Wurst> wurst = Wurst.rekord
+                .with(Wurst.curvature, 0.1);
 
         assertThat(wurst.get(Wurst.curvature), is(0.1));
-        assertThat(wurst.get(Bratwurst.style), is(Whole));
     }
 
     @Test public void
     properties_can_be_removed_from_a_Rekord() {
-        Rekord<Bratwurst> wurst = Bratwurst.rekord
-                .with(Wurst.curvature, 0.9)
-                .with(Bratwurst.style, Whole)
-                .without(Wurst.curvature);
+        Rekord<Address> wurst = Address.rekord
+                .with(Address.houseNumber, 99)
+                .with(Address.city, "London")
+                .without(Address.houseNumber);
 
-        assertThat(wurst, is(Bratwurst.rekord
-                .with(Bratwurst.style, Whole)));
+        assertThat(wurst, is(Address.rekord
+                .with(Address.city, "London")));
     }
 
     @SuppressWarnings("unchecked")
@@ -123,7 +107,7 @@ public final class RekordPropertiesTest {
                 .with(Sandvich.filling, Lettuce)
                 .with(Sandvich.style, Flat);
 
-        assertThat(sandvich.properties(), Matchers.<Property<? super Sandvich, ?>>containsInAnyOrder(
+        assertThat(sandvich.properties(), Matchers.<Property<Sandvich, ?>>containsInAnyOrder(
                 new Property<>(Sandvich.filling, Lettuce),
                 new Property<>(Sandvich.style, Flat)));
     }

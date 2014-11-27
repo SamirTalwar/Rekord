@@ -79,7 +79,7 @@ public final class DefaultedKeyTest {
     @SuppressWarnings("unchecked")
     @Test public void
     provides_the_underlying_key_when_iterating() {
-        assertThat(styleDefaultingToFlat, Matchers.<Key<? super Sandvich, ?>>contains(Sandvich.style));
+        assertThat(styleDefaultingToFlat, Matchers.<Key<Sandvich, ?>>contains(Sandvich.style));
     }
 
     @Test public void

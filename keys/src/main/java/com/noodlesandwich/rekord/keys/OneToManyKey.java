@@ -20,8 +20,8 @@ public final class OneToManyKey<T, V> extends DelegatingKey<T, V> {
     }
 
     @Override
-    public <R extends T> boolean test(Properties<R> properties) {
-        for (Key<? super T, ?> key : keys) {
+    public boolean test(Properties<T> properties) {
+        for (Key<T, ?> key : keys) {
             if (!key.test(properties)) {
                 return false;
             }
@@ -31,14 +31,14 @@ public final class OneToManyKey<T, V> extends DelegatingKey<T, V> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <R extends T> V get(Properties<R> properties) {
-        return function.applyForward((Properties<T>) properties);
+    public V get(Properties<T> properties) {
+        return function.applyForward(properties);
     }
 
     @Override
-    public <R extends T> Properties<R> set(V value, Properties<R> properties) {
-        Properties<R> newProperties = properties;
-        for (Property<? super T, ?> property : function.applyBackward(value)) {
+    public Properties<T> set(V value, Properties<T> properties) {
+        Properties<T> newProperties = properties;
+        for (Property<T, ?> property : function.applyBackward(value)) {
             newProperties = newProperties.set(property);
         }
         return newProperties;

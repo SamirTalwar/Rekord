@@ -8,24 +8,24 @@ import org.pcollections.HashTreePMap;
 import org.pcollections.PMap;
 
 public final class PersistentProperties<T> implements Properties<T> {
-    private final PMap<Key<? super T, ?>, Property<? super T, ?>> properties;
+    private final PMap<Key<T, ?>, Property<T, ?>> properties;
 
     public PersistentProperties() {
-        this(HashTreePMap.<Key<? super T, ?>, Property<? super T, ?>>empty());
+        this(HashTreePMap.<Key<T, ?>, Property<T, ?>>empty());
     }
 
-    private PersistentProperties(PMap<Key<? super T, ?>, Property<? super T, ?>> properties) {
+    private PersistentProperties(PMap<Key<T, ?>, Property<T, ?>> properties) {
         this.properties = properties;
     }
 
     @Override
-    public boolean has(Key<? super T, ?> key) {
+    public boolean has(Key<T, ?> key) {
         return properties.containsKey(key);
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public <V> V get(Key<? super T, V> key) {
+    public <V> V get(Key<T, V> key) {
         if (!has(key)) {
             return null;
         }
@@ -34,20 +34,20 @@ public final class PersistentProperties<T> implements Properties<T> {
     }
 
     @Override
-    public PersistentProperties<T> set(Property<? super T, ?> property) {
-        Key<? super T, ?> key = property.key();
+    public PersistentProperties<T> set(Property<T, ?> property) {
+        Key<T, ?> key = property.key();
         return new PersistentProperties<>(properties.plus(key, property));
     }
 
     @Override
-    public PersistentProperties<T> remove(Key<? super T, ?> key) {
+    public PersistentProperties<T> remove(Key<T, ?> key) {
         return new PersistentProperties<>(
                 properties.minus(key)
         );
     }
 
     @Override
-    public Iterator<Property<? super T, ?>> iterator() {
+    public Iterator<Property<T, ?>> iterator() {
         return properties.values().iterator();
     }
 

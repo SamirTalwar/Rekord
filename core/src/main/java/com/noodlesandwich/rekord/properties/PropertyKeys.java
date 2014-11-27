@@ -10,9 +10,9 @@ public final class PropertyKeys {
     private PropertyKeys() { }
 
     public static <T> Keys<T> keysFrom(Properties<T> properties) {
-        Set<Keys<? super T>> keys = new HashSet<>();
-        for (Property<? super T, ?> property : properties) {
-            Key<? super T, ?> key = property.key();
+        Set<Keys<T>> keys = new HashSet<>();
+        for (Property<T, ?> property : properties) {
+            Key<T, ?> key = property.key();
             if (key.test(properties)) {
                 keys.add(key);
             }
@@ -21,7 +21,7 @@ public final class PropertyKeys {
     }
 
     public static <T> void checkAcceptabilityOf(Properties<T> properties, Keys<T> acceptedKeys) {
-        for (Key<? super T, ?> key : keysFrom(properties)) {
+        for (Key<T, ?> key : keysFrom(properties)) {
             if (!acceptedKeys.contains(key)) {
                 throw new UnacceptableKeyException(key);
             }

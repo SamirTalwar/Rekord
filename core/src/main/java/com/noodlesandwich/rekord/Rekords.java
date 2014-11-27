@@ -26,7 +26,7 @@ public final class Rekords {
         // CHECKSTYLE:OFF
         @SuppressWarnings("varargs")
         @SafeVarargs
-        public final Rekord<T> accepting(Keys<? super T>... keys) {
+        public final Rekord<T> accepting(Keys<T>... keys) {
             return accepting(KeySet.from(keys));
         }
         // CHECKSTYLE:ON

@@ -30,12 +30,12 @@ public final class PropertyBackedFixedRekord<T> implements com.noodlesandwich.re
     }
 
     @Override
-    public boolean has(Key<? super T, ?> key) {
+    public boolean has(Key<T, ?> key) {
         return key.test(properties);
     }
 
     @Override
-    public <V> V get(Key<? super T, V> key) {
+    public <V> V get(Key<T, V> key) {
         return key.get(properties);
     }
 

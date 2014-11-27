@@ -12,18 +12,18 @@ import static org.hamcrest.CoreMatchers.equalTo;
 
 public final class RekordMatcher<T> extends TypeSafeDiagnosingMatcher<FixedRekord<T>> {
     private final String name;
-    private final PMap<Key<? super T, ?>, Matcher<?>> expectedProperties;
+    private final PMap<Key<T, ?>, Matcher<?>> expectedProperties;
 
-    public RekordMatcher(String name, PMap<Key<? super T, ?>, Matcher<?>> expectedProperties) {
+    public RekordMatcher(String name, PMap<Key<T, ?>, Matcher<?>> expectedProperties) {
         this.name = name;
         this.expectedProperties = expectedProperties;
     }
 
-    public <V> RekordMatcher<T> with(Key<? super T, V> key, V value) {
+    public <V> RekordMatcher<T> with(Key<T, V> key, V value) {
         return with(key, equalTo(value));
     }
 
-    public <V> RekordMatcher<T> with(Key<? super T, V> key, Matcher<V> valueMatcher) {
+    public <V> RekordMatcher<T> with(Key<T, V> key, Matcher<V> valueMatcher) {
         return new RekordMatcher<>(name, expectedProperties.plus(key, valueMatcher));
     }
 
@@ -40,8 +40,8 @@ public final class RekordMatcher<T> extends TypeSafeDiagnosingMatcher<FixedRekor
             return false;
         }
 
-        for (Map.Entry<Key<? super T, ?>, Matcher<?>> property : expectedProperties.entrySet()) {
-            Key<? super T, ?> expectedKey = property.getKey();
+        for (Map.Entry<Key<T, ?>, Matcher<?>> property : expectedProperties.entrySet()) {
+            Key<T, ?> expectedKey = property.getKey();
             Matcher<?> expectedValue = property.getValue();
             if (!expectedValue.matches(actualRekord.get(expectedKey))) {
                 return false;

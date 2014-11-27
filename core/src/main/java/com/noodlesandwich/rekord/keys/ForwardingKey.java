@@ -11,17 +11,17 @@ public abstract class ForwardingKey<T, V> extends DelegatingKey<T, V> {
     }
 
     @Override
-    public final <R extends T> boolean test(Properties<R> properties) {
+    public final boolean test(Properties<T> properties) {
         return key.test(properties);
     }
 
     @Override
-    public final <R extends T> V get(Properties<R> properties) {
+    public final V get(Properties<T> properties) {
         return key.get(properties);
     }
 
     @Override
-    public final <R extends T> Properties<R> set(V value, Properties<R> properties) {
+    public final Properties<T> set(V value, Properties<T> properties) {
         return key.set(value, properties);
     }
 }

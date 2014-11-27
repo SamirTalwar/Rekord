@@ -20,13 +20,13 @@ public abstract class AbstractKey<T, V> implements Key<T, V> {
     }
 
     @Override
-    public final boolean contains(Key<? super T, ?> key) {
+    public final boolean contains(Key<T, ?> key) {
         return equals(key);
     }
 
     @Override
-    public final Set<Key<? super T, ?>> toSet() {
-        return Collections.<Key<? super T, ?>>singleton(this);
+    public final Set<Key<T, ?>> toSet() {
+        return Collections.<Key<T, ?>>singleton(this);
     }
 
     @Override

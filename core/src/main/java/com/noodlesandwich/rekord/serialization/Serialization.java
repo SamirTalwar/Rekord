@@ -19,9 +19,9 @@ public final class Serialization {
         }
 
         public <A, E extends Exception> A into(Serializer.Accumulator<A, E> accumulator) throws E {
-            for (Property<? super T, ?> property : rekord.properties()) {
+            for (Property<T, ?> property : rekord.properties()) {
                 @SuppressWarnings("unchecked")
-                Key<? super T, Object> castKey = (Key<? super T, Object>) property.key();
+                Key<T, Object> castKey = (Key<T, Object>) property.key();
                 Object value = property.value();
                 castKey.accumulate(value, accumulator);
             }

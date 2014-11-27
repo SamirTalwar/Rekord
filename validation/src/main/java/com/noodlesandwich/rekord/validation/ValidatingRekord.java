@@ -49,22 +49,22 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
     }
 
     @Override
-    public <V> ValidatingRekord<T> with(Property<? super T, V> property) {
+    public <V> ValidatingRekord<T> with(Property<T, V> property) {
         return set(properties.set(property));
     }
 
     @Override
-    public <V> ValidatingRekord<T> with(Key<? super T, V> key, V value) {
+    public <V> ValidatingRekord<T> with(Key<T, V> key, V value) {
         return set(key.set(value, properties));
     }
 
     @Override
-    public <V> ValidatingRekord<T> with(V value, Key<? super T, V> key) {
+    public <V> ValidatingRekord<T> with(V value, Key<T, V> key) {
         return set(key.set(value, properties));
     }
 
     @Override
-    public ValidatingRekord<T> without(Key<? super T, ?> key) {
+    public ValidatingRekord<T> without(Key<T, ?> key) {
         return set(properties.remove(key));
     }
 
@@ -76,7 +76,7 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
     @Override
     public ValidatingRekord<T> merge(FixedRekord<T> other) {
         ValidatingRekord<T> result = this;
-        for (Property<? super T, ?> property : other.properties()) {
+        for (Property<T, ?> property : other.properties()) {
             result = result.with(property);
         }
         return result;
@@ -104,7 +104,7 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
         // CHECKSTYLE:OFF
         @SuppressWarnings("varargs")
         @SafeVarargs
-        public final UnsureRekord<T> accepting(Keys<? super T>... keys) {
+        public final UnsureRekord<T> accepting(Keys<T>... keys) {
             return accepting(KeySet.from(keys));
         }
         // CHECKSTYLE:ON

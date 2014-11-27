@@ -21,12 +21,12 @@ public final class ComposedKey<T, V, W> extends AbstractKey<T, W> {
     }
 
     @Override
-    public <R extends T> boolean test(Properties<R> properties) {
+    public boolean test(Properties<T> properties) {
         return before.test(properties) && before.get(properties).has(after);
     }
 
     @Override
-    public <R extends T> W get(Properties<R> properties) {
+    public W get(Properties<T> properties) {
         Rekord<V> inner = before.get(properties);
         if (inner == null) {
             return null;
@@ -35,7 +35,7 @@ public final class ComposedKey<T, V, W> extends AbstractKey<T, W> {
     }
 
     @Override
-    public <R extends T> Properties<R> set(W value, Properties<R> properties) {
+    public Properties<T> set(W value, Properties<T> properties) {
         Rekord<V> inner = before.get(properties);
         if (inner == null) {
             inner = before.builder();
@@ -50,7 +50,7 @@ public final class ComposedKey<T, V, W> extends AbstractKey<T, W> {
     }
 
     @Override
-    public Iterator<Key<? super T, ?>> iterator() {
+    public Iterator<Key<T, ?>> iterator() {
         throw new UnsupportedOperationException();
     }
 

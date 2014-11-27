@@ -6,9 +6,9 @@ import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.serialization.Serializer;
 
 public interface FixedRekord<T> extends RekordTemplate<T> {
-    boolean has(Key<? super T, ?> key);
+    boolean has(Key<T, ?> key);
 
-    <V> V get(Key<? super T, V> key);
+    <V> V get(Key<T, V> key);
 
     Keys<T> keys();
 

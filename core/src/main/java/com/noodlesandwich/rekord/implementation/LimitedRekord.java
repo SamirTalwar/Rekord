@@ -26,32 +26,32 @@ public final class LimitedRekord<T> implements Rekord<T> {
     }
 
     @Override
-    public boolean has(Key<? super T, ?> key) {
+    public boolean has(Key<T, ?> key) {
         return delegate.has(key);
     }
 
     @Override
-    public <V> V get(Key<? super T, V> key) {
+    public <V> V get(Key<T, V> key) {
         return delegate.get(key);
     }
 
     @Override
-    public <V> Rekord<T> with(Property<? super T, V> property) {
+    public <V> Rekord<T> with(Property<T, V> property) {
         return set(properties.set(property));
     }
 
     @Override
-    public <V> Rekord<T> with(Key<? super T, V> key, V value) {
+    public <V> Rekord<T> with(Key<T, V> key, V value) {
         return set(key.set(value, properties));
     }
 
     @Override
-    public <V> Rekord<T> with(V value, Key<? super T, V> key) {
+    public <V> Rekord<T> with(V value, Key<T, V> key) {
         return set(key.set(value, properties));
     }
 
     @Override
-    public Rekord<T> without(Key<? super T, ?> key) {
+    public Rekord<T> without(Key<T, ?> key) {
         return set(properties.remove(key));
     }
 
@@ -63,7 +63,7 @@ public final class LimitedRekord<T> implements Rekord<T> {
     @Override
     public Rekord<T> merge(FixedRekord<T> other) {
         Rekord<T> result = this;
-        for (Property<? super T, ?> property : other.properties()) {
+        for (Property<T, ?> property : other.properties()) {
             result = result.with(property);
         }
         return result;

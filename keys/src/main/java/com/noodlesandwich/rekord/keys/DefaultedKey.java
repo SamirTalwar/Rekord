@@ -20,12 +20,12 @@ public final class DefaultedKey<T, V> extends DelegatingKey<T, V> {
     }
 
     @Override
-    public <R extends T> boolean test(Properties<R> properties) {
+    public boolean test(Properties<T> properties) {
         return underlyingKey.test(properties);
     }
 
     @Override
-    public <R extends T> V get(Properties<R> properties) {
+    public V get(Properties<T> properties) {
         V value = underlyingKey.get(properties);
         if (value == null) {
             return defaultValue;
@@ -34,7 +34,7 @@ public final class DefaultedKey<T, V> extends DelegatingKey<T, V> {
     }
 
     @Override
-    public <R extends T> Properties<R> set(V value, Properties<R> properties) {
+    public Properties<T> set(V value, Properties<T> properties) {
         return underlyingKey.set(value, properties);
     }
 
