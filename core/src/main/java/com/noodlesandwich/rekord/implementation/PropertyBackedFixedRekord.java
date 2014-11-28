@@ -8,7 +8,7 @@ import com.noodlesandwich.rekord.properties.PropertyKeys;
 import com.noodlesandwich.rekord.serialization.Serializer;
 import com.noodlesandwich.rekord.serialization.StringSerializer;
 
-public final class PropertyBackedFixedRekord<T> implements com.noodlesandwich.rekord.FixedRekord<T> {
+public final class PropertyBackedFixedRekord<T> implements FixedRekord<T> {
     private final String name;
     private final Keys<T> acceptedKeys;
     private final Properties<T> properties;
