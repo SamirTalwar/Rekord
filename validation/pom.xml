@@ -22,7 +22,7 @@
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-core</artifactId>
+            <artifactId>java-hamcrest</artifactId>
             <version>${dependencies.hamcrest.version}</version>
         </dependency>
 
@@ -30,12 +30,6 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${dependencies.junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-library</artifactId>
-            <version>${dependencies.hamcrest.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
