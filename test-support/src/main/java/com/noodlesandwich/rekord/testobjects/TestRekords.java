@@ -20,19 +20,19 @@ public final class TestRekords {
 
         Rekord<Sandvich> rekord = Rekords.of(Sandvich.class).accepting(filling, bread, style);
 
-        public static enum Bread {
+        enum Bread {
             Brown,
             White
         }
 
-        public static enum Filling {
+        enum Filling {
             Cheese,
             Ham,
             Jam,
             Lettuce
         }
 
-        public static enum Style {
+        enum Style {
             Flat,
             Burger,
             Roll
@@ -97,14 +97,14 @@ public final class TestRekords {
 
         Rekord<LegoBag> rekord = Rekords.of(LegoBag.class).accepting(sets, minifigs);
 
-        public static enum Brick {
+        enum Brick {
             Red,
             Green,
             Blue
         }
     }
 
-    public static enum Country {
+    public enum Country {
         Australia,
         Austria,
         Canada,

@@ -59,7 +59,7 @@ public final class StringSerializer implements SafeSerializer<String> {
         }
     }
 
-    private static enum Formatter {
+    private enum Formatter {
         Value {
             @Override public String format(String name, Object value) {
                 return value.toString();

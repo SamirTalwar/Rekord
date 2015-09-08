@@ -145,7 +145,7 @@ public final class FunctionKeyTest {
 
     private static InvertibleFunction<Integer, Integer> superstition() {
         return new InvertibleFunction<Integer, Integer>() {
-            Set<Integer> unlucky = ImmutableSet.of(4, 7, 13);
+            private final Set<Integer> unlucky = ImmutableSet.of(4, 7, 13);
 
             @Override
             public Integer applyForward(Integer input) {
@@ -179,7 +179,8 @@ public final class FunctionKeyTest {
         };
     }
 
-    private static enum CountryCode {
+    @SuppressWarnings("unused")
+    private enum CountryCode {
         AU(Country.Australia),
         AT(Country.Austria),
         CA(Country.Canada),
@@ -191,7 +192,7 @@ public final class FunctionKeyTest {
 
         private final Country country;
 
-        private CountryCode(Country country) {
+        CountryCode(Country country) {
             this.country = country;
         }
 

@@ -56,7 +56,7 @@ public final class RekordMatchers {
         };
     }
 
-    @SuppressWarnings("varargs")
+    @SafeVarargs
     public static <T> Matcher<FixedRekord<T>> hasProperties(final Key<T, ?>... keys) {
         final Collection<Key<T, ?>> expectedKeys = Arrays.asList(keys);
         return new TypeSafeDiagnosingMatcher<FixedRekord<T>>() {

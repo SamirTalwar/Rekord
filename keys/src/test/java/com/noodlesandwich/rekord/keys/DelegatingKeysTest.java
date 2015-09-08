@@ -46,8 +46,8 @@ public final class DelegatingKeysTest {
                     Lettuce, Cheese
             ));
 
-            Map<Filling, Filling> forwardRota = rota;
-            Map<Filling, Filling> backwardRota = rota.inverse();
+            private final Map<Filling, Filling> forwardRota = rota;
+            private final Map<Filling, Filling> backwardRota = rota.inverse();
 
             @Override
             public Filling applyForward(Filling filling) {

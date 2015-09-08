@@ -30,9 +30,8 @@ public class CopiedKeyTest {
 
         Rekord<Bratwurst> rekord = Rekords.of(Bratwurst.class).accepting(curvature, style);
 
-        public static enum Style {
-            Chopped,
-            Whole
+        enum Style {
+            Chopped
         }
     }
 }
