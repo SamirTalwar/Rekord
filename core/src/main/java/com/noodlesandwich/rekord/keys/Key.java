@@ -12,4 +12,6 @@ public interface Key<T, V> extends Keys<T>, Named {
     Properties<T> set(V value, Properties<T> properties);
 
     <A, E extends Exception> void accumulate(V value, Serializer.Accumulator<A, E> accumulator) throws E;
+
+    <U> Key<U, V> forAnotherRekord();
 }

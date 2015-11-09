@@ -33,4 +33,10 @@ public abstract class AbstractKey<T, V> implements Key<T, V> {
     public final String toString() {
         return name();
     }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <U> Key<U, V> forAnotherRekord() {
+        return (Key<U, V>) this;
+    }
 }

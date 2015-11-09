@@ -30,6 +30,11 @@ public final class Property<T, V> {
         return value;
     }
 
+    @SuppressWarnings("unchecked")
+    public <U> Property<U, V> forAnotherRekord() {
+        return (Property<U, V>) this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
