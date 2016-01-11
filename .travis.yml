@@ -1,6 +1,10 @@
 language: java
+sudo: false
 install: true # Avoid running `mvn install` before building as it requires key-signing.
 script: mvn verify -B
+cache:
+  directories:
+    - $HOME/.m2
 
 notifications:
   email:
