@@ -13,11 +13,11 @@
     <properties>
         <dependencies.pcollections.version>2.1.2</dependencies.pcollections.version>
         <dependencies.hamcrest.version>2.0.0.0</dependencies.hamcrest.version>
-        <dependencies.guava.version>18.0</dependencies.guava.version>
-        <dependencies.jackson.version>2.6.1</dependencies.jackson.version>
+        <dependencies.guava.version>19.0</dependencies.guava.version>
+        <dependencies.jackson.version>2.7.0</dependencies.jackson.version>
         <dependencies.junit.version>4.12</dependencies.junit.version>
         <dependencies.xml-matchers.version>1.0-RC1</dependencies.xml-matchers.version>
-        <dependencies.jsonassert.version>1.2.3</dependencies.jsonassert.version>
+        <dependencies.jsonassert.version>1.3.0</dependencies.jsonassert.version>
 
         <checkstyle.configuration>build/checkstyle.xml</checkstyle.configuration>
         <checkstyle.suppressions>build/checkstyle-suppressions.xml</checkstyle.suppressions>
