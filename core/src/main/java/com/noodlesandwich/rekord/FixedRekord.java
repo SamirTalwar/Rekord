@@ -14,7 +14,7 @@ public interface FixedRekord<T> extends RekordTemplate<T> {
 
     Properties<T> properties();
 
-    <R, E extends Exception> R serialize(Serializer<R, E> serializer) throws E;
+    <S, E extends Exception> S serialize(Serializer<S, E> serializer) throws E;
 
     @Override
     boolean equals(Object o);

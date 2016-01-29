@@ -1,6 +1,6 @@
 package com.noodlesandwich.rekord.serialization;
 
-public interface SafeSerializer<R> extends Serializer<R, SafeSerializer.ImpossibleException> {
+public interface SafeSerializer<S> extends Serializer<S, SafeSerializer.ImpossibleException> {
     interface SafeAccumulator<A> extends Accumulator<A, ImpossibleException> { }
 
     final class ImpossibleException extends RuntimeException {

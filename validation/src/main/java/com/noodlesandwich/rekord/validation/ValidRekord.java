@@ -46,7 +46,7 @@ public final class ValidRekord<T> implements FixedRekord<T> {
     }
 
     @Override
-    public <R, E extends Exception> R serialize(Serializer<R, E> serializer) throws E {
+    public <S, E extends Exception> S serialize(Serializer<S, E> serializer) throws E {
         return delegate.serialize(serializer);
     }
 
