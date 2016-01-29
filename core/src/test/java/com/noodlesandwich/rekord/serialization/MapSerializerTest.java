@@ -2,9 +2,11 @@ package com.noodlesandwich.rekord.serialization;
 
 import java.util.Collection;
 import java.util.Map;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.noodlesandwich.rekord.Rekord;
+import com.noodlesandwich.rekord.Rekords;
 import org.junit.Test;
 
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Address;
@@ -20,17 +22,19 @@ import static org.junit.Assert.assertThat;
 
 public final class MapSerializerTest {
     @Test public void
-    serializes_a_rekord_to_a_map_of_strings_to_objects() {
-        Rekord<Sandvich> sandvich = Sandvich.rekord
+    serializes_and_deserializes_a_rekord_to_a_map_of_strings_to_objects() {
+        Map<String, Object> expectedSerialized = ImmutableMap.<String, Object>of(
+                "bread", White,
+                "style", Roll);
+        Rekord<Sandvich> expectedDeserialized = Sandvich.rekord
                 .with(Sandvich.bread, White)
                 .with(Sandvich.style, Roll);
 
-        Map<String, Object> serialized = sandvich.serialize(new MapSerializer());
+        Rekord<Sandvich> actualDeserialized = Rekords.deserialize(expectedSerialized).into(Sandvich.rekord).with(new MapSerializer());
+        assertThat(actualDeserialized, is(equalTo(expectedDeserialized)));
 
-        Map<String, Object> expected = ImmutableMap.<String, Object>of(
-                "bread", White,
-                "style", Roll);
-        assertThat(serialized, is(equalTo(expected)));
+        Map<String, Object> actualSerialized = actualDeserialized.serialize(new MapSerializer());
+        assertThat(actualSerialized, is(equalTo(expectedSerialized)));
     }
 
     @Test public void
