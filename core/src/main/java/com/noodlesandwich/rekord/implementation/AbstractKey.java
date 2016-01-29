@@ -2,6 +2,7 @@ package com.noodlesandwich.rekord.implementation;
 
 import java.util.Collections;
 import java.util.Set;
+
 import com.noodlesandwich.rekord.keys.Key;
 
 public abstract class AbstractKey<T, V> implements Key<T, V> {
@@ -22,6 +23,15 @@ public abstract class AbstractKey<T, V> implements Key<T, V> {
     @Override
     public final boolean contains(Key<T, ?> key) {
         return equals(key);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public final <DummyV> Key<T, DummyV> keyNamed(String nameToLookup) {
+        if (!name.equals(nameToLookup)) {
+            throw new IllegalArgumentException(String.format("The key \"%s\" does not exist.", nameToLookup));
+        }
+        return (Key<T, DummyV>) this;
     }
 
     @Override

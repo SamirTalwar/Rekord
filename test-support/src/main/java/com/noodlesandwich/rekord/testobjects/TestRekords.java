@@ -1,6 +1,7 @@
 package com.noodlesandwich.rekord.testobjects;
 
 import java.util.Collection;
+
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.Rekords;
 import com.noodlesandwich.rekord.keys.BuildableKey;
@@ -41,8 +42,15 @@ public final class TestRekords {
 
     public interface Wurst {
         Key<Wurst, Double> curvature = SimpleKey.named("curvature");
+        Key<Wurst, Color> color = SimpleKey.named("color");
 
         Rekord<Wurst> rekord = Rekords.of(Wurst.class).accepting(curvature);
+
+        enum Color {
+            White,
+            Brown,
+            Red
+        }
     }
 
     public interface Bier {

@@ -30,6 +30,11 @@ public final class PropertyBackedFixedRekord<T> implements FixedRekord<T> {
     }
 
     @Override
+    public <V> Key<T, V> keyNamed(String nameToLookup) {
+        return acceptedKeys.keyNamed(nameToLookup);
+    }
+
+    @Override
     public boolean has(Key<T, ?> key) {
         return key.test(properties);
     }

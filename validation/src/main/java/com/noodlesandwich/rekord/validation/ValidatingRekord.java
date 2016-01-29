@@ -49,6 +49,11 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
     }
 
     @Override
+    public <V> Key<T, V> keyNamed(String nameToLookup) {
+        return acceptedKeys.keyNamed(nameToLookup);
+    }
+
+    @Override
     public <V> ValidatingRekord<T> with(Property<T, V> property) {
         return set(properties.set(property));
     }

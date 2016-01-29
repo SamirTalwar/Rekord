@@ -41,6 +41,11 @@ public final class ValidRekord<T> implements FixedRekord<T> {
     }
 
     @Override
+    public <V> Key<T, V> keyNamed(String nameToLookup) {
+        return delegate.keyNamed(nameToLookup);
+    }
+
+    @Override
     public Properties<T> properties() {
         return delegate.properties();
     }

@@ -4,16 +4,21 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
+
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.Keys;
+import org.pcollections.HashTreePMap;
 import org.pcollections.OrderedPSet;
+import org.pcollections.PMap;
 import org.pcollections.PSet;
 
 public final class KeySet<T> implements Keys<T> {
     private final PSet<Key<T, ?>> keys;
+    private final PMap<String, Key<T, ?>> keysByName;
 
-    private KeySet(PSet<Key<T, ?>> keys) {
+    private KeySet(PSet<Key<T, ?>> keys, PMap<String, Key<T, ?>> keysByName) {
         this.keys = keys;
+        this.keysByName = keysByName;
     }
 
     @SuppressWarnings("varargs")
@@ -23,13 +28,15 @@ public final class KeySet<T> implements Keys<T> {
     }
 
     public static <T> Keys<T> from(Collection<Keys<T>> keys) {
-        PSet<Key<T, ?>> result = OrderedPSet.empty();
+        PSet<Key<T, ?>> keySet = OrderedPSet.empty();
+        PMap<String, Key<T, ?>> keysByName = HashTreePMap.empty();
         for (Keys<T> innerKeys : keys) {
             for (Key<T, ?> key : innerKeys) {
-                result = result.plus(key);
+                keySet = keySet.plus(key);
+                keysByName = keysByName.plus(key.name(), key);
             }
         }
-        return new KeySet<>(result);
+        return new KeySet<>(keySet, keysByName);
     }
 
     @Override
@@ -40,6 +47,16 @@ public final class KeySet<T> implements Keys<T> {
     @Override
     public boolean contains(Key<T, ?> key) {
         return keys.contains(key);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <V> Key<T, V> keyNamed(String nameToLookup) {
+        Key<T, V> key = (Key<T, V>) keysByName.get(nameToLookup);
+        if (key == null) {
+            throw new IllegalArgumentException(String.format("The key \"%s\" does not exist.", nameToLookup));
+        }
+        return key;
     }
 
     @Override
