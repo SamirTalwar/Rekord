@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
 import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Rekord;
+import com.noodlesandwich.rekord.keys.BuildableKey;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.KeyNotFoundException;
 
@@ -24,7 +24,15 @@ public final class MapSerializer implements
         for (Map.Entry<String, Object> entry : serialized.entrySet()) {
             Key<T, Object> key = result.keyNamed(entry.getKey());
             Object value = entry.getValue();
-            result = result.with(key, value);
+            if (key instanceof BuildableKey && value instanceof Map) {
+                @SuppressWarnings("unchecked") Map<String, Object> innerSerialized =
+                        (Map<String, Object>) value;
+                @SuppressWarnings("unchecked") Rekord<?> innerBuilder =
+                        ((BuildableKey<T, Rekord<?>>) (BuildableKey) key).builder();
+                result = result.with(key, deserialize(innerSerialized, innerBuilder));
+            } else {
+                result = result.with(key, value);
+            }
         }
         return result;
     }

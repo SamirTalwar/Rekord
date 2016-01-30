@@ -2,7 +2,6 @@ package com.noodlesandwich.rekord.serialization;
 
 import java.util.Collection;
 import java.util.Map;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.noodlesandwich.rekord.Rekord;
@@ -22,6 +21,8 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 public final class MapSerializerTest {
+    private final MapSerializer serializer = new MapSerializer();
+
     @Test public void
     serializes_and_deserializes_a_rekord_to_a_map_of_strings_to_objects() throws KeyNotFoundException {
         Rekord<Sandvich> rekord = Sandvich.rekord
@@ -31,16 +32,16 @@ public final class MapSerializerTest {
                 "bread", White,
                 "style", Roll);
 
-        Map<String, Object> serialized = rekord.serialize(new MapSerializer());
+        Map<String, Object> serialized = rekord.serialize(serializer);
         assertThat(serialized, is(equalTo(map)));
 
-        Rekord<Sandvich> deserialized = Rekords.deserialize(map).into(Sandvich.rekord).with(new MapSerializer());
+        Rekord<Sandvich> deserialized = Rekords.deserialize(map).into(Sandvich.rekord).with(serializer);
         assertThat(deserialized, is(equalTo(rekord)));
     }
 
     @Test public void
-    serializes_nested_rekords() {
-        Rekord<Person> person = Person.rekord
+    serializes_and_deserializes_nested_rekords() throws KeyNotFoundException {
+        Rekord<Person> rekord = Person.rekord
                 .with(Person.firstName, "Queen Elizabeth")
                 .with(Person.lastName, "II")
                 .with(Person.address, Address.rekord
@@ -48,10 +49,7 @@ public final class MapSerializerTest {
                         .with(Address.street, "The Mall")
                         .with(Address.city, "London")
                         .with(Address.postalCode, "SW1 1AA"));
-
-        Map<String, Object> serialized = person.serialize(new MapSerializer());
-
-        Map<String, Object> expected = ImmutableMap.<String, Object>of(
+        Map<String, Object> map = ImmutableMap.<String, Object>of(
                 "first name", "Queen Elizabeth",
                 "last name", "II",
                 "address", ImmutableMap.<String, Object>of(
@@ -59,7 +57,12 @@ public final class MapSerializerTest {
                         "street", "The Mall",
                         "city", "London",
                         "postal code", "SW1 1AA"));
-        assertThat(serialized, is(equalTo(expected)));
+
+        Map<String, Object> serialized = rekord.serialize(serializer);
+        assertThat(serialized, is(equalTo(map)));
+
+        Rekord<Person> deserialized = Rekords.deserialize(map).into(Person.rekord).with(serializer);
+        assertThat(deserialized, is(equalTo(rekord)));
     }
 
     @Test public void
@@ -75,7 +78,7 @@ public final class MapSerializerTest {
                         "Corgi #2",
                         "Corgi #3"));
 
-        Map<String, Object> serialized = person.serialize(new MapSerializer());
+        Map<String, Object> serialized = person.serialize(serializer);
 
         Map<String, Object> expected = ImmutableMap.<String, Object>of(
                 "first name", "Queen Elizabeth",
@@ -96,7 +99,7 @@ public final class MapSerializerTest {
                         ImmutableList.of(Brick.Green, Brick.Blue)
                 ));
 
-        Map<String, Object> serialized = lego.serialize(new MapSerializer());
+        Map<String, Object> serialized = lego.serialize(serializer);
 
         Map<String, Object> expected = ImmutableMap.<String, Object>of(
                 "lego sets", ImmutableList.of(
