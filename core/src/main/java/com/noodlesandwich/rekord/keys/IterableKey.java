@@ -1,5 +1,6 @@
 package com.noodlesandwich.rekord.keys;
 
+import com.noodlesandwich.rekord.serialization.Deserializer;
 import com.noodlesandwich.rekord.serialization.Serializer;
 
 public final class IterableKey<T, V, C extends Iterable<V>> extends OriginalKey<T, C> {
@@ -36,5 +37,10 @@ public final class IterableKey<T, V, C extends Iterable<V>> extends OriginalKey<
                 }
             }
         });
+    }
+
+    @Override
+    public <S, E extends Exception> void deserialize(Object value, Deserializer.Accumulator<T, E> accumulator, Deserializer<S, E> deserializer) throws E {
+        throw new UnsupportedOperationException();
     }
 }

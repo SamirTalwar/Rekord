@@ -2,6 +2,7 @@ package com.noodlesandwich.rekord.keys;
 
 import java.util.Iterator;
 import com.noodlesandwich.rekord.implementation.AbstractKey;
+import com.noodlesandwich.rekord.serialization.Deserializer;
 import com.noodlesandwich.rekord.serialization.Serializer;
 
 public abstract class DelegatingKey<T, V> extends AbstractKey<T, V> {
@@ -19,6 +20,11 @@ public abstract class DelegatingKey<T, V> extends AbstractKey<T, V> {
             Key<T, Object> castKey = (Key<T, Object>) key;
             castKey.serialize(value, accumulator);
         }
+    }
+
+    @Override
+    public final <S, E extends Exception> void deserialize(Object value, Deserializer.Accumulator<T, E> accumulator, Deserializer<S, E> deserializer) throws E {
+        throw new UnsupportedOperationException();
     }
 
     @Override

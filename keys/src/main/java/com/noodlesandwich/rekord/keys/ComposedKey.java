@@ -4,6 +4,7 @@ import java.util.Iterator;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.implementation.AbstractKey;
 import com.noodlesandwich.rekord.properties.Properties;
+import com.noodlesandwich.rekord.serialization.Deserializer;
 import com.noodlesandwich.rekord.serialization.Serializer;
 
 public final class ComposedKey<T, V, W> extends AbstractKey<T, W> {
@@ -46,6 +47,11 @@ public final class ComposedKey<T, V, W> extends AbstractKey<T, W> {
 
     @Override
     public <A, E extends Exception> void serialize(W value, Serializer.Accumulator<A, E> accumulator) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <S, E extends Exception> void deserialize(Object value, Deserializer.Accumulator<T, E> accumulator, Deserializer<S, E> deserializer) throws E {
         throw new UnsupportedOperationException();
     }
 

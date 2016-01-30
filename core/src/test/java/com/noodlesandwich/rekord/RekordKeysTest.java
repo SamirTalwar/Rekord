@@ -7,6 +7,7 @@ import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.SimpleKey;
 import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.properties.UnacceptableKeyException;
+import com.noodlesandwich.rekord.serialization.Deserializer;
 import com.noodlesandwich.rekord.serialization.Serializer;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
@@ -109,6 +110,11 @@ public final class RekordKeysTest {
 
         @Override
         public <A, E extends Exception> void serialize(V value, Serializer.Accumulator<A, E> accumulator) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public <S, E extends Exception> void deserialize(Object value, Deserializer.Accumulator<T, E> accumulator, Deserializer<S, E> deserializer) {
             throw new UnsupportedOperationException();
         }
 

@@ -1,6 +1,7 @@
 package com.noodlesandwich.rekord.keys;
 
 import com.noodlesandwich.rekord.Rekord;
+import com.noodlesandwich.rekord.serialization.Deserializer;
 import com.noodlesandwich.rekord.serialization.Serialization;
 import com.noodlesandwich.rekord.serialization.Serializer;
 
@@ -29,6 +30,12 @@ public final class RekordKey<T, V> extends OriginalKey<T, Rekord<V>> implements 
                 Serialization.serialize(rekord).into(innerAccumulator);
             }
         });
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <S, E extends Exception> void deserialize(Object value, Deserializer.Accumulator<T, E> accumulator, Deserializer<S, E> deserializer) throws E {
+        accumulator.addValue(this, deserializer.deserialize((S) value, builder));
     }
 
     public static final class UnbuildableRekordKey {
