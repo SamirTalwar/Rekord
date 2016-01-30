@@ -45,7 +45,7 @@ public final class RekordKey<T, V> extends OriginalKey<T, Rekord<V>> implements 
             this.name = name;
         }
 
-        public <T, V> BuildableKey<T, Rekord<V>> builtFrom(Rekord<V> builder) {
+        public <T, V> RekordKey<T, V> builtFrom(Rekord<V> builder) {
             return new RekordKey<>(name, builder);
         }
     }

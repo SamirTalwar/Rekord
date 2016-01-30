@@ -3,7 +3,6 @@ package com.noodlesandwich.rekord.testobjects;
 import java.util.Collection;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.Rekords;
-import com.noodlesandwich.rekord.keys.BuildableKey;
 import com.noodlesandwich.rekord.keys.CollectionKey;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.RekordKey;
@@ -65,8 +64,8 @@ public final class TestRekords {
         Key<Person, Integer> age = SimpleKey.named("age");
         Key<Person, Collection<Rekord<Person>>> favouritePeople = CollectionKey.named("favourite people").of(RekordKey.named("favourite person").<Person, Person>builtFrom(Person.rekord));
         Key<Person, Collection<String>> pets = CollectionKey.named("pets").of(SimpleKey.<Person, String>named("pet"));
-        BuildableKey<Person, Rekord<Address>> address = RekordKey.named("address").builtFrom(Address.rekord);
-        BuildableKey<Person, Rekord<Company>> company = RekordKey.named("company").builtFrom(Company.rekord);
+        RekordKey<Person, Address> address = RekordKey.named("address").builtFrom(Address.rekord);
+        RekordKey<Person, Company> company = RekordKey.named("company").builtFrom(Company.rekord);
 
         Rekord<Person> rekord = Rekords.of(Person.class).accepting(firstName, lastName, age, favouritePeople, pets, address, company);
     }
@@ -83,7 +82,7 @@ public final class TestRekords {
 
     public interface Company {
         Key<Company, String> name = SimpleKey.named("name");
-        BuildableKey<Company, Rekord<Address>> address = RekordKey.named("address").builtFrom(Address.rekord);
+        RekordKey<Company, Address> address = RekordKey.named("address").builtFrom(Address.rekord);
 
         Rekord<Company> rekord = Rekords.of(Company.class).accepting(name, address);
     }
