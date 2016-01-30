@@ -5,7 +5,6 @@ import java.util.Map;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.noodlesandwich.rekord.Rekord;
-import com.noodlesandwich.rekord.Rekords;
 import com.noodlesandwich.rekord.keys.KeyNotFoundException;
 import org.junit.Test;
 
@@ -24,7 +23,7 @@ public final class MapSerializerTest {
     private final MapSerializer serializer = new MapSerializer();
 
     @Test public void
-    serializes_and_deserializes_a_rekord_to_a_map_of_strings_to_objects() throws KeyNotFoundException {
+    serializes_a_rekord_to_a_map_of_strings_to_objects() {
         Rekord<Sandvich> rekord = Sandvich.rekord
                 .with(Sandvich.bread, White)
                 .with(Sandvich.style, Roll);
@@ -34,13 +33,10 @@ public final class MapSerializerTest {
 
         Map<String, Object> serialized = rekord.serialize(serializer);
         assertThat(serialized, is(equalTo(map)));
-
-        Rekord<Sandvich> deserialized = Rekords.deserialize(map).into(Sandvich.rekord).with(serializer);
-        assertThat(deserialized, is(equalTo(rekord)));
     }
 
     @Test public void
-    serializes_and_deserializes_nested_rekords() throws KeyNotFoundException {
+    serializes_nested_rekords() {
         Rekord<Person> rekord = Person.rekord
                 .with(Person.firstName, "Queen Elizabeth")
                 .with(Person.lastName, "II")
@@ -60,9 +56,6 @@ public final class MapSerializerTest {
 
         Map<String, Object> serialized = rekord.serialize(serializer);
         assertThat(serialized, is(equalTo(map)));
-
-        Rekord<Person> deserialized = Rekords.deserialize(map).into(Person.rekord).with(serializer);
-        assertThat(deserialized, is(equalTo(rekord)));
     }
 
     @Test public void
