@@ -59,10 +59,10 @@ public final class JacksonSerializer implements Serializer<Void, IOException> {
         }
 
         @Override
-        public void addIterable(String name, Accumulation<IOException> accumulation) throws IOException {
+        public void addCollection(String name, Accumulation<IOException> accumulation) throws IOException {
             generator.writeFieldName(name);
             generator.writeStartArray();
-            accumulation.accumulateIn(new JacksonIterableAccumulator(generator));
+            accumulation.accumulateIn(new JacksonCollectionAccumulator(generator));
             generator.writeEndArray();
         }
 
@@ -80,10 +80,10 @@ public final class JacksonSerializer implements Serializer<Void, IOException> {
         }
     }
 
-    private static final class JacksonIterableAccumulator implements Accumulator<Void, IOException> {
+    private static final class JacksonCollectionAccumulator implements Accumulator<Void, IOException> {
         private final JsonGenerator generator;
 
-        public JacksonIterableAccumulator(JsonGenerator generator) {
+        public JacksonCollectionAccumulator(JsonGenerator generator) {
             this.generator = generator;
         }
 
@@ -99,7 +99,7 @@ public final class JacksonSerializer implements Serializer<Void, IOException> {
         }
 
         @Override
-        public void addIterable(String name, Accumulation<IOException> accumulation) throws IOException {
+        public void addCollection(String name, Accumulation<IOException> accumulation) throws IOException {
             generator.writeStartArray();
             accumulation.accumulateIn(this);
             generator.writeEndArray();

@@ -7,7 +7,7 @@ public interface Serializer<S, E extends Exception> {
 
     interface Accumulator<A, E extends Exception> {
         void addValue(String name, Object value) throws E;
-        void addIterable(String name, Accumulation<E> accumulation) throws E;
+        void addCollection(String name, Accumulation<E> accumulation) throws E;
         void addRekord(String name, String rekordName, Accumulation<E> accumulation) throws E;
         A result() throws E;
     }

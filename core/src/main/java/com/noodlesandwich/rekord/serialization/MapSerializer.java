@@ -22,17 +22,17 @@ public final class MapSerializer implements
         }
 
         @Override
-        public void addIterable(String name, Accumulation<ImpossibleException> accumulation) {
-            MapIterableAccumulator iterableAccumulator = new MapIterableAccumulator();
-            accumulation.accumulateIn(iterableAccumulator);
-            result.put(name, iterableAccumulator.result());
+        public void addCollection(String name, Accumulation<ImpossibleException> accumulation) {
+            MapCollectionAccumulator accumulator = new MapCollectionAccumulator();
+            accumulation.accumulateIn(accumulator);
+            result.put(name, accumulator.result());
         }
 
         @Override
         public void addRekord(String name, String rekordName, Accumulation<ImpossibleException> accumulation) {
-            MapRekordAccumulator rekordAccumulator = new MapRekordAccumulator();
-            accumulation.accumulateIn(rekordAccumulator);
-            result.put(name, rekordAccumulator.result());
+            MapRekordAccumulator accumulator = new MapRekordAccumulator();
+            accumulation.accumulateIn(accumulator);
+            result.put(name, accumulator.result());
         }
 
         @Override
@@ -41,7 +41,7 @@ public final class MapSerializer implements
         }
     }
 
-    private static final class MapIterableAccumulator implements SafeAccumulator<Iterable<Object>> {
+    private static final class MapCollectionAccumulator implements SafeAccumulator<Collection<Object>> {
         private final Collection<Object> result = new ArrayList<>();
 
         @Override
@@ -50,21 +50,21 @@ public final class MapSerializer implements
         }
 
         @Override
-        public void addIterable(String name, Accumulation<ImpossibleException> accumulation) {
-            MapIterableAccumulator iterableAccumulator = new MapIterableAccumulator();
-            accumulation.accumulateIn(iterableAccumulator);
-            result.add(iterableAccumulator.result());
+        public void addCollection(String name, Accumulation<ImpossibleException> accumulation) {
+            MapCollectionAccumulator accumulator = new MapCollectionAccumulator();
+            accumulation.accumulateIn(accumulator);
+            result.add(accumulator.result());
         }
 
         @Override
         public void addRekord(String name, String rekordName, Accumulation<ImpossibleException> accumulation) {
-            MapRekordAccumulator rekordAccumulator = new MapRekordAccumulator();
-            accumulation.accumulateIn(rekordAccumulator);
-            result.add(rekordAccumulator.result());
+            MapRekordAccumulator accumulator = new MapRekordAccumulator();
+            accumulation.accumulateIn(accumulator);
+            result.add(accumulator.result());
         }
 
         @Override
-        public Iterable<Object> result() {
+        public Collection<Object> result() {
             return result;
         }
     }

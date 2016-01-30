@@ -50,7 +50,7 @@ public final class DomXmlSerializer implements Serializer<Document, ParserConfig
         }
 
         @Override
-        public void addIterable(String name, Accumulation<ImpossibleException> accumulation) {
+        public void addCollection(String name, Accumulation<ImpossibleException> accumulation) {
             Element child = nodeCreator.elementNamed(name);
             accumulation.accumulateIn(new DomXmlAccumulator(child, nodeCreator));
             element.appendChild(child);

@@ -1,11 +1,10 @@
 package com.noodlesandwich.rekord.testobjects;
 
 import java.util.Collection;
-
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.Rekords;
 import com.noodlesandwich.rekord.keys.BuildableKey;
-import com.noodlesandwich.rekord.keys.IterableKey;
+import com.noodlesandwich.rekord.keys.CollectionKey;
 import com.noodlesandwich.rekord.keys.Key;
 import com.noodlesandwich.rekord.keys.RekordKey;
 import com.noodlesandwich.rekord.keys.SimpleKey;
@@ -64,8 +63,8 @@ public final class TestRekords {
         Key<Person, String> firstName = SimpleKey.named("first name");
         Key<Person, String> lastName = SimpleKey.named("last name");
         Key<Person, Integer> age = SimpleKey.named("age");
-        Key<Person, Iterable<Rekord<Person>>> favouritePeople = IterableKey.named("favourite people").of(RekordKey.named("favourite person").<Person, Person>builtFrom(Person.rekord));
-        Key<Person, Iterable<String>> pets = IterableKey.named("pets").of(SimpleKey.<Person, String>named("pet"));
+        Key<Person, Collection<Rekord<Person>>> favouritePeople = CollectionKey.named("favourite people").of(RekordKey.named("favourite person").<Person, Person>builtFrom(Person.rekord));
+        Key<Person, Collection<String>> pets = CollectionKey.named("pets").of(SimpleKey.<Person, String>named("pet"));
         BuildableKey<Person, Rekord<Address>> address = RekordKey.named("address").builtFrom(Address.rekord);
         BuildableKey<Person, Rekord<Company>> company = RekordKey.named("company").builtFrom(Company.rekord);
 
@@ -94,14 +93,14 @@ public final class TestRekords {
         Key<Box, Integer> number = SimpleKey.named("number");
         Key<Box, Double> real = SimpleKey.named("real");
         Key<Box, String> text = SimpleKey.named("text");
-        Key<Box, Collection<Object>> stuff = IterableKey.named("stuff").of(SimpleKey.<Box, Object>named("object"));
+        Key<Box, Collection<Object>> stuff = CollectionKey.named("stuff").of(SimpleKey.<Box, Object>named("object"));
 
         Rekord<Box> rekord = Rekords.of(Box.class).accepting(fact, number, real, text, stuff);
     }
 
     public interface LegoBag {
-        Key<LegoBag, Collection<Collection<Brick>>> sets = IterableKey.named("lego sets").of(IterableKey.named("bricks").<LegoBag, Brick, Collection<Brick>>of(SimpleKey.<LegoBag, Brick>named("brick")));
-        Key<LegoBag, Iterable<Rekord<Person>>> minifigs = IterableKey.named("minifigs").of(RekordKey.named("minifig").<LegoBag, Person>builtFrom(Person.rekord));
+        Key<LegoBag, Collection<Collection<Brick>>> sets = CollectionKey.named("lego sets").of(CollectionKey.named("bricks").of(SimpleKey.<LegoBag, Brick>named("brick")));
+        Key<LegoBag, Collection<Rekord<Person>>> minifigs = CollectionKey.named("minifigs").of(RekordKey.named("minifig").<LegoBag, Person>builtFrom(Person.rekord));
 
         Rekord<LegoBag> rekord = Rekords.of(LegoBag.class).accepting(sets, minifigs);
 
@@ -130,8 +129,8 @@ public final class TestRekords {
             return Rekords.<Jar<Cookie>>create("Cookie Jar").accepting(Jar.<Cookie>contents());
         }
 
-        private static final Key<Jar<Contents>, Iterable<Contents>> contents
-                = IterableKey.named("contents").of(SimpleKey.<Jar<Contents>, Contents>named("contents"));
+        private static final Key<Jar<Contents>, Collection<Contents>> contents
+                = CollectionKey.named("contents").of(SimpleKey.<Jar<Contents>, Contents>named("contents"));
 
         @SuppressWarnings("unchecked")
         public static <T extends Jar.Contents> Key<Jar<T>, Collection<T>> contents() {
