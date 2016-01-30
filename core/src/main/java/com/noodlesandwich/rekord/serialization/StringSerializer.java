@@ -14,7 +14,7 @@ public final class StringSerializer implements SafeSerializer<String> {
         return accumulator.result();
     }
 
-    private static final class StringAccumulation<T> implements Accumulation {
+    private static final class StringAccumulation<T> implements SafeAccumulation {
         private final FixedRekord<T> rekord;
 
         public StringAccumulation(FixedRekord<T> rekord) {
@@ -22,7 +22,7 @@ public final class StringSerializer implements SafeSerializer<String> {
         }
 
         @Override
-        public <A2, E2 extends Exception> void accumulateIn(Accumulator<A2, E2> accumulator) throws E2 {
+        public <A2> void accumulateIn(Accumulator<A2, ImpossibleException> accumulator) {
             Serialization.serialize(rekord).into(accumulator);
         }
     }
@@ -40,14 +40,14 @@ public final class StringSerializer implements SafeSerializer<String> {
         }
 
         @Override
-        public void addIterable(String name, Serializer.Accumulation accumulation) {
+        public void addIterable(String name, Serializer.Accumulation<ImpossibleException> accumulation) {
             StringAccumulator iterableAccumulator = new StringAccumulator(Formatter.Value);
             accumulation.accumulateIn(iterableAccumulator);
             builder.addIterable(name, iterableAccumulator.result());
         }
 
         @Override
-        public void addRekord(String name, String rekordName, Serializer.Accumulation accumulation) {
+        public void addRekord(String name, String rekordName, Serializer.Accumulation<ImpossibleException> accumulation) {
             StringAccumulator rekordAccumulator = new StringAccumulator(Formatter.Entry);
             accumulation.accumulateIn(rekordAccumulator);
             builder.addRekord(name, rekordName, rekordAccumulator.result());

@@ -23,9 +23,9 @@ public final class RekordKey<T, V> extends OriginalKey<T, Rekord<V>> implements 
 
     @Override
     public <A, E extends Exception> void serialize(final Rekord<V> rekord, Serializer.Accumulator<A, E> accumulator) throws E {
-        accumulator.addRekord(name(), rekord.name(), new Serializer.Accumulation() {
+        accumulator.addRekord(name(), rekord.name(), new Serializer.Accumulation<E>() {
             @Override
-            public <A2, E2 extends Exception> void accumulateIn(Serializer.Accumulator<A2, E2> innerAccumulator) throws E2 {
+            public <A2> void accumulateIn(Serializer.Accumulator<A2, E> innerAccumulator) throws E {
                 Serialization.serialize(rekord).into(innerAccumulator);
             }
         });

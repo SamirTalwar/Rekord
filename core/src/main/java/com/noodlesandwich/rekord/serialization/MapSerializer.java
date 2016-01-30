@@ -22,14 +22,14 @@ public final class MapSerializer implements
         }
 
         @Override
-        public void addIterable(String name, Accumulation accumulation) {
+        public void addIterable(String name, Accumulation<ImpossibleException> accumulation) {
             MapIterableAccumulator iterableAccumulator = new MapIterableAccumulator();
             accumulation.accumulateIn(iterableAccumulator);
             result.put(name, iterableAccumulator.result());
         }
 
         @Override
-        public void addRekord(String name, String rekordName, Accumulation accumulation) {
+        public void addRekord(String name, String rekordName, Accumulation<ImpossibleException> accumulation) {
             MapRekordAccumulator rekordAccumulator = new MapRekordAccumulator();
             accumulation.accumulateIn(rekordAccumulator);
             result.put(name, rekordAccumulator.result());
@@ -50,14 +50,14 @@ public final class MapSerializer implements
         }
 
         @Override
-        public void addIterable(String name, Accumulation accumulation) {
+        public void addIterable(String name, Accumulation<ImpossibleException> accumulation) {
             MapIterableAccumulator iterableAccumulator = new MapIterableAccumulator();
             accumulation.accumulateIn(iterableAccumulator);
             result.add(iterableAccumulator.result());
         }
 
         @Override
-        public void addRekord(String name, String rekordName, Accumulation accumulation) {
+        public void addRekord(String name, String rekordName, Accumulation<ImpossibleException> accumulation) {
             MapRekordAccumulator rekordAccumulator = new MapRekordAccumulator();
             accumulation.accumulateIn(rekordAccumulator);
             result.add(rekordAccumulator.result());

@@ -7,4 +7,6 @@ public interface SafeSerializer<S> extends Serializer<S, ImpossibleException> {
     <T> S serialize(String name, FixedRekord<T> rekord);
 
     interface SafeAccumulator<A> extends Accumulator<A, ImpossibleException> { }
+
+    interface SafeAccumulation extends Accumulation<ImpossibleException> { }
 }

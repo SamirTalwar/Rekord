@@ -6,6 +6,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import com.noodlesandwich.rekord.FixedRekord;
+import com.noodlesandwich.rekord.serialization.SafeSerializer.SafeAccumulator;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -32,7 +33,7 @@ public final class DomXmlSerializer implements Serializer<Document, ParserConfig
         return document;
     }
 
-    private static final class DomXmlAccumulator implements SafeSerializer.SafeAccumulator<Element> {
+    private static final class DomXmlAccumulator implements SafeAccumulator<Element> {
         private final Element element;
         private final NodeCreator nodeCreator;
 
@@ -49,14 +50,14 @@ public final class DomXmlSerializer implements Serializer<Document, ParserConfig
         }
 
         @Override
-        public void addIterable(String name, Accumulation accumulation) {
+        public void addIterable(String name, Accumulation<ImpossibleException> accumulation) {
             Element child = nodeCreator.elementNamed(name);
             accumulation.accumulateIn(new DomXmlAccumulator(child, nodeCreator));
             element.appendChild(child);
         }
 
         @Override
-        public void addRekord(String name, String rekordName, Accumulation accumulation) {
+        public void addRekord(String name, String rekordName, Accumulation<ImpossibleException> accumulation) {
             Element child = nodeCreator.elementNamed(name);
             accumulation.accumulateIn(new DomXmlAccumulator(child, nodeCreator));
             element.appendChild(child);

@@ -59,7 +59,7 @@ public final class JacksonSerializer implements Serializer<Void, IOException> {
         }
 
         @Override
-        public void addIterable(String name, Accumulation accumulation) throws IOException {
+        public void addIterable(String name, Accumulation<IOException> accumulation) throws IOException {
             generator.writeFieldName(name);
             generator.writeStartArray();
             accumulation.accumulateIn(new JacksonIterableAccumulator(generator));
@@ -67,7 +67,7 @@ public final class JacksonSerializer implements Serializer<Void, IOException> {
         }
 
         @Override
-        public void addRekord(String name, String rekordName, Accumulation accumulation) throws IOException {
+        public void addRekord(String name, String rekordName, Accumulation<IOException> accumulation) throws IOException {
             generator.writeFieldName(name);
             generator.writeStartObject();
             accumulation.accumulateIn(this);
@@ -99,14 +99,14 @@ public final class JacksonSerializer implements Serializer<Void, IOException> {
         }
 
         @Override
-        public void addIterable(String name, Accumulation accumulation) throws IOException {
+        public void addIterable(String name, Accumulation<IOException> accumulation) throws IOException {
             generator.writeStartArray();
             accumulation.accumulateIn(this);
             generator.writeEndArray();
         }
 
         @Override
-        public void addRekord(String name, String rekordName, Accumulation accumulation) throws IOException {
+        public void addRekord(String name, String rekordName, Accumulation<IOException> accumulation) throws IOException {
             generator.writeStartObject();
             accumulation.accumulateIn(new JacksonRekordAccumulator(generator));
             generator.writeEndObject();
