@@ -3,8 +3,9 @@ package com.noodlesandwich.rekord.serialization;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.Collection;
+import java.util.Set;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.noodlesandwich.rekord.Rekord;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -83,9 +84,9 @@ public final class JacksonSerializerTest {
     @Test public void
     serializes_nested_collections_to_JSON() throws JSONException, IOException {
         Rekord<LegoBag> lego = LegoBag.rekord
-                .with(LegoBag.sets, ImmutableList.<Collection<Brick>>of(
-                        ImmutableList.of(Brick.Green, Brick.Red),
-                        ImmutableList.of(Brick.Red, Brick.Blue, Brick.Red)))
+                .with(LegoBag.sets, ImmutableList.<Set<Brick>>of(
+                        ImmutableSet.of(Brick.Green, Brick.Red),
+                        ImmutableSet.of(Brick.Red, Brick.Blue)))
                 .with(LegoBag.minifigs, ImmutableList.of(
                         Person.rekord.with(Person.firstName, "Indiana").with(Person.lastName, "Jones"),
                         Person.rekord.with(Person.firstName, "Luke").with(Person.lastName, "Skywalker"),
@@ -97,7 +98,7 @@ public final class JacksonSerializerTest {
         JSONObject expected = new JSONObject()
                 .put("lego sets", new JSONArray()
                         .put(new JSONArray().put("Green").put("Red"))
-                        .put(new JSONArray().put("Red").put("Blue").put("Red")))
+                        .put(new JSONArray().put("Red").put("Blue")))
                 .put("minifigs", new JSONArray()
                         .put(new JSONObject().put("first name", "Indiana").put("last name", "Jones"))
                         .put(new JSONObject().put("first name", "Luke").put("last name", "Skywalker"))

@@ -1,6 +1,6 @@
 package com.noodlesandwich.rekord.serialization;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.noodlesandwich.rekord.Rekord;
 import org.junit.Test;
 
@@ -52,7 +52,7 @@ public final class StringSerializerTest {
         Rekord<Person> lisa = Person.rekord
                 .with(Person.firstName, "Lisa")
                 .with(Person.lastName, "Simpson")
-                .with(Person.favouritePeople, ImmutableList.of(maggie, marge))
+                .with(Person.favouritePeople, ImmutableSet.of(maggie, marge))
                 .with(Person.address, Address.rekord
                         .with(Address.city, "Springfield"));
 

@@ -3,6 +3,7 @@ package com.noodlesandwich.rekord.serialization;
 import javax.xml.parsers.ParserConfigurationException;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.Rekords;
 import com.noodlesandwich.rekord.keys.Key;
@@ -91,7 +92,7 @@ public final class DomXmlSerializerTest {
         Rekord<Person> person = Person.rekord
                 .with(Person.firstName, "Philip")
                 .with(Person.lastName, "Sherman")
-                .with(Person.favouritePeople, ImmutableList.of(darla, darlasMum))
+                .with(Person.favouritePeople, ImmutableSet.of(darla, darlasMum))
                 .with(Person.pets, ImmutableList.of("Nemo", "Gill", "Bloat"))
                 .with(Person.address, Address.rekord
                         .with(Address.houseNumber, 42)

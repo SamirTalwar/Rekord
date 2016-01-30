@@ -1,9 +1,10 @@
 package com.noodlesandwich.rekord.serialization;
 
-import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.noodlesandwich.rekord.Rekord;
 import org.junit.Test;
 
@@ -62,7 +63,7 @@ public final class MapSerializerTest {
         Rekord<Person> rekord = Person.rekord
                 .with(Person.firstName, "Queen Elizabeth")
                 .with(Person.lastName, "II")
-                .with(Person.favouritePeople, ImmutableList.of(
+                .with(Person.favouritePeople, ImmutableSet.of(
                         Person.rekord.with(Person.firstName, "William"),
                         Person.rekord.with(Person.firstName, "Harry")))
                 .with(Person.pets, ImmutableList.of(
@@ -86,9 +87,9 @@ public final class MapSerializerTest {
     @Test public void
     serializes_nested_collections() {
         Rekord<LegoBag> rekord = LegoBag.rekord
-                .with(LegoBag.sets, ImmutableList.<Collection<Brick>>of(
-                        ImmutableList.of(Brick.Red, Brick.Green),
-                        ImmutableList.of(Brick.Green, Brick.Blue)
+                .with(LegoBag.sets, ImmutableList.<Set<Brick>>of(
+                        ImmutableSet.of(Brick.Red, Brick.Green),
+                        ImmutableSet.of(Brick.Green, Brick.Blue)
                 ));
         Map<String, Object> map = ImmutableMap.<String, Object>of(
                 "lego sets", ImmutableList.of(
