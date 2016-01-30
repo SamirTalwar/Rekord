@@ -2,6 +2,7 @@ package com.noodlesandwich.rekord.implementation;
 
 import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.keys.Key;
+import com.noodlesandwich.rekord.keys.KeyNotFoundException;
 import com.noodlesandwich.rekord.keys.Keys;
 import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.properties.PropertyKeys;
@@ -30,7 +31,7 @@ public final class PropertyBackedFixedRekord<T> implements FixedRekord<T> {
     }
 
     @Override
-    public <V> Key<T, V> keyNamed(String nameToLookup) {
+    public <V> Key<T, V> keyNamed(String nameToLookup) throws KeyNotFoundException {
         return acceptedKeys.keyNamed(nameToLookup);
     }
 

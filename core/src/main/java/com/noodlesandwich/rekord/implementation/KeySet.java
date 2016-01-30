@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.noodlesandwich.rekord.keys.Key;
+import com.noodlesandwich.rekord.keys.KeyNotFoundException;
 import com.noodlesandwich.rekord.keys.Keys;
 import org.pcollections.HashTreePMap;
 import org.pcollections.OrderedPSet;
@@ -51,10 +52,10 @@ public final class KeySet<T> implements Keys<T> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <V> Key<T, V> keyNamed(String nameToLookup) {
+    public <V> Key<T, V> keyNamed(String nameToLookup) throws KeyNotFoundException {
         Key<T, V> key = (Key<T, V>) keysByName.get(nameToLookup);
         if (key == null) {
-            throw new IllegalArgumentException(String.format("The key \"%s\" does not exist.", nameToLookup));
+            throw new KeyNotFoundException(nameToLookup);
         }
         return key;
     }

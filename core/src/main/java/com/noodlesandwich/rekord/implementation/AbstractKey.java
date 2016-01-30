@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Set;
 
 import com.noodlesandwich.rekord.keys.Key;
+import com.noodlesandwich.rekord.keys.KeyNotFoundException;
 
 public abstract class AbstractKey<T, V> implements Key<T, V> {
     private final String name;
@@ -27,9 +28,9 @@ public abstract class AbstractKey<T, V> implements Key<T, V> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public final <DummyV> Key<T, DummyV> keyNamed(String nameToLookup) {
+    public final <DummyV> Key<T, DummyV> keyNamed(String nameToLookup) throws KeyNotFoundException {
         if (!name.equals(nameToLookup)) {
-            throw new IllegalArgumentException(String.format("The key \"%s\" does not exist.", nameToLookup));
+            throw new KeyNotFoundException(nameToLookup);
         }
         return (Key<T, DummyV>) this;
     }

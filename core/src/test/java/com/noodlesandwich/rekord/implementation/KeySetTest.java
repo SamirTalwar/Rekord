@@ -1,6 +1,7 @@
 package com.noodlesandwich.rekord.implementation;
 
 import com.noodlesandwich.rekord.keys.Key;
+import com.noodlesandwich.rekord.keys.KeyNotFoundException;
 import com.noodlesandwich.rekord.keys.Keys;
 import com.noodlesandwich.rekord.keys.SimpleKey;
 import com.noodlesandwich.rekord.testobjects.TestRekords.Wurst;
@@ -19,13 +20,13 @@ public final class KeySetTest {
     public final ExpectedException expectedException = ExpectedException.none();
 
     @Test public void
-    a_key_set_can_look_up_keys_by_name() {
+    a_key_set_can_look_up_keys_by_name() throws KeyNotFoundException {
         assertThat(keys.<Wurst.Color>keyNamed("color"), is(Wurst.color));
     }
 
     @Test public void
-    a_key_set_will_throw_an_exception_if_looking_up_a_non_existent_key() {
-        expectedException.expect(IllegalArgumentException.class);
+    a_key_set_will_throw_an_exception_if_looking_up_a_non_existent_key() throws KeyNotFoundException {
+        expectedException.expect(KeyNotFoundException.class);
         expectedException.expectMessage("The key \"frob\" does not exist.");
 
         keys.keyNamed("frob");

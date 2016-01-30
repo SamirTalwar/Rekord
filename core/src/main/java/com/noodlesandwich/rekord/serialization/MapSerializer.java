@@ -8,15 +8,18 @@ import java.util.Map;
 import com.noodlesandwich.rekord.FixedRekord;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.keys.Key;
+import com.noodlesandwich.rekord.keys.KeyNotFoundException;
 
-public final class MapSerializer implements SafeSerializer<Map<String, Object>>, SafeDeserializer<Map<String, Object>> {
+public final class MapSerializer implements
+        SafeSerializer<Map<String, Object>>,
+        Deserializer<Map<String, Object>, KeyNotFoundException> {
     @Override
     public <T> Map<String, Object> serialize(String name, FixedRekord<T> rekord) {
         return Serialization.serialize(rekord).into(new MapRekordAccumulator());
     }
 
     @Override
-    public <T> Rekord<T> deserialize(Map<String, Object> serialized, Rekord<T> builder) {
+    public <T> Rekord<T> deserialize(Map<String, Object> serialized, Rekord<T> builder) throws KeyNotFoundException {
         Rekord<T> result = builder;
         for (Map.Entry<String, Object> entry : serialized.entrySet()) {
             Key<T, Object> key = result.keyNamed(entry.getKey());

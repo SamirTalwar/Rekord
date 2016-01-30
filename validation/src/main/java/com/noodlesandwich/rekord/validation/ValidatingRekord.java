@@ -6,6 +6,7 @@ import com.noodlesandwich.rekord.RekordTemplate;
 import com.noodlesandwich.rekord.implementation.KeySet;
 import com.noodlesandwich.rekord.implementation.PersistentProperties;
 import com.noodlesandwich.rekord.keys.Key;
+import com.noodlesandwich.rekord.keys.KeyNotFoundException;
 import com.noodlesandwich.rekord.keys.Keys;
 import com.noodlesandwich.rekord.properties.Properties;
 import com.noodlesandwich.rekord.properties.Property;
@@ -49,7 +50,7 @@ public final class ValidatingRekord<T> implements RekordBuilder<T, ValidatingRek
     }
 
     @Override
-    public <V> Key<T, V> keyNamed(String nameToLookup) {
+    public <V> Key<T, V> keyNamed(String nameToLookup) throws KeyNotFoundException {
         return acceptedKeys.keyNamed(nameToLookup);
     }
 

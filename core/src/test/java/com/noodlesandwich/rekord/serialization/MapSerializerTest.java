@@ -7,6 +7,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.Rekords;
+import com.noodlesandwich.rekord.keys.KeyNotFoundException;
 import org.junit.Test;
 
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Address;
@@ -22,7 +23,7 @@ import static org.junit.Assert.assertThat;
 
 public final class MapSerializerTest {
     @Test public void
-    serializes_and_deserializes_a_rekord_to_a_map_of_strings_to_objects() {
+    serializes_and_deserializes_a_rekord_to_a_map_of_strings_to_objects() throws KeyNotFoundException {
         Map<String, Object> expectedSerialized = ImmutableMap.<String, Object>of(
                 "bread", White,
                 "style", Roll);
