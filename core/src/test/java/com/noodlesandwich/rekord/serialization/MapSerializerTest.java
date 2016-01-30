@@ -24,18 +24,18 @@ import static org.junit.Assert.assertThat;
 public final class MapSerializerTest {
     @Test public void
     serializes_and_deserializes_a_rekord_to_a_map_of_strings_to_objects() throws KeyNotFoundException {
-        Map<String, Object> expectedSerialized = ImmutableMap.<String, Object>of(
-                "bread", White,
-                "style", Roll);
-        Rekord<Sandvich> expectedDeserialized = Sandvich.rekord
+        Rekord<Sandvich> rekord = Sandvich.rekord
                 .with(Sandvich.bread, White)
                 .with(Sandvich.style, Roll);
+        Map<String, Object> map = ImmutableMap.<String, Object>of(
+                "bread", White,
+                "style", Roll);
 
-        Rekord<Sandvich> actualDeserialized = Rekords.deserialize(expectedSerialized).into(Sandvich.rekord).with(new MapSerializer());
-        assertThat(actualDeserialized, is(equalTo(expectedDeserialized)));
+        Map<String, Object> serialized = rekord.serialize(new MapSerializer());
+        assertThat(serialized, is(equalTo(map)));
 
-        Map<String, Object> actualSerialized = actualDeserialized.serialize(new MapSerializer());
-        assertThat(actualSerialized, is(equalTo(expectedSerialized)));
+        Rekord<Sandvich> deserialized = Rekords.deserialize(map).into(Sandvich.rekord).with(new MapSerializer());
+        assertThat(deserialized, is(equalTo(rekord)));
     }
 
     @Test public void
