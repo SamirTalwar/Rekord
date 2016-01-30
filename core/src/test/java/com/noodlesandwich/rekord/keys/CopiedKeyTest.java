@@ -6,8 +6,8 @@ import org.junit.Test;
 
 import static com.noodlesandwich.rekord.keys.CopiedKeyTest.Bratwurst.Style.Chopped;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Wurst;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 public class CopiedKeyTest {
     @Test public void

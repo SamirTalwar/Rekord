@@ -8,8 +8,8 @@ import static com.noodlesandwich.rekord.test.ExceptionMatcher.an;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Address;
 import static com.noodlesandwich.rekord.validation.RekordMatchers.aRekordOf;
 import static com.noodlesandwich.rekord.validation.RekordMatchers.hasProperties;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 public final class HasPropertiesMatcherTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();

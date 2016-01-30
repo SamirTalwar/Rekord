@@ -20,10 +20,10 @@ import static com.noodlesandwich.rekord.test.ExceptionMatcher.a;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Address;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Country;
 import static com.noodlesandwich.rekord.validation.RekordMatchers.hasKey;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertThat;
 
 public final class FunctionKeyTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();

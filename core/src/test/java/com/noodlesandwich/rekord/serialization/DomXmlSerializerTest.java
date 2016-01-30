@@ -16,7 +16,7 @@ import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Bread.Brown;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Filling.Cheese;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Style.Roll;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertThat;
 import static org.xmlmatchers.XmlMatchers.isSimilarTo;
 import static org.xmlmatchers.transform.XmlConverters.the;
 

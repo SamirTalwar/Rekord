@@ -10,9 +10,9 @@ import org.junit.Test;
 
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Address;
 import static com.noodlesandwich.rekord.validation.RekordMatchers.hasKey;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertThat;
 
 public final class OneToManyKeyTest {
     private static final Key<Address, String> firstLine =

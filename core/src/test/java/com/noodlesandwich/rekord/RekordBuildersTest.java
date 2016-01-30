@@ -9,10 +9,10 @@ import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Filling
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Filling.Ham;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Style.Burger;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Style.Roll;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertThat;
 
 public final class RekordBuildersTest {
     @Test public void

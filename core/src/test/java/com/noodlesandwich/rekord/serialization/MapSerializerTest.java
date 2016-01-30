@@ -14,9 +14,9 @@ import static com.noodlesandwich.rekord.testobjects.TestRekords.Person;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Bread.White;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Style.Roll;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 public final class MapSerializerTest {
     @Test public void

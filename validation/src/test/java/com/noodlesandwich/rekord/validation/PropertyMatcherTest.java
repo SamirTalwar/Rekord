@@ -7,9 +7,9 @@ import org.junit.rules.ExpectedException;
 import static com.noodlesandwich.rekord.test.ExceptionMatcher.an;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Box;
 import static com.noodlesandwich.rekord.validation.RekordMatchers.hasProperty;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 public final class PropertyMatcherTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();

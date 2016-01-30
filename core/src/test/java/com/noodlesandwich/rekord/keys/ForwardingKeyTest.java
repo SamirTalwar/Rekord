@@ -5,8 +5,8 @@ import com.noodlesandwich.rekord.testobjects.TestRekords.Box;
 import org.junit.Test;
 
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Person;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 public final class ForwardingKeyTest {
     private static final Key<Person, String> givenName = new TestForwardingKey<>(Person.firstName);

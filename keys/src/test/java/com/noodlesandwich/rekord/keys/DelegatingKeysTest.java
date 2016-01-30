@@ -18,8 +18,8 @@ import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Filling
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Filling.Ham;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Filling.Jam;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Filling.Lettuce;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 public final class DelegatingKeysTest {
     @Test public void

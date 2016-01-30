@@ -16,9 +16,9 @@ import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Style.B
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Style.Flat;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Style.Roll;
 import static com.noodlesandwich.rekord.validation.RekordMatchers.hasKey;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertThat;
 
 public final class DefaultedKeyTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();

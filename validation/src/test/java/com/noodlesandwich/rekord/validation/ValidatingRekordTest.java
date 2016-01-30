@@ -20,8 +20,8 @@ import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Filling
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Style.Burger;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Style.Roll;
 import static com.noodlesandwich.rekord.validation.RekordMatchers.aRekordOf;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 public final class ValidatingRekordTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();

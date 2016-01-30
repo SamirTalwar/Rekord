@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Address;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Person;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.containsString;
@@ -14,6 +13,7 @@ import static org.hamcrest.Matchers.either;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.startsWith;
+import static org.junit.Assert.assertThat;
 
 public final class StringSerializerTest {
     @Test public void

@@ -7,10 +7,10 @@ import static com.noodlesandwich.rekord.testobjects.TestRekords.Address;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Company;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Person;
 import static com.noodlesandwich.rekord.validation.RekordMatchers.hasKey;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertThat;
 
 public final class ComposedKeyTest {
     private final Key<Person, String> city = ComposedKey.named("city").composing(Person.address).with(Address.city);

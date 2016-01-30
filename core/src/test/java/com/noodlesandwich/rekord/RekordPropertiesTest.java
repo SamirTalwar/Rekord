@@ -20,9 +20,9 @@ import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Filling
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Style.Burger;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Style.Flat;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Wurst;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 public final class RekordPropertiesTest {
     @Rule public final ExpectedException expectedException = ExpectedException.none();
