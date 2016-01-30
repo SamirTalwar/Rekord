@@ -29,6 +29,7 @@ public final class MapDeserializerTest {
                 "style", Roll);
 
         Rekord<Sandvich> deserialized = Rekords.deserialize(map).into(Sandvich.rekord).with(deserializer);
+
         assertThat(deserialized, is(equalTo(rekord)));
     }
 
@@ -52,6 +53,7 @@ public final class MapDeserializerTest {
                         "postal code", "SW1 1AA"));
 
         Rekord<Person> deserialized = Rekords.deserialize(map).into(Person.rekord).with(deserializer);
+
         assertThat(deserialized, is(equalTo(rekord)));
     }
 }

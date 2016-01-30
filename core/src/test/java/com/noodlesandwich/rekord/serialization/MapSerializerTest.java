@@ -5,7 +5,6 @@ import java.util.Map;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.noodlesandwich.rekord.Rekord;
-import com.noodlesandwich.rekord.keys.KeyNotFoundException;
 import org.junit.Test;
 
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Address;
@@ -60,7 +59,7 @@ public final class MapSerializerTest {
 
     @Test public void
     serializes_collections() {
-        Rekord<Person> person = Person.rekord
+        Rekord<Person> rekord = Person.rekord
                 .with(Person.firstName, "Queen Elizabeth")
                 .with(Person.lastName, "II")
                 .with(Person.favouritePeople, ImmutableList.of(
@@ -70,10 +69,7 @@ public final class MapSerializerTest {
                         "Corgi #1",
                         "Corgi #2",
                         "Corgi #3"));
-
-        Map<String, Object> serialized = person.serialize(serializer);
-
-        Map<String, Object> expected = ImmutableMap.<String, Object>of(
+        Map<String, Object> map = ImmutableMap.<String, Object>of(
                 "first name", "Queen Elizabeth",
                 "last name", "II",
                 "favourite people", ImmutableList.of(
@@ -81,24 +77,27 @@ public final class MapSerializerTest {
                         ImmutableMap.<String, Object>of("first name", "Harry")
                 ),
                 "pets", ImmutableList.of("Corgi #1", "Corgi #2", "Corgi #3"));
-        assertThat(serialized, is(equalTo(expected)));
+
+        Map<String, Object> serialized = rekord.serialize(serializer);
+
+        assertThat(serialized, is(equalTo(map)));
     }
 
     @Test public void
     serializes_nested_collections() {
-        Rekord<LegoBag> lego = LegoBag.rekord
+        Rekord<LegoBag> rekord = LegoBag.rekord
                 .with(LegoBag.sets, ImmutableList.<Collection<Brick>>of(
                         ImmutableList.of(Brick.Red, Brick.Green),
                         ImmutableList.of(Brick.Green, Brick.Blue)
                 ));
-
-        Map<String, Object> serialized = lego.serialize(serializer);
-
-        Map<String, Object> expected = ImmutableMap.<String, Object>of(
+        Map<String, Object> map = ImmutableMap.<String, Object>of(
                 "lego sets", ImmutableList.of(
                         ImmutableList.of(Brick.Red, Brick.Green),
                         ImmutableList.of(Brick.Green, Brick.Blue)
                 ));
-        assertThat(serialized, is(equalTo(expected)));
+
+        Map<String, Object> serialized = rekord.serialize(serializer);
+
+        assertThat(serialized, is(equalTo(map)));
     }
 }
