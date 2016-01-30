@@ -45,7 +45,7 @@ public final class ComposedKey<T, V, W> extends AbstractKey<T, W> {
     }
 
     @Override
-    public <A, E extends Exception> void accumulate(W value, Serializer.Accumulator<A, E> accumulator) {
+    public <A, E extends Exception> void serialize(W value, Serializer.Accumulator<A, E> accumulator) {
         throw new UnsupportedOperationException();
     }
 

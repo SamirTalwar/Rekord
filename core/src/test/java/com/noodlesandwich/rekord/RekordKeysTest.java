@@ -108,7 +108,7 @@ public final class RekordKeysTest {
         }
 
         @Override
-        public <A, E extends Exception> void accumulate(V value, Serializer.Accumulator<A, E> accumulator) {
+        public <A, E extends Exception> void serialize(V value, Serializer.Accumulator<A, E> accumulator) {
             throw new UnsupportedOperationException();
         }
 

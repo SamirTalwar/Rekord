@@ -13,11 +13,11 @@ public abstract class DelegatingKey<T, V> extends AbstractKey<T, V> {
     }
 
     @Override
-    public final <A, E extends Exception> void accumulate(V value, Serializer.Accumulator<A, E> accumulator) throws E {
+    public final <A, E extends Exception> void serialize(V value, Serializer.Accumulator<A, E> accumulator) throws E {
         for (Key<T, ?> key : keys) {
             @SuppressWarnings("unchecked")
             Key<T, Object> castKey = (Key<T, Object>) key;
-            castKey.accumulate(value, accumulator);
+            castKey.serialize(value, accumulator);
         }
     }
 

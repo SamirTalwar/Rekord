@@ -23,7 +23,7 @@ public final class Serialization {
                 @SuppressWarnings("unchecked")
                 Key<T, Object> castKey = (Key<T, Object>) property.key();
                 Object value = property.value();
-                castKey.accumulate(value, accumulator);
+                castKey.serialize(value, accumulator);
             }
             return accumulator.result();
         }

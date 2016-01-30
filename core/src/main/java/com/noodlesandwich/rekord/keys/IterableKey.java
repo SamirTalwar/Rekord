@@ -27,12 +27,12 @@ public final class IterableKey<T, V, C extends Iterable<V>> extends OriginalKey<
     }
 
     @Override
-    public <A, E extends Exception> void accumulate(final C iterable, Serializer.Accumulator<A, E> accumulator) throws E {
+    public <A, E extends Exception> void serialize(final C iterable, Serializer.Accumulator<A, E> accumulator) throws E {
         accumulator.addIterable(name(), new Serializer.Accumulation() {
             @Override
             public <A2, E2 extends Exception> void accumulateIn(Serializer.Accumulator<A2, E2> iterableAccumulator) throws E2 {
                 for (V value : iterable) {
-                    contents.accumulate(value, iterableAccumulator);
+                    contents.serialize(value, iterableAccumulator);
                 }
             }
         });
