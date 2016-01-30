@@ -22,8 +22,8 @@ public final class StringSerializer implements SafeSerializer<String> {
         }
 
         @Override
-        public <A2, E2 extends Exception> void accumulateIn(Accumulator<A2, E2> mapAccumulator) throws E2 {
-            Serialization.serialize(rekord).into(mapAccumulator);
+        public <A2, E2 extends Exception> void accumulateIn(Accumulator<A2, E2> accumulator) throws E2 {
+            Serialization.serialize(rekord).into(accumulator);
         }
     }
 
