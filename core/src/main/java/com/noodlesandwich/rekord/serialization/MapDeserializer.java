@@ -72,9 +72,14 @@ public final class MapDeserializer implements Deserializer<Map<String, Object>, 
             this.builder.add((V) value);
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         public <V2, C2 extends Collection<V2>> void addCollection(BuildableKey<T, C2> key, Key<T, V2> contents, Object serializedCollection) throws KeyNotFoundException {
-            throw new UnsupportedOperationException();
+            MapCollectionAccumulator<T, V2, C2> accumulator = new MapCollectionAccumulator<>(deserializer, key.builder());
+            for (Object value : (Iterable<Object>) serializedCollection) {
+                contents.deserialize(value, accumulator);
+            }
+            this.builder.add((V) accumulator.result());
         }
 
         @SuppressWarnings("unchecked")

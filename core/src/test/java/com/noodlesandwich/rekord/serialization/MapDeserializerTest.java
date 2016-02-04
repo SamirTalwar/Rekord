@@ -1,15 +1,18 @@
 package com.noodlesandwich.rekord.serialization;
 
 import java.util.Map;
+import java.util.Set;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.Rekords;
 import com.noodlesandwich.rekord.keys.KeyNotFoundException;
+import com.noodlesandwich.rekord.testobjects.TestRekords.LegoBag.Brick;
 import org.junit.Test;
 
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Address;
+import static com.noodlesandwich.rekord.testobjects.TestRekords.LegoBag;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Person;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich;
 import static com.noodlesandwich.rekord.testobjects.TestRekords.Sandvich.Bread.White;
@@ -81,6 +84,24 @@ public final class MapDeserializerTest {
                 "pets", ImmutableList.of("Corgi #1", "Corgi #2", "Corgi #3"));
 
         Rekord<Person> deserialized = Rekords.deserialize(map).into(Person.rekord).with(deserializer);
+
+        assertThat(deserialized, is(equalTo(rekord)));
+    }
+
+    @Test public void
+    deserializes_nested_collections() throws KeyNotFoundException {
+        Rekord<LegoBag> rekord = LegoBag.rekord
+                .with(LegoBag.sets, ImmutableList.<Set<Brick>>of(
+                        ImmutableSet.of(Brick.Red, Brick.Green),
+                        ImmutableSet.of(Brick.Green, Brick.Blue)
+                ));
+        Map<String, Object> map = ImmutableMap.<String, Object>of(
+                "lego sets", ImmutableList.of(
+                        ImmutableList.of(Brick.Red, Brick.Green),
+                        ImmutableList.of(Brick.Green, Brick.Blue)
+                ));
+
+        Rekord<LegoBag> deserialized = Rekords.deserialize(map).into(LegoBag.rekord).with(deserializer);
 
         assertThat(deserialized, is(equalTo(rekord)));
     }
