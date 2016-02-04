@@ -51,7 +51,7 @@ public final class ComposedKey<T, V, W> extends AbstractKey<T, W> {
     }
 
     @Override
-    public <S, E extends Exception> void deserialize(Object value, Deserializer.Accumulator<T, E> accumulator, Deserializer<S, E> deserializer) throws E {
+    public <R, E extends Exception> void deserialize(Object value, Deserializer.Accumulator<T, R, E> accumulator) throws E {
         throw new UnsupportedOperationException();
     }
 

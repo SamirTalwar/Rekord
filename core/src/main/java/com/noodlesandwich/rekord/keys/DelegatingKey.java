@@ -23,7 +23,7 @@ public abstract class DelegatingKey<T, V> extends AbstractKey<T, V> {
     }
 
     @Override
-    public final <S, E extends Exception> void deserialize(Object value, Deserializer.Accumulator<T, E> accumulator, Deserializer<S, E> deserializer) throws E {
+    public final <R, E extends Exception> void deserialize(Object value, Deserializer.Accumulator<T, R, E> accumulator) throws E {
         throw new UnsupportedOperationException();
     }
 

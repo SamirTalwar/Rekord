@@ -14,5 +14,5 @@ public interface Key<T, V> extends Keys<T>, Named {
 
     <A, E extends Exception> void serialize(V value, Serializer.Accumulator<A, E> accumulator) throws E;
 
-    <S, E extends Exception> void deserialize(Object value, Deserializer.Accumulator<T, E> accumulator, Deserializer<S, E> deserializer) throws E;
+    <R, E extends Exception> void deserialize(Object value, Deserializer.Accumulator<T, R, E> accumulator) throws E;
 }

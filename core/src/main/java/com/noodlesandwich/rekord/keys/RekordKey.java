@@ -34,8 +34,8 @@ public final class RekordKey<T, V> extends OriginalKey<T, Rekord<V>> implements 
 
     @SuppressWarnings("unchecked")
     @Override
-    public <S, E extends Exception> void deserialize(Object value, Deserializer.Accumulator<T, E> accumulator, Deserializer<S, E> deserializer) throws E {
-        accumulator.addValue(this, deserializer.deserialize((S) value, builder));
+    public <R, E extends Exception> void deserialize(Object value, Deserializer.Accumulator<T, R, E> accumulator) throws E {
+        accumulator.addRekord(this, value, builder);
     }
 
     public static final class UnbuildableRekordKey {
@@ -46,6 +46,9 @@ public final class RekordKey<T, V> extends OriginalKey<T, Rekord<V>> implements 
         }
 
         public <T, V> RekordKey<T, V> builtFrom(Rekord<V> builder) {
+            if (builder == null) {
+                throw new NullPointerException("A key's builder must not be null.");
+            }
             return new RekordKey<>(name, builder);
         }
     }

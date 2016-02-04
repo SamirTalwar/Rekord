@@ -37,8 +37,8 @@ public final class CollectionKey<T, V, C extends Collection<V>> extends Original
     }
 
     @Override
-    public <S, E extends Exception> void deserialize(Object value, Deserializer.Accumulator<T, E> accumulator, Deserializer<S, E> deserializer) throws E {
-        throw new UnsupportedOperationException();
+    public <R, E extends Exception> void deserialize(Object value, Deserializer.Accumulator<T, R, E> accumulator) throws E {
+        accumulator.addCollection(this, contents, value);
     }
 
     public static final class UncontainableCollectionKey {

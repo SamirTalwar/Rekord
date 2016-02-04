@@ -1,7 +1,9 @@
 package com.noodlesandwich.rekord.serialization;
 
 import java.util.Map;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.noodlesandwich.rekord.Rekord;
 import com.noodlesandwich.rekord.Rekords;
 import com.noodlesandwich.rekord.keys.KeyNotFoundException;
@@ -51,6 +53,32 @@ public final class MapDeserializerTest {
                         "street", "The Mall",
                         "city", "London",
                         "postal code", "SW1 1AA"));
+
+        Rekord<Person> deserialized = Rekords.deserialize(map).into(Person.rekord).with(deserializer);
+
+        assertThat(deserialized, is(equalTo(rekord)));
+    }
+
+    @Test public void
+    deserializes_collections() throws KeyNotFoundException {
+        Rekord<Person> rekord = Person.rekord
+                .with(Person.firstName, "Queen Elizabeth")
+                .with(Person.lastName, "II")
+                .with(Person.favouritePeople, ImmutableSet.of(
+                        Person.rekord.with(Person.firstName, "William"),
+                        Person.rekord.with(Person.firstName, "Harry")))
+                .with(Person.pets, ImmutableList.of(
+                        "Corgi #1",
+                        "Corgi #2",
+                        "Corgi #3"));
+        Map<String, Object> map = ImmutableMap.<String, Object>of(
+                "first name", "Queen Elizabeth",
+                "last name", "II",
+                "favourite people", ImmutableList.of(
+                        ImmutableMap.<String, Object>of("first name", "William"),
+                        ImmutableMap.<String, Object>of("first name", "Harry")
+                ),
+                "pets", ImmutableList.of("Corgi #1", "Corgi #2", "Corgi #3"));
 
         Rekord<Person> deserialized = Rekords.deserialize(map).into(Person.rekord).with(deserializer);
 

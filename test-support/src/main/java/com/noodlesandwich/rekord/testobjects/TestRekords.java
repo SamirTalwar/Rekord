@@ -67,7 +67,8 @@ public final class TestRekords {
         Key<Person, Integer> age = SimpleKey.named("age");
         CollectionKey<Person, Rekord<Person>, Set<Rekord<Person>>> favouritePeople =
                 CollectionKey.named("favourite people")
-                        .of(RekordKey.named("favourite person").<Person, Person>builtFrom(Person.rekord))
+                        .of(RekordKey.named("favourite person").<Person, Person>builtFrom(
+                                Rekords.of(Person.class).accepting(firstName, lastName, age)))
                         .builtFrom(Buildables.<Rekord<Person>>hashSet());
         CollectionKey<Person, String, List<String>> pets =
                 CollectionKey.named("pets")

@@ -19,7 +19,7 @@ public final class SimpleKey<T, V> extends OriginalKey<T, V> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <S, E extends Exception> void deserialize(Object value, Deserializer.Accumulator<T, E> accumulator, Deserializer<S, E> deserializer) throws E {
+    public <R, E extends Exception> void deserialize(Object value, Deserializer.Accumulator<T, R, E> accumulator) throws E {
         accumulator.addValue(this, (V) value);
     }
 }
