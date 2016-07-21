@@ -87,7 +87,7 @@ Simple, right?
 
 ### What else?
 
-Rekord is deigned to be used as an alternative to classes with getters (immutable beans, if you will) so you don't have
+Rekord is designed to be used as an alternative to classes with getters (immutable beans, if you will) so you don't have
 to implement a new concrete class for every value concept—instead, a single type has you covered.
  
 For free, you also get:
