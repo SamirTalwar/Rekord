@@ -54,7 +54,7 @@ public interface Person {
     Key<Person, LocalDate> dateOfBirth = SimpleKey.named("date of birth");
     Key<Person, FixedRekord<Address>> address = RekordKey.named("address");
 
-    Rekord<Person> rekord = Rekord.of(Person.class)
+    Rekord<Person> rekord = Rekords.of(Person.class)
         .accepting(firstName, lastName, dateOfBirth, address);
 }
 ```
